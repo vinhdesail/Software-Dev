@@ -1,3 +1,5 @@
+package model;
+
 /**
  * Class that represents a general role that a user is.
  * 

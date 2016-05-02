@@ -1,3 +1,5 @@
+package model;
+
 /**
  * Class that represents an author.
  * 
