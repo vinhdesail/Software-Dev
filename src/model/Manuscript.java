@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +9,11 @@ import java.util.List;
  * @author Edie Megan Campbell
  * @version 2016.05.05
  */
-public class Manuscript {
+public class Manuscript implements Serializable {
 	
+	/** Generated Serialization number. */
+	private static final long serialVersionUID = 7127767408772156417L;
+
 	/** Manuscript acceptance status: -1 = rejected, 0 = no decision, 1 = accepted. */
 	private int myStatus;
 	
@@ -28,7 +32,7 @@ public class Manuscript {
 	/** Each Manuscript must have a Title for identification. */
 	private String myTitle;
 	
-	/** The actual text of the manuscript itself. */
+	/** The full text of the manuscript itself, as a String. */
 	private String myText;
 	
 //	/** 
