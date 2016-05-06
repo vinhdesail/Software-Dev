@@ -3,16 +3,22 @@ package model;
 /**
  * Class that represents an author.
  * 
- * @author Justin A. Clark
+ * @author Justin A. Clark, Josh Meigs
  * @version 1.0
  */
-public class Author {
-	
+public class Author extends Role{
+
 	/** List to hold the manuscript names. */
 	private String[] myManuscripts;
 	
 	/** Boolean to hold whether a user is an author or not. */
 	private static boolean myIsAuthor;
+
+	
+	public Author() {
+		super("Author");//Formating can be changed to whatever is easiest to work with.
+	}
+	
 	/**
 	 * Method that returns a list of manuscripts.
 	 */
@@ -55,5 +61,6 @@ public class Author {
 	public boolean isAuthor() {
 		return myIsAuthor;
 	}
+
 	
 }
