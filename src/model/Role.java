@@ -17,4 +17,14 @@ public class Role {
 	public static void logOut() {
 		
 	}
+	
+	
+	/**
+	 * The method to get the role name.
+	 * @return String The role type.
+	 */
+	public String getRole(){
+		return myRoleName;
+	}
+
 }

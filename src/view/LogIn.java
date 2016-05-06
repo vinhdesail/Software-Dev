@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import model.Manuscript;
-import model.Role;
+import model.User;
 
 /**
  * @author Vinh Vien
@@ -21,10 +21,15 @@ import model.Role;
  */
 public class LogIn {
 	
+	/**
+	 * The master list of manuscript.
+	 */
 	private List<Manuscript> myMasterList;
 	
-	
-	private Map<String, List<Role>> myUsers;
+	/**
+	 * The hash of users and there names.
+	 */
+	private Map<String, List<User>> myUsers;
 	
 	/**
 	 * The constructor.
@@ -53,7 +58,7 @@ public class LogIn {
 	 * @param Scanner The console. 
 	 * @return List<Role> The list of roles related to the user.
 	 */
-	public List<Role> login(Scanner theConsole){
+	public List<User> login(Scanner theConsole){
 		System.out.print("Username: ");
 		String username = theConsole.next();
 		while(!myUsers.containsKey(username)){
