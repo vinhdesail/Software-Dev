@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class that represents a user in the system.
@@ -56,7 +57,24 @@ public class User implements Serializable {
 	 * Method that allows a user to submit a file to a manuscript list.
 	 * Then promote them to author.
 	 */
-	public void submitManuscript(Manuscript theManu) {
+	public void submitManuscript(Manuscript theManu, Map<String, List<Manuscript>> theMasterList) {
+		boolean isAuthor = false;
+		for(Role temp : myRole){
+			if(temp.getRole().equals("Author")){
+				isAuthor = true;
+			}
+		}
+		
+		if(!isAuthor){
+			final Author toAdd = new Author();
+			final List<Manuscript> tempList = new ArrayList<>();
+			myRole.add(toAdd);
+			tempList.add(theManu);
+			theMasterList.put(myName, tempList);
+		} else {
+			final List<Manuscript> tempList = theMasterList.get(myName);
+			tempList.add(theManu);
+		}
 		
 	}
 	

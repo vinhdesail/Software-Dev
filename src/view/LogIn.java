@@ -24,7 +24,7 @@ public class LogIn {
 	/**
 	 * The master list of manuscript.
 	 */
-	private List<Manuscript> myMasterList;
+	private Map<String, List<Manuscript>> myMasterList;
 	
 	/**
 	 * The hash of users and there names.
@@ -75,7 +75,7 @@ public class LogIn {
 	 * Test initialization for debuging.
 	 */
 	private void initializeFields(){
-		myMasterList = new ArrayList<Manuscript>();
+		myMasterList = new HashMap<>();
 		myUsers = new HashMap<>();
 		
 		
