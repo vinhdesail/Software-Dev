@@ -11,11 +11,15 @@ public class Role {
 	
 	/** String to hold the current role of the user. */
 	private String myRoleName;
+	private String myUsername;
 	public Role() {
 	    myRoleName = "User";	
 	}
 	public Role(String roleType) {
 		myRoleName =  roleType;
+	}
+	public String getMyUsername() {
+		return myUsername;
 	}
 	public String toString() {
 		return myRoleName;
