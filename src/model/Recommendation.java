@@ -58,4 +58,52 @@ public class Recommendation implements Serializable {
 		return myRecommendationText;
 	}
 	
+	/**
+	 * Overrides the Object toString method to display all Recommendation fields formatted as a 
+	 * String.
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("[Recommendation]\nSubprogram Chair: ");
+		sb.append(mySubprogramChairID);
+		sb.append("\nManuscript Title: ");
+		sb.append(myManuscriptTitle);
+		sb.append("\n\n");
+		sb.append(myRecommendationText);
+		sb.append("\n[End of Recommendation]");
+		return sb.toString();
+	}
+	
+	/**
+	 * Overrides the Object hashCode method for consistency with the overridden equals method.
+	 */
+	@Override
+	public int hashCode() {
+		return this.toString().hashCode();
+	}
+	
+	/**
+	 * Overrides the Object equals method to compare all fields.
+	 */
+	@Override
+	public boolean equals(Object theOther) {
+		// first check that theOther Object is a Review
+		if (!theOther.getClass().equals(this.getClass())) {
+			return false;
+		}
+		// cast theOther as a Manuscript (called other)
+		Recommendation other = (Recommendation) theOther;
+		// compare all fields for equality
+		if (!mySubprogramChairID.equals(other.mySubprogramChairID)) {
+			return false;
+		} else if (!myManuscriptTitle.equals(other.myManuscriptTitle)) {
+			return false;
+		} else if (!myRecommendationText.equals(other.myRecommendationText)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 }

@@ -5,13 +5,13 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import model.Conference;
+import model.Date;
 import model.Manuscript;
 import model.SubprogramChair;
 
@@ -22,7 +22,7 @@ public class SubprogramChairTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		conference = new Conference("First Conference", "UserName", (new Date()), (new Date()), (new Date()), (new Date()), new Date());		
+		conference = new Conference("First Conference", "UserName", (new Date(1,1,1)), (new Date(1,1,1)), (new Date(1,1,1)), (new Date(1,1,1)), new Date(1,1,1));		
 		mySpc = new SubprogramChair("UserName");
 	}
 

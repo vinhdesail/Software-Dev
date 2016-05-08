@@ -4,12 +4,13 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 import org.junit.Before;
 import org.junit.Test;
 
 import model.Conference;
+import model.Date;
 import model.Manuscript;
 import model.ProgramChair;
 import model.SubprogramChair;
@@ -20,7 +21,7 @@ public class ProgramChairTest {
     
 	@Before
 	public void setUp() throws Exception {
-		conference = new Conference("First Conference", "UserName", (new Date()), (new Date()), (new Date()), (new Date()), new Date());
+		conference = new Conference("First Conference", "UserName", (new Date(1,1,1)), (new Date(1,1,1)), (new Date(1,1,1)), (new Date(1,1,1)), new Date(1,1,1));
 		pc = new ProgramChair(conference, "UserName");
 	}
 
