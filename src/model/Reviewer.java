@@ -1,35 +1,35 @@
 package model;
 
-import java.util.List;
+import java.io.Serializable;
 
-public class Reviewer extends Role {
+/**
+ * Reviewer class description.
+ * @author Edie Megan Campbell
+ * @version 2016.05.08
+ */
+public class Reviewer extends Role implements Serializable {
+
+	/** Generated serialization number. */
+	private static final long serialVersionUID = -3658253011793370271L;
 	
-	private List<Manuscript> myAssignedManuscripts;
-	
-	public Reviewer(String theUserName) {
-		super("Reviewer", theUserName);
+	public Reviewer() {
+		super();
+		
 	}
-	
-	
-	public void submitReview(Review rev) {//will need to pass a review obj
+
+	public void submitReview(Review theReview) {
 		
 	}
 	
-	public void assignReview(Manuscript theManuscript) {
-		myAssignedManuscripts.add(theManuscript);
-	}
-	
-	public void editReview(Review rev) {
+	public void editReview(Review theReview) {
 		
 	}
 	
-	
-	public void deleteReview(Review rev) {
+	public void deleteReview(Review theReview) {
 		
 	}
 	
-	/*Might End up being private, due to only the reviewer internally needing to give a call.*/
-	public void viewAllMyReview() {
+	public void viewMyPapers() {
 		
 	}
 }

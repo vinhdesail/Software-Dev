@@ -56,5 +56,53 @@ public class Review implements Serializable {
 	public String getManuscriptTitle() {
 		return myManuscriptTitle;
 	}
+	
+	/**
+	 * Overrides the Object toString method to display all Review fields formatted as a 
+	 * String.
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("[Review]\nReviewer: ");
+		sb.append(myReviewerID);
+		sb.append("\nManuscript Title: ");
+		sb.append(myManuscriptTitle);
+		sb.append("\n\n");
+		sb.append(myReviewText);
+		sb.append("\n[End of Review]");
+		return sb.toString();
+	}
+	
+	/**
+	 * Overrides the Object hashCode method for consistency with the overridden equals method.
+	 */
+	@Override
+	public int hashCode() {
+		return this.toString().hashCode();
+	}
+	
+	/**
+	 * Overrides the Object equals method to compare all fields.
+	 */
+	@Override
+	public boolean equals(Object theOther) {
+		// first check that theOther Object is a Review
+		if (!theOther.getClass().equals(this.getClass())) {
+			return false;
+		}
+		// cast theOther as a Manuscript (called other)
+		Review other = (Review) theOther;
+		// compare all fields for equality
+		if (!myReviewerID.equals(other.myReviewerID)) {
+			return false;
+		} else if (!myManuscriptTitle.equals(other.myManuscriptTitle)) {
+			return false;
+		} else if (!myReviewText.equals(other.myReviewText)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 }

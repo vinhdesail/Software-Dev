@@ -1,50 +1,70 @@
 package model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class that represents an author.
  * 
  * @author Justin A. Clark, Josh Meigs
- * @version 1.0
+ * @version 2.0
  */
-public class Author extends Role{
+public class Author extends Role implements Serializable {
 	
-	/** List to hold the manuscript names. */
-	private String[] myManuscripts;
+	/** Generated serialization number. */
+	private static final long serialVersionUID = 8150606980901061867L;
 	
+	/** List to hold the manuscripts. */
+	private List<Manuscript> myManuscripts;
 	
-	public Author(String theUserName) {
-		super("Author", theUserName);//Formating can be changed to whatever is easiest to work with.
+	/** String to hold the Author ID. */
+	private String myAuthorID;
+	
+	/**
+	 * Overloaded constructor to instantiate an author with author ID.
+	 */
+	public Author(final String theAuthorID){
+		super("Author",theAuthorID);
+		myAuthorID = theAuthorID;
+		myManuscripts = new ArrayList<Manuscript>();
 	}
 	
 	/**
 	 * Method that returns a list of manuscripts.
 	 */
-	public String[] showAllMyManuscript() {
-		return myManuscripts;
+	public void showAllMyManuscript(final ArrayList<Manuscript> theManuscripts) {
+		for (int i = 0; i < theManuscripts.size(); i++) {
+			System.out.println(Integer.toString(i++)+ ") " + theManuscripts.get(i));
+		}	
 	}
 	
 	/**
 	 * Method to add a manuscript to the list.
 	 */
-	public static void addManuscript() {
-		
+	public void addManuscript(final ArrayList<Manuscript> theManuscripts,
+									 final Manuscript theManuscript) {
+		theManuscripts.add(theManuscript);
 	}
 	
 	/**
 	 * Method to remove a manuscript from the list.
 	 */
-	public static void deleteManuscript() {
-		
+	public void deleteManuscript(final ArrayList<Manuscript> theManuscripts,
+			 							final Manuscript theManuscript) {
+		for (int i = 0; i < theManuscripts.size(); i++) {
+			if (theManuscripts.get(i).getTitle() == theManuscript.getTitle()) {
+				theManuscripts.remove(i);
+			}
+		}
 	}
 	
 	/**
-	 * Method to edit a manuscript.
+	 * Method to allow an author to resubmit an edited manuscript.
 	 */
-	public static void editManuscript() {
-		
+	public void editManuscript(final ArrayList<Manuscript> theManuscripts,
+					final Manuscript theManuscript) {
+		deleteManuscript(theManuscripts, theManuscript);
+		addManuscript(theManuscripts, theManuscript);
 	}
-	
-
-	
-	
 }
