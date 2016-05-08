@@ -169,6 +169,86 @@ public class Manuscript implements Serializable {
 		myText = newText;
 	}
 	
+	/**
+	 * Setter for Program Chair to decide whether to accept or reject a paper.
+	 * @param theStatus - int, -1 if Manuscript is rejected, 1 if Manuscript is accepted.
+	 */
+	public void setStatus(int theStatus) {
+		myStatus = theStatus;
+	}
+	
+	/**
+	 * Overrides the Object toString() method.
+	 * @return String - all of the fields of the Manuscript formatted into a single String
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("[Manuscript]\nTitle: ");
+		sb.append(myTitle);
+		sb.append("\nAuthor: ");
+		sb.append(myAuthorID);
+		sb.append("\nConference: ");
+		sb.append(myConference);
+		sb.append("\n\n");
+		sb.append(myText);
+		sb.append("\n[End of Manuscript]");
+		return sb.toString();
+	}
+	
+	/**
+	 * Overrides the Object equals method to compare all fields.
+	 */
+	@Override
+	public boolean equals(Object theOther) {
+		// first check that theOther Object is a Manuscript
+		if (!theOther.getClass().equals(this.getClass())) {
+			return false;
+		}
+		// cast theOther as a Manuscript (called other)
+		Manuscript other = (Manuscript) theOther;
+		// compare all fields for equality
+		if (myStatus != other.myStatus) {
+			return false;
+		} else if (!myReviews.equals(other.myReviews)) {
+			return false;
+		} else if (!myRecommendation.equals(other.myRecommendation)) {
+			return false;
+		} else if (!myAuthorID.equals(other.myAuthorID)) {
+			return false;
+		} else if (!myConference.equals(other.myConference)) {
+			return false;
+		} else if (!myTitle.equals(other.myTitle)) {
+			return false;
+		} else if (!myText.equals(other.myText)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	/**
+	 * Overrides the Object hashCode method for consistency with the overridden equals method.
+	 */
+	public int hashCode() {
+		return this.toString().hashCode();
+	}
+	
+//	/**
+//	 * Overrides the Object hashCode method for consistency with the overridden equals method.
+//	 */
+//	@Override
+//	public int hashCode() {
+//		int hash = myStatus;
+//		hash += myReviews.hashCode();
+//		hash += myRecommendation.hashCode();
+//		hash += myConference.hashCode();
+//		hash += myAuthorID.hashCode();
+//		hash += myTitle.hashCode();
+//		hash += myText.hashCode();
+//		return hash;
+//	}
+	
 	
 
 }
