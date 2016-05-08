@@ -1,9 +1,13 @@
 package model;
 
-public class Reviewer extends Role {
+import java.util.List;
 
-	public Reviewer() {
-		super("Reviewer");
+public class Reviewer extends Role {
+	
+	private List<Manuscript> myAssignedManuscripts;
+	
+	public Reviewer(String theUserName) {
+		super("Reviewer", theUserName);
 	}
 	
 	
@@ -11,7 +15,9 @@ public class Reviewer extends Role {
 		
 	}
 	
-	
+	public void assignReview(Manuscript theManuscript) {
+		myAssignedManuscripts.add(theManuscript);
+	}
 	
 	public void editReview(Review rev) {
 		

@@ -12,8 +12,8 @@ public class Author extends Role{
 	private String[] myManuscripts;
 	
 	
-	public Author() {
-		super("Author");//Formating can be changed to whatever is easiest to work with.
+	public Author(String theUserName) {
+		super("Author", theUserName);//Formating can be changed to whatever is easiest to work with.
 	}
 	
 	/**

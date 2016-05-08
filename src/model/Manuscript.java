@@ -71,6 +71,18 @@ public class Manuscript implements Serializable {
 	public int getStatus() {
 		return myStatus;
 	}
+		
+	/**
+	 * Setter for the acceptance status of this Manuscript	 
+	 * @param The New statues for the Manuscript.
+	 */
+	public void setStatus(int theStatues) {
+		if(theStatues >= -1 && theStatues <=1) {
+			this.myStatus = theStatues;
+		} else {
+			//throw exception
+		}		
+	}
 	
 	/**
 	 * Getter for the list of received Reviews for this Manuscript.

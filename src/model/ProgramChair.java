@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ProgramChair extends Role implements Serializable {
 	
@@ -15,8 +16,8 @@ public class ProgramChair extends Role implements Serializable {
 	 * The ProgramChair Constructor.
 	 * @param theConference The conference that this Program Chair belongs to.
 	 */
-	public ProgramChair(Conference theConference) {
-		super("Program Chair");//Formating can be changed to whatever is easiest to work with.
+	public ProgramChair(Conference theConference , String theUserName) {
+		super("Program Chair", theUserName);//Formating can be changed to whatever is easiest to work with.
 		myConference = theConference; //might be changed if a copy constructor is made. 
 		
 	}
@@ -61,7 +62,7 @@ public class ProgramChair extends Role implements Serializable {
 	 * @param theManuscript The Manuscript that is receiving judgment.
 	 */
 	public void approveManuscript(Manuscript theManuscript) {
-		//theManuscript.setStatues(1);
+		theManuscript.setStatus(1);
 	}
 	
 	/**
@@ -69,17 +70,36 @@ public class ProgramChair extends Role implements Serializable {
 	 * @param theManuscript The Manuscript that is receiving judgment.
 	 */
 	public void rejectManuscript(Manuscript theManuscript) {
-		//theManuscript.setStatues(-1);
+		theManuscript.setStatus(-1);
 		
 	}
-	/*
-	public List<Recommendation> showAllRecommendation(Manuscript theManuscript) {
-		List<Recommendation> manuscriptRecommendation = new ArrayList<>();
-		theManuscript.
-		return manuscriptRecommendation;
-	}
-	*/
+
 	public String toString() {
 		return super.toString();
 	}
+	
+	public boolean equals(Object theObj) {
+		
+		
+		if((theObj instanceof ProgramChair)) {
+			ProgramChair pc = (ProgramChair) theObj;
+			if(this.getMyUsername().equals(pc.getMyUsername())) {
+				if(!this.myConference.equals(pc)) {
+					return false;
+				} 
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+		return true;
+	}
+	
+
+	public int hashCode() {
+		return Objects.hash(this.myConference,this.getMyUsername());
+	}
+	
+	
 }
