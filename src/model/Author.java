@@ -1,59 +1,78 @@
 package model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class that represents an author.
  * 
- * @author Justin A. Clark
- * @version 1.0
+ * @author Justin A. Clark, Josh Meigs
+ * @version 2.0
  */
-public class Author {
+public class Author extends Role implements Serializable {
 	
-	/** List to hold the manuscript names. */
-	private String[] myManuscripts;
+	/** Generated serialization number. */
+	private static final long serialVersionUID = 8150606980901061867L;
 	
-	/** Boolean to hold whether a user is an author or not. */
-	private static boolean myIsAuthor;
+	/** List to hold the manuscripts. */
+	private List<Manuscript> myManuscripts;
+	
+	/** String to hold the Author ID. */
+	private String myAuthorID;
+	
+	/**
+	 * Constructor instantiates an author object.
+	 */
+	public Author() {
+		super("Author");//Formating can be changed to whatever is easiest to work with.
+		myManuscripts = new ArrayList<Manuscript>();
+	}
+	
+	/**
+	 * Overloaded constructor to instantiate an author with author ID.
+	 */
+	public Author(final String theAuthorID){
+		super("Author");
+		myAuthorID = theAuthorID;
+		myManuscripts = new ArrayList<Manuscript>();
+	}
+	
 	/**
 	 * Method that returns a list of manuscripts.
 	 */
-	public String[] showAllMyManuscript() {
-		return myManuscripts;
+	public void showAllMyManuscript(final ArrayList<Manuscript> theManuscripts) {
+		for (int i = 0; i < theManuscripts.size(); i++) {
+			System.out.println(Integer.toString(i++)+ ") " + theManuscripts.get(i));
+		}	
 	}
 	
 	/**
 	 * Method to add a manuscript to the list.
 	 */
-	public static void addManuscript() {
-		
+	public void addManuscript(final ArrayList<Manuscript> theManuscripts,
+									 final Manuscript theManuscript) {
+		theManuscripts.add(theManuscript);
 	}
 	
 	/**
 	 * Method to remove a manuscript from the list.
 	 */
-	public static void deleteManuscript() {
-		
+	public void deleteManuscript(final ArrayList<Manuscript> theManuscripts,
+			 							final Manuscript theManuscript) {
+		for (int i = 0; i < theManuscripts.size(); i++) {
+			if (theManuscripts.get(i).getTitle() == theManuscript.getTitle()) {
+				theManuscripts.remove(i);
+			}
+		}
 	}
 	
 	/**
-	 * Method to edit a manuscript.
+	 * Method to allow an author to resubmit an edited manuscript.
 	 */
-	public static void editManuscript() {
-		
+	public void editManuscript(final ArrayList<Manuscript> theManuscripts,
+					final Manuscript theManuscript) {
+		deleteManuscript(theManuscripts, theManuscript);
+		addManuscript(theManuscripts, theManuscript);
 	}
-	
-	/**
-	 * Method to set the status of an author role.
-	 */
-	public static void setAuthor(final boolean theAuthorStatus) {
-		myIsAuthor = theAuthorStatus;
-	}
-	
-	/**
-	 * Method that returns a boolean value for whether or
-	 * not a user is an author.
-	 */
-	public boolean isAuthor() {
-		return myIsAuthor;
-	}
-	
 }
