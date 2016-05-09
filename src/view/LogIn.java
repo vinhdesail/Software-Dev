@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 import model.Author;
 import model.Conference;
@@ -315,19 +314,20 @@ public class LogIn {
 		System.out.println("2. Unsubmit A Manuscript");
 		System.out.println("3. Edit a Manuscript");
 		System.out.println("4. View All my Reviews");
-		System.out.println("5. Edit a Manuscript");
-		System.out.println("6. View All my Reviews");
+		System.out.println("5. Logout");
 		
 		int select = getSelect(theConsole);
 		if(select == 1) {
 			String manuscriptFile;
 			do {
+				theConsole.nextLine();
 				System.out.println("Please enter the File Path for the Manuscript");
-				manuscriptFile = theConsole.nextLine();				
+				manuscriptFile = theConsole.nextLine();					
 				System.out.println("The Filed you entered is: " + manuscriptFile + "\nIs This correct? Press 1 for yes, or 0 to try again");
 				select = getSelect(theConsole);				
 			} while (select == 0);			
 			if(select == 1) {
+				theConsole.nextLine();
 				System.out.println("Please enter the Title of this Manuscript");
 				String manuscriptName = theConsole.nextLine();				
 				
@@ -349,7 +349,9 @@ public class LogIn {
 			
 			theRole.deleteManuscript(tempManuscriptList, new Manuscript(theRole.getMyUsername(), 
 													 theUser.getConference().getConferenceID(), tempManuscriptList.get(select - 1).getTitle(), 
-													 tempManuscriptList.get(select - 1).getText()));		
+													 tempManuscriptList.get(select - 1).getText()));	
+			
+			System.out.println("Success!!\n\n\n");
 		} else if(select == 3) {
 			System.out.println("Please Select the Manuscript you wish to edit");
 			List<Manuscript> tempManuscriptList = new ArrayList<>();
@@ -375,14 +377,22 @@ public class LogIn {
 			}
 			select = getSelect(theConsole);
 			
+			Manuscript manToReview =  tempManuscriptList.get(select - 1);
+			
 			List<Review> reviews = theRole.getReviews(new Manuscript(theRole.getMyUsername(), 
-													 theUser.getConference().getConferenceID(), tempManuscriptList.get(select - 1).getTitle(), 
-													 tempManuscriptList.get(select - 1).getText()));
+													 theUser.getConference().getConferenceID(), manToReview.getTitle(), 
+													 manToReview.getText()));
 			if(!reviews.isEmpty()) {
-				 
-			} else {
+				System.out.println("Title:  " +manToReview.getTitle()+"\n\n");
+				for(int i = 0; i < reviews.size(); i++) {
+					System.out.println("Review:  " + reviews.get(i).getReviewText()+"\n\n");
+				}
 				
+			} else {
+				System.out.println("No Manuscripts have been reviewed!\n\n");
 			}
+		} else if(select == 7) {
+			return true;
 		}
 		return false;
 	}
