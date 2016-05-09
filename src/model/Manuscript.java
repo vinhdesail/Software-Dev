@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ public class Manuscript implements Serializable {
 	 * @param theText - the full text of the Manuscript
 	 */
 	public Manuscript(String theAuthorID, String theConference, String theTitle, 
-			String theText) {
+			String theUri) {
 		
 		myStatus = 0;
 		myReviews = new ArrayList<Review>();
@@ -62,7 +63,8 @@ public class Manuscript implements Serializable {
 		myAuthorID = theAuthorID;
 		myConference = theConference;
 		myTitle = theTitle;
-		myText = theText;
+		
+		myText = theUri;
 	}
 	
 	/**
