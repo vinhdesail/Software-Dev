@@ -30,7 +30,7 @@ public class Author extends Role implements Serializable {
 	 * Method that returns a list of manuscripts.
 	 * @return 
 	 */
-	public List<Manuscript> showAllMyManuscript(final ArrayList<Manuscript> theManuscripts) {
+	public List<Manuscript> showAllMyManuscript(final List<Manuscript> theManuscripts) {
 		List<Manuscript> returnManuscripts = new ArrayList<Manuscript>();		
 		for(int i = 0; i < theManuscripts.size(); i++){
 			if(theManuscripts.get(i).getConference().equals(myAuthorID)) {
@@ -43,7 +43,7 @@ public class Author extends Role implements Serializable {
 	/**
 	 * Method to add a manuscript to the list.
 	 */
-	public void addManuscript(final ArrayList<Manuscript> theManuscripts,
+	public void addManuscript(final List<Manuscript> theManuscripts,
 									 final Manuscript theManuscript) {
 		theManuscripts.add(theManuscript);
 	}
@@ -51,7 +51,7 @@ public class Author extends Role implements Serializable {
 	/**
 	 * Method to remove a manuscript from the list.
 	 */
-	public void deleteManuscript(final ArrayList<Manuscript> theManuscripts,
+	public void deleteManuscript(final List<Manuscript> theManuscripts,
 			 							final Manuscript theManuscript) {
 		for (int i = 0; i < theManuscripts.size(); i++) {
 			if (theManuscripts.get(i).getTitle().equals(theManuscript.getTitle())) {
@@ -63,7 +63,7 @@ public class Author extends Role implements Serializable {
 	/**
 	 * Method to allow an author to resubmit an edited manuscript.
 	 */
-	public void editManuscript(final ArrayList<Manuscript> theManuscripts,
+	public void editManuscript(final List<Manuscript> theManuscripts,
 					final Manuscript theManuscript) {
 		deleteManuscript(theManuscripts, theManuscript);
 		addManuscript(theManuscripts, theManuscript);
