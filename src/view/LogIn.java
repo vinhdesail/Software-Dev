@@ -428,10 +428,15 @@ public class LogIn {
 				}
 			}
 			select = getSelect(theConsole);
+			Manuscript tempManuscript = new Manuscript(theRole.getMyUsername(), 
+					 theUser.getConference().getConferenceID(), tempManuscriptList.get(select - 1).getTitle(), 
+					 tempManuscriptList.get(select - 1).getText());
 			
-			theRole.editManuscript(tempManuscriptList, new Manuscript(theRole.getMyUsername(), 
-													 theUser.getConference().getConferenceID(), tempManuscriptList.get(select - 1).getTitle(), 
-													 tempManuscriptList.get(select - 1).getText()));		
+			theConsole.nextLine();
+			System.out.println("Please enter the new Title for the Manuscript");
+			String manuscriptTitle = theConsole.nextLine();	
+			Manuscript newManu = new Manuscript(theRole.getMyUsername(), theUser.getConference().getConferenceID(), manuscriptTitle, tempManuscript.getText());
+			theRole.editManuscript(myMasterList,tempManuscript ,newManu );		
 		} else if(select == 4) {
 			System.out.println("Please Select the Manuscript you wish to see the reviews for");
 			List<Manuscript> tempManuscriptList = new ArrayList<>();
@@ -449,13 +454,13 @@ public class LogIn {
 													 theUser.getConference().getConferenceID(), manToReview.getTitle(), 
 													 manToReview.getText()));
 			if(!reviews.isEmpty()) {
-				System.out.println("Title:  " +manToReview.getTitle()+"\n\n");
+				System.out.println("Title:  " + manToReview.getTitle()+"\n\n");
 				for(int i = 0; i < reviews.size(); i++) {
 					System.out.println("Review:  " + reviews.get(i).getReviewText()+"\n\n");
 				}
 				
 			} else {
-				System.out.println("No Manuscripts have been reviewed!\n\n");
+				System.out.println("No Reviews have been made for this Manuscript!\n\n");
 			}
 		} else if(select == 5) {
 			return true;
@@ -646,7 +651,7 @@ public class LogIn {
 			select = getSelect(theConsole);	
 			Manuscript tempManu = tempList.get(select-1);
 			theConsole.nextLine();
-			System.out.print("Write a review: ");
+			System.out.print("Write a recommendation: ");
 			String recText = theConsole.nextLine();
 			Recommendation rec = new Recommendation(theRole.getMyUsername(), tempManu.getTitle(), recText);
 			tempManu.setRecommendation(rec);
@@ -665,6 +670,31 @@ public class LogIn {
 	 * @param Scanner The input scanner.
 	 */
 	public boolean reviewerBranch(Scanner theConsole, Reviewer theRole){
+		System.out.println("\n---------------\n\nWhat Do you want to do?");
+		System.out.println("1. Assign A Review to a Manuscript");
+		System.out.println("2. Logout");
+		
+		int select = getSelect(theConsole);
+		if(select == 1) {
+			System.out.println("Please Select Which Manuscript you are reviewing.");
+			List<Manuscript> tempList = theRole.viewMyPapers();
+			for(int i  = 0; i < tempList.size();i++) {
+				System.out.println((i + 1) + ". " + tempList.get(i).getTitle());
+			}
+			System.out.println("--end of manuscript list--");
+			select = getSelect(theConsole);	
+			Manuscript tempManu = tempList.get(select-1);
+			
+			theConsole.nextLine();
+			System.out.println("Please enter the Review for this Manuscript");
+			String reviewText = theConsole.nextLine();
+			
+			theRole.submitReview(tempManu, reviewText);
+			System.out.println("Success!!");
+		} else if(select == 2) {
+			return true;
+		}
+		
 		return false;
 	}
 	
