@@ -12,8 +12,8 @@ public class Reviewer extends Role implements Serializable {
 	/** Generated serialization number. */
 	private static final long serialVersionUID = -3658253011793370271L;
 	
-	public Reviewer() {
-		super();
+	public Reviewer(String myUser) {
+		super("Reviewer", myUser);
 		
 	}
 
@@ -30,6 +30,10 @@ public class Reviewer extends Role implements Serializable {
 	}
 	
 	public void viewMyPapers() {
+		
+	}
+	
+	public void assignReview(Manuscript theManuscript) {
 		
 	}
 }
