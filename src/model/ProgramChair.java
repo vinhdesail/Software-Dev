@@ -59,6 +59,7 @@ public class ProgramChair extends Role implements Serializable {
 	}
 	
 	public Map<SubprogramChair, List<Manuscript>> findAllManuscriptsAssociatedWithEverySPC(List<User> users) {
+		
 		Map<SubprogramChair, List<Manuscript>> allSPCManus = new HashMap<>();
 		for(int i = 0; i < allSPCManus.size();i++) {
 			for(int j = 0; j < users.get(i).getListOfAllRoles().size();j++) {
