@@ -26,10 +26,7 @@ public class AuthorTest {
 	//not needed because it just prints the list
 //	@Test
 //	public void ShowAllMyManuscriptTest(ArrayList<Manuscript> theManuscripts) {
-//		myManuscript = new Manuscript("John", "Science", "Computer manuscript", "Some text");
-//		myAuthor.addManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
-//		assertSame(myManuscriptList.get(0), myManuscript);
-//		//myAuthor.showAllMyManuscript((ArrayList<Manuscript>) myManuscriptList);
+//	
 //	}
 	
 	@Test
