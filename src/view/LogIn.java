@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.concurrent.SynchronousQueue;
 
 import model.Author;
 import model.Conference;
@@ -70,8 +69,13 @@ public class LogIn {
 		boolean exit = false;
 		
 		do{
-			// Current user and get role
+			
 			User currentUser = login(console);
+			
+			// SELECT A CONFERENCE
+			selectConference(console, currentUser);
+			
+			// Current user and get role
 			if(currentUser.hasRole()){
 				System.out.println("Select a Role!");
 				System.out.println(currentUser.getAllRoles());
@@ -83,24 +87,24 @@ public class LogIn {
 				}
 			}
 			
-			// SELECT A CONFERENCE
-			selectConference(console, currentUser);
-			
 			Role currentRole = currentUser.getCurrentRole();
 			
 			
 			boolean backToLogin = false;
 			do{
 				if(currentRole == null){
-					System.out.println("I have no role");
+					//System.out.println("I have no role");
+					noRole(console);
 				} else if(currentRole instanceof Author){
-					System.out.println("IT WORKS! I AM AUTHOR!");
+					//System.out.println("IT WORKS! I AM AUTHOR!");
+					authorBranch(console, (Author) currentRole);
 				} else if(currentRole instanceof ProgramChair){
-					System.out.println("IT WORKS! I AM ProgramChair!");
+					//System.out.println("IT WORKS! I AM ProgramChair!");
+					programChairBranch(console, (ProgramChair) currentRole);
 				} else if(currentRole instanceof SubprogramChair){
-					
+					subprogramChairBranch(console, (SubprogramChair) currentRole);
 				} else if(currentRole instanceof Reviewer){
-					
+					reviewerBranch(console, (Reviewer) currentRole);
 				}
 				
 				
@@ -118,6 +122,8 @@ public class LogIn {
 		
 		
 		console.close();
+		
+		//logout();
 	}
 	
 	/**
@@ -208,6 +214,16 @@ public class LogIn {
 	}
 	
 	/**
+	 * Create serialize stuff.
+	 */
+	private void initializeFields2(){
+		myMasterList = new ArrayList<>();
+		myUsers = new HashMap<>();
+		myConferences = new ArrayList<>();
+		
+	}
+	
+	/**
 	 * The method to store serializable objects.
 	 */
 	public void logout(){
@@ -241,7 +257,7 @@ public class LogIn {
 		
 		System.out.println("What conference?");
 		System.out.println(temp.toString());
-		int select = getInt(theConsole);
+		int select = getSelect(theConsole);
 		theUser.switchConference(myConferences.get(select - 1));
 		
 	}
@@ -251,7 +267,7 @@ public class LogIn {
 	 * All the Author options.
 	 * @param Scanner The input scanner.
 	 */
-	public void authorBranch(Scanner theConsole){
+	public void authorBranch(Scanner theConsole, Author theRole){
 		
 	}
 	
@@ -268,13 +284,17 @@ public class LogIn {
 			System.out.println("3. See which papers are assigned to which Subprogram chairs");
 			System.out.println("4. Designate a Subprogram Chair for a manuscript");
 			
-			System.out.print("Select: ");
-			int select = getInt(theConsole);
+			int select = getSelect(theConsole);
 			if(select == 1){
+				System.out.println("Select a Manuscript to view");
 				List<Manuscript> tempList = theRole.showAllManuscripts(myMasterList);
 				for(int i = 0; i < tempList.size(); i++){
-					System.out.print((i + 1) + ". " + tempList.get(i).getText());
+					System.out.println((i + 1) + ". " + tempList.get(i).getTitle());
 				}
+				System.out.println("--end of manuscript list--");
+				int select2 = getSelect(theConsole);
+				System.out.println(tempList.get(select2 - 1).toString());
+				System.out.println();
 			} else if (select == 2){
 				
 			} else if (select == 3){
@@ -289,7 +309,7 @@ public class LogIn {
 	 * All the subprogram chair options.
 	 * @param Scanner The input scanner.
 	 */
-	public void subprogramChairBranch(Scanner theConsole){
+	public void subprogramChairBranch(Scanner theConsole, SubprogramChair theRole){
 		
 	}
 	
@@ -297,7 +317,7 @@ public class LogIn {
 	 * All the reviewer options.
 	 * @param Scanner The input scanner.
 	 */
-	public void reviewerBranch(Scanner theConsole){
+	public void reviewerBranch(Scanner theConsole, Reviewer theRole){
 		
 	}
 	
@@ -307,6 +327,16 @@ public class LogIn {
 	 */
 	public void noRole(Scanner theConsole){
 		
+	}
+	
+	/**
+	 * Get select.
+	 * @param Scanner The scanner.
+	 * @return int The selected.
+	 */
+	public int getSelect(Scanner theConsole){
+		System.out.print("Select: ");
+		return getInt(theConsole);
 	}
 	
 	
