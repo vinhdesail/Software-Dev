@@ -429,8 +429,8 @@ public class LogIn {
 			}
 			select = getSelect(theConsole);
 			Manuscript tempManuscript = new Manuscript(theRole.getMyUsername(), 
-					 theUser.getConference().getConferenceID(), tempManuscriptList.get(select - 1).getTitle(), 
-					 tempManuscriptList.get(select - 1).getText());
+					 theUser.getConference().getConferenceID(), myMasterList.get(select - 1).getTitle(), 
+					 myMasterList.get(select - 1).getText());
 			
 			theConsole.nextLine();
 			System.out.println("Please enter the new Title for the Manuscript");
@@ -448,7 +448,7 @@ public class LogIn {
 			}
 			select = getSelect(theConsole);
 			
-			Manuscript manToReview =  tempManuscriptList.get(select - 1);
+			Manuscript manToReview =  myMasterList.get(select - 1);
 			
 			List<Review> reviews = theRole.getReviews(new Manuscript(theRole.getMyUsername(), 
 													 theUser.getConference().getConferenceID(), manToReview.getTitle(), 
