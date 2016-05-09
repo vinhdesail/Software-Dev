@@ -70,6 +70,19 @@ public class ProgramChair extends Role implements Serializable {
 		return allSPCManus;
 	}
 	
+	public List<SubprogramChair> getAllSubprogramChair(Map<String, User> theUsers){
+		List<SubprogramChair> toReturn = new ArrayList<>();
+		for(String temp : theUsers.keySet()){
+			List<Role> tempRole = theUsers.get(temp).getListOfAllRoles();
+			for(int i = 0; i < tempRole.size(); i++){
+				if(tempRole.get(i) instanceof SubprogramChair){
+					toReturn.add((SubprogramChair) tempRole.get(i));
+				}
+			}
+		}
+		return toReturn;
+	}
+	
 	
 	/**
 	 * A Method that approves a given manuscript.

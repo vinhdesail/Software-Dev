@@ -10,7 +10,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import model.Author;
 import model.Conference;
@@ -220,14 +220,27 @@ public class LogIn {
 		sally.addRole(pc);
 		myUsers.put(testProgramChairName, sally);
 		
+		//Test Author
 		String testAuthorName = "Bob";
-		User bob = new User();
+		User bob = new User(testAuthorName);
 
 		Manuscript tempManu = new Manuscript(testAuthorName, testConferenceName, "How To Increase Sales", 
 				"C:/nothing.txt");
+		Manuscript tempManu2 = new Manuscript(testAuthorName, testConferenceName, "How To Increase Sales 2.0", 
+				"C:/nothing2.txt");
 		
 		bob.submitManuscript(tempManu, myMasterList);
+		bob.submitManuscript(tempManu2, myMasterList);
 		myUsers.put(testAuthorName, bob);
+		
+		//Test Subprogram Chair
+		User tom = new User("Tom");
+		SubprogramChair subP = new SubprogramChair("Tom");
+		subP.assignManuscripts(tempManu2);
+		tom.addRole(subP);
+		myUsers.put("Tom", tom);
+		
+		
 		
 		
 	}
@@ -307,6 +320,7 @@ public class LogIn {
 			System.out.println("5. Logout");
 			
 			int select = getSelect(theConsole);
+			///////////////////////// OPTION 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			if(select == 1){
 				System.out.println("\nSelect a Manuscript to view");
 				List<Manuscript> tempList = theRole.showAllManuscripts(myMasterList);
@@ -321,6 +335,8 @@ public class LogIn {
 				} else {
 					System.out.println(tempList.get(select2 - 1).toString());
 				}
+				
+			//////////////////////////OPTION 2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			} else if (select == 2){
 				System.out.println("\nPick a manuscript to accept and reject");
 				List<Manuscript> tempList = theRole.showAllManuscripts(myMasterList);
@@ -328,20 +344,52 @@ public class LogIn {
 					System.out.println((i + 1) + ". " + tempList.get(i).getTitle());
 				}
 				System.out.println("--end of manuscript list--");
+				System.out.println(tempList.size() + 1 + ". Back");
 				int select2 = getSelect(theConsole);
-				System.out.println("Accept (1) or Reject (2) or Back (3)? :");
-				int select3 = getInt(theConsole);
-				if(select3 == 3){
+				
+				if(select2 == tempList.size() + 1){
 					System.out.println("\n Back \n");
-				} else if(select3 == 1){
-					theRole.approveManuscript(tempList.get(select2 - 1));
-					System.out.println(tempList.get(select2 - 1).getStatus());
-				} else if(select3 == 2){
-					theRole.rejectManuscript(tempList.get(select2 - 1));
+				} else {
+					System.out.println("Accept (1) or Reject (2) or Back (3)? :");
+					int select3 = getInt(theConsole);
+					if(select3 == 3){
+						System.out.println("\n Back \n");
+					} else if(select3 == 1){
+						theRole.approveManuscript(tempList.get(select2 - 1));
+						System.out.println(tempList.get(select2 - 1).getStatus());
+					} else if(select3 == 2){
+						theRole.rejectManuscript(tempList.get(select2 - 1));
+					}
 				}
 				
+			////////////////////////////////// OPTION 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!
 			} else if (select == 3){
+				System.out.println("\n---Pick a subprogram chair---");
+				List<SubprogramChair> tempArr = theRole.getAllSubprogramChair(myUsers);
+				StringBuilder tempString = new StringBuilder();
+				for(int i = 0; i < tempArr.size(); i++){
+					tempString.append(i + 1);
+					tempString.append(". ");
+					tempString.append(tempArr.get(i).getMyUsername());
+					tempString.append('\n');
+				}
+				System.out.print(tempString);
+				System.out.println("---end of Subprogram Chair list---");
+				System.out.println(tempArr.size() + 1 + ". Back");
+				int select2 = getSelect(theConsole);
+				if(select2 == tempArr.size() + 1){
+					System.out.println("\n Back \n");
+				} else {
+					System.out.println("You selected : " + tempArr.get(select2 - 1).getMyUsername());
+					System.out.println("--Showing Related Manuscripts--");
+					List<Manuscript> tempList = theRole.showAllManuscriptAssignedToSpc(tempArr.get(select2 - 1));
+					for(int i = 0; i < tempList.size(); i++){
+						System.out.println(i + 1 + ". " + tempList.get(i).getTitle());
+					}
+					System.out.println("--end of manuscript list--");
+				}
 				
+			///////////////////////////////// OPTION 4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			} else if (select == 4){
 				
 			} else if (select == 5){
