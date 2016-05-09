@@ -43,12 +43,12 @@ public class AuthorTest {
 		myAuthor.deleteManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
 		assertEquals(myManuscriptList.size(), 0);
 	}
-	
-	@Test
-	public void editManuscriptTest() {
-		myManuscript = new Manuscript("John", "Science", "Computer manuscript", "Some text");
-		myAuthor.addManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
-		myAuthor.editManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
-		assertEquals(myManuscriptList.size(), 1);
-	}
+//	
+//	@Test
+//	public void editManuscriptTest() {
+//		myManuscript = new Manuscript("John", "Science", "Computer manuscript", "Some text");
+//		myAuthor.addManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
+//		myAuthor.editManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
+//		assertEquals(myManuscriptList.size(), 1);
+//	}
 }

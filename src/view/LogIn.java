@@ -362,10 +362,15 @@ public class LogIn {
 				}
 			}
 			select = getSelect(theConsole);
+			Manuscript tempManuscript = new Manuscript(theRole.getMyUsername(), 
+					 theUser.getConference().getConferenceID(), tempManuscriptList.get(select - 1).getTitle(), 
+					 tempManuscriptList.get(select - 1).getText());
 			
-			theRole.editManuscript(tempManuscriptList, new Manuscript(theRole.getMyUsername(), 
-													 theUser.getConference().getConferenceID(), tempManuscriptList.get(select - 1).getTitle(), 
-													 tempManuscriptList.get(select - 1).getText()));		
+			theConsole.nextLine();
+			System.out.println("Please enter the new Title for the Manuscript");
+			String manuscriptTitle = theConsole.nextLine();	
+			Manuscript newManu = new Manuscript(theRole.getMyUsername(), theUser.getConference().getConferenceID(), manuscriptTitle, tempManuscript.getText());
+			theRole.editManuscript(tempManuscriptList,tempManuscript ,newManu );		
 		} else if(select == 4) {
 			System.out.println("Please Select the Manuscript you wish to see the reviews for");
 			List<Manuscript> tempManuscriptList = new ArrayList<>();
@@ -391,7 +396,7 @@ public class LogIn {
 			} else {
 				System.out.println("No Manuscripts have been reviewed!\n\n");
 			}
-		} else if(select == 7) {
+		} else if(select == 5) {
 			return true;
 		}
 		return false;
@@ -561,6 +566,9 @@ public class LogIn {
 	 * @param Scanner The input scanner.
 	 */
 	public boolean reviewerBranch(Scanner theConsole, Reviewer theRole){
+		
+		
+		
 		return false;
 	}
 	

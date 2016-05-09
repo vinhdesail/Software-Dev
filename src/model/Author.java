@@ -51,7 +51,7 @@ public class Author extends Role implements Serializable {
 	/**
 	 * Method to remove a manuscript from the list.
 	 */
-	public void deleteManuscript(final List<Manuscript> theManuscripts,
+	public void deleteManuscript(List<Manuscript> theManuscripts,
 			 							final Manuscript theManuscript) {
 		for (int i = 0; i < theManuscripts.size(); i++) {
 			if (theManuscripts.get(i).getTitle().equals(theManuscript.getTitle())) {
@@ -64,9 +64,10 @@ public class Author extends Role implements Serializable {
 	 * Method to allow an author to resubmit an edited manuscript.
 	 */
 	public void editManuscript(final List<Manuscript> theManuscripts,
-					final Manuscript theManuscript) {
-		deleteManuscript(theManuscripts, theManuscript);
-		addManuscript(theManuscripts, theManuscript);
+					final Manuscript theOldManuscript,
+					Manuscript theNewManuscript) {
+		deleteManuscript(theManuscripts, theOldManuscript);
+		addManuscript(theManuscripts, theNewManuscript);
 	}
 	
 	/**
