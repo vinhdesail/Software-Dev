@@ -359,7 +359,9 @@ public class LogIn {
 			List<Review> reviews = theRole.getReviews(new Manuscript(theRole.getMyUsername(), 
 													 theUser.getConference().getConferenceID(), tempManuscriptList.get(select - 1).getTitle(), 
 													 tempManuscriptList.get(select - 1).getText()));
-			if() {
+			if(!reviews.isEmpty()) {
+				 
+			} else {
 				
 			}
 		}
