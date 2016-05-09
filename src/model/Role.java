@@ -15,8 +15,9 @@ public class Role {
 	public Role() {
 	    myRoleName = "User";	
 	}
-	public Role(String roleType, String myUser) {
+	public Role(String roleType, String username) {
 		myRoleName =  roleType;
+		myUsername = username;
 	}
 	public String getMyUsername() {
 		return myUsername;
