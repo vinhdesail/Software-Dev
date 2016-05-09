@@ -2,7 +2,9 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class ProgramChair extends Role implements Serializable {
@@ -49,11 +51,23 @@ public class ProgramChair extends Role implements Serializable {
 		List<Manuscript> returnManuscripts = new ArrayList<Manuscript>();
 		
 		for(int i = 0; i < theManuscripts.size(); i++){
-			if(theManuscripts.get(i).getConference().equals(myConference)) {
+			if(theManuscripts.get(i).getConference().equals(myConference.getConferenceID())) {
 				returnManuscripts.add(theManuscripts.get(i));
 			}
 		}
 		return returnManuscripts;
+	}
+	
+	public Map<SubprogramChair, List<Manuscript>> findAllManuscriptsAssociatedWithEverySPC(List<User> users) {
+		Map<SubprogramChair, List<Manuscript>> allSPCManus = new HashMap<>();
+		for(int i = 0; i < allSPCManus.size();i++) {
+			for(int j = 0; j < users.get(i).getListOfAllRoles().size();j++) {
+				if(users.get(i).getListOfAllRoles().get(j) instanceof SubprogramChair) {
+					allSPCManus.put((SubprogramChair)users.get(i).getListOfAllRoles().get(j), showAllManuscriptAssignedToSpc((SubprogramChair)users.get(i).getListOfAllRoles().get(j)));	
+				}
+			}							
+		}
+		return allSPCManus;
 	}
 	
 	
@@ -84,7 +98,7 @@ public class ProgramChair extends Role implements Serializable {
 		if((theObj instanceof ProgramChair)) {
 			ProgramChair pc = (ProgramChair) theObj;
 			if(this.getMyUsername().equals(pc.getMyUsername())) {
-				if(!this.myConference.equals(pc)) {
+				if(!this.myConference.equals(pc.myConference)) {
 					return false;
 				} 
 			} else {

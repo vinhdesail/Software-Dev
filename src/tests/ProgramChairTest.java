@@ -46,6 +46,7 @@ public class ProgramChairTest {
 		Manuscript theFirstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
 		Manuscript theSecondManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleTwo", "The Body");		
 		List<Manuscript> aListOfManuscripts = new ArrayList<Manuscript>();
+		assertEquals(0, pc.showAllManuscripts(aListOfManuscripts).size());	
 		aListOfManuscripts.add(theFirstManuscript);
 		aListOfManuscripts.add(theSecondManuscript);
 		assertEquals(theFirstManuscript, pc.showAllManuscripts(aListOfManuscripts).get(0));	
@@ -62,8 +63,8 @@ public class ProgramChairTest {
 	
 	@Test
 	public void hashCodeTest() {		
-		ProgramChair otherPc = new ProgramChair(conference, "UserName");
-		assertSame(pc.hashCode(), otherPc.hashCode());					
+		ProgramChair otherPc = pc;
+		assertEquals(pc.hashCode(), otherPc.hashCode());				
 	}
 	
 }

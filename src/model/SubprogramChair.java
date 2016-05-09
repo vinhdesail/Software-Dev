@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class SubprogramChair extends Role implements Serializable{
+public class SubprogramChair extends Role implements Serializable {
 
 	/** Generated Serialization number. */
 	private static final long serialVersionUID = -888370705327456440L;
@@ -44,7 +44,7 @@ public class SubprogramChair extends Role implements Serializable{
 	 */
 	public void assignManuscripts(Manuscript theManuscript) throws IllegalArgumentException{
 			if(myAssignedManuscripts.size()< 4) {
-				if(containsManuscript(theManuscript) == 0) {
+				if((containsManuscript(theManuscript) == -1)) {
 					myAssignedManuscripts.add(theManuscript);
 				} else {
 					throw new IllegalArgumentException("Manuscript is already been assigned.");
@@ -63,7 +63,7 @@ public class SubprogramChair extends Role implements Serializable{
 	 */
 	public void submitRecomendation(Manuscript theManuscript, String theRecommendationText) throws IllegalArgumentException {		
 		if(myAssignedManuscripts.size() > 0 && myAssignedManuscripts.size() < 4) { //last part might not be needed.
-			if(containsManuscript(theManuscript) > 0) {
+			if(containsManuscript(theManuscript) >= 0) {
 				Recommendation recommendation = new Recommendation(super.getMyUsername(), theManuscript.getTitle(), theRecommendationText);
 				theManuscript.setRecommendation(recommendation);									
 			} else {
@@ -84,8 +84,8 @@ public class SubprogramChair extends Role implements Serializable{
 		String recommendationText = "";
 		int manuscriptLocation = containsManuscript(theManuscript);
 		if(myAssignedManuscripts.size() > 0 && myAssignedManuscripts.size() < 4) { //last part might not be needed.
-			if(manuscriptLocation > 0) {
-				recommendationText = myAssignedManuscripts.get(manuscriptLocation).getText();				
+			if(manuscriptLocation >= 0) {
+				recommendationText = myAssignedManuscripts.get(manuscriptLocation).getRecommendation().getRecommmendationText();				
 			} else {
 				throw new IllegalArgumentException("Manuscript not found");
 			}
@@ -104,9 +104,10 @@ public class SubprogramChair extends Role implements Serializable{
 	 * @return The Recommendation Text.
 	 */
 	public void editRecomendation(Manuscript theManuscript,String theRecommendationText) throws IllegalArgumentException{
-		
+	    
 		if(myAssignedManuscripts.size() > 0 && myAssignedManuscripts.size() < 4) { //last part might not be needed.
-			if(containsManuscript(theManuscript) > 0) {
+			if(containsManuscript(theManuscript) >= 0) {
+				deleteRecomendation(theManuscript);
 				Recommendation recommendation = new Recommendation(super.getMyUsername(), theManuscript.getTitle(), theRecommendationText);
 				theManuscript.setRecommendation(recommendation);									
 			} else {
@@ -134,7 +135,7 @@ public class SubprogramChair extends Role implements Serializable{
 	 * @return The index of where the Manuscript was found, else 0.
 	 */
 	private int containsManuscript(Manuscript theManuscript) {
-		int foundAt = 0;
+		int foundAt = -1;
 		for(int i  = 0; i < myAssignedManuscripts.size(); i++) {
 			if(myAssignedManuscripts.get(i).equals(theManuscript)) {
 				foundAt = i;		

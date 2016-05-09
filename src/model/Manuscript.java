@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Manuscript class description
@@ -201,6 +202,7 @@ public class Manuscript implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object theOther) {
+		boolean skipper = true;//Will better work this in later.
 		// first check that theOther Object is a Manuscript
 		if (!theOther.getClass().equals(this.getClass())) {
 			return false;
@@ -208,11 +210,21 @@ public class Manuscript implements Serializable {
 		// cast theOther as a Manuscript (called other)
 		Manuscript other = (Manuscript) theOther;
 		// compare all fields for equality
+		
+		 if (Objects.isNull(myRecommendation) || Objects.isNull(((Manuscript)theOther).myRecommendation)) {
+			    if(Objects.nonNull(myRecommendation) && Objects.isNull(((Manuscript)theOther).myRecommendation)) {
+			    	return false;
+			    } else if(Objects.isNull(myRecommendation) && Objects.nonNull(((Manuscript)theOther).myRecommendation)) {
+			    	return false;
+			    } else {
+			    	skipper = false;		    	
+			    }
+		}
 		if (myStatus != other.myStatus) {
 			return false;
 		} else if (!myReviews.equals(other.myReviews)) {
 			return false;
-		} else if (!myRecommendation.equals(other.myRecommendation)) {
+		} else if(skipper && !myRecommendation.equals(((Manuscript)theOther).myRecommendation)) {  
 			return false;
 		} else if (!myAuthorID.equals(other.myAuthorID)) {
 			return false;
@@ -222,9 +234,9 @@ public class Manuscript implements Serializable {
 			return false;
 		} else if (!myText.equals(other.myText)) {
 			return false;
-		} else {
+		} 
 			return true;
-		}
+		
 	}
 	
 	/**

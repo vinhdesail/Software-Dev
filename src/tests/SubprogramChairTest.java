@@ -4,9 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +22,9 @@ public class SubprogramChairTest {
 		conference = new Conference("First Conference", "UserName", (new Date(1,1,1)), (new Date(1,1,1)), (new Date(1,1,1)), (new Date(1,1,1)), new Date(1,1,1));		
 		mySpc = new SubprogramChair("UserName");
 	}
-
+	/**
+	 * Tests if all of the manuscripts that are assigned will show in their assigned list.
+	 */
 	@Test
 	public void showAllAssignedManuscriptsTest() {
 		
@@ -37,7 +36,9 @@ public class SubprogramChairTest {
 		assertSame(mySpc.showAllAssignedManuscripts().get(0),firstManuscript);
 		assertSame(mySpc.showAllAssignedManuscripts().get(1),secondManuscript);
 	}
-	
+	/**
+	 * Tests the Bus. Rule that if a reviewer already has been assigned Four Manuscripts, that it will throw an exception.
+	 */
 	@Test
 	public void assignManuscriptsExceptionListMaxedTest() {
 		Manuscript firstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
@@ -120,7 +121,7 @@ public class SubprogramChairTest {
 	}
 	
 	@Test
-	public void getRecommendationTextExceptionEmptyMaxedTest() {
+	public void getRecommendationTextExceptionMistakenManuTest() {
 		Manuscript firstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
 		Manuscript secondManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleTwo", "The Body");
 		mySpc.assignManuscripts(firstManuscript);
