@@ -207,6 +207,7 @@ public class LogIn {
 		myUsers = new HashMap<>();
 		myConferences = new ArrayList<>();
 		
+		//CONFERENCE AND PROGRAM CHAIRS
 		String testProgramChairName = "Sally";
 		String testConferenceName = "Conference 1";
 		Date testDateCon = new Date(2016, 11, 2);
@@ -217,6 +218,12 @@ public class LogIn {
 		Conference testConference = new Conference(testConferenceName, testProgramChairName, testDateCon, 
 				testDateMan, testDateRev, testDateRec, testDateDec);
 		myConferences.add(testConference);
+		
+		User sally = new User();
+		ProgramChair pc = new ProgramChair(testConference, testProgramChairName);
+		sally.addRole(pc);
+		myUsers.put(testProgramChairName, sally);
+		
 		
 		String testProgramChairName2 = "Sherry";
 		String testConferenceName2 = "Conference 2";
@@ -229,24 +236,30 @@ public class LogIn {
 				testDateMan2, testDateRev2, testDateRec2, testDateDec2);
 		myConferences.add(testConference2);
 		
+		User sherry = new User();
+		ProgramChair pc2 = new ProgramChair(testConference2, testProgramChairName2);
+		sherry.addRole(pc2);
+		myUsers.put(testProgramChairName2, sherry);
 		
-		User sally = new User();
-		ProgramChair pc = new ProgramChair(testConference, testProgramChairName);
-		sally.addRole(pc);
-		myUsers.put(testProgramChairName, sally);
 		
 		//Test Author
 		String testAuthorName = "Bob";
 		User bob = new User(testAuthorName);
 
 		Manuscript tempManu = new Manuscript(testAuthorName, testConferenceName, "How To Increase Sales", 
-				"C:/nothing.txt");
+				"C:/Manuscript1.txt");
 		Manuscript tempManu2 = new Manuscript(testAuthorName, testConferenceName, "How To Increase Sales 2.0", 
-				"C:/nothing2.txt");
+				"C:/Manuscript2.txt");
 		
 		bob.submitManuscript(tempManu, myMasterList);
 		bob.submitManuscript(tempManu2, myMasterList);
 		myUsers.put(testAuthorName, bob);
+		
+		
+		//ADD some review
+		Review review = new Review("Pat", "How To Increase Sales", "I really like his points");
+		tempManu.addReview(review);
+		
 		
 		//Test Subprogram Chair
 		User tom = new User("Tom");
@@ -255,15 +268,31 @@ public class LogIn {
 		tom.addRole(subP);
 		myUsers.put("Tom", tom);
 		
+		User john = new User("John");
+		SubprogramChair subP2 = new SubprogramChair("John");
+		subP2.assignManuscripts(tempManu);
+		john.addRole(subP2);
+		myUsers.put("John", john);
+		
+		
 		//Test just a user
 		User tim = new User("Tim");
 		myUsers.put("Tim", tim);
+		User kim = new User("Kim");
+		myUsers.put("Kim", kim);
+		
 		
 		//Test a reviewers
 		User jerry = new User("Jerry");
 		Reviewer rev = new Reviewer("Jerry");
 		jerry.addRole(rev);
 		myUsers.put("Jerry", jerry);
+		
+		//Test a reviewers
+		User harry = new User("Harry");
+		Reviewer rev2 = new Reviewer("Harry");
+		jerry.addRole(rev2);
+		myUsers.put("Harry", harry);
 		
 		
 		
