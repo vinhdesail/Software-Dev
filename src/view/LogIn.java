@@ -232,9 +232,7 @@ public class LogIn {
 		myMasterList = new ArrayList<>();//all Manuscripts
 		myUsers = new HashMap<>();
 		myConferences = new ArrayList<>();
-		
-		
-		
+
 	}
 	
 	/**
@@ -394,6 +392,7 @@ public class LogIn {
 		System.out.print("Select: ");
 		return getInt(theConsole);
 	}
+	
 	
 	
 	
