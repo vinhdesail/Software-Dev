@@ -59,6 +59,14 @@ public class User implements Serializable {
 		myConference = null;
 	}
 	
+	public String getName() {
+		return myName;
+	}
+	
+	public Conference getConference() {
+		return myConference;
+	}
+	
 	/**
 	 * Method that allows a user to submit a file to a manuscript list.
 	 * Then promote them to author.
