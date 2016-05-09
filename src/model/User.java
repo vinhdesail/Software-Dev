@@ -105,15 +105,6 @@ public class User implements Serializable {
 		return myCurrentRole;
 	}
 	
-	public List<Role> getListOfAllRoles() {
-		List<Role> allRoles = new ArrayList<>();
-		
-		for(int i  = 0; i < myRole.size();i++) {
-			allRoles.add(myRole.get(i));
-		}
-		return allRoles;
-	}
-	
 	/**
 	 * Method that allows the user to switch to another role.
 	 * @return String All roles for the user. 

@@ -15,9 +15,6 @@ public class Author extends Role implements Serializable {
 	/** Generated serialization number. */
 	private static final long serialVersionUID = 8150606980901061867L;
 	
-	/** List to hold the manuscripts. */
-	private List<Manuscript> myManuscripts;
-	
 	/** String to hold the Author ID. */
 	private String myAuthorID;
 	
@@ -27,22 +24,26 @@ public class Author extends Role implements Serializable {
 	public Author(final String theAuthorID){
 		super("Author",theAuthorID);
 		myAuthorID = theAuthorID;
-		myManuscripts = new ArrayList<Manuscript>();
 	}
 	
 	/**
 	 * Method that returns a list of manuscripts.
+	 * @return 
 	 */
-	public void showAllMyManuscript(final ArrayList<Manuscript> theManuscripts) {
-		for (int i = 0; i < theManuscripts.size(); i++) {
-			System.out.println(Integer.toString(i++)+ ") " + theManuscripts.get(i));
-		}	
+	public List<Manuscript> showAllMyManuscript(final List<Manuscript> theManuscripts) {
+		List<Manuscript> returnManuscripts = new ArrayList<Manuscript>();		
+		for(int i = 0; i < theManuscripts.size(); i++){
+			if(theManuscripts.get(i).getConference().equals(myAuthorID)) {
+				returnManuscripts.add(theManuscripts.get(i));
+			}
+		}
+		return returnManuscripts;
 	}
 	
 	/**
 	 * Method to add a manuscript to the list.
 	 */
-	public void addManuscript(final ArrayList<Manuscript> theManuscripts,
+	public void addManuscript(final List<Manuscript> theManuscripts,
 									 final Manuscript theManuscript) {
 		theManuscripts.add(theManuscript);
 	}
@@ -50,10 +51,10 @@ public class Author extends Role implements Serializable {
 	/**
 	 * Method to remove a manuscript from the list.
 	 */
-	public void deleteManuscript(final ArrayList<Manuscript> theManuscripts,
+	public void deleteManuscript(final List<Manuscript> theManuscripts,
 			 							final Manuscript theManuscript) {
 		for (int i = 0; i < theManuscripts.size(); i++) {
-			if (theManuscripts.get(i).getTitle() == theManuscript.getTitle()) {
+			if (theManuscripts.get(i).getTitle().equals(theManuscript.getTitle())) {
 				theManuscripts.remove(i);
 			}
 		}
@@ -62,7 +63,7 @@ public class Author extends Role implements Serializable {
 	/**
 	 * Method to allow an author to resubmit an edited manuscript.
 	 */
-	public void editManuscript(final ArrayList<Manuscript> theManuscripts,
+	public void editManuscript(final List<Manuscript> theManuscripts,
 					final Manuscript theManuscript) {
 		deleteManuscript(theManuscripts, theManuscript);
 		addManuscript(theManuscripts, theManuscript);
