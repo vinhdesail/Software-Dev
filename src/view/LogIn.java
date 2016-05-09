@@ -10,7 +10,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +29,7 @@ import model.Conference;
 import model.Date;
 import model.Manuscript;
 import model.ProgramChair;
+import model.Recommendation;
 import model.Reviewer;
 import model.Role;
 import model.SubprogramChair;
@@ -362,15 +362,60 @@ public class LogIn {
 		System.out.println("\n---------------\n\nWhat Do you want to do?");
 		System.out.println("1. Assign A Reviewer A Manuscript");
 		System.out.println("2. Submit a Recommendation");
-		System.out.println("3. Logout");
+		System.out.println("3. Back To Main Menu");
+		System.out.println("4. Logout");
 		
 		int select = getSelect(theConsole);
 		
-		
+		if(select == 1){		
+				System.out.println("Please Select a Manuscript to be assigned");
+				List<Manuscript> tempList = theRole.showAllAssignedManuscripts();
+				for(int i = 0; i < tempList.size(); i++){
+					System.out.println((i + 1) + ". " + tempList.get(i).getTitle());
+				}
+				System.out.println("--end of manuscript list--");
+				select = getSelect(theConsole);	
+				Manuscript tempManu = tempList.get(select-1);
+				
+				
+				List<Reviewer> tempReviewerList = new ArrayList<>();
+				System.out.println("Please Select a reviewer to be assigned");
+				int p = 1;
+				for(String key: myUsers.keySet()) {
+					for(int i = 0; i < myUsers.get(key).getListOfAllRoles().size(); i++) {
+						if(myUsers.get(key).getListOfAllRoles().get(i) instanceof Reviewer) {
+							System.out.println((p) + ". " + ((Reviewer)myUsers.get(key).getListOfAllRoles().get(i)).getMyUsername());
+							tempReviewerList.add((Reviewer)myUsers.get(key).getListOfAllRoles().get(i));
+						}
+					}
+				}
+				select = getSelect(theConsole);	
+				Reviewer tempReviewer = tempReviewerList.get(select-1);				
+				theRole.AssignReviewer(tempReviewer, tempManu);
+				
+				System.out.println("Success!\n\n\n\n\n");
+		} else if(select == 2) { 
+			System.out.println("Please Select a Manuscript for your recommendation");
+			
+			List<Manuscript> tempList = theRole.showAllAssignedManuscripts();
+			for(int i  = 0; i < tempList.size();i++) {
+				System.out.println((i + 1) + ". " + tempList.get(i).getTitle());
+			}
+			System.out.println("--end of manuscript list--");
+			select = getSelect(theConsole);	
+			Manuscript tempManu = tempList.get(select-1);
+			String recText = theConsole.nextLine();
+			Recommendation rec = new Recommendation(theRole.getMyUsername(), tempManu.getTitle(), recText);
+			tempManu.setRecommendation(rec);
+			System.out.println("Success!\n\n\n\n\n");
+		} else if(select == 4) {
+			return true;
+		}
 		
 		return false;
 		
-	}
+}
+
 	
 	/**
 	 * All the reviewer options.
@@ -388,7 +433,8 @@ public class LogIn {
 		System.out.println("\n---------------\n\nWhat Do you want to do?");
 		System.out.println("1. Submit a Manuscript");
 		System.out.println("2. Select a Different Conference");
-		System.out.println("3. Logout");
+		System.out.println("3. Back To Main Menu");
+		System.out.println("4. Logout");
 		
 		int select = getSelect(theConsole);
 		if(select == 1){
@@ -411,7 +457,7 @@ public class LogIn {
 			System.out.println();
 		} else if (select == 2){
 			selectConference(theConsole, theUser);
-		} else if (select == 3){
+		} else if (select == 4){
 			return true;
 		} 
 		return false;
