@@ -296,7 +296,7 @@ public class LogIn {
 		//Test a reviewers
 		User jerry = new User("Jerry");
 		Reviewer rev = new Reviewer("Jerry");
-		rev.assignReview(new Manuscript("Bobby", "How to Increase Sales", "Good things today", "c:/nothing.txt"));
+		rev.assignReview(tempManu4);
 		jerry.addRole(rev);
 		
 		myUsers.put("Jerry", jerry);
