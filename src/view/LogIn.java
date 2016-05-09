@@ -243,7 +243,6 @@ public class LogIn {
 				"C:/nothing.txt");
 		Manuscript tempManu2 = new Manuscript(testAuthorName, testConferenceName, "How To Increase Sales 2.0", 
 				"C:/nothing2.txt");
-		
 		bob.submitManuscript(tempManu, myMasterList);
 		bob.submitManuscript(tempManu2, myMasterList);
 		myUsers.put(testAuthorName, bob);
@@ -390,7 +389,7 @@ public class LogIn {
 			System.out.println("Please enter the new Title for the Manuscript");
 			String manuscriptTitle = theConsole.nextLine();	
 			Manuscript newManu = new Manuscript(theRole.getMyUsername(), theUser.getConference().getConferenceID(), manuscriptTitle, tempManuscript.getText());
-			theRole.editManuscript(tempManuscriptList,tempManuscript ,newManu );		
+			theRole.editManuscript(myMasterList,tempManuscript ,newManu );		
 		} else if(select == 4) {
 			System.out.println("Please Select the Manuscript you wish to see the reviews for");
 			List<Manuscript> tempManuscriptList = new ArrayList<>();
@@ -408,13 +407,13 @@ public class LogIn {
 													 theUser.getConference().getConferenceID(), manToReview.getTitle(), 
 													 manToReview.getText()));
 			if(!reviews.isEmpty()) {
-				System.out.println("Title:  " +manToReview.getTitle()+"\n\n");
+				System.out.println("Title:  " + manToReview.getTitle()+"\n\n");
 				for(int i = 0; i < reviews.size(); i++) {
 					System.out.println("Review:  " + reviews.get(i).getReviewText()+"\n\n");
 				}
 				
 			} else {
-				System.out.println("No Manuscripts have been reviewed!\n\n");
+				System.out.println("No Reviews have been made for this Manuscript!\n\n");
 			}
 		} else if(select == 5) {
 			return true;
@@ -624,7 +623,9 @@ public class LogIn {
 	 * @param Scanner The input scanner.
 	 */
 	public boolean reviewerBranch(Scanner theConsole, Reviewer theRole){
-		
+		System.out.println("\n---------------\n\nWhat Do you want to do?");
+		System.out.println("1. Assign A Review to a Manuscript");
+		System.out.println("2. Logout");
 		
 		
 		return false;
