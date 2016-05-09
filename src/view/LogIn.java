@@ -97,7 +97,7 @@ public class LogIn {
 			do{
 				if(currentRole == null){
 					//System.out.println("I have no role");
-					noRole(console, currentUser);
+					logout = noRole(console, currentUser);
 					if(currentUser.hasRole()){
 						System.out.println("Select a Role!");
 						System.out.println(currentUser.getAllRoles());
@@ -111,22 +111,23 @@ public class LogIn {
 					}
 				} else if(currentRole instanceof Author){
 					//System.out.println("IT WORKS! I AM AUTHOR!");
-					authorBranch(console, (Author) currentRole);
+					logout = authorBranch(console, (Author) currentRole);
 				} else if(currentRole instanceof ProgramChair){
 					//System.out.println("IT WORKS! I AM ProgramChair!");
-					programChairBranch(console, (ProgramChair) currentRole);
+					logout = programChairBranch(console, (ProgramChair) currentRole);
 				} else if(currentRole instanceof SubprogramChair){
-					subprogramChairBranch(console, (SubprogramChair) currentRole);
+					logout = subprogramChairBranch(console, (SubprogramChair) currentRole);
 				} else if(currentRole instanceof Reviewer){
-					reviewerBranch(console, (Reviewer) currentRole);
+					logout = reviewerBranch(console, (Reviewer) currentRole);
 				}
 				
-				
-				// Ask to make sure if they are login out.
-				System.out.println("Are you sure about logout? (1 for yes, any integer for no): ");
-				int tempLogout = getInt(console);
-				if(tempLogout == 1){
-					backToLogin = true;
+				if(logout){
+					// Ask to make sure if they are login out.
+					System.out.println("Are you sure about logout? (1 for yes, any integer for no): ");
+					int tempLogout = getInt(console);
+					if(tempLogout == 1){
+						backToLogin = true;
+					}
 				}
 				
 			}while(!backToLogin);
@@ -242,6 +243,9 @@ public class LogIn {
 		tom.addRole(subP);
 		myUsers.put("Tom", tom);
 		
+		//Test just a user
+		User tim = new User("Tim");
+		myUsers.put("Tim", tim);
 		
 		
 		
@@ -400,7 +404,7 @@ public class LogIn {
 			}
 		} while(!logout);
 		
-		return false;
+		return logout;
 	}
 	
 	/**
@@ -489,6 +493,7 @@ public class LogIn {
 		if(select == 1){
 			String manuscriptFile;
 			do {
+				theConsole.nextLine();
 				System.out.println("Please enter the File Path for the Manuscript");
 				manuscriptFile = theConsole.nextLine();				
 				System.out.println("The Filed you entered is: " + manuscriptFile + "\nIs This correct? Press 1 for yes, or 0 to try again");
