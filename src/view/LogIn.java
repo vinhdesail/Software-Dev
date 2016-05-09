@@ -218,6 +218,18 @@ public class LogIn {
 				testDateMan, testDateRev, testDateRec, testDateDec);
 		myConferences.add(testConference);
 		
+		String testProgramChairName2 = "Sherry";
+		String testConferenceName2 = "Conference 2";
+		Date testDateCon2 = new Date(2016, 11, 5);
+		Date testDateMan2 = new Date(2016, 7, 5);
+		Date testDateRev2 = new Date(2016, 8, 6);
+		Date testDateRec2 = new Date(2016, 9, 6);
+		Date testDateDec2 = new Date(2016, 10, 6);
+		Conference testConference2 = new Conference(testConferenceName2, testProgramChairName2, testDateCon2, 
+				testDateMan2, testDateRev2, testDateRec2, testDateDec2);
+		myConferences.add(testConference2);
+		
+		
 		User sally = new User();
 		ProgramChair pc = new ProgramChair(testConference, testProgramChairName);
 		sally.addRole(pc);
@@ -246,6 +258,12 @@ public class LogIn {
 		//Test just a user
 		User tim = new User("Tim");
 		myUsers.put("Tim", tim);
+		
+		//Test a reviewers
+		User jerry = new User("Jerry");
+		Reviewer rev = new Reviewer("Jerry");
+		jerry.addRole(rev);
+		myUsers.put("Jerry", jerry);
 		
 		
 		
@@ -345,13 +363,15 @@ public class LogIn {
 					System.out.println((i + 1) + ". " + tempManuscriptList.get(i));
 				}
 			}
-			select = getSelect(theConsole);
-			
-			theRole.deleteManuscript(tempManuscriptList, new Manuscript(theRole.getMyUsername(), 
-													 theUser.getConference().getConferenceID(), tempManuscriptList.get(select - 1).getTitle(), 
-													 tempManuscriptList.get(select - 1).getText()));	
-			
-			System.out.println("Success!!\n\n\n");
+			if(tempManuscriptList.isEmpty()){
+				System.out.println("There is no existing manuscript left for delete!\n\n");
+			} else {
+				select = getSelect(theConsole);
+				
+				theRole.deleteManuscript(myMasterList, myMasterList.get(select - 1));	
+				
+				System.out.println("Success!!\n\n\n");
+			}
 		} else if(select == 3) {
 			System.out.println("Please Select the Manuscript you wish to edit");
 			List<Manuscript> tempManuscriptList = new ArrayList<>();
@@ -488,6 +508,43 @@ public class LogIn {
 				
 			///////////////////////////////// OPTION 4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			} else if (select == 4){
+				System.out.println("\n---Pick a manuscript to assign---");
+				StringBuilder tempString = new StringBuilder();
+				for(int i = 0; i < myMasterList.size(); i++){
+					tempString.append(i + 1);
+					tempString.append(". ");
+					tempString.append(myMasterList.get(i).getTitle());
+					tempString.append('\n');
+				}
+				System.out.print(tempString);
+				System.out.println("--end manuscripts--");
+				System.out.println(myMasterList.size() + 1 + ". Back");
+				int select2 = getSelect(theConsole);
+				if(select2 == myMasterList.size() + 1){
+					System.out.println("\n Back \n");
+				} else {
+					System.out.println("You pick: " + myMasterList.get(select2 - 1).getTitle());
+					List<SubprogramChair> tempArr = theRole.getAllSubprogramChair(myUsers);
+					System.out.println("-Select a Subprogram to assign too-");
+					StringBuilder tempString2 = new StringBuilder();
+					for(int i = 0; i < tempArr.size(); i++){
+						tempString2.append(i + 1);
+						tempString2.append(". ");
+						tempString2.append(tempArr.get(i).getMyUsername());
+						tempString2.append('\n');
+					}
+					System.out.print(tempString2);
+					System.out.println("---end of Subprogram Chair list---");
+					System.out.println(tempArr.size() + 1 + ". Back");
+					int select3 = getSelect(theConsole);
+					if(select3 == tempArr.size() + 1){
+						System.out.println("\n Back \n");
+					} else {
+						tempArr.get(select3 - 1).assignManuscripts(myMasterList.get(select2 - 1));
+					}
+					
+				}
+				
 				
 			} else if (select == 5){
 				System.out.println();
@@ -506,7 +563,6 @@ public class LogIn {
 		System.out.println("\n---------------\n\nWhat Do you want to do?");
 		System.out.println("1. Assign A Reviewer A Manuscript");
 		System.out.println("2. Submit a Recommendation");
-		System.out.println("3. Back To Main Menu");
 		System.out.println("4. Logout");
 		
 		int select = getSelect(theConsole);
@@ -548,6 +604,8 @@ public class LogIn {
 			System.out.println("--end of manuscript list--");
 			select = getSelect(theConsole);	
 			Manuscript tempManu = tempList.get(select-1);
+			theConsole.nextLine();
+			System.out.print("Write a review: ");
 			String recText = theConsole.nextLine();
 			Recommendation rec = new Recommendation(theRole.getMyUsername(), tempManu.getTitle(), recText);
 			tempManu.setRecommendation(rec);
@@ -580,7 +638,6 @@ public class LogIn {
 		System.out.println("\n---------------\n\nWhat Do you want to do?");
 		System.out.println("1. Submit a Manuscript");
 		System.out.println("2. Select a Different Conference");
-		System.out.println("3. Back To Main Menu");
 		System.out.println("4. Logout");
 		
 		int select = getSelect(theConsole);
