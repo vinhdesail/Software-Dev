@@ -296,7 +296,9 @@ public class LogIn {
 		//Test a reviewers
 		User jerry = new User("Jerry");
 		Reviewer rev = new Reviewer("Jerry");
+		rev.assignReview(new Manuscript("Bobby", "How to Increase Sales", "Good things today", "c:/nothing.txt"));
 		jerry.addRole(rev);
+		
 		myUsers.put("Jerry", jerry);
 		
 		//Test a reviewers
@@ -406,7 +408,7 @@ public class LogIn {
 			for(int i = 0; i < myMasterList.size(); i++) {
 				if(myMasterList.get(i).getAuthor().equals(theRole.getMyUsername())) {
 					tempManuscriptList.add(myMasterList.get(i));
-					System.out.println((i + 1) + ". " + tempManuscriptList.get(i));
+					System.out.println((i + 1) + ". " + myMasterList.get(i));
 				}
 			}
 			if(tempManuscriptList.isEmpty()){
@@ -424,13 +426,13 @@ public class LogIn {
 			for(int i = 0; i < myMasterList.size(); i++) {
 				if(myMasterList.get(i).getAuthor().equals(theRole.getMyUsername())) {
 					tempManuscriptList.add(myMasterList.get(i));
-					System.out.println((i + 1) + ". " + tempManuscriptList.get(i));
+					System.out.println((i + 1) + ". " + myMasterList.get(i));
 				}
 			}
 			select = getSelect(theConsole);
 			Manuscript tempManuscript = new Manuscript(theRole.getMyUsername(), 
-					 theUser.getConference().getConferenceID(), tempManuscriptList.get(select - 1).getTitle(), 
-					 tempManuscriptList.get(select - 1).getText());
+					 theUser.getConference().getConferenceID(), myMasterList.get(select - 1).getTitle(), 
+					 myMasterList.get(select - 1).getText());
 			
 			theConsole.nextLine();
 			System.out.println("Please enter the new Title for the Manuscript");
@@ -443,12 +445,12 @@ public class LogIn {
 			for(int i = 0; i < myMasterList.size(); i++) {
 				if(myMasterList.get(i).getAuthor().equals(theRole.getMyUsername())) {
 					tempManuscriptList.add(myMasterList.get(i));
-					System.out.println((i + 1) + ". " + tempManuscriptList.get(i));
+					System.out.println((i + 1) + ". " + myMasterList.get(i));
 				}
 			}
 			select = getSelect(theConsole);
 			
-			Manuscript manToReview =  tempManuscriptList.get(select - 1);
+			Manuscript manToReview =  myMasterList.get(select - 1);
 			
 			List<Review> reviews = theRole.getReviews(new Manuscript(theRole.getMyUsername(), 
 													 theUser.getConference().getConferenceID(), manToReview.getTitle(), 
@@ -676,6 +678,9 @@ public class LogIn {
 		
 		int select = getSelect(theConsole);
 		if(select == 1) {
+//			if() {
+//				
+//			}
 			System.out.println("Please Select Which Manuscript you are reviewing.");
 			List<Manuscript> tempList = theRole.viewMyPapers();
 			for(int i  = 0; i < tempList.size();i++) {
