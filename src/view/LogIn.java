@@ -296,7 +296,9 @@ public class LogIn {
 		//Test a reviewers
 		User jerry = new User("Jerry");
 		Reviewer rev = new Reviewer("Jerry");
+		rev.assignReview(new Manuscript("Bobby", "How to Increase Sales", "Good things today", "c:/nothing.txt"));
 		jerry.addRole(rev);
+		
 		myUsers.put("Jerry", jerry);
 		
 		//Test a reviewers
@@ -676,6 +678,9 @@ public class LogIn {
 		
 		int select = getSelect(theConsole);
 		if(select == 1) {
+//			if() {
+//				
+//			}
 			System.out.println("Please Select Which Manuscript you are reviewing.");
 			List<Manuscript> tempList = theRole.viewMyPapers();
 			for(int i  = 0; i < tempList.size();i++) {
