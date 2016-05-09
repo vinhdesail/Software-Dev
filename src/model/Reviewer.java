@@ -24,7 +24,11 @@ public class Reviewer extends Role implements Serializable {
 
 	public void submitReview(Manuscript theManuscript, String theReviewText) {
 		Review review = new Review(this.getMyUsername(), theManuscript.getTitle(), theReviewText);
-		theManuscript.addReview(review);
+		for(int i = 0; i < myPapers.size(); i++) {
+			if(theManuscript.equals(myPapers.get(i))) {
+				myPapers.get(i).addReview(review);
+			}
+		}
 	}
 	
 	public void editReview(Review theReview) {
