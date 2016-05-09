@@ -1,13 +1,19 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Class that represents a general role that a user is.
  * 
  * @author Joshua Meigs
  * @version 1.1
  */
-public class Role {
+public class Role implements Serializable{
 	
+	/**
+	 * Serialize number.
+	 */
+	private static final long serialVersionUID = 1419088120307170425L;
 	/** String to hold the current role of the user. */
 	private String myRoleName;
 	private String myUsername;

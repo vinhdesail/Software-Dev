@@ -1,10 +1,11 @@
+package view;
+
 /* 
  * TCSS 360
  * Group 4 Ever
  * 
  */
 
-package view;
 /**
  * The Driver.
  * @author Vinh Vien
@@ -17,8 +18,8 @@ public class Main {
 	 * @param args Command line arguments
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("Test Josh");
+		
+		LogIn start = new LogIn();
 
 	}
 

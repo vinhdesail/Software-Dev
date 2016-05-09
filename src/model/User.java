@@ -3,7 +3,6 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Class that represents a user in the system.
@@ -33,6 +32,11 @@ public class User implements Serializable {
 	 */
 	private Role myCurrentRole; 
 	
+	/**
+	 * The conference involve in.
+	 */
+	private Conference myConference;
+	
 
 	/**
 	 * Default constructor
@@ -41,6 +45,7 @@ public class User implements Serializable {
 		myName = "Default Name";
 		myRole = new ArrayList<>();
 		myCurrentRole = null;
+		myConference = null;
 	}
 	
 	/**
@@ -51,13 +56,14 @@ public class User implements Serializable {
 		myName = theName;
 		myRole = new ArrayList<>();
 		myCurrentRole = null;
+		myConference = null;
 	}
 	
 	/**
 	 * Method that allows a user to submit a file to a manuscript list.
 	 * Then promote them to author.
 	 */
-	public void submitManuscript(Manuscript theManu, Map<String, List<Manuscript>> theMasterList) {
+	public void submitManuscript(Manuscript theManu, List<Manuscript> theMasterList) {
 		boolean isAuthor = false;
 		for(Role temp : myRole){
 			if(temp.getRole().equals("Author")){
@@ -67,15 +73,28 @@ public class User implements Serializable {
 		
 		if(!isAuthor){
 			final Author toAdd = new Author(myName);
-			final List<Manuscript> tempList = new ArrayList<>();
 			myRole.add(toAdd);
-			tempList.add(theManu);
-			theMasterList.put(myName, tempList);
+			theMasterList.add(theManu);
 		} else {
-			final List<Manuscript> tempList = theMasterList.get(myName);
-			tempList.add(theManu);
+			theMasterList.add(theManu);
 		}
 		
+	}
+	
+	/**
+	 * Check if they have a role.
+	 * @return boolean If they have roles.
+	 */
+	public boolean hasRole(){
+		return myRole.size() != 0;
+	}
+	
+	/**
+	 * Add a role.
+	 * @param Role The added role.
+	 */
+	public void addRole(Role theRole){
+		myRole.add(theRole);
 	}
 	
 	/**
@@ -105,7 +124,7 @@ public class User implements Serializable {
 	 * The method accepts an index that the user can switch role too.
 	 * @return boolean If the role switch properly. 
 	 */
-	public boolean switchRole(int theIndex){
+	public boolean switchRole(final int theIndex){
 		
 		boolean toReturn = false;
 		try{
@@ -117,6 +136,15 @@ public class User implements Serializable {
 		}
 		return toReturn;
 	}
+	
+	/**
+	 * The method to switch a conference.
+	 * @param Conference The new conference to switch to.
+	 */
+	public void switchConference(final Conference theCon){
+		myConference = theCon;
+	}
+	
 	
 	
 }
