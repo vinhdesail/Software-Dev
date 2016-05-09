@@ -224,7 +224,7 @@ public class LogIn {
 		sally.addRole(pc);
 		myUsers.put(testProgramChairName, sally);
 		
-		
+		/*
 		String testProgramChairName2 = "Sherry";
 		String testConferenceName2 = "Conference 2";
 		Date testDateCon2 = new Date(2016, 11, 5);
@@ -240,7 +240,7 @@ public class LogIn {
 		ProgramChair pc2 = new ProgramChair(testConference2, testProgramChairName2);
 		sherry.addRole(pc2);
 		myUsers.put(testProgramChairName2, sherry);
-		
+		*/
 		
 		//Test Author
 		String testAuthorName = "Bob";
@@ -254,6 +254,17 @@ public class LogIn {
 		bob.submitManuscript(tempManu, myMasterList);
 		bob.submitManuscript(tempManu2, myMasterList);
 		myUsers.put(testAuthorName, bob);
+		
+		// another author
+		User bobby = new User("Bobby");
+		Manuscript tempManu3 = new Manuscript("Bobby", testConferenceName, "How To Make more Money", 
+				"C:/Bobby_Manu.txt");
+		Manuscript tempManu4 = new Manuscript("Bobby", testConferenceName, "How To Make more Money 2.0", 
+				"C:/Bobby_Manu_B.txt");
+		bobby.submitManuscript(tempManu3, myMasterList);
+		bobby.submitManuscript(tempManu4, myMasterList);
+		myUsers.put("Bobby", bobby);
+		
 		
 		
 		//ADD some review
@@ -291,8 +302,14 @@ public class LogIn {
 		//Test a reviewers
 		User harry = new User("Harry");
 		Reviewer rev2 = new Reviewer("Harry");
-		jerry.addRole(rev2);
+		harry.addRole(rev2);
 		myUsers.put("Harry", harry);
+		
+		//Test a reviewers
+		User pat = new User("Pat");
+		Reviewer rev3 = new Reviewer("Pat");
+		pat.addRole(rev3);
+		myUsers.put("Harry", pat);
 		
 		
 		
