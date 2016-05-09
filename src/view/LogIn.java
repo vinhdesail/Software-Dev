@@ -62,8 +62,8 @@ public class LogIn {
 	 */
 	public LogIn(){
 		
-		initializeFields();
-		//restorePreviousState();
+		//initializeFields();
+		restorePreviousState();
 		
 		Scanner console = new Scanner(System.in);
 		
@@ -143,7 +143,7 @@ public class LogIn {
 		
 		console.close();
 		
-		//logout();
+		logout();
 	}
 	
 	/**
@@ -170,6 +170,7 @@ public class LogIn {
 			
 			myUsers = (Map<String, User>) input.readObject();
 			myMasterList = (List<Manuscript>) input.readObject();
+			myConferences = (List<Conference>) input.readObject();
 			
 			input.close();
 			
@@ -338,6 +339,7 @@ public class LogIn {
 			
 			output.writeObject(myUsers);
 			output.writeObject(myMasterList);
+			output.writeObject(myConferences);
 			
 			output.flush();
 			output.close();
@@ -632,7 +634,7 @@ public class LogIn {
 				for(String key: myUsers.keySet()) {
 					for(int i = 0; i < myUsers.get(key).getListOfAllRoles().size(); i++) {
 						if(myUsers.get(key).getListOfAllRoles().get(i) instanceof Reviewer) {
-							System.out.println((p) + ". " + ((Reviewer)myUsers.get(key).getListOfAllRoles().get(i)).getMyUsername());
+							System.out.println((p++) + ". " + ((Reviewer)myUsers.get(key).getListOfAllRoles().get(i)).getMyUsername());
 							tempReviewerList.add((Reviewer)myUsers.get(key).getListOfAllRoles().get(i));
 						}
 					}
