@@ -73,12 +73,14 @@ public class Author extends Role implements Serializable {
 	 * Method that allows a user to see the reviews of manuscripts
 	 * after the program chair has made a decision.
 	 */
-	public void getReviews(final List<Manuscript> theManuscripts) {
-		for(int i = 0; i < theManuscripts.size(); i++){
-			if(theManuscripts.get(i).getStatus() == 1 ||
-					theManuscripts.get(i).getStatus() == -1) {
-				theManuscripts.get(i).getReviews();
+	public List<Review> getReviews(Manuscript theManuscript) {
+		List<Review> reviews = new ArrayList<>();
+		for(int i = 0; i < theManuscript.getReviews().size(); i++){
+			if(theManuscript.getStatus() == 1 ||
+					theManuscript.getStatus() == -1) {
+				reviews.add(theManuscript.getReviews().get(i));
 			}
 		}
+		return reviews;
 	}
 }

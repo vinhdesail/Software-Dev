@@ -30,6 +30,7 @@ import model.Date;
 import model.Manuscript;
 import model.ProgramChair;
 import model.Recommendation;
+import model.Review;
 import model.Reviewer;
 import model.Role;
 import model.SubprogramChair;
@@ -96,7 +97,7 @@ public class LogIn {
 			do{
 				if(currentRole == null){
 					//System.out.println("I have no role");
-					noRole(console, currentUser);
+					logout = noRole(console, currentUser);
 					if(currentUser.hasRole()){
 						System.out.println("Select a Role!");
 						System.out.println(currentUser.getAllRoles());
@@ -110,7 +111,7 @@ public class LogIn {
 					}
 				} else if(currentRole instanceof Author){
 					//System.out.println("IT WORKS! I AM AUTHOR!");
-					authorBranch(console, (Author) currentRole);
+					authorBranch(console, (Author) currentRole, currentUser);
 				} else if(currentRole instanceof ProgramChair){
 					//System.out.println("IT WORKS! I AM ProgramChair!");
 					programChairBranch(console, (ProgramChair) currentRole);
@@ -288,7 +289,80 @@ public class LogIn {
 	 * All the Author options.
 	 * @param Scanner The input scanner.
 	 */
-	public boolean authorBranch(Scanner theConsole, Author theRole){
+	public boolean authorBranch(Scanner theConsole, Author theRole, User theUser){
+		
+		System.out.println("\n---------------\n\nWhat Do you want to do?");
+		System.out.println("1. Submit A Manuscript");
+		System.out.println("2. Unsubmit A Manuscript");
+		System.out.println("3. Edit a Manuscript");
+		System.out.println("4. View All my Reviews");
+		System.out.println("5. Edit a Manuscript");
+		System.out.println("6. View All my Reviews");
+		
+		int select = getSelect(theConsole);
+		if(select == 1) {
+			String manuscriptFile;
+			do {
+				System.out.println("Please enter the File Path for the Manuscript");
+				manuscriptFile = theConsole.nextLine();				
+				System.out.println("The Filed you entered is: " + manuscriptFile + "\nIs This correct? Press 1 for yes, or 0 to try again");
+				select = getSelect(theConsole);				
+			} while (select == 0);			
+			if(select == 1) {
+				System.out.println("Please enter the Title of this Manuscript");
+				String manuscriptName = theConsole.nextLine();				
+				
+				File file = new File(manuscriptFile);				
+				Manuscript newManu = new Manuscript(theRole.getMyUsername(), theUser.getConference().getConferenceID() , manuscriptName, file.getAbsolutePath());
+				theUser.submitManuscript(newManu, myMasterList);
+				System.out.println("Manuscript Submited!");
+			}
+		} else if(select == 2) {
+			System.out.println("Please Select the Manuscript you wish to unsubmit");
+			List<Manuscript> tempManuscriptList = new ArrayList<>();
+			for(int i = 0; i < myMasterList.size(); i++) {
+				if(myMasterList.get(i).getAuthor().equals(theRole.getMyUsername())) {
+					tempManuscriptList.add(myMasterList.get(i));
+					System.out.println((i + 1) + ". " + tempManuscriptList.get(i));
+				}
+			}
+			select = getSelect(theConsole);
+			
+			theRole.deleteManuscript(tempManuscriptList, new Manuscript(theRole.getMyUsername(), 
+													 theUser.getConference().getConferenceID(), tempManuscriptList.get(select - 1).getTitle(), 
+													 tempManuscriptList.get(select - 1).getText()));		
+		} else if(select == 3) {
+			System.out.println("Please Select the Manuscript you wish to edit");
+			List<Manuscript> tempManuscriptList = new ArrayList<>();
+			for(int i = 0; i < myMasterList.size(); i++) {
+				if(myMasterList.get(i).getAuthor().equals(theRole.getMyUsername())) {
+					tempManuscriptList.add(myMasterList.get(i));
+					System.out.println((i + 1) + ". " + tempManuscriptList.get(i));
+				}
+			}
+			select = getSelect(theConsole);
+			
+			theRole.editManuscript(tempManuscriptList, new Manuscript(theRole.getMyUsername(), 
+													 theUser.getConference().getConferenceID(), tempManuscriptList.get(select - 1).getTitle(), 
+													 tempManuscriptList.get(select - 1).getText()));		
+		} else if(select == 4) {
+			System.out.println("Please Select the Manuscript you wish to see the reviews for");
+			List<Manuscript> tempManuscriptList = new ArrayList<>();
+			for(int i = 0; i < myMasterList.size(); i++) {
+				if(myMasterList.get(i).getAuthor().equals(theRole.getMyUsername())) {
+					tempManuscriptList.add(myMasterList.get(i));
+					System.out.println((i + 1) + ". " + tempManuscriptList.get(i));
+				}
+			}
+			select = getSelect(theConsole);
+			
+			List<Review> reviews = theRole.getReviews(new Manuscript(theRole.getMyUsername(), 
+													 theUser.getConference().getConferenceID(), tempManuscriptList.get(select - 1).getTitle(), 
+													 tempManuscriptList.get(select - 1).getText()));
+			if() {
+				
+			}
+		}
 		
 		return false;
 	}
