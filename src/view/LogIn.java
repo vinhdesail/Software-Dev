@@ -634,7 +634,7 @@ public class LogIn {
 			select = getSelect(theConsole);	
 			Manuscript tempManu = tempList.get(select-1);
 			theConsole.nextLine();
-			System.out.print("Write a review: ");
+			System.out.print("Write a recommendation: ");
 			String recText = theConsole.nextLine();
 			Recommendation rec = new Recommendation(theRole.getMyUsername(), tempManu.getTitle(), recText);
 			tempManu.setRecommendation(rec);
@@ -657,6 +657,26 @@ public class LogIn {
 		System.out.println("1. Assign A Review to a Manuscript");
 		System.out.println("2. Logout");
 		
+		int select = getSelect(theConsole);
+		if(select == 1) {
+			System.out.println("Please Select Which Manuscript you are reviewing.");
+			List<Manuscript> tempList = theRole.viewMyPapers();
+			for(int i  = 0; i < tempList.size();i++) {
+				System.out.println((i + 1) + ". " + tempList.get(i).getTitle());
+			}
+			System.out.println("--end of manuscript list--");
+			select = getSelect(theConsole);	
+			Manuscript tempManu = tempList.get(select-1);
+			
+			theConsole.nextLine();
+			System.out.println("Please enter the Review for this Manuscript");
+			String reviewText = theConsole.nextLine();
+			
+			theRole.submitReview(tempManu, reviewText);
+			System.out.println("Success!!");
+		} else if(select == 2) {
+			return true;
+		}
 		
 		return false;
 	}

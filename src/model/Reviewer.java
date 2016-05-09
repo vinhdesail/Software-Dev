@@ -1,6 +1,8 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Reviewer class description.
@@ -8,17 +10,21 @@ import java.io.Serializable;
  * @version 2016.05.08
  */
 public class Reviewer extends Role implements Serializable {
+	
+	private List<Manuscript> myPapers;
 
 	/** Generated serialization number. */
 	private static final long serialVersionUID = -3658253011793370271L;
 	
 	public Reviewer(String myUser) {
 		super("Reviewer", myUser);
+		myPapers = new ArrayList<>();
 		
 	}
 
-	public void submitReview(Review theReview) {
-		
+	public void submitReview(Manuscript theManuscript, String theReviewText) {
+		Review review = new Review(this.getMyUsername(), theManuscript.getTitle(), theReviewText);
+		theManuscript.addReview(review);
 	}
 	
 	public void editReview(Review theReview) {
@@ -29,11 +35,16 @@ public class Reviewer extends Role implements Serializable {
 		
 	}
 	
-	public void viewMyPapers() {
-		
+	public List<Manuscript> viewMyPapers() {
+		return myPapers;
 	}
 	
 	public void assignReview(Manuscript theManuscript) {
+		if(myPapers.size()<4) {
+			myPapers.add(theManuscript);
+		} else {
+			throw new IllegalArgumentException("Can't assign more the 4 Manuscripts to this reviewer!");
+		}
 		
 	}
 }
