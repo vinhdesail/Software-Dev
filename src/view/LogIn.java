@@ -218,6 +218,18 @@ public class LogIn {
 				testDateMan, testDateRev, testDateRec, testDateDec);
 		myConferences.add(testConference);
 		
+		String testProgramChairName2 = "Sherry";
+		String testConferenceName2 = "Conference 2";
+		Date testDateCon2 = new Date(2016, 11, 5);
+		Date testDateMan2 = new Date(2016, 7, 5);
+		Date testDateRev2 = new Date(2016, 8, 6);
+		Date testDateRec2 = new Date(2016, 9, 6);
+		Date testDateDec2 = new Date(2016, 10, 6);
+		Conference testConference2 = new Conference(testConferenceName2, testProgramChairName2, testDateCon2, 
+				testDateMan2, testDateRev2, testDateRec2, testDateDec2);
+		myConferences.add(testConference2);
+		
+		
 		User sally = new User();
 		ProgramChair pc = new ProgramChair(testConference, testProgramChairName);
 		sally.addRole(pc);
@@ -351,13 +363,15 @@ public class LogIn {
 					System.out.println((i + 1) + ". " + tempManuscriptList.get(i));
 				}
 			}
-			select = getSelect(theConsole);
-			
-			theRole.deleteManuscript(tempManuscriptList, new Manuscript(theRole.getMyUsername(), 
-													 theUser.getConference().getConferenceID(), tempManuscriptList.get(select - 1).getTitle(), 
-													 tempManuscriptList.get(select - 1).getText()));	
-			
-			System.out.println("Success!!\n\n\n");
+			if(tempManuscriptList.isEmpty()){
+				System.out.println("There is no existing manuscript left for delete!\n\n");
+			} else {
+				select = getSelect(theConsole);
+				
+				theRole.deleteManuscript(myMasterList, myMasterList.get(select - 1));	
+				
+				System.out.println("Success!!\n\n\n");
+			}
 		} else if(select == 3) {
 			System.out.println("Please Select the Manuscript you wish to edit");
 			List<Manuscript> tempManuscriptList = new ArrayList<>();
@@ -397,7 +411,7 @@ public class LogIn {
 			} else {
 				System.out.println("No Manuscripts have been reviewed!\n\n");
 			}
-		} else if(select == 7) {
+		} else if(select == 5) {
 			return true;
 		}
 		return false;

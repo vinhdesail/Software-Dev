@@ -53,10 +53,14 @@ public class Author extends Role implements Serializable {
 	 */
 	public void deleteManuscript(final List<Manuscript> theManuscripts,
 			 							final Manuscript theManuscript) {
+		int index = -1;
 		for (int i = 0; i < theManuscripts.size(); i++) {
 			if (theManuscripts.get(i).getTitle().equals(theManuscript.getTitle())) {
-				theManuscripts.remove(i);
+				index = i;
 			}
+		}
+		if(index >= 0){
+			theManuscripts.remove(index);
 		}
 	}
 	
