@@ -94,7 +94,7 @@ public class LogIn {
 			do{
 				if(currentRole == null){
 					//System.out.println("I have no role");
-					noRole(console);
+					noRole(console, currentUser);
 				} else if(currentRole instanceof Author){
 					//System.out.println("IT WORKS! I AM AUTHOR!");
 					authorBranch(console, (Author) currentRole);
@@ -115,8 +115,13 @@ public class LogIn {
 					backToLogin = true;
 				}
 				
-			}while(!backToLogin && !exit);
+			}while(!backToLogin);
 			
+			System.out.print("Exit Program? (yes or no): ");
+			String answer = console.next();
+			if(answer.toLowerCase().charAt(0) == 'y'){
+				exit = true;
+			}
 			
 		}while(!exit);
 		
@@ -206,7 +211,7 @@ public class LogIn {
 		String testAuthorName = "Bob";
 		User bob = new User();
 		Manuscript tempManu = new Manuscript(testAuthorName, testConferenceName, "How To Increase Sales", 
-				"BLAH BLAH BLAH BLAH BLAH BOB IS AWESOME BLAH BLAH BLAH BLAH BLAH");
+				"C:/nothing.txt");
 		bob.submitManuscript(tempManu, myMasterList);
 		myUsers.put(testAuthorName, bob);
 		
@@ -259,6 +264,7 @@ public class LogIn {
 		System.out.println(temp.toString());
 		int select = getSelect(theConsole);
 		theUser.switchConference(myConferences.get(select - 1));
+		System.out.println("You selected: " + myConferences.get(select - 1).getConferenceID());
 		
 	}
 	
@@ -283,24 +289,49 @@ public class LogIn {
 			System.out.println("2. Make acceptance decision");
 			System.out.println("3. See which papers are assigned to which Subprogram chairs");
 			System.out.println("4. Designate a Subprogram Chair for a manuscript");
+			System.out.println("5. Logout");
 			
 			int select = getSelect(theConsole);
 			if(select == 1){
-				System.out.println("Select a Manuscript to view");
+				System.out.println("\nSelect a Manuscript to view");
+				List<Manuscript> tempList = theRole.showAllManuscripts(myMasterList);
+				for(int i = 0; i < tempList.size(); i++){
+					System.out.println((i + 1) + ". " + tempList.get(i).getTitle());
+				}
+				System.out.println("--end of manuscript list--");
+				System.out.println(tempList.size() + 1 + ". Back");
+				int select2 = getSelect(theConsole);
+				if(select2 == tempList.size() + 1){
+					System.out.println("\n Back \n");
+				} else {
+					System.out.println(tempList.get(select2 - 1).toString());
+				}
+			} else if (select == 2){
+				System.out.println("\nPick a manuscript to accept and reject");
 				List<Manuscript> tempList = theRole.showAllManuscripts(myMasterList);
 				for(int i = 0; i < tempList.size(); i++){
 					System.out.println((i + 1) + ". " + tempList.get(i).getTitle());
 				}
 				System.out.println("--end of manuscript list--");
 				int select2 = getSelect(theConsole);
-				System.out.println(tempList.get(select2 - 1).toString());
-				System.out.println();
-			} else if (select == 2){
+				System.out.println("Accept (1) or Reject (2) or Back (3)? :");
+				int select3 = getInt(theConsole);
+				if(select3 == 3){
+					System.out.println("\n Back \n");
+				} else if(select3 == 1){
+					theRole.approveManuscript(tempList.get(select2 - 1));
+					System.out.println(tempList.get(select2 - 1).getStatus());
+				} else if(select3 == 2){
+					theRole.rejectManuscript(tempList.get(select2 - 1));
+				}
 				
 			} else if (select == 3){
 				
-			} else {
+			} else if (select == 4){
 				
+			} else if (select == 5){
+				System.out.println();
+				logout = true;
 			}
 		} while(!logout);
 	}
@@ -325,7 +356,7 @@ public class LogIn {
 	 * No Role.
 	 * @param Scanner The input scanner.
 	 */
-	public void noRole(Scanner theConsole){
+	public void noRole(Scanner theConsole, User theUser){
 		
 	}
 	
