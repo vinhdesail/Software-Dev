@@ -406,7 +406,7 @@ public class LogIn {
 			for(int i = 0; i < myMasterList.size(); i++) {
 				if(myMasterList.get(i).getAuthor().equals(theRole.getMyUsername())) {
 					tempManuscriptList.add(myMasterList.get(i));
-					System.out.println((i + 1) + ". " + tempManuscriptList.get(i));
+					System.out.println((i + 1) + ". " + myMasterList.get(i));
 				}
 			}
 			if(tempManuscriptList.isEmpty()){
@@ -424,7 +424,7 @@ public class LogIn {
 			for(int i = 0; i < myMasterList.size(); i++) {
 				if(myMasterList.get(i).getAuthor().equals(theRole.getMyUsername())) {
 					tempManuscriptList.add(myMasterList.get(i));
-					System.out.println((i + 1) + ". " + tempManuscriptList.get(i));
+					System.out.println((i + 1) + ". " + myMasterList.get(i));
 				}
 			}
 			select = getSelect(theConsole);
@@ -438,7 +438,7 @@ public class LogIn {
 			for(int i = 0; i < myMasterList.size(); i++) {
 				if(myMasterList.get(i).getAuthor().equals(theRole.getMyUsername())) {
 					tempManuscriptList.add(myMasterList.get(i));
-					System.out.println((i + 1) + ". " + tempManuscriptList.get(i));
+					System.out.println((i + 1) + ". " + myMasterList.get(i));
 				}
 			}
 			select = getSelect(theConsole);
