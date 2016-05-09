@@ -106,6 +106,7 @@ public class LogIn {
 							System.out.print("Select a valid role : ");
 							select = getInt(console);
 						}
+						currentRole = currentUser.getCurrentRole();
 					}
 				} else if(currentRole instanceof Author){
 					//System.out.println("IT WORKS! I AM AUTHOR!");
@@ -326,8 +327,8 @@ public class LogIn {
 	 */
 	public boolean subprogramChairBranch(Scanner theConsole, SubprogramChair theRole){
 		System.out.println("\n---------------\n\nWhat Do you want to do?");
-		System.out.println("1. Submit a Manuscript");
-		System.out.println("2. Select a Different Conference");
+		System.out.println("1. Assign A Reviewer A Manuscript");
+		System.out.println("2. Submit a Recommendation");
 		System.out.println("3. Logout");
 		
 		int select = getSelect(theConsole);
