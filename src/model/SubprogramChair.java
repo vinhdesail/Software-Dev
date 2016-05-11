@@ -47,7 +47,7 @@ public class SubprogramChair extends Role implements Serializable {
 				if((containsManuscript(theManuscript) == -1)) {
 					myAssignedManuscripts.add(theManuscript);
 				} else {
-					throw new IllegalArgumentException("Manuscript is already been assigned.");
+					throw new IllegalArgumentException("Manuscript has already been assigned.");
 				}			
 			} else {
 				throw new IllegalArgumentException("Four Manuscripts have already been assigned to this SPC.");				

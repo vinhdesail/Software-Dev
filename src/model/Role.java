@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author Joshua Meigs
  * @version 1.1
  */
-public class Role implements Serializable{
+public class Role implements Serializable {
 	
 	/**
 	 * Serialize number.

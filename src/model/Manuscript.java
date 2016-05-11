@@ -53,7 +53,7 @@ public class Manuscript implements Serializable {
 	 * @param theText - the full text of the Manuscript
 	 */
 	public Manuscript(String theAuthorID, String theConference, String theTitle, 
-			String theUri) {
+			String theText) {
 		
 		myStatus = 0;
 		myReviews = new ArrayList<Review>();
@@ -63,7 +63,7 @@ public class Manuscript implements Serializable {
 		myConference = theConference;
 		myTitle = theTitle;
 		
-		myText = theUri;
+		myText = theText;
 	}
 	
 	/**

@@ -27,23 +27,39 @@ public class Reviewer extends Role implements Serializable {
 		
 	}
 
-	public void submitReview(Manuscript theManuscript, String theReviewText) {
-		Review review = new Review(this.getMyUsername(), theManuscript.getTitle(), theReviewText);
-		for(int i = 0; i < myPapers.size(); i++) {
-			if(theManuscript.equals(myPapers.get(i))) {
-				myPapers.get(i).addReview(review);
-			}
-		}
-	}
+//	public void submitReview(Manuscript theManuscript, String theReviewText) {
+//		
+//		if (!myPapers.contains(theManuscript)) {
+//			throw new IllegalArgumentException(this.getMyUsername() + " has not been assigned "
+//					+ "to review the Manuscript: " + theManuscript.getTitle());
+//		} else if (getMyReview(theManuscript) != null) {
+//			
+//		}
+//		Review review = new Review(this.getMyUsername(), theManuscript.getTitle(), theReviewText);
+//		theManuscript.addReview(review);
+//	}
 	
-	public void editReview(Review theReview, Manuscript theManuscript, String theReviewText) {
-		Review review = new Review(this.getMyUsername(), theManuscript.getTitle(), theReviewText);
-		for(int i = 0; i < myPapers.size(); i++) {
-			if(theManuscript.equals(myPapers.get(i))) {
-				myPapers.get(i).removeReview(theReview);
-				myPapers.get(i).addReview(review);
-			}
+	/**
+	 * Submits a Review by this Reviewer containing the given reviewText
+	 * Reviews are "edited" by removing the old review and submitting a new one.
+	 * @param theReview - the old review to be deleted
+	 * @param theManuscript - the Manuscript being reviewed
+	 * @param theReviewText - the full text of the Review itself
+	 */
+	public void submitReview(Manuscript theManuscript, String theReviewText) 
+			throws IllegalArgumentException {
+		
+		if (!myPapers.contains(theManuscript)) {
+			throw new IllegalArgumentException(this.getMyUsername() + " has not been assigned "
+					+ "to review the Manuscript: " + theManuscript.getTitle());
 		}
+		
+		Review myOldReview = getMyReview(theManuscript);
+		if (myOldReview != null) {
+			theManuscript.removeReview(getMyReview(theManuscript));
+		}
+		Review review = new Review(this.getMyUsername(), theManuscript.getTitle(), theReviewText);
+		theManuscript.addReview(review);
 		
 	}
 	
@@ -68,11 +84,31 @@ public class Reviewer extends Role implements Serializable {
 	}
 	
 	public void assignReview(Manuscript theManuscript) {
-		if(myPapers.size()<4) {
+		if (myPapers.size() < 4) {
 			myPapers.add(theManuscript);
 		} else {
 			throw new IllegalArgumentException("Can't assign more the 4 Manuscripts to this reviewer!");
+		}	
+	}
+	
+	/**
+	 * Searches through a given Manuscript's Reviews so that this Reviewer can access their own.
+	 * @param theManuscript
+	 * @return the Review object associated with this reviewer's unique username
+	 */
+	public Review getMyReview(Manuscript theManuscript) throws IllegalArgumentException {
+		
+		if (!myPapers.contains(theManuscript)) {
+			throw new IllegalArgumentException(this.getMyUsername() + " has not been assigned "
+					+ "to review the Manuscript: " + theManuscript.getTitle());
 		}
 		
+		List<Review> reviewList = theManuscript.getReviews();
+		for (int i = 0; i < reviewList.size(); i++) {
+			if (reviewList.get(i).getReviewerID().equals(this.getMyUsername())) {
+				return theManuscript.getReviews().get(i);
+			}
+		}
+		return null;
 	}
 }
