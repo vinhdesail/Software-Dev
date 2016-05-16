@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 /**
@@ -113,7 +114,10 @@ public class User implements Serializable {
 		return myCurrentRole;
 	}
 	
-	
+	/**
+	 * Get the List all Roles.
+	 * @return The list of all roles.
+	 */
 	public List<Role> getListOfAllRoles() {
 		List<Role> allRoles = new ArrayList<>();
 		
@@ -124,11 +128,12 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Method that allows the user to switch to another role.
-	 * @return String All roles for the user. 
+	 * Method that returns all roles that are related to current confernce. 
+	 * @return List All roles for the user. 
 	 */
-	public String getAllRoles() {
-		final StringBuilder toReturn = new StringBuilder();
+	public List<Role> getAllRoles() {
+		
+		/*final StringBuilder toReturn = new StringBuilder();
 		for(int i = 0; i < myRole.size(); i++){
 			toReturn.append(i + 1);
 			toReturn.append(". ");
@@ -136,23 +141,33 @@ public class User implements Serializable {
 			toReturn.append('\n');
 		}
 		return toReturn.toString();
+		*/
+		List<Role> toReturn = new ArrayList<>();
+		for(int i = 0; i < myRole.size(); i++){
+			if(myRole.get(i).getConference().equals(myConference)){
+				toReturn.add(myRole.get(i));
+			}
+		}
+		return toReturn;
 	}
 	
 	/**
 	 * The method accepts an index that the user can switch role too.
+	 * @param Role The role the user want to select as current role.
 	 * @return boolean If the role switch properly. 
 	 */
-	public boolean switchRole(final int theIndex){
+	public void switchRole(Role theRole){
 		
-		boolean toReturn = false;
-		try{
-			myCurrentRole = myRole.get(theIndex - 1);
-			toReturn = true;
-		} catch(IndexOutOfBoundsException e) {
-			System.out.println("Wrong index!");
-			System.out.println(e);
+		boolean flag = false;
+		for(int i = 0; i < myRole.size(); i++){
+			if(myRole.get(i).equals(theRole)){
+				flag = true;
+				myCurrentRole = myRole.get(i);
+			}
 		}
-		return toReturn;
+		if(!flag){
+			throw new InputMismatchException();
+		}
 	}
 	
 	/**
@@ -161,6 +176,19 @@ public class User implements Serializable {
 	 */
 	public void switchConference(final Conference theCon){
 		myConference = theCon;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * The equals method to users.
+	 */
+	@Override
+	public boolean equals(Object theOther){
+		
+		User theUser = (User)theOther;
+		
+		return myName.equals(theUser.myName);
+		
 	}
 	
 	

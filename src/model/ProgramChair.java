@@ -12,15 +12,15 @@ public class ProgramChair extends Role implements Serializable {
 	/** Generated Serialization number. */
 	private static final long serialVersionUID = 79453357450439428L;
 	/**The Conference that this Program Chair belongs to.*/
-	private Conference myConference;
+	//private Conference myConference;
 	
 	/**
 	 * The ProgramChair Constructor.
 	 * @param theConference The conference that this Program Chair belongs to.
 	 */
 	public ProgramChair(Conference theConference , String theUserName) {
-		super("Program Chair", theUserName);//Formating can be changed to whatever is easiest to work with.
-		myConference = theConference; //might be changed if a copy constructor is made. 
+		super("Program Chair", theUserName, theConference);//Formating can be changed to whatever is easiest to work with.
+		//myConference = theConference; //might be changed if a copy constructor is made. 
 		
 	}
 	/*Might not be needed*/
@@ -58,6 +58,11 @@ public class ProgramChair extends Role implements Serializable {
 		return returnManuscripts;
 	}
 	
+	/**
+	 * Get all manuscript related to a certain program chair. 
+	 * @param users
+	 * @return
+	 */
 	public Map<SubprogramChair, List<Manuscript>> findAllManuscriptsAssociatedWithEverySPC(List<User> users) {
 		
 		Map<SubprogramChair, List<Manuscript>> allSPCManus = new HashMap<>();
@@ -71,6 +76,11 @@ public class ProgramChair extends Role implements Serializable {
 		return allSPCManus;
 	}
 	
+	/**
+	 * Get a List of all the subprogram chair.
+	 * @param theUsers
+	 * @return
+	 */
 	public List<SubprogramChair> getAllSubprogramChair(Map<String, User> theUsers){
 		List<SubprogramChair> toReturn = new ArrayList<>();
 		for(String temp : theUsers.keySet()){
@@ -101,11 +111,19 @@ public class ProgramChair extends Role implements Serializable {
 		theManuscript.setStatus(-1);
 		
 	}
-
+	
+	/**
+	 * Return a toString representing the program chair.
+	 * {@inheritDoc}
+	 */
 	public String toString() {
 		return super.toString();
 	}
 	
+	/**
+	 * The equals method of Program Chair.
+	 * {@inheritDoc}
+	 */
 	public boolean equals(Object theObj) {
 		
 		
