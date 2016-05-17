@@ -27,7 +27,6 @@ import java.util.Scanner;
 
 import model.Author;
 import model.Conference;
-import model.Date;
 import model.Manuscript;
 import model.ProgramChair;
 import model.Recommendation;
@@ -204,11 +203,11 @@ public class LogIn {
 		//CONFERENCE AND PROGRAM CHAIRS
 		String testProgramChairName = "Sally";
 		String testConferenceName = "Conference 1";
-		Date testDateCon = new Date(2016, 11, 2);
-		Date testDateMan = new Date(2016, 7, 2);
-		Date testDateRev = new Date(2016, 8, 2);
-		Date testDateRec = new Date(2016, 9, 2);
-		Date testDateDec = new Date(2016, 10, 2);
+		String testDateCon = "02-11-2016";
+		String testDateMan = "02-07-2016";
+		String testDateRev = "02-08-2016";
+		String testDateRec = "02-09-2016";
+		String testDateDec = "02-10-2016";
 		Conference testConference = new Conference(testConferenceName, testProgramChairName, testDateCon, 
 				testDateMan, testDateRev, testDateRec, testDateDec);
 		myConferences.add(testConference);
@@ -221,11 +220,11 @@ public class LogIn {
 		/*
 		String testProgramChairName2 = "Sherry";
 		String testConferenceName2 = "Conference 2";
-		Date testDateCon2 = new Date(2016, 11, 5);
-		Date testDateMan2 = new Date(2016, 7, 5);
-		Date testDateRev2 = new Date(2016, 8, 6);
-		Date testDateRec2 = new Date(2016, 9, 6);
-		Date testDateDec2 = new Date(2016, 10, 6);
+		String testDateCon2 = "05-11-2016";
+		String testDateMan2 = "05-07-2016;
+		String testDateRev2 = "05-08-2016";
+		String testDateRec2 = "06-09-2016";
+		String testDateDec2 = "06-10-2016";
 		Conference testConference2 = new Conference(testConferenceName2, testProgramChairName2, testDateCon2, 
 				testDateMan2, testDateRev2, testDateRec2, testDateDec2);
 		myConferences.add(testConference2);

@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.Conference;
-import model.Date;
 import model.Manuscript;
 import model.SubprogramChair;
 
@@ -21,7 +20,8 @@ public class SubprogramChairTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		conference = new Conference("First Conference", "UserName", (new Date(1,1,1)), (new Date(1,1,1)), (new Date(1,1,1)), (new Date(1,1,1)), new Date(1,1,1));		
+		conference = new Conference("First Conference", "UserName", "01-01-2001", "01-01-2001", 
+									"01-01-2001", "01-01-2001", "01-01-2001");		
 		mySpc = new SubprogramChair("UserName");
 	}
 	/**

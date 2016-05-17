@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.Conference;
-import model.Date;
 import model.Role;
 
 /**
@@ -30,8 +29,8 @@ public class RoleTest {
 	@Before
 	public void setUp() throws Exception {
 		
-		myConference = new Conference("Conference ID", "Program Chair ID", new Date(2016, 11, 5), new Date(2016, 7, 5), 
-				new Date(2016, 8, 5), new Date(2016, 9, 5), new Date(2016, 10, 5));
+		myConference = new Conference("Conference ID", "Program Chair ID", "05-11-2016", "05-07-2016", 
+				"05-08-2016", "05-09-2016", "05-10-2016");
 		myRole = new Role(myRoleName, myUsername, myConference);
 		
 	}
@@ -39,7 +38,7 @@ public class RoleTest {
 	@Test	
 	public void testDefaultCon() {
 		Role temp = new Role();
-		Date tempDate = new Date(2016, 10, 18);
+		java.util.Date tempDate = Conference.stringToDate("18-10-2016");	// 18-10-2016 tempdate
 		assertEquals(temp.getRole(), "User");
 		assertEquals(temp.getMyUsername(), "");
 		assertEquals(temp.getConference(), new Conference("Default", "Default", tempDate, tempDate, tempDate, tempDate, tempDate));

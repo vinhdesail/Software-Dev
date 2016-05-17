@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.crypto.Data;
 
@@ -30,7 +31,7 @@ public class Role implements Serializable {
 	 * Default constructor
 	 */
 	public Role() {
-		Date tempDate = new Date(2016, 10, 18);
+		Date tempDate = Conference.stringToDate("18-10-2016");
 	    myRoleName = "User";
 	    myUsername = "";
 	    myConference = new Conference("Default", "Default", tempDate, tempDate, tempDate, tempDate, tempDate);
@@ -43,7 +44,7 @@ public class Role implements Serializable {
 	 * @deprecated No longer used.
 	 */
 	public Role(String roleType, String username) {
-		Date tempDate = new Date(2016, 10, 18);
+		Date tempDate = Conference.stringToDate("18-10-2016");
 		myRoleName =  roleType;
 		myUsername = username;
 		myConference = new Conference("Default", "Default", tempDate, tempDate, tempDate, tempDate, tempDate);
