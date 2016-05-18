@@ -75,7 +75,7 @@ public class User implements Serializable {
 	public void submitManuscript(Manuscript theManu, List<Manuscript> theMasterList) {
 		boolean isAuthor = false;
 		for(Role temp : myRole){
-			if(temp.getRole().equals("Author")){
+			if(temp.getRole().equals("Author") && temp.getConference().equals(myConference)){
 				isAuthor = true;
 			}
 		}
