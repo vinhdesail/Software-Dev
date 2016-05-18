@@ -5,23 +5,29 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import model.Conference;
 import model.Manuscript;
 import model.Review;
 import model.Reviewer;
 
 public class ReviewerTest {
 	
+	private Conference testCon = new Conference("Conference ID", "Program Chair's Name", "01-06-2017",
+			"01-01-2017", "01-02-2017", "01-03-2017", "01-04-2017");
+	
 	private Reviewer reviewer1;
 	private Reviewer reviewer2;
 	private String reviewer1ID = "Reviewer 1's Name";
 	private String reviewer2ID = "Reviewer 2's Name";
+	
 	private String review1Text = "I just loved it.";
 	private String review2Text = "I just hated it.";
 	private String review1Edit = "Acutally, I hated it.";
 	private String review2Edit = "Actually, I loved it.";
+	
 	private Manuscript manuscript;
 	private String authorID = "Author Name";
-	private String conferenceID = "Conference Name";
+	private String conferenceID = testCon.getConferenceID();
 	private String title = "Title of Manuscript";
 	private String text = "Begining of Text.\nMiddle of Text.\nEnd of Text.";
 	
@@ -29,8 +35,8 @@ public class ReviewerTest {
 	public void setup() {
 		
 		manuscript = new Manuscript(authorID, conferenceID, title, text);
-		reviewer1 = new Reviewer(reviewer1ID);
-		reviewer2 = new Reviewer(reviewer2ID);
+		reviewer1 = new Reviewer(reviewer1ID, testCon);
+		reviewer2 = new Reviewer(reviewer2ID, testCon);
 		
 		reviewer1.assignReview(manuscript);
 		reviewer2.assignReview(manuscript);

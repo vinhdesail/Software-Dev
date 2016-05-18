@@ -43,6 +43,16 @@ public class Conference implements Serializable {
 		myDecisionDueDate = theDecisionDueDate;
 	}
 	
+	/**
+	 * 
+	 * @param theConferenceID
+	 * @param theProgramChairID
+	 * @param theConferenceDate
+	 * @param theManuscriptDueDate
+	 * @param theReviewDueDate
+	 * @param theRecDueDate
+	 * @param theDecisionDueDate
+	 */
 	public Conference(String theConferenceID, String theProgramChairID, String theConferenceDate,
 						String theManuscriptDueDate, String theReviewDueDate, String theRecDueDate,
 						String theDecisionDueDate) {

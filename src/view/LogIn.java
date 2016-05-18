@@ -288,7 +288,7 @@ public class LogIn {
 		
 		//Test a reviewers
 		User jerry = new User("Jerry");
-		Reviewer rev = new Reviewer("Jerry");
+		Reviewer rev = new Reviewer("Jerry", testConference);
 		rev.assignReview(tempManu4);
 		jerry.addRole(rev);
 		
@@ -296,13 +296,13 @@ public class LogIn {
 		
 		//Test a reviewers
 		User harry = new User("Harry");
-		Reviewer rev2 = new Reviewer("Harry");
+		Reviewer rev2 = new Reviewer("Harry", testConference);
 		harry.addRole(rev2);
 		myUsers.put("Harry", harry);
 		
 		//Test a reviewers
 		User pat = new User("Pat");
-		Reviewer rev3 = new Reviewer("Pat");
+		Reviewer rev3 = new Reviewer("Pat", testConference);
 		pat.addRole(rev3);
 		myUsers.put("Harry", pat);
 		
@@ -505,9 +505,7 @@ public class LogIn {
 			
 			Manuscript manToReview =  myMasterList.get(select - 1);
 			
-			List<Review> reviews = theRole.getReviews(new Manuscript(theRole.getMyUsername(), 
-													 theUser.getConference().getConferenceID(), manToReview.getTitle(), 
-													 manToReview.getText()));
+			List<Review> reviews = theRole.getReviews();
 			if(!reviews.isEmpty()) {
 				System.out.println("Title:  " + manToReview.getTitle()+"\n\n");
 				for(int i = 0; i < reviews.size(); i++) {
