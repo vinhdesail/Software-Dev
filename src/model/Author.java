@@ -30,10 +30,10 @@ public class Author extends Role implements Serializable {
 	 * Method that returns a list of manuscripts.
 	 * @return 
 	 */
-	public List<Manuscript> showAllMyManuscript(final List<Manuscript> theManuscripts) {
-		List<Manuscript> returnManuscripts = new ArrayList<Manuscript>();		
+	public List<Manuscript> showAllMyManuscript(final List<Manuscript> theManuscripts, final String theAuthorID) {
+		List<Manuscript> returnManuscripts = new ArrayList<Manuscript>();	
 		for(int i = 0; i < theManuscripts.size(); i++){
-			if(theManuscripts.get(i).getConference().equals(myAuthorID)) {
+			if(theManuscripts.get(i).getAuthor().equals(theAuthorID)) {
 				returnManuscripts.add(theManuscripts.get(i));
 			}
 		}
@@ -51,41 +51,36 @@ public class Author extends Role implements Serializable {
 	/**
 	 * Method to remove a manuscript from the list.
 	 */
-	public void deleteManuscript(List<Manuscript> theManuscripts,
+	public void deleteManuscript(final List<Manuscript> theManuscripts,
 			 							final Manuscript theManuscript) {
-		int index = -1;
 		for (int i = 0; i < theManuscripts.size(); i++) {
 			if (theManuscripts.get(i).getTitle().equals(theManuscript.getTitle())) {
-				index = i;
+				theManuscripts.remove(i);
 			}
-		}
-		if(index >= 0){
-			theManuscripts.remove(index);
 		}
 	}
 	
 	/**
 	 * Method to allow an author to resubmit an edited manuscript.
 	 */
-	public void editManuscript(List<Manuscript> theManuscripts,
-					final Manuscript theOldManuscript,
-					Manuscript theNewManuscript) {
-		deleteManuscript(theManuscripts, theOldManuscript);
-		addManuscript(theManuscripts, theNewManuscript);
+	public void editManuscript(final List<Manuscript> theManuscripts,
+					final Manuscript theManuscript) {
+		deleteManuscript(theManuscripts, theManuscript);
+		addManuscript(theManuscripts, theManuscript);
 	}
 	
 	/**
 	 * Method that allows a user to see the reviews of manuscripts
 	 * after the program chair has made a decision.
 	 */
-	public List<Review> getReviews(Manuscript theManuscript) {
-		List<Review> reviews = new ArrayList<>();
-		for(int i = 0; i < theManuscript.getReviews().size(); i++){
-			if(theManuscript.getStatus() == 1 ||
-					theManuscript.getStatus() == -1) {
-				reviews.add(theManuscript.getReviews().get(i));
+	public List<Review> getReviews(final List<Manuscript> theManuscripts) {
+		List<Review> returnReviews = new ArrayList<Review>();
+		for(int i = 0; i < theManuscripts.size(); i++){
+			if(theManuscripts.get(i).getStatus() == 1 ||
+					theManuscripts.get(i).getStatus() == -1) {
+				returnReviews.add((Review) theManuscripts.get(i).getReviews());
 			}
 		}
-		return reviews;
+		return returnReviews;
 	}
 }
