@@ -16,10 +16,13 @@ public class AuthorTest {
 	private Manuscript myManuscript;
 	private List<Manuscript> myManuscriptList;
 	private String myAuthorID;
+	private Conference myConference;
 	
 	@Before
 	public void setUp() {
-		myAuthor = new Author(myAuthorID);
+		myConference = new Conference("Conference ID", "Program Chair ID", "05-11-2016", "05-07-2016", 
+				"05-08-2016", "05-09-2016", "05-10-2016");
+		myAuthor = new Author(myAuthorID, myConference);
 		myManuscriptList = new ArrayList<Manuscript>();
 	}
 	/// need to create a conference for this to work. Not being added because its failing to meet requirements
@@ -51,7 +54,8 @@ public class AuthorTest {
 	public void editManuscriptTest() {
 		myManuscript = new Manuscript("John", "Science", "Computer manuscript", "Some text");
 		myAuthor.addManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
-		myAuthor.editManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
+		Manuscript myNewManuscript = new Manuscript("John", "Science", "Computer manuscript", "Some different text!");
+		myAuthor.editManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript, myNewManuscript);
 		assertEquals(myManuscriptList.size(), 1);
 	}
 	
@@ -65,7 +69,7 @@ public class AuthorTest {
 		System.out.println(myManuscriptList.get(0).getReviews());
 		myManuscript.setStatus(1);
 		List<Review> myReviews = new ArrayList<Review>();
-		myReviews.addAll(myAuthor.getReviews(myManuscriptList));
+		myReviews.addAll(myAuthor.getReviews());
 		System.out.println(myReviews);
 		assertEquals(myReviews.get(0).getReviewText(), myManuscriptList.get(0).getReviews().get(0).getReviewText());
 	}

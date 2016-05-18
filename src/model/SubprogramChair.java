@@ -15,8 +15,8 @@ public class SubprogramChair extends Role implements Serializable {
 	/**
 	 * The constructor for the Subprogram Chair Class.
 	 */
-	public SubprogramChair(String theUserName) {
-		super("SubProgram Chair", theUserName);//Formating can be changed to whatever is easiest to work with.
+	public SubprogramChair(String theUserName, Conference theConference) {
+		super("SubProgram Chair", theUserName, theConference);//Formating can be changed to whatever is easiest to work with.
 		myAssignedManuscripts =  new ArrayList<Manuscript>();		
 	}
 	

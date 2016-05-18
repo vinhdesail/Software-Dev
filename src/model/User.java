@@ -81,7 +81,7 @@ public class User implements Serializable {
 		}
 		
 		if(!isAuthor){
-			final Author toAdd = new Author(myName);
+			final Author toAdd = new Author(myName, myConference);
 			myRole.add(toAdd);
 			theMasterList.add(theManu);
 		} else {

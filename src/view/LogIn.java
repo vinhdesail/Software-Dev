@@ -193,7 +193,7 @@ public class LogIn {
 	
 	
 	/**
-	 * Test initialization for debuging.
+	 * Test initialization for debugging.
 	 */
 	private void initializeFields(){
 		myMasterList = new ArrayList<>();
@@ -267,13 +267,13 @@ public class LogIn {
 		
 		//Test Subprogram Chair
 		User tom = new User("Tom");
-		SubprogramChair subP = new SubprogramChair("Tom");
+		SubprogramChair subP = new SubprogramChair("Tom", testConference);
 		subP.assignManuscripts(tempManu2);
 		tom.addRole(subP);
 		myUsers.put("Tom", tom);
 		
 		User john = new User("John");
-		SubprogramChair subP2 = new SubprogramChair("John");
+		SubprogramChair subP2 = new SubprogramChair("John", testConference);
 		subP2.assignManuscripts(tempManu);
 		john.addRole(subP2);
 		myUsers.put("John", john);
