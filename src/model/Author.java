@@ -18,12 +18,15 @@ public class Author extends Role implements Serializable {
 	/** String to hold the Author ID. */
 	private String myAuthorID;
 	
+	private List<Manuscript> myManuscripts;
+	
 	/**
 	 * Overloaded constructor to instantiate an author with author ID.
 	 */
 	public Author(final String theAuthorID){
 		super("Author",theAuthorID);
 		myAuthorID = theAuthorID;
+		myManuscripts = new ArrayList<Manuscript>();
 	}
 	
 	/**
@@ -46,6 +49,7 @@ public class Author extends Role implements Serializable {
 	public void addManuscript(final List<Manuscript> theManuscripts,
 									 final Manuscript theManuscript) {
 		theManuscripts.add(theManuscript);
+		myManuscripts.add(theManuscript);
 	}
 	
 	/**
@@ -53,32 +57,30 @@ public class Author extends Role implements Serializable {
 	 */
 	public void deleteManuscript(final List<Manuscript> theManuscripts,
 			 							final Manuscript theManuscript) {
-		for (int i = 0; i < theManuscripts.size(); i++) {
-			if (theManuscripts.get(i).getTitle().equals(theManuscript.getTitle())) {
-				theManuscripts.remove(i);
-			}
-		}
+
+		theManuscripts.remove(theManuscript);
+		myManuscripts.remove(theManuscript);
 	}
 	
 	/**
 	 * Method to allow an author to resubmit an edited manuscript.
 	 */
-	public void editManuscript(final List<Manuscript> theManuscripts,
+	public void editManuscript(final List<Manuscript> theManuscripts, final Manuscript oldManuscript,
 					final Manuscript theManuscript) {
-		deleteManuscript(theManuscripts, theManuscript);
+		deleteManuscript(theManuscripts, oldManuscript);
 		addManuscript(theManuscripts, theManuscript);
+
 	}
 	
 	/**
 	 * Method that allows a user to see the reviews of manuscripts
 	 * after the program chair has made a decision.
 	 */
-	public List<Review> getReviews(final List<Manuscript> theManuscripts) {
+	public List<Review> getReviews() {
 		List<Review> returnReviews = new ArrayList<Review>();
-		for(int i = 0; i < theManuscripts.size(); i++){
-			if(theManuscripts.get(i).getStatus() == 1 ||
-					theManuscripts.get(i).getStatus() == -1) {
-				returnReviews.add((Review) theManuscripts.get(i).getReviews());
+		for(int i = 0; i < myManuscripts.size(); i++){
+			if(myManuscripts.get(i).getStatus() != 0) {
+				returnReviews.addAll(myManuscripts.get(i).getReviews());
 			}
 		}
 		return returnReviews;
