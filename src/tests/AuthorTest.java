@@ -22,12 +22,15 @@ public class AuthorTest {
 		myAuthor = new Author(myAuthorID);
 		myManuscriptList = new ArrayList<Manuscript>();
 	}
-
-	//not needed because it just prints the list
-//	@Test
-//	public void ShowAllMyManuscriptTest(ArrayList<Manuscript> theManuscripts) {
-//	
-//	}
+	/// need to create a conference for this to work. Not being added because its failing to meet requirements
+	@Test
+	public void ShowAllMyManuscriptTest() {
+		myManuscript = new Manuscript("John", "Science", "Computer manuscript", "Some text");
+		myAuthor.addManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);	
+		List<Manuscript> myManuscriptList2 = new ArrayList<Manuscript>();
+		myManuscriptList2 = myAuthor.showAllMyManuscript(myManuscriptList, "John");
+		assertSame(myManuscriptList2.get(0).getAuthor(), myManuscriptList.get(0).getAuthor());
+	}
 	
 	@Test
 	public void addManuscriptTest() {
@@ -43,12 +46,27 @@ public class AuthorTest {
 		myAuthor.deleteManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
 		assertEquals(myManuscriptList.size(), 0);
 	}
-//	
-//	@Test
-//	public void editManuscriptTest() {
-//		myManuscript = new Manuscript("John", "Science", "Computer manuscript", "Some text");
-//		myAuthor.addManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
-//		myAuthor.editManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
-//		assertEquals(myManuscriptList.size(), 1);
-//	}
+	
+	@Test
+	public void editManuscriptTest() {
+		myManuscript = new Manuscript("John", "Science", "Computer manuscript", "Some text");
+		myAuthor.addManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
+		myAuthor.editManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
+		assertEquals(myManuscriptList.size(), 1);
+	}
+	
+	// will have to make conference and assign a review.
+	@Test
+	public void getReviewsTest() {
+		myManuscript = new Manuscript("John", "Science", "Computer manuscript", "Some text");
+		myManuscript.addReview(new Review("Bob", myManuscript.getTitle(), "All good!"));
+		myAuthor.addManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
+		
+		System.out.println(myManuscriptList.get(0).getReviews());
+		myManuscript.setStatus(1);
+		List<Review> myReviews = new ArrayList<Review>();
+		myReviews.addAll(myAuthor.getReviews(myManuscriptList));
+		System.out.println(myReviews);
+		assertEquals(myReviews.get(0).getReviewText(), myManuscriptList.get(0).getReviews().get(0).getReviewText());
+	}
 }
