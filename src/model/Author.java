@@ -14,18 +14,15 @@ public class Author extends Role implements Serializable {
 	
 	/** Generated serialization number. */
 	private static final long serialVersionUID = 8150606980901061867L;
-	
-	/** String to hold the Author ID. */
-	private String myAuthorID;
+
 	
 	private List<Manuscript> myManuscripts;
 	
 	/**
 	 * Overloaded constructor to instantiate an author with author ID.
 	 */
-	public Author(final String theAuthorID){
-		super("Author",theAuthorID);
-		myAuthorID = theAuthorID;
+	public Author(final String theAuthorID, Conference theConference){
+		super("Author", theAuthorID, theConference);
 		myManuscripts = new ArrayList<Manuscript>();
 	}
 	

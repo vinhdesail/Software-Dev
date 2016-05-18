@@ -35,26 +35,26 @@ public class RoleTest {
 		
 	}
 
-	@Test	
-	public void testDefaultCon() {
-		Role temp = new Role();
-		java.util.Date tempDate = Conference.stringToDate("18-10-2016");	// 18-10-2016 tempdate
-		assertEquals(temp.getRole(), "User");
-		assertEquals(temp.getMyUsername(), "");
-		assertEquals(temp.getConference(), new Conference("Default", "Default", tempDate, tempDate, tempDate, tempDate, tempDate));
-		
-	}
 	
 	@Test
-	public void testCon(){
+	public void testConstructor(){
 		assertEquals(myRole.getConference(), myConference);
 		assertEquals(myRole.getMyUsername(), myUsername);
 		assertEquals(myRole.getRole(), myRoleName);
 	}
 	
 	@Test
-	public void testEqual(){
+	public void testEqualsForSameRole(){
+		// test when valid
 		assertEquals(myRole, new Role(myRoleName, myUsername, myConference));
 	}
 
+	// test when not valid (wrong class)
+	@Test
+	public void testEqualsForDifferentClass() {
+		// need to implement
+	}
+	
+	// test when not valid (different object)
+	// test against null
 }

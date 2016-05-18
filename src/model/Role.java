@@ -27,28 +27,19 @@ public class Role implements Serializable {
 	/** The conference for that role. */
 	protected Conference myConference;
 	
-	/**
-	 * Default constructor
-	 */
-	public Role() {
-		Date tempDate = Conference.stringToDate("18-10-2016");
-	    myRoleName = "User";
-	    myUsername = "";
-	    myConference = new Conference("Default", "Default", tempDate, tempDate, tempDate, tempDate, tempDate);
-	}
 
-	/**
-	 * The constructor to take roletype and username.
-	 * @param roleType The role type.
-	 * @param username The user name.
-	 * @deprecated No longer used.
-	 */
-	public Role(String roleType, String username) {
-		Date tempDate = Conference.stringToDate("18-10-2016");
-		myRoleName =  roleType;
-		myUsername = username;
-		myConference = new Conference("Default", "Default", tempDate, tempDate, tempDate, tempDate, tempDate);
-	}
+//	/**
+//	 * The constructor to take roletype and username.
+//	 * @param roleType The role type.
+//	 * @param username The user name.
+//	 * @deprecated No longer used.
+//	 */
+//	public Role(String roleType, String username) {
+//		Date tempDate = Conference.stringToDate("18-10-2016");
+//		myRoleName =  roleType;
+//		myUsername = username;
+//		myConference = new Conference("Default", "Default", tempDate, tempDate, tempDate, tempDate, tempDate);
+//	}
 	
 	/**
 	 * A constructor to take in conference as a field also.
@@ -107,9 +98,13 @@ public class Role implements Serializable {
 	 * The equals method to compare roles.
 	 */
 	@Override
-	public boolean equals(Object theOther){
+	public boolean equals(Object theOther) {
 		
-		Role theRole = (Role)theOther;
+		if (!(theOther instanceof Role)) {
+			return false;
+		}
+
+		Role theRole = (Role) theOther;
 		
 		return this.myConference.equals(theRole.myConference) && 
 				this.myRoleName.equals(theRole.myRoleName) && 
