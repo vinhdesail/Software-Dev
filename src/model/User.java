@@ -191,6 +191,15 @@ public class User implements Serializable {
 		
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * The hashcode method for User.
+	 */
+	@Override
+	public int hashCode(){
+		return myName.hashCode();
+	}
+	
 	
 	
 }

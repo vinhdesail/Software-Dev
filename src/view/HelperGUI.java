@@ -30,10 +30,10 @@ public class HelperGUI {
 	 * The constructor for the class.
 	 */
 	public HelperGUI(){
-		setMyUsername("Empty Username");
-		setMyRoleName("Empty Role");
-		setMyConferenceName("Empty Conference");
-		setMyActivity("Empty Activity");
+		setMyUsername("Blank");
+		setMyRoleName("Blank");
+		setMyConferenceName("Blank");
+		setMyActivity("Blank");
 		
 	}
 	
@@ -44,69 +44,69 @@ public class HelperGUI {
 		setMyUsername(theUsername);
 		setMyRoleName(theRoleName);
 		setMyConferenceName(theConferenceName);
-		setMyActivity("Empty Activity");
+		setMyActivity(theActivity);
 		
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Get the user name.
+	 * @return String The name.
 	 */
 	public String getMyUsername() {
 		return myUsername;
 	}
 	
 	/**
-	 * 
-	 * @param myUsername
+	 * Set the User name. 
+	 * @param myUsername The Username.
 	 */
 	public void setMyUsername(String myUsername) {
 		this.myUsername = myUsername;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Get the role name.
+	 * @return String The name.
 	 */
 	public String getMyRoleName() {
 		return myRoleName;
 	}
 	
 	/**
-	 * 
-	 * @param myRoleName
+	 * Set the Role name.
+	 * @param myRoleName The Role name.
 	 */
 	public void setMyRoleName(String myRoleName) {
 		this.myRoleName = myRoleName;
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Get the conference.
+	 * @return String The conference.
 	 */
 	public String getMyConferenceName() {
 		return myConferenceName;
 	}
 	
 	/**
-	 * 
-	 * @param myConferenceName
+	 * Set a conference. 
+	 * @param myConferenceName The conference.
 	 */
 	public void setMyConferenceName(String myConferenceName) {
 		this.myConferenceName = myConferenceName;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Return an activity.
+	 * @return String The activity.
 	 */
 	public String getMyActivity() {
 		return myActivity;
 	}
 	
 	/**
-	 * 
-	 * @param myActivity
+	 * Set an activity.
+	 * @param myActivity The current activity.
 	 */
 	public void setMyActivity(String myActivity) {
 		this.myActivity = myActivity;
@@ -135,6 +135,28 @@ public class HelperGUI {
 			System.out.print("Please enter an integer : ");
 		} 
 		return theConsole.nextInt();
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * The toString method to return the formatted string.
+	 */
+	@Override
+	public String toString(){
+		StringBuilder toReturn = new StringBuilder();
+		toReturn.append("User: ");
+		toReturn.append(myUsername);
+		toReturn.append('\n');
+		toReturn.append("Conference: ");
+		toReturn.append(myConferenceName);
+		toReturn.append('\n');
+		toReturn.append("Role: ");
+		toReturn.append(myRoleName);
+		toReturn.append('\n');
+		toReturn.append("Current Task: ");
+		toReturn.append(myActivity);
+		toReturn.append('\n');
+		return toReturn.toString();
 	}
 	
 	

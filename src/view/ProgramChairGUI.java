@@ -10,7 +10,6 @@ import java.util.Scanner;
 
 import model.Manuscript;
 import model.ProgramChair;
-import model.Role;
 import model.SubprogramChair;
 import model.User;
 
@@ -35,12 +34,18 @@ public class ProgramChairGUI {
 	/** The Master List. */
 	private final List<Manuscript> myMasterList;
 	
+	/** The helper GUI */
+	private final HelperGUI myHelper;
+	
 	/**
 	 * The constructor for the gui.
 	 * @param Scanner The main console.
 	 * @param User The user using the program.
 	 */
 	public ProgramChairGUI(Scanner theConsole, User theUser, Map<String, User> theListOfUser, List<Manuscript> theMasterList){
+		if(theConsole == null || theUser == null || theListOfUser == null || theMasterList == null){
+			throw new IllegalArgumentException("Cannot accept null");
+		}
 		myConsole = theConsole;
 		myUser = theUser;
 		myListOfUser = theListOfUser;
@@ -49,6 +54,7 @@ public class ProgramChairGUI {
 			throw new InputMismatchException();
 		}
 		myRole = (ProgramChair)myUser.getCurrentRole();
+		myHelper = new HelperGUI(myUser.getName(), myRole.getRole(), myUser.getConference().getConferenceID(), "Program Chair Menu");
 	}
 	
 	/**
@@ -66,7 +72,7 @@ public class ProgramChairGUI {
 			System.out.println("4. Designate a Subprogram Chair for a manuscript");
 			System.out.println("5. Logout");
 			
-			int select = getSelect(myConsole);
+			int select = HelperGUI.getSelect(myConsole);
 			///////////////////////// OPTION 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			if(select == 1){
 				System.out.println("\nSelect a Manuscript to view");
@@ -76,7 +82,7 @@ public class ProgramChairGUI {
 				}
 				System.out.println("--end of manuscript list--");
 				System.out.println(tempList.size() + 1 + ". Back");
-				int select2 = getSelect(myConsole);
+				int select2 = HelperGUI.getSelect(myConsole);
 				if(select2 == tempList.size() + 1){
 					System.out.println("\n Back \n");
 				} else {
@@ -92,13 +98,13 @@ public class ProgramChairGUI {
 				}
 				System.out.println("--end of manuscript list--");
 				System.out.println(tempList.size() + 1 + ". Back");
-				int select2 = getSelect(myConsole);
+				int select2 = HelperGUI.getSelect(myConsole);
 				
 				if(select2 == tempList.size() + 1){
 					System.out.println("\n Back \n");
 				} else {
 					System.out.println("Accept (1) or Reject (2) or Back (3)? :");
-					int select3 = getInt(myConsole);
+					int select3 = HelperGUI.getInt(myConsole);
 					if(select3 == 3){
 						System.out.println("\n Back \n");
 					} else if(select3 == 1){
@@ -123,7 +129,7 @@ public class ProgramChairGUI {
 				System.out.print(tempString);
 				System.out.println("---end of Subprogram Chair list---");
 				System.out.println(tempArr.size() + 1 + ". Back");
-				int select2 = getSelect(myConsole);
+				int select2 = HelperGUI.getSelect(myConsole);
 				if(select2 == tempArr.size() + 1){
 					System.out.println("\n Back \n");
 				} else {
@@ -149,7 +155,7 @@ public class ProgramChairGUI {
 				System.out.print(tempString);
 				System.out.println("--end manuscripts--");
 				System.out.println(myMasterList.size() + 1 + ". Back");
-				int select2 = getSelect(myConsole);
+				int select2 = HelperGUI.getSelect(myConsole);
 				if(select2 == myMasterList.size() + 1){
 					System.out.println("\n Back \n");
 				} else {
@@ -166,7 +172,7 @@ public class ProgramChairGUI {
 					System.out.print(tempString2);
 					System.out.println("---end of Subprogram Chair list---");
 					System.out.println(tempArr.size() + 1 + ". Back");
-					int select3 = getSelect(myConsole);
+					int select3 = HelperGUI.getSelect(myConsole);
 					if(select3 == tempArr.size() + 1){
 						System.out.println("\n Back \n");
 					} else {
@@ -186,29 +192,38 @@ public class ProgramChairGUI {
 		
 	}
 	
-	
 	/**
-	 * Get a int.
-	 * @param scanner the Console scanner.
-	 * @return int The integer.
+	 * The method to display all manuscript.
 	 */
-	public int getInt(Scanner theConsole){
-		while(!theConsole.hasNextInt()){
-			theConsole.next();
-			System.out.print("Please enter an integer : ");
-		} 
-		return theConsole.nextInt();
+	public void displayAllManuscript(){
+		StringBuilder toDisplay = new StringBuilder();
+		List<Manuscript> listOfManu = myRole.showAllManuscripts(myMasterList);
+		
 	}
 	
-	/**
-	 * Get select.
-	 * @param Scanner The scanner.
-	 * @return int The selected.
-	 */
-	public int getSelect(Scanner theConsole){
-		System.out.print("\nSelect: ");
-		return getInt(theConsole);
-	}
+	
+//	/**
+//	 * Get a int.
+//	 * @param scanner the Console scanner.
+//	 * @return int The integer.
+//	 */
+//	public int getInt(Scanner theConsole){
+//		while(!theConsole.hasNextInt()){
+//			theConsole.next();
+//			System.out.print("Please enter an integer : ");
+//		} 
+//		return theConsole.nextInt();
+//	}
+//	
+//	/**
+//	 * Get select.
+//	 * @param Scanner The scanner.
+//	 * @return int The selected.
+//	 */
+//	public int getSelect(Scanner theConsole){
+//		System.out.print("\nSelect: ");
+//		return getInt(theConsole);
+//	}
 	
 	
 }

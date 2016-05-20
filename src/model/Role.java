@@ -112,5 +112,14 @@ public class Role implements Serializable {
 		
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * The hashcode method for role.
+	 */
+	@Override
+	public int hashCode(){
+		return myRoleName.hashCode() + myUsername.hashCode() + myConference.hashCode();
+	}
+	
 	
 }
