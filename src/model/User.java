@@ -200,6 +200,13 @@ public class User implements Serializable {
 		return myName.hashCode();
 	}
 	
+	/**
+	 * 
+	 */
+	public void returnToNoRole() {
+		myCurrentRole = null;
+	}
+	
 	
 	
 }

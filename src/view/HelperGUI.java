@@ -144,6 +144,7 @@ public class HelperGUI {
 	@Override
 	public String toString(){
 		StringBuilder toReturn = new StringBuilder();
+		toReturn.append("----------INFO---------\n");
 		toReturn.append("User: ");
 		toReturn.append(myUsername);
 		toReturn.append('\n');
@@ -156,6 +157,7 @@ public class HelperGUI {
 		toReturn.append("Current Task: ");
 		toReturn.append(myActivity);
 		toReturn.append('\n');
+		toReturn.append("----------INFO---------\n");
 		return toReturn.toString();
 	}
 	

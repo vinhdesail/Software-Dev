@@ -1,9 +1,8 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Date;
-
-import javax.xml.crypto.Data;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that represents a general role that a user is.
@@ -92,6 +91,23 @@ public class Role implements Serializable {
 	public Conference getConference(){
 		return myConference;
 	}
+	
+	/**
+	 * The method to get all manuscript for this conference.
+	 * @param theMaserList The main list.
+	 */
+	public List<Manuscript> getAllManuscriptForThisConference(List<Manuscript> theMasterList){
+		List<Manuscript> toReturn = new ArrayList<>();
+		
+		for(int i = 0; i < theMasterList.size(); i++){
+			if(theMasterList.get(i).getConference().equals(myConference.getConferenceID())){
+				toReturn.add(theMasterList.get(i));
+			}
+		}
+		
+		return toReturn;
+	}
+	
 	
 	/**
 	 * {@inheritDoc}
