@@ -5,32 +5,47 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import model.Conference;
+import model.Date;
 import model.Manuscript;
 import model.Review;
 import model.Reviewer;
 
 public class ReviewerTest {
 	
+	private Conference testCon;
+	
 	private Reviewer reviewer1;
 	private Reviewer reviewer2;
 	private String reviewer1ID = "Reviewer 1's Name";
 	private String reviewer2ID = "Reviewer 2's Name";
+	
 	private String review1Text = "I just loved it.";
 	private String review2Text = "I just hated it.";
 	private String review1Edit = "Acutally, I hated it.";
 	private String review2Edit = "Actually, I loved it.";
+	
 	private Manuscript manuscript;
 	private String authorID = "Author Name";
-	private String conferenceID = "Conference Name";
+	private String conferenceID = testCon.getConferenceID();
 	private String title = "Title of Manuscript";
 	private String text = "Begining of Text.\nMiddle of Text.\nEnd of Text.";
 	
 	@Before
 	public void setup() {
 		
+		Date conferenceDate = new Date(2016,10,17);
+		Date manuscriptDueDate =  new Date(2016,9,1);
+		Date reviewDueDate =  new Date(2016,9,19);
+		Date recommendationDueDate =  new Date(2016,10,1);
+		Date decisionDueDate =  new Date(2016,10,1);
+		
+		testCon = new Conference("ANDESCON", "doeJ", conferenceDate,
+				manuscriptDueDate, reviewDueDate, recommendationDueDate, decisionDueDate);
+		
 		manuscript = new Manuscript(authorID, conferenceID, title, text);
-		reviewer1 = new Reviewer(reviewer1ID);
-		reviewer2 = new Reviewer(reviewer2ID);
+		reviewer1 = new Reviewer(reviewer1ID, testCon);
+		reviewer2 = new Reviewer(reviewer2ID, testCon);
 		
 		reviewer1.assignReview(manuscript);
 		reviewer2.assignReview(manuscript);

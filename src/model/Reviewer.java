@@ -20,24 +20,25 @@ public class Reviewer extends Role implements Serializable {
 	/**
 	 * Constructor for Reviewer
 	 * @param myUser - the unique username of the User who is becoming a Reviewer
+	 * @param myConference - the Conference for which this User will be acting as a Reviewer
 	 */
-	public Reviewer(String myUser) {
-		super("Reviewer", myUser);
+	public Reviewer(String myUser, Conference myConference) {
+		super("Reviewer", myUser, myConference);
 		myPapers = new ArrayList<>();
 		
 	}
 
-//	public void submitReview(Manuscript theManuscript, String theReviewText) {
-//		
-//		if (!myPapers.contains(theManuscript)) {
-//			throw new IllegalArgumentException(this.getMyUsername() + " has not been assigned "
-//					+ "to review the Manuscript: " + theManuscript.getTitle());
-//		} else if (getMyReview(theManuscript) != null) {
-//			
-//		}
-//		Review review = new Review(this.getMyUsername(), theManuscript.getTitle(), theReviewText);
-//		theManuscript.addReview(review);
-//	}
+	public void submitReview(Manuscript theManuscript, String theReviewText) {
+		
+		if (!myPapers.contains(theManuscript)) {
+			throw new IllegalArgumentException(this.getMyUsername() + " has not been assigned "
+					+ "to review the Manuscript: " + theManuscript.getTitle());
+		} else if (getMyReview(theManuscript) != null) {
+			
+		}
+		Review review = new Review(this.getMyUsername(), theManuscript.getTitle(), theReviewText);
+		theManuscript.addReview(review);
+	}
 	
 	/**
 	 * Submits a Review by this Reviewer containing the given reviewText
@@ -46,7 +47,7 @@ public class Reviewer extends Role implements Serializable {
 	 * @param theManuscript - the Manuscript being reviewed
 	 * @param theReviewText - the full text of the Review itself
 	 */
-	public void submitReview(Manuscript theManuscript, String theReviewText) 
+	public void editReview(Manuscript theManuscript, String theReviewText) 
 			throws IllegalArgumentException {
 		
 		if (!myPapers.contains(theManuscript)) {

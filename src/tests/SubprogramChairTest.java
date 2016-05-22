@@ -17,12 +17,20 @@ import model.SubprogramChair;
 public class SubprogramChairTest {
 
 	private SubprogramChair mySpc;
-    private Conference conference;
+    private Conference myConferenceToTestForAllSPC;
 	
 	@Before
 	public void setUp() throws Exception {
-		conference = new Conference("First Conference", "UserName", (new Date(1,1,1)), (new Date(1,1,1)), (new Date(1,1,1)), (new Date(1,1,1)), new Date(1,1,1));		
-		mySpc = new SubprogramChair("UserName");
+		Date conferenceDate = new Date(2016,10,17);
+		Date manuscriptDueDate =  new Date(2016,9,1);
+		Date reviewDueDate =  new Date(2016,9,19);
+		Date recommendationDueDate =  new Date(2016,10,1);
+		Date decisionDueDate =  new Date(2016,10,1);
+		
+		myConferenceToTestForAllSPC = new Conference("ANDESCON", "doeJ", conferenceDate,
+				manuscriptDueDate, reviewDueDate, recommendationDueDate, decisionDueDate);
+		
+		mySpc = new SubprogramChair("UserName",myConferenceToTestForAllSPC);
 	}
 	/**
 	 * Tests if all of the manuscripts that are assigned will show in their assigned list.
@@ -31,8 +39,8 @@ public class SubprogramChairTest {
 	public void showAllAssignedManuscriptsTest() {
 		
 		
-		Manuscript firstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
-		Manuscript secondManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleTwo", "The Body");
+		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
+		Manuscript secondManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleTwo", "The Body");
 		mySpc.assignManuscripts(firstManuscript);
 		mySpc.assignManuscripts(secondManuscript);
 		assertSame(mySpc.showAllAssignedManuscripts().get(0),firstManuscript);
@@ -43,11 +51,11 @@ public class SubprogramChairTest {
 	 */
 	@Test
 	public void assignManuscriptsExceptionListMaxedTest() {
-		Manuscript firstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
-		Manuscript secondManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleTwo", "The Body");
-		Manuscript thirdManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleThree", "The Body");
-		Manuscript fourManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleFour", "The Body");
-		Manuscript fifthManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleFive", "The Body");
+		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
+		Manuscript secondManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleTwo", "The Body");
+		Manuscript thirdManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleThree", "The Body");
+		Manuscript fourManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleFour", "The Body");
+		Manuscript fifthManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleFive", "The Body");
 		
 		mySpc.assignManuscripts(firstManuscript);
 		mySpc.assignManuscripts(secondManuscript);
@@ -64,7 +72,7 @@ public class SubprogramChairTest {
 	@Test
 	public void assignManuscriptsExceptionListManuscriptAlreadyAddedTest() {
 		
-		Manuscript firstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
+		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
 		mySpc.assignManuscripts(firstManuscript);
 		try {
 			   mySpc.assignManuscripts(firstManuscript);
@@ -77,7 +85,7 @@ public class SubprogramChairTest {
 	@Test
 	public void submitRecomendationTest() {
 		
-		Manuscript firstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
+		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
 		mySpc.assignManuscripts(firstManuscript);		
 	    mySpc.submitRecomendation(firstManuscript, "The Text");	   
 	    
@@ -88,8 +96,8 @@ public class SubprogramChairTest {
 	
 	@Test
 	public void submitRecomendationExceptionEmptyMaxedTest() {
-		Manuscript firstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
-		Manuscript secondManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleTwo", "The Body");
+		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
+		Manuscript secondManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleTwo", "The Body");
 		mySpc.assignManuscripts(firstManuscript);
 		try {
 			   mySpc.submitRecomendation(secondManuscript,"Test Text");
@@ -102,7 +110,7 @@ public class SubprogramChairTest {
 	@Test
 	public void submitRecomendationExceptionManuscriptNotFoundTest() {
 		
-		Manuscript firstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
+		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
 		
 		try {
 			   mySpc.submitRecomendation(firstManuscript,"Test Text");
@@ -115,7 +123,7 @@ public class SubprogramChairTest {
 	@Test
 	public void getRecommendationTextTest() {
 		
-		Manuscript firstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
+		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
 		mySpc.assignManuscripts(firstManuscript);		
 	    mySpc.submitRecomendation(firstManuscript, "The Text");	   
 	    
@@ -124,8 +132,8 @@ public class SubprogramChairTest {
 	
 	@Test
 	public void getRecommendationTextExceptionMistakenManuTest() {
-		Manuscript firstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
-		Manuscript secondManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleTwo", "The Body");
+		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
+		Manuscript secondManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleTwo", "The Body");
 		mySpc.assignManuscripts(firstManuscript);
 		try {
 			   mySpc.getRecommendationText(secondManuscript);
@@ -138,7 +146,7 @@ public class SubprogramChairTest {
 	@Test
 	public void getRecommendationTextExceptionManuscriptNotFoundTest() {
 		
-		Manuscript firstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
+		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
 		
 		try {
 			   mySpc.getRecommendationText(firstManuscript);
@@ -151,7 +159,7 @@ public class SubprogramChairTest {
 	@Test
 	public void editRecomendationTest() {
 		
-		Manuscript firstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
+		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
 		mySpc.assignManuscripts(firstManuscript);		
 	    mySpc.submitRecomendation(firstManuscript, "Old Text");
 	    mySpc.editRecomendation(firstManuscript, "New Text");
@@ -164,8 +172,8 @@ public class SubprogramChairTest {
 	
 	@Test
 	public void editRecomendationExceptionEmptyMaxedTest() {
-		Manuscript firstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
-		Manuscript secondManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleTwo", "The Body");
+		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
+		Manuscript secondManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleTwo", "The Body");
 		mySpc.assignManuscripts(firstManuscript);
 		try {
 			   mySpc.editRecomendation(secondManuscript,"New Text");
@@ -178,7 +186,7 @@ public class SubprogramChairTest {
 	@Test
 	public void editRecomendationExceptionManuscriptNotFoundTest() {
 		
-		Manuscript firstManuscript = new Manuscript("Author", conference.getConferenceID(), "TitleOne", "The Body");
+		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
 		
 		try {
 			   mySpc.editRecomendation(firstManuscript, "New Text");

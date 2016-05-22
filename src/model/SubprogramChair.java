@@ -12,12 +12,14 @@ public class SubprogramChair extends Role implements Serializable {
 	/** A List of all of the Manuscripts that are assigned to this given Subprogram Chair.*/
 	private ArrayList<Manuscript> myAssignedManuscripts;
 	
+
+	
 	/**
 	 * The constructor for the Subprogram Chair Class.
 	 */
-	public SubprogramChair(String theUserName) {
-		super("SubProgram Chair", theUserName);//Formating can be changed to whatever is easiest to work with.
-		myAssignedManuscripts =  new ArrayList<Manuscript>();		
+	public SubprogramChair(String theUserName, Conference theConference) {
+		super("SubProgram Chair", theUserName, theConference);//Formating can be changed to whatever is easiest to work with.
+		myAssignedManuscripts =  new ArrayList<Manuscript>();			
 	}
 	
 	/**
@@ -36,7 +38,7 @@ public class SubprogramChair extends Role implements Serializable {
 	 */
 	public List<Manuscript> showAllAssignedManuscripts() {
 		return myAssignedManuscripts;
-	}
+	}	
 	
 	/**
 	 * A method that assigns this Subprogram Chair a given Manuscript.
@@ -44,7 +46,7 @@ public class SubprogramChair extends Role implements Serializable {
 	 */
 	public void assignManuscripts(Manuscript theManuscript) throws IllegalArgumentException{
 			if(myAssignedManuscripts.size()< 4) {
-				if((containsManuscript(theManuscript) == -1)) {
+				if((containsManuscriptAt(theManuscript) == -1)) {
 					myAssignedManuscripts.add(theManuscript);
 				} else {
 					throw new IllegalArgumentException("Manuscript has already been assigned.");
@@ -63,7 +65,7 @@ public class SubprogramChair extends Role implements Serializable {
 	 */
 	public void submitRecomendation(Manuscript theManuscript, String theRecommendationText) throws IllegalArgumentException {		
 		if(myAssignedManuscripts.size() > 0 && myAssignedManuscripts.size() < 4) { //last part might not be needed.
-			if(containsManuscript(theManuscript) >= 0) {
+			if(containsManuscriptAt(theManuscript) >= 0) {
 				Recommendation recommendation = new Recommendation(super.getMyUsername(), theManuscript.getTitle(), theRecommendationText);
 				theManuscript.setRecommendation(recommendation);									
 			} else {
@@ -82,7 +84,7 @@ public class SubprogramChair extends Role implements Serializable {
 	 */
 	public String getRecommendationText(Manuscript theManuscript) throws IllegalArgumentException {
 		String recommendationText = "";
-		int manuscriptLocation = containsManuscript(theManuscript);
+		int manuscriptLocation = containsManuscriptAt(theManuscript);
 		if(myAssignedManuscripts.size() > 0 && myAssignedManuscripts.size() < 4) { //last part might not be needed.
 			if(manuscriptLocation >= 0) {
 				recommendationText = myAssignedManuscripts.get(manuscriptLocation).getRecommendation().getRecommmendationText();				
@@ -106,7 +108,7 @@ public class SubprogramChair extends Role implements Serializable {
 	public void editRecomendation(Manuscript theManuscript,String theRecommendationText) throws IllegalArgumentException{
 	    
 		if(myAssignedManuscripts.size() > 0 && myAssignedManuscripts.size() < 4) { //last part might not be needed.
-			if(containsManuscript(theManuscript) >= 0) {
+			if(containsManuscriptAt(theManuscript) >= 0) {
 				deleteRecomendation(theManuscript);
 				Recommendation recommendation = new Recommendation(super.getMyUsername(), theManuscript.getTitle(), theRecommendationText);
 				theManuscript.setRecommendation(recommendation);									
@@ -134,7 +136,7 @@ public class SubprogramChair extends Role implements Serializable {
 	 * @param theManuscript The Manuscript that is being searched for.
 	 * @return The index of where the Manuscript was found, else 0.
 	 */
-	private int containsManuscript(Manuscript theManuscript) {
+	private int containsManuscriptAt(Manuscript theManuscript) {
 		int foundAt = -1;
 		for(int i  = 0; i < myAssignedManuscripts.size(); i++) {
 			if(myAssignedManuscripts.get(i).equals(theManuscript)) {
@@ -146,17 +148,16 @@ public class SubprogramChair extends Role implements Serializable {
 	
 	public boolean equals(Object theObj) {
 		
-		if((theObj instanceof SubprogramChair)) {
-			SubprogramChair spc = (SubprogramChair) theObj;
-			if(this.getMyUsername().equals(spc.getMyUsername())) {
-				if(this.myAssignedManuscripts.size() == spc.myAssignedManuscripts.size()) {
-					for(int i = 0; i < this.myAssignedManuscripts.size(); i++) {
-						if(this.containsManuscript(spc.myAssignedManuscripts.get(i)) == 0) {
-							return false;
-						}
+		if(! (theObj instanceof SubprogramChair)) {
+			return false;
+		}		
+		SubprogramChair spc = (SubprogramChair) theObj;
+		if(this.getMyUsername().equals(spc.getMyUsername())) {
+			if(this.myAssignedManuscripts.size() == spc.myAssignedManuscripts.size()) {
+				for(int i = 0; i < this.myAssignedManuscripts.size(); i++) {
+					if(this.containsManuscriptAt(spc.myAssignedManuscripts.get(i)) == 0) {
+						return false;
 					}
-				} else {
-					return false;
 				}
 			} else {
 				return false;
@@ -165,7 +166,7 @@ public class SubprogramChair extends Role implements Serializable {
 			return false;
 		}
 		return true;
-	}
+}
 	
 
 	public int hashCode() {

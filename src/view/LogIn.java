@@ -27,7 +27,6 @@ import java.util.Scanner;
 
 import model.Author;
 import model.Conference;
-import model.Date;
 import model.Manuscript;
 import model.ProgramChair;
 import model.Recommendation;
@@ -83,13 +82,12 @@ public class LogIn {
 			// SELECT A CONFERENCE
 			selectConference(console, currentUser);
 			
-			
 			boolean logout =  false;
 			boolean backToLogin = false;
+			boolean returnToNoRole = false;
 			do{
 				
 				Role currentRole = currentUser.getCurrentRole();
-				
 				
 				if(currentRole == null){
 					//System.out.println("I have no role");
@@ -98,21 +96,25 @@ public class LogIn {
 					
 				} else if(currentRole instanceof Author){
 					//System.out.println("IT WORKS! I AM AUTHOR!");
-					logout = authorBranch(console, (Author) currentRole, currentUser);
+					returnToNoRole = authorBranch(console, (Author) currentRole, currentUser);
 				
 				} else if(currentRole instanceof ProgramChair){
 					//System.out.println("IT WORKS! I AM ProgramChair!");
 					ProgramChairGUI tempGui = new ProgramChairGUI(console, currentUser, myUsers, myMasterList);
-					logout = tempGui.loop();
+					returnToNoRole = tempGui.loop();
 				
 				} else if(currentRole instanceof SubprogramChair){
-					logout = subprogramChairBranch(console, (SubprogramChair) currentRole);
+					returnToNoRole = subprogramChairBranch(console, (SubprogramChair) currentRole);
 				
 				} else if(currentRole instanceof Reviewer){
-					logout = reviewerBranch(console, (Reviewer) currentRole);
+					returnToNoRole = reviewerBranch(console, (Reviewer) currentRole);
 					
 				}
 				
+				if(returnToNoRole){
+					currentUser.returnToNoRole();
+					returnToNoRole = false;
+				}
 				
 				if(logout){
 					// Ask to make sure if they are login out.
@@ -125,7 +127,7 @@ public class LogIn {
 				
 			}while(!backToLogin);
 			
-			System.out.print("Exit Program? (yes or no): ");
+			System.out.print("Exit Program? (yes or no :go back to login): ");
 			String answer = console.next();
 			if(answer.toLowerCase().charAt(0) == 'y'){
 				exit = true;
@@ -194,7 +196,7 @@ public class LogIn {
 	
 	
 	/**
-	 * Test initialization for debuging.
+	 * Test initialization for debugging.
 	 */
 	private void initializeFields(){
 		myMasterList = new ArrayList<>();
@@ -204,16 +206,16 @@ public class LogIn {
 		//CONFERENCE AND PROGRAM CHAIRS
 		String testProgramChairName = "Sally";
 		String testConferenceName = "Conference 1";
-		Date testDateCon = new Date(2016, 11, 2);
-		Date testDateMan = new Date(2016, 7, 2);
-		Date testDateRev = new Date(2016, 8, 2);
-		Date testDateRec = new Date(2016, 9, 2);
-		Date testDateDec = new Date(2016, 10, 2);
+		String testDateCon = "02-11-2016";
+		String testDateMan = "02-07-2016";
+		String testDateRev = "02-08-2016";
+		String testDateRec = "02-09-2016";
+		String testDateDec = "02-10-2016";
 		Conference testConference = new Conference(testConferenceName, testProgramChairName, testDateCon, 
 				testDateMan, testDateRev, testDateRec, testDateDec);
 		myConferences.add(testConference);
 		
-		User sally = new User();
+		User sally = new User(testProgramChairName);
 		ProgramChair pc = new ProgramChair(testConference, testProgramChairName);
 		sally.addRole(pc);
 		myUsers.put(testProgramChairName, sally);
@@ -221,11 +223,11 @@ public class LogIn {
 		/*
 		String testProgramChairName2 = "Sherry";
 		String testConferenceName2 = "Conference 2";
-		Date testDateCon2 = new Date(2016, 11, 5);
-		Date testDateMan2 = new Date(2016, 7, 5);
-		Date testDateRev2 = new Date(2016, 8, 6);
-		Date testDateRec2 = new Date(2016, 9, 6);
-		Date testDateDec2 = new Date(2016, 10, 6);
+		String testDateCon2 = "05-11-2016";
+		String testDateMan2 = "05-07-2016;
+		String testDateRev2 = "05-08-2016";
+		String testDateRec2 = "06-09-2016";
+		String testDateDec2 = "06-10-2016";
 		Conference testConference2 = new Conference(testConferenceName2, testProgramChairName2, testDateCon2, 
 				testDateMan2, testDateRev2, testDateRec2, testDateDec2);
 		myConferences.add(testConference2);
@@ -239,6 +241,7 @@ public class LogIn {
 		//Test Author
 		String testAuthorName = "Bob";
 		User bob = new User(testAuthorName);
+		bob.switchConference(testConference);
 
 		Manuscript tempManu = new Manuscript(testAuthorName, testConferenceName, "How To Increase Sales", 
 				"C:/Manuscript1.txt");
@@ -251,6 +254,7 @@ public class LogIn {
 		
 		// another author
 		User bobby = new User("Bobby");
+		bobby.switchConference(testConference);
 		Manuscript tempManu3 = new Manuscript("Bobby", testConferenceName, "How To Make more Money", 
 				"C:/Bobby_Manu.txt");
 		Manuscript tempManu4 = new Manuscript("Bobby", testConferenceName, "How To Make more Money 2.0", 
@@ -268,13 +272,15 @@ public class LogIn {
 		
 		//Test Subprogram Chair
 		User tom = new User("Tom");
-		SubprogramChair subP = new SubprogramChair("Tom");
+		tom.switchConference(testConference);
+		SubprogramChair subP = new SubprogramChair("Tom", testConference);
 		subP.assignManuscripts(tempManu2);
 		tom.addRole(subP);
 		myUsers.put("Tom", tom);
 		
 		User john = new User("John");
-		SubprogramChair subP2 = new SubprogramChair("John");
+		john.switchConference(testConference);
+		SubprogramChair subP2 = new SubprogramChair("John", testConference);
 		subP2.assignManuscripts(tempManu);
 		john.addRole(subP2);
 		myUsers.put("John", john);
@@ -282,14 +288,17 @@ public class LogIn {
 		
 		//Test just a user
 		User tim = new User("Tim");
+		tim.switchConference(testConference);
 		myUsers.put("Tim", tim);
 		User kim = new User("Kim");
+		kim.switchConference(testConference);
 		myUsers.put("Kim", kim);
 		
 		
 		//Test a reviewers
 		User jerry = new User("Jerry");
-		Reviewer rev = new Reviewer("Jerry");
+		jerry.switchConference(testConference);
+		Reviewer rev = new Reviewer("Jerry", testConference);
 		rev.assignReview(tempManu4);
 		jerry.addRole(rev);
 		
@@ -297,13 +306,15 @@ public class LogIn {
 		
 		//Test a reviewers
 		User harry = new User("Harry");
-		Reviewer rev2 = new Reviewer("Harry");
+		harry.switchConference(testConference);
+		Reviewer rev2 = new Reviewer("Harry", testConference);
 		harry.addRole(rev2);
 		myUsers.put("Harry", harry);
 		
 		//Test a reviewers
 		User pat = new User("Pat");
-		Reviewer rev3 = new Reviewer("Pat");
+		pat.switchConference(testConference);
+		Reviewer rev3 = new Reviewer("Pat", testConference);
 		pat.addRole(rev3);
 		myUsers.put("Harry", pat);
 		
@@ -506,9 +517,7 @@ public class LogIn {
 			
 			Manuscript manToReview =  myMasterList.get(select - 1);
 			
-			List<Review> reviews = theRole.getReviews(new Manuscript(theRole.getMyUsername(), 
-													 theUser.getConference().getConferenceID(), manToReview.getTitle(), 
-													 manToReview.getText()));
+			List<Review> reviews = theRole.getReviews();
 			if(!reviews.isEmpty()) {
 				System.out.println("Title:  " + manToReview.getTitle()+"\n\n");
 				for(int i = 0; i < reviews.size(); i++) {
@@ -636,7 +645,12 @@ public class LogIn {
 		
 		boolean toReturn = false;
 		
-		System.out.println("\n---------------\n\nWhat Do you want to do?");
+		System.out.println("\n---------------\n");
+		
+		HelperGUI helper = new HelperGUI(theUser.getName(), "No Role", theUser.getConference().getConferenceID(), "Main Menu for No Role");
+		System.out.println(helper);
+		
+		System.out.println("\nWhat Do you want to do?");
 		System.out.println("1. Submit a Manuscript");
 		System.out.println("2. Select a Different Conference");
 		System.out.println("3. Select a Role");
