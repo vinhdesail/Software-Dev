@@ -1,20 +1,24 @@
 package tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import model.Conference;
-import model.Date;
+//github.com/vinhdesail/Software-Dev.git
 import model.Manuscript;
 import model.Review;
 import model.Reviewer;
 
 public class ReviewerTest {
-	
+
 	private Conference testCon;
-	
+
 	private Reviewer reviewer1;
 	private Reviewer reviewer2;
 	private String reviewer1ID = "Reviewer 1's Name";

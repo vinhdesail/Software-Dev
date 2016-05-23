@@ -34,7 +34,7 @@ public class Manuscript implements Serializable {
 	private String myTitle;
 	
 	/** The full text of the manuscript itself, as a String. */
-	private String myText;
+	private String myURL;
 	
 //	/** 
 //	 * The no-argument constructor creates a Manuscript object but all fields must be manually
@@ -50,10 +50,10 @@ public class Manuscript implements Serializable {
 	 * @param theAuthorID - the Author's unique username (User ID)
 	 * @param theConference - the Conference's unique ID
 	 * @param theTitle - the Manuscript's title
-	 * @param theText - the full text of the Manuscript
+	 * @param theURL - the URL to the file location that contains the Manuscript text
 	 */
 	public Manuscript(String theAuthorID, String theConference, String theTitle, 
-			String theText) {
+			String theURL) {
 		
 		myStatus = 0;
 		myReviews = new ArrayList<Review>();
@@ -63,7 +63,7 @@ public class Manuscript implements Serializable {
 		myConference = theConference;
 		myTitle = theTitle;
 		
-		myText = theText;
+		myURL = theURL;
 	}
 	
 	/**
@@ -120,7 +120,7 @@ public class Manuscript implements Serializable {
 	 * @return the text of the Manuscript as a String
 	 */
 	public String getText() {
-		return myText;
+		return myURL;
 	}
 	
 	/**
@@ -168,7 +168,7 @@ public class Manuscript implements Serializable {
 	 * @param newText the new full Text of the edited Manuscript
 	 */
 	public void setText(String newText) {
-		myText = newText;
+		myURL = newText;
 	}
 	
 	/**
@@ -193,7 +193,7 @@ public class Manuscript implements Serializable {
 		sb.append("\nConference: ");
 		sb.append(myConference);
 		sb.append("\n\n");
-		sb.append(myText);
+		sb.append(myURL);
 		sb.append("\n[End of Manuscript]");
 		return sb.toString();
 	}
@@ -233,7 +233,7 @@ public class Manuscript implements Serializable {
 			return false;
 		} else if (!myTitle.equals(other.myTitle)) {
 			return false;
-		} else if (!myText.equals(other.myText)) {
+		} else if (!myURL.equals(other.myURL)) {
 			return false;
 		} 
 			return true;

@@ -1,12 +1,14 @@
 package tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import model.Conference;
-import model.Date;
 import model.ProgramChair;
 
 public class ConferenceTest {

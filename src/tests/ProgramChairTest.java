@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.Conference;
-import model.Date;
 import model.Manuscript;
 import model.ProgramChair;
 import model.SubprogramChair;

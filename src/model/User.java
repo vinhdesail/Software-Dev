@@ -75,13 +75,13 @@ public class User implements Serializable {
 	public void submitManuscript(Manuscript theManu, List<Manuscript> theMasterList) {
 		boolean isAuthor = false;
 		for(Role temp : myRole){
-			if(temp.getRole().equals("Author")){
+			if(temp.getRole().equals("Author") && temp.getConference().equals(myConference)){
 				isAuthor = true;
 			}
 		}
 		
 		if(!isAuthor){
-			final Author toAdd = new Author(myName);
+			final Author toAdd = new Author(myName, myConference);
 			myRole.add(toAdd);
 			theMasterList.add(theManu);
 		} else {
@@ -189,6 +189,22 @@ public class User implements Serializable {
 		
 		return myName.equals(theUser.myName);
 		
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * The hashcode method for User.
+	 */
+	@Override
+	public int hashCode(){
+		return myName.hashCode();
+	}
+	
+	/**
+	 * 
+	 */
+	public void returnToNoRole() {
+		myCurrentRole = null;
 	}
 	
 	
