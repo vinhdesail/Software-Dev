@@ -46,7 +46,7 @@ public class Role implements Serializable {
 	 * @param username The username.
 	 * @param theConference The conference. 
 	 */
-	public Role(String roleType, String username, Conference theConference) {
+	public Role(final String roleType, final String username, final Conference theConference) {
 		myRoleName =  roleType;
 		myUsername = username;
 		myConference = theConference;
@@ -96,7 +96,7 @@ public class Role implements Serializable {
 	 * The method to get all manuscript for this conference.
 	 * @param theMaserList The main list.
 	 */
-	public List<Manuscript> getAllManuscriptForThisConference(List<Manuscript> theMasterList){
+	public List<Manuscript> getAllManuscriptForThisConference(final List<Manuscript> theMasterList){
 		List<Manuscript> toReturn = new ArrayList<>();
 		
 		for(int i = 0; i < theMasterList.size(); i++){
