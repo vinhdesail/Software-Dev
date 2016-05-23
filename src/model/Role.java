@@ -24,7 +24,7 @@ public class Role implements Serializable {
 	private String myUsername;
 	
 	/** The conference for that role. */
-	protected Conference myConference;
+	private Conference myConference;
 	
 
 //	/**
