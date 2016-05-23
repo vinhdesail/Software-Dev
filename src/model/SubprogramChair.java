@@ -45,9 +45,15 @@ public class SubprogramChair extends Role implements Serializable {
 	 * @param theManuscripts The Manuscript being assigned to the Subprogram Chair.
 	 */
 	public void assignManuscripts(Manuscript theManuscript) throws IllegalArgumentException{
+		
 			if(myAssignedManuscripts.size()< 4) {
-				if((containsManuscriptAt(theManuscript) == -1)) {
-					myAssignedManuscripts.add(theManuscript);
+				int manuscriptFoundAt = (containsManuscriptAt(theManuscript));
+				if(manuscriptFoundAt == -1) {
+					if(theManuscript.getConference().equals(this.getConference().getConferenceID())) {
+						myAssignedManuscripts.add(theManuscript);
+					} else{
+						throw new IllegalArgumentException("The Manuscript being assigned to this SubprogramChair does not match its given conference.");
+					}					
 				} else {
 					throw new IllegalArgumentException("Manuscript has already been assigned.");
 				}			
@@ -136,7 +142,7 @@ public class SubprogramChair extends Role implements Serializable {
 	 * @param theManuscript The Manuscript that is being searched for.
 	 * @return The index of where the Manuscript was found, else 0.
 	 */
-	private int containsManuscriptAt(Manuscript theManuscript) {
+	public int containsManuscriptAt(Manuscript theManuscript) {
 		int foundAt = -1;
 		for(int i  = 0; i < myAssignedManuscripts.size(); i++) {
 			if(myAssignedManuscripts.get(i).equals(theManuscript)) {

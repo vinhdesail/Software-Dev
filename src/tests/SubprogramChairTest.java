@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
-import java.io.File;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,6 +16,13 @@ public class SubprogramChairTest {
 
 	private SubprogramChair mySpc;
     private Conference myConferenceToTestForAllSPC;
+    private Conference mySecondaryConferenceForADifferentManuscript;
+    private Manuscript firstManuscript; 
+    private Manuscript secondManuscript;
+    private Manuscript thirdManuscript;
+    private Manuscript fourManuscript;
+    private Manuscript fifthManuscript;
+    private Manuscript sixthManuscript;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -27,20 +32,29 @@ public class SubprogramChairTest {
 		Date recommendationDueDate =  new Date(2016,10,1);
 		Date decisionDueDate =  new Date(2016,10,1);
 		
+		
 		myConferenceToTestForAllSPC = new Conference("ANDESCON", "doeJ", conferenceDate,
 				manuscriptDueDate, reviewDueDate, recommendationDueDate, decisionDueDate);
 		
-		mySpc = new SubprogramChair("UserName",myConferenceToTestForAllSPC);
+		mySecondaryConferenceForADifferentManuscript = new Conference("Family Troubles 2016", "foxeT", conferenceDate,
+				manuscriptDueDate, reviewDueDate, recommendationDueDate, decisionDueDate);
+		
+		
+		firstManuscript = new Manuscript("Jane Foster", myConferenceToTestForAllSPC.getConferenceID(), "How To Manage Money in the new age", "The Body");
+		secondManuscript = new Manuscript("Tim Allen", myConferenceToTestForAllSPC.getConferenceID(), "What your savings should go to", "The Body");
+		thirdManuscript = new Manuscript("Bill Free", myConferenceToTestForAllSPC.getConferenceID(), "How Bankers have been misleading your time", "The Body");
+		fourManuscript = new Manuscript("Carl Sargan", myConferenceToTestForAllSPC.getConferenceID(), "Where your money goes when it is deposited", "The Body");
+		fifthManuscript = new Manuscript("Paula Menroe", myConferenceToTestForAllSPC.getConferenceID(), "How much your money will be worth in twenty years", "The Body");
+		sixthManuscript =  new Manuscript("Zach Fair", mySecondaryConferenceForADifferentManuscript.getConferenceID(), "The New Family of today", "The Body");
+		
+		mySpc = new SubprogramChair("ImASPC",myConferenceToTestForAllSPC);
 	}
 	/**
 	 * Tests if all of the manuscripts that are assigned will show in their assigned list.
 	 */
 	@Test
 	public void showAllAssignedManuscriptsTest() {
-		
-		
-		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
-		Manuscript secondManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleTwo", "The Body");
+			
 		mySpc.assignManuscripts(firstManuscript);
 		mySpc.assignManuscripts(secondManuscript);
 		assertSame(mySpc.showAllAssignedManuscripts().get(0),firstManuscript);
@@ -51,12 +65,6 @@ public class SubprogramChairTest {
 	 */
 	@Test
 	public void assignManuscriptsExceptionListMaxedTest() {
-		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
-		Manuscript secondManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleTwo", "The Body");
-		Manuscript thirdManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleThree", "The Body");
-		Manuscript fourManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleFour", "The Body");
-		Manuscript fifthManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleFive", "The Body");
-		
 		mySpc.assignManuscripts(firstManuscript);
 		mySpc.assignManuscripts(secondManuscript);
 		mySpc.assignManuscripts(thirdManuscript);
@@ -71,8 +79,6 @@ public class SubprogramChairTest {
 	
 	@Test
 	public void assignManuscriptsExceptionListManuscriptAlreadyAddedTest() {
-		
-		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
 		mySpc.assignManuscripts(firstManuscript);
 		try {
 			   mySpc.assignManuscripts(firstManuscript);
@@ -83,21 +89,28 @@ public class SubprogramChairTest {
 	}
 	
 	@Test
+	public void assignManuscriptsExceptionWhenTryingToAddAManuscriptFromAnotherConferenceTest() {	
+		try {
+			   mySpc.assignManuscripts(sixthManuscript);
+			   fail("Exception wasn't caught");			   
+		} catch (IllegalArgumentException theException) {
+			   
+		} 				
+	}
+	
+	@Test
 	public void submitRecomendationTest() {
-		
-		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
+			
 		mySpc.assignManuscripts(firstManuscript);		
-	    mySpc.submitRecomendation(firstManuscript, "The Text");	   
+	    mySpc.submitRecomendation(firstManuscript, "This Paper was alright. It seemed to lack substance.");	   
 	    
-	    assertEquals(firstManuscript.getRecommendation().getSubprogramChairID(),"UserName");
-	    assertEquals(firstManuscript.getRecommendation().getManuscriptTitle(),"TitleOne");
-		assertEquals(firstManuscript.getRecommendation().getRecommmendationText(),"The Text");
+	    assertEquals(firstManuscript.getRecommendation().getSubprogramChairID(),"ImASPC");
+	    assertEquals(firstManuscript.getRecommendation().getManuscriptTitle(),"How To Manage Money in the new age");
+		assertEquals(firstManuscript.getRecommendation().getRecommmendationText(),"This Paper was alright. It seemed to lack substance.");
 	}
 	
 	@Test
 	public void submitRecomendationExceptionEmptyMaxedTest() {
-		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
-		Manuscript secondManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleTwo", "The Body");
 		mySpc.assignManuscripts(firstManuscript);
 		try {
 			   mySpc.submitRecomendation(secondManuscript,"Test Text");
@@ -110,8 +123,6 @@ public class SubprogramChairTest {
 	@Test
 	public void submitRecomendationExceptionManuscriptNotFoundTest() {
 		
-		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
-		
 		try {
 			   mySpc.submitRecomendation(firstManuscript,"Test Text");
 			   fail("Exception wasn't caught");			   
@@ -121,9 +132,25 @@ public class SubprogramChairTest {
 	}
 	
 	@Test
+	public void containsManuscriptAtMethodWhereManuscriptIsNotWithinTheSPCWhereTheListIsEmptyTest() {		
+		 assertEquals(mySpc.containsManuscriptAt(firstManuscript),-1);				
+	}	
+	
+	@Test
+	public void containsManuscriptAtMethodWhereManuscriptIsNotWithinTheSPCWhereTheListIsNotEmptyTest() {		
+		mySpc.assignManuscripts(firstManuscript);
+		assertEquals(mySpc.containsManuscriptAt(secondManuscript),-1);				
+	}
+	
+	@Test
+	public void containsManuscriptAtMethodWhereManuscriptIsWithinTheSPCTest() {	
+		mySpc.assignManuscripts(firstManuscript);
+		assertEquals(mySpc.containsManuscriptAt(firstManuscript),0);
+	}	
+	
+	@Test
 	public void getRecommendationTextTest() {
 		
-		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
 		mySpc.assignManuscripts(firstManuscript);		
 	    mySpc.submitRecomendation(firstManuscript, "The Text");	   
 	    
@@ -132,8 +159,6 @@ public class SubprogramChairTest {
 	
 	@Test
 	public void getRecommendationTextExceptionMistakenManuTest() {
-		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
-		Manuscript secondManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleTwo", "The Body");
 		mySpc.assignManuscripts(firstManuscript);
 		try {
 			   mySpc.getRecommendationText(secondManuscript);
@@ -146,8 +171,6 @@ public class SubprogramChairTest {
 	@Test
 	public void getRecommendationTextExceptionManuscriptNotFoundTest() {
 		
-		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
-		
 		try {
 			   mySpc.getRecommendationText(firstManuscript);
 			   fail("Exception wasn't caught");			   
@@ -159,21 +182,18 @@ public class SubprogramChairTest {
 	@Test
 	public void editRecomendationTest() {
 		
-		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
 		mySpc.assignManuscripts(firstManuscript);		
 	    mySpc.submitRecomendation(firstManuscript, "Old Text");
 	    mySpc.editRecomendation(firstManuscript, "New Text");
 	    
-	    assertEquals(firstManuscript.getRecommendation().getSubprogramChairID(),"UserName");
-	    assertEquals(firstManuscript.getRecommendation().getManuscriptTitle(),"TitleOne");
+	    assertEquals(firstManuscript.getRecommendation().getSubprogramChairID(),"ImASPC");
+	    assertEquals(firstManuscript.getRecommendation().getManuscriptTitle(),"How To Manage Money in the new age");
 		assertEquals(firstManuscript.getRecommendation().getRecommmendationText(),"New Text");
 	}
 	
 	
 	@Test
 	public void editRecomendationExceptionEmptyMaxedTest() {
-		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
-		Manuscript secondManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleTwo", "The Body");
 		mySpc.assignManuscripts(firstManuscript);
 		try {
 			   mySpc.editRecomendation(secondManuscript,"New Text");
@@ -183,10 +203,10 @@ public class SubprogramChairTest {
 		} 				
 	}
 	
+	
+	
 	@Test
 	public void editRecomendationExceptionManuscriptNotFoundTest() {
-		
-		Manuscript firstManuscript = new Manuscript("Author", myConferenceToTestForAllSPC.getConferenceID(), "TitleOne", "The Body");
 		
 		try {
 			   mySpc.editRecomendation(firstManuscript, "New Text");
