@@ -115,6 +115,17 @@ public class Reviewer extends Role implements Serializable {
 	
 	@Override
 	public boolean equals(Object theOther) {
-		return true;
+		if (!(theOther instanceof Reviewer && super.equals(theOther))) {
+			return false;
+		}
+
+		Reviewer theReviewer = (Reviewer) theOther;
+		
+		return myPapers.equals(theReviewer.myPapers);
+	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode() + myPapers.hashCode();
 	}
 }
