@@ -38,7 +38,7 @@ public class ProgramChairGUI {
 	private final HelperGUI myHelper;
 	
 	/**
-	 * The constructor for the gui.
+	 * The constructor for the GUI.
 	 * @param Scanner The main console.
 	 * @param User The user using the program.
 	 */
@@ -58,14 +58,13 @@ public class ProgramChairGUI {
 	}
 	
 	/**
-	 * The method to run the main gui for program chair.
+	 * The method to run the main GUI for program chair.
 	 */
 	public boolean loop(){
 		
 		
 		boolean logout = false;
 		do{
-			System.out.println("\n---------------\n");
 			myHelper.setMyActivity("Program Chair Menu");
 			System.out.println(myHelper);
 			
@@ -75,56 +74,34 @@ public class ProgramChairGUI {
 			System.out.println("3. See which papers are assigned to which Subprogram chairs");
 			System.out.println("4. Designate a Subprogram Chair for a manuscript");
 			System.out.println("5. Logout of Program Chair");
-			
 			int select = HelperGUI.getSelect(myConsole);
-			///////////////////////// OPTION 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			if(select == 1){
-				
-				myHelper.setMyActivity("View a list of all submitted manuscripts");
-				Manuscript manu = displayAllManuscript();
-				if(manu != null){
-					System.out.println(manu.toString());
-				}
-				
-				
-			//////////////////////////OPTION 2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			} else if (select == 2){
-				myHelper.setMyActivity("\nMake acceptance decision");
-				Manuscript manu = displayAllManuscript();
-				
-				if(manu != null){
-					System.out.println("Accept (1) or Reject (2) or Back PC Menu (3)? :");
-					int select3 = HelperGUI.getInt(myConsole);
-					if(select3 == 3){
-						System.out.println("\n Back \n");
-					} else if(select3 == 1){
-						myRole.approveManuscript(manu);
-						//System.out.println(manu.getStatus());
-					} else if(select3 == 2){
-						myRole.rejectManuscript(manu);
-					}
-				}
-				
-				
-			////////////////////////////////// OPTION 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!
-			} else if (select == 3){
-				
-				optionPaperAssignToSPC();
-				
-			///////////////////////////////// OPTION 4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			} else if (select == 4){
-				
-				optionToDesignateASPCForAManuscript();
 			
-			/////////////////////////////////////// OPTION 5 //////////////////////////////////
-			} else if (select == 5){
-				System.out.println();
-				logout = true;
+			switch (select){
+				///////////////////////// OPTION 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				case 1:
+					optionViewAListOfSubmittedManuscript();
+					break;
+				//////////////////////////OPTION 2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				case 2:
+					optionAcceptOrRejectManuscript();
+					break;
+				////////////////////////////////// OPTION 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!
+				case 3:
+					optionShowPaperAssignToSPC();
+					break;
+				///////////////////////////////// OPTION 4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				case 4:
+					optionToDesignateASPCForAManuscript();
+					break;
+				///////////////////////////////// OPTION 5 !!!!!!!!!!!!!!!!!!!!!!!
+				default:
+					System.out.println();
+					logout = true;
+					break;
 			}
 		} while(!logout);
 		
 		return logout;
-		
 	}
 	
 	/**
@@ -141,7 +118,7 @@ public class ProgramChairGUI {
 		
 		int select2 = HelperGUI.getSelect(myConsole);
 		if(select2 == listOfManu.size() + 1){
-			System.out.println("\n Back \n");
+			System.out.println(HelperGUI.BACK);
 		} else {
 			toReturn = listOfManu.get(select2 - 1);
 		}
@@ -162,7 +139,7 @@ public class ProgramChairGUI {
 		}
 		toDisplay.append("--end of manuscript list--\n");
 		if(theDisplayBack){
-			toDisplay.append(theList.size() + 1 + ". Back");
+			toDisplay.append("0. Back");
 		}
 		System.out.println(toDisplay.toString());
 	}
@@ -179,16 +156,49 @@ public class ProgramChairGUI {
 			toDisplay.append("\n");
 		}
 		toDisplay.append("--end of Program Chair list--\n");
-		toDisplay.append(theList.size() + 1 + ". Back");
+		toDisplay.append("0. Back");
 		
 		System.out.println(toDisplay.toString());
 	}
 	
 	
 	/**
+	 * The method to view for the GUI of submitted manuscript.
+	 */
+	public void optionViewAListOfSubmittedManuscript(){
+		myHelper.setMyActivity("View a list of all submitted manuscripts");
+		Manuscript manu = displayAllManuscript();
+		if(manu != null){
+			System.out.println(manu.toString());
+		}
+	}
+	
+	/**
+	 * The method for the GUI of Accept or Reject paper.
+	 */
+	public void optionAcceptOrRejectManuscript(){
+		myHelper.setMyActivity("\nMake acceptance decision");
+		Manuscript manu = displayAllManuscript();
+		
+		if(manu != null){
+			System.out.println("Accept (1) or Reject (2) or Back PC Menu (3)? :");
+			int select3 = HelperGUI.getInt(myConsole);
+			if(select3 == 3){
+				System.out.println(HelperGUI.BACK);
+			} else if(select3 == 1){
+				myRole.approveManuscript(manu);
+				//System.out.println(manu.getStatus());
+			} else if(select3 == 2){
+				myRole.rejectManuscript(manu);
+			}
+		}
+	}
+	
+	
+	/**
 	 * The method for the option of see paper assigned to SPC.
 	 */
-	public void optionPaperAssignToSPC(){
+	public void optionShowPaperAssignToSPC(){
 		
 		myHelper.setMyActivity("See which papers are assigned to which Subprogram chairs");
 		System.out.println(myHelper);
@@ -198,8 +208,8 @@ public class ProgramChairGUI {
 		displayAllSubprogramChair(tempArr);
 		
 		int select2 = HelperGUI.getSelect(myConsole);
-		if(select2 == tempArr.size() + 1){
-			System.out.println("\n Back \n");
+		if(select2 == 0){
+			System.out.println(HelperGUI.BACK);
 		} else {
 			System.out.println("You selected : " + tempArr.get(select2 - 1).getMyUsername());
 			System.out.println("--Showing Related Manuscripts--");
@@ -221,7 +231,7 @@ public class ProgramChairGUI {
 		
 		
 		if(select2 == myMasterList.size() + 1){
-			System.out.println("\n Back \n");
+			System.out.println(HelperGUI.BACK);
 		} else {
 			System.out.println("You pick: " + myMasterList.get(select2 - 1).getTitle());
 			
@@ -229,37 +239,19 @@ public class ProgramChairGUI {
 			System.out.println("-Select a Subprogram to assign too-");
 			displayAllSubprogramChair(tempArr);
 			int select3 = HelperGUI.getSelect(myConsole);
-			if(select3 == tempArr.size() + 1){
-				System.out.println("\n Back \n");
+			if(select3 == 0){
+				System.out.println(HelperGUI.BACK);
 			} else {
-				tempArr.get(select3 - 1).assignManuscripts(myMasterList.get(select2 - 1));
-				System.out.println("Success!");
+				try{
+					tempArr.get(select3 - 1).assignManuscripts(myMasterList.get(select2 - 1));
+					System.out.println("Success!");
+				} catch(IllegalArgumentException e){
+					System.out.println(e.getMessage());
+					System.out.println("Unable to assign Manuscript");
+				}
 			}
 		}
 	}
-	
-//	/**
-//	 * Get a int.
-//	 * @param scanner the Console scanner.
-//	 * @return int The integer.
-//	 */
-//	public int getInt(Scanner theConsole){
-//		while(!theConsole.hasNextInt()){
-//			theConsole.next();
-//			System.out.print("Please enter an integer : ");
-//		} 
-//		return theConsole.nextInt();
-//	}
-//	
-//	/**
-//	 * Get select.
-//	 * @param Scanner The scanner.
-//	 * @return int The selected.
-//	 */
-//	public int getSelect(Scanner theConsole){
-//		System.out.print("\nSelect: ");
-//		return getInt(theConsole);
-//	}
 	
 	
 }

@@ -14,6 +14,9 @@ import java.util.Scanner;
  */
 public class HelperGUI {
 	
+	/** A 'back' display to help display */
+	public static final String BACK = "\n Back \n";
+	
 	/** The Username. */
 	private String myUsername;
 	

@@ -645,8 +645,6 @@ public class LogIn {
 		
 		boolean toReturn = false;
 		
-		System.out.println("\n---------------\n");
-		
 		HelperGUI helper = new HelperGUI(theUser.getName(), "No Role", theUser.getConference().getConferenceID(), "Main Menu for No Role");
 		System.out.println(helper);
 		
@@ -665,7 +663,7 @@ public class LogIn {
 			boolean quit = false;
 			do {
 				theConsole.nextLine();
-				System.out.println("Please enter the File Path for the Manuscript (Type \"EXIT!\" to Exit)");
+				System.out.println("Please enter the File Path for the Manuscript (Type \"EXIT\" to Exit)");
 				manuscriptFile = theConsole.nextLine();		
 				
 				if(manuscriptFile.equals("EXIT")){
