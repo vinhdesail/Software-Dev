@@ -112,4 +112,9 @@ public class Reviewer extends Role implements Serializable {
 		}
 		return null;
 	}
+	
+	@Override
+	public boolean equals(Object theOther) {
+		return true;
+	}
 }
