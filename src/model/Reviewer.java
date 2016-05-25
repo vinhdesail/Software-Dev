@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Reviewer class description.
- * @author Edie Megan Campbell
+ * @author
  * @author 
  * @version 2016.05.08
  */
