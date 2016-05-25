@@ -76,6 +76,7 @@ public class ProgramChairGUI {
 			System.out.println("3. See which papers are assigned to which Subprogram chairs");
 			System.out.println("4. Designate a Subprogram Chair for a manuscript");
 			System.out.println("0. Logout of Program Chair");
+			System.out.println("-1. Switch to a Different Role");
 			int select = HelperGUI.getSelect(myConsole);
 			
 			switch (select){
@@ -94,6 +95,9 @@ public class ProgramChairGUI {
 				case 0:
 					System.out.println();
 					logout = true;
+					break;
+				case -1:
+					myHelper.selectRole(myConsole, myUser);
 					break;
 			}
 		} while(!logout);

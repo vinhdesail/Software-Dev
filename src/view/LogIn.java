@@ -370,6 +370,7 @@ public class LogIn {
 	 * The method to select Role.
 	 * @param theConsole The console input.
 	 * @param theUser The user pass in.
+	 * @deprecated
 	 */
 	public void selectRole(final Scanner theConsole, final User theUser){
 		
@@ -420,7 +421,6 @@ public class LogIn {
 		}
 		
 		//return toReturn;
-		
 	}
 	
 	
@@ -677,7 +677,7 @@ public class LogIn {
 			selectConference(theConsole, theUser);
 		
 		} else if(select == 3){
-			selectRole(theConsole, theUser);
+			helper.selectRole(theConsole, theUser);
 		
 		} else if (select == 0){
 			toReturn = true;
