@@ -13,7 +13,7 @@ import java.util.List;
 public class Reviewer extends Role implements Serializable {
 	
 	/** A Reviewer may be assigned no more than 4 papers to Review. */
-	private static final int MAX_PAPERS = 4;
+	public static final int MAX_PAPERS = 4;
 	
 	private List<Manuscript> myPapers;
 
@@ -32,6 +32,7 @@ public class Reviewer extends Role implements Serializable {
 	}
 	
 	/**
+	 * TEST ONLY
 	 * Overloaded constructor for making particular instances of Reviewers in unit tests.
 	 * @param myUser - the unique username of the User who is becoming a Reviewer
 	 * @param myConference - the Conference for which this User will be acting as a Reviewer
@@ -41,6 +42,7 @@ public class Reviewer extends Role implements Serializable {
 		super("Reviewer", myUser, myConference);
 		myPapers = new ArrayList<>(thePapers);
 	}
+
 
 	/**
 	 * Submits a Review by this Reviewer for the given Manuscript
@@ -80,35 +82,16 @@ public class Reviewer extends Role implements Serializable {
 		}
 		
 		Review myOldReview = getMyReview(theManuscript);
-		if (myOldReview != null) {
-			theManuscript.removeReview(getMyReview(theManuscript));
+		if (myOldReview == null) {
+			throw new IllegalArgumentException(this.getMyUsername() + " has not yet submitted a review for the "
+								+ "Manuscript: " + theManuscript.getTitle());
 		}
+		theManuscript.removeReview(getMyReview(theManuscript));
 		Review review = new Review(this.getMyUsername(), theManuscript.getTitle(), theReviewText);
 		theManuscript.addReview(review);
 		
 	}
 	
-	/**
-	 * Deletes the Review from the associated Manuscript if and only if the Review was
-	 * written by this Reviewer
-	 * @param theReview
-	 */
-	public void deleteReview(Review theReview) {
-		if (!theReview.getReviewerID().equals(getMyUsername())) {
-			throw new IllegalArgumentException(getMyUsername() +" did not write this Review.");
-		}
-		
-		// search through myPapers for the paper associated with theReview
-		for (int i = 0; i < myPapers.size(); i++) {
-			
-			if (myPapers.get(0).getTitle().equals(theReview.getManuscriptTitle())) {
-				List<Review> paperReviews = myPapers.get(0).getReviews();
-				paperReviews.remove(theReview);
-			}
-
-		}
-		
-	}
 	
 	/**
 	 * Accessor method 
@@ -133,10 +116,11 @@ public class Reviewer extends Role implements Serializable {
 		}	
 	}
 	
+	
 	/**
 	 * Searches through a given Manuscript's Reviews so that this Reviewer can access their own.
 	 * @param theManuscript
-	 * @return the Review object associated with this reviewer's unique username
+	 * @return the Review object associated with this reviewer's unique username, or null if there is none
 	 * @throws IllegalArgumentException if this Reviewer has not been assigned to review theManuscript
 	 */
 	public Review getMyReview(Manuscript theManuscript) throws IllegalArgumentException {
