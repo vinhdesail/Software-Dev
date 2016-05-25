@@ -67,6 +67,33 @@ public class Manuscript implements Serializable {
 	}
 	
 	/**
+	 * TEST ONLY
+	 * Overloaded constructor for Reviewer test class, allows creating a Manuscript with a specific
+	 * list of Reviews already in place.
+	 * @param theAuthorID - the Author's unique username (User ID)
+	 * @param theConference - the Conference's unique ID
+	 * @param theTitle - the Manuscript's title
+	 * @param theURL - the URL to the file location that contains the Manuscript text
+	 * @param theReviews - the List of Reviews to associate with this Manuscript
+	 */
+	public Manuscript(String theAuthorID, String theConference, String theTitle, 
+			String theURL, List<Review> theReviews) {
+		
+		myStatus = 0;
+		myReviews = new ArrayList<Review>();
+		myRecommendation = null;
+		
+		myAuthorID = theAuthorID;
+		myConference = theConference;
+		myTitle = theTitle;
+		
+		myURL = theURL;
+		myReviews = theReviews;
+	}
+	
+	
+	
+	/**
 	 * Getter for the acceptance status of this Manuscript
 	 * @return -1 if rejected, 0 if undecided, 1 if accepted
 	 */
