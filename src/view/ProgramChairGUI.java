@@ -1,4 +1,6 @@
-/**
+/* 
+ * TCSS 360
+ * Group 4 Ever
  * 
  */
 package view;
@@ -59,9 +61,9 @@ public class ProgramChairGUI {
 	
 	/**
 	 * The method to run the main GUI for program chair.
+	 * @return boolean True if they want to logout.
 	 */
 	public boolean loop(){
-		
 		
 		boolean logout = false;
 		do{
@@ -73,28 +75,23 @@ public class ProgramChairGUI {
 			System.out.println("2. Make acceptance decision");
 			System.out.println("3. See which papers are assigned to which Subprogram chairs");
 			System.out.println("4. Designate a Subprogram Chair for a manuscript");
-			System.out.println("5. Logout of Program Chair");
+			System.out.println("0. Logout of Program Chair");
 			int select = HelperGUI.getSelect(myConsole);
 			
 			switch (select){
-				///////////////////////// OPTION 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				case 1:
 					optionViewAListOfSubmittedManuscript();
 					break;
-				//////////////////////////OPTION 2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				case 2:
 					optionAcceptOrRejectManuscript();
 					break;
-				////////////////////////////////// OPTION 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!
 				case 3:
 					optionShowPaperAssignToSPC();
 					break;
-				///////////////////////////////// OPTION 4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				case 4:
 					optionToDesignateASPCForAManuscript();
 					break;
-				///////////////////////////////// OPTION 5 !!!!!!!!!!!!!!!!!!!!!!!
-				default:
+				case 0:
 					System.out.println();
 					logout = true;
 					break;
@@ -117,7 +114,7 @@ public class ProgramChairGUI {
 		displayManuscripts(listOfManu, true);
 		
 		int select2 = HelperGUI.getSelect(myConsole);
-		if(select2 == listOfManu.size() + 1){
+		if(select2 == 0){
 			System.out.println(HelperGUI.BACK);
 		} else {
 			toReturn = listOfManu.get(select2 - 1);
@@ -132,7 +129,7 @@ public class ProgramChairGUI {
 	 */
 	public void displayManuscripts(List<Manuscript> theList, boolean theDisplayBack){
 		StringBuilder toDisplay = new StringBuilder();
-		toDisplay.append("\nSelect a Manuscript\n");
+		toDisplay.append("\n---Manuscripts---\n");
 		for(int i = 0; i < theList.size(); i++){
 			toDisplay.append((i + 1) + ". " + theList.get(i).getTitle());
 			toDisplay.append("\n");
@@ -230,7 +227,7 @@ public class ProgramChairGUI {
 		int select2 = HelperGUI.getSelect(myConsole);
 		
 		
-		if(select2 == myMasterList.size() + 1){
+		if(select2 == 0){
 			System.out.println(HelperGUI.BACK);
 		} else {
 			System.out.println("You pick: " + myMasterList.get(select2 - 1).getTitle());
