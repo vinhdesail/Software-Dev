@@ -4,7 +4,12 @@
  */
 package view;
 
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+
+import model.Role;
+import model.User;
 
 /**
  * Helper class to help display some common gui.
@@ -164,5 +169,58 @@ public class HelperGUI {
 		return toReturn.toString();
 	}
 	
+	/**
+	 * The method to select Role.
+	 * @param theConsole The console input.
+	 * @param theUser The user pass in.
+	 */
+	public void selectRole(final Scanner theConsole, final User theUser){
+		
+		Role toReturn = null;
+		boolean validRole = false;
+		StringBuilder tempString = new StringBuilder();
+		List<Role> tempRole = theUser.getAllRoles();
+		
+		// IF USER ACTUALLY HAVE ROLE
+		if(theUser.hasRole()){
+			tempString.append("\n--------Showing all Role for this Conference--------\n");
+			for(int i = 0; i < tempRole.size(); i++){
+				tempString.append(i + 1);
+				tempString.append(". ");
+				tempString.append(tempRole.get(i).getRole());
+				tempString.append("\n");
+			}
+			tempString.append("--------End of List--------\n");
+			
+			// ADD IN BACK OPTION
+			tempString.append(tempRole.size() + 1);
+			tempString.append(". BACK/EXIT\n");
+			
+			// Print input and try to get selected option
+			while(!validRole){
+				
+				System.out.println(tempString);
+				int selected = getSelect(theConsole);
+				
+				if(selected == (tempRole.size() + 1)){
+					validRole = true;
+				} else {
+					try{
+						toReturn = tempRole.get(selected - 1);
+						theUser.switchRole(toReturn);
+						validRole = true;
+						System.out.println("Role Change Successful");
+					} catch (InputMismatchException e){
+						System.out.println("FAILED TO SWITCH ROLES! TRY AGAIN!");
+					} catch (IndexOutOfBoundsException e){
+						System.out.println("DID NOT SWITCH ROLE! TYPE A NUMBER IN RANGE PLEASE!");
+					}//end try
+				}//end if
+			}//end while
+		} else {
+			System.out.println("You have no available roles, please submit a paper to become an Author.");
+		}
+		//return toReturn;
+	}
 	
 }
