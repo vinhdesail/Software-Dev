@@ -90,25 +90,16 @@ public class LogIn {
 				Role currentRole = currentUser.getCurrentRole();
 				
 				if(currentRole == null){
-					//System.out.println("I have no role");
 					logout = noRole(console, currentUser);
-					
-					
 				} else if(currentRole instanceof Author){
-					//System.out.println("IT WORKS! I AM AUTHOR!");
 					returnToNoRole = authorBranch(console, (Author) currentRole, currentUser);
-				
 				} else if(currentRole instanceof ProgramChair){
-					//System.out.println("IT WORKS! I AM ProgramChair!");
 					ProgramChairGUI tempGui = new ProgramChairGUI(console, currentUser, myUsers, myMasterList);
 					returnToNoRole = tempGui.loop();
-				
 				} else if(currentRole instanceof SubprogramChair){
 					returnToNoRole = subprogramChairBranch(console, (SubprogramChair) currentRole);
-				
 				} else if(currentRole instanceof Reviewer){
 					returnToNoRole = reviewerBranch(console, (Reviewer) currentRole);
-					
 				}
 				
 				if(returnToNoRole){
@@ -117,7 +108,7 @@ public class LogIn {
 				}
 				
 				if(logout){
-					// Ask to make sure if they are login out.
+					// Ask to make sure if they want to log out.
 					System.out.println("Are you sure about logout? (1 for yes, any integer for no): ");
 					int tempLogout = getInt(console);
 					if(tempLogout == 1){
@@ -440,12 +431,7 @@ public class LogIn {
 	public boolean authorBranch(Scanner theConsole, Author theRole , User theUser){
 		
 		
-		System.out.println("\n---------------\n\nWhat Do you want to do?");
-		System.out.println("1. Submit A Manuscript");
-		System.out.println("2. Unsubmit A Manuscript");
-		System.out.println("3. Edit a Manuscript");
-		System.out.println("4. View All my Reviews");
-		System.out.println("5. Logout");
+		
 		
 		int select = getSelect(theConsole);
 		if(select == 1) {
@@ -652,7 +638,7 @@ public class LogIn {
 		System.out.println("1. Submit a Manuscript");
 		System.out.println("2. Select a Different Conference");
 		System.out.println("3. Select a Role");
-		System.out.println("4. Logout");
+		System.out.println("0. Logout");
 		
 		int select = getSelect(theConsole);
 		
@@ -693,7 +679,7 @@ public class LogIn {
 		} else if(select == 3){
 			selectRole(theConsole, theUser);
 		
-		} else if (select == 4){
+		} else if (select == 0){
 			toReturn = true;
 		} 
 		return toReturn;

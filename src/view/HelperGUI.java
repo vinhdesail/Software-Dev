@@ -147,7 +147,7 @@ public class HelperGUI {
 	@Override
 	public String toString(){
 		StringBuilder toReturn = new StringBuilder();
-		toReturn.append("----------INFO---------\n");
+		toReturn.append("\n----------INFO---------\n");
 		toReturn.append("User: ");
 		toReturn.append(myUsername);
 		toReturn.append('\n');
