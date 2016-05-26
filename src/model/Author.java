@@ -15,7 +15,7 @@ public class Author extends Role implements Serializable {
 	/** Generated serialization number. */
 	private static final long serialVersionUID = 8150606980901061867L;
 
-	
+	/** List to hold manuscripts. */
 	private List<Manuscript> myManuscripts;
 	
 	/**
@@ -54,7 +54,6 @@ public class Author extends Role implements Serializable {
 	 */
 	public void deleteManuscript(final List<Manuscript> theManuscripts,
 			 							final Manuscript theManuscript) {
-
 		theManuscripts.remove(theManuscript);
 		myManuscripts.remove(theManuscript);
 	}

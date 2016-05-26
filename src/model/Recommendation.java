@@ -104,6 +104,5 @@ public class Recommendation implements Serializable {
 		} else {
 			return true;
 		}
-	}
-	
+	}	
 }

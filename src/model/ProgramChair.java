@@ -11,17 +11,13 @@ public class ProgramChair extends Role implements Serializable {
 	
 	/** Generated Serialization number. */
 	private static final long serialVersionUID = 79453357450439428L;
-	/**The Conference that this Program Chair belongs to.*/
-	//private Conference myConference;
 	
 	/**
 	 * The ProgramChair Constructor.
 	 * @param theConference The conference that this Program Chair belongs to.
 	 */
 	public ProgramChair(Conference theConference , String theUserName) {
-		super("Program Chair", theUserName, theConference);//Formating can be changed to whatever is easiest to work with.
-		//myConference = theConference; //might be changed if a copy constructor is made. 
-		
+		super("Program Chair", theUserName, theConference);
 	}
 
 	/**
@@ -49,7 +45,6 @@ public class ProgramChair extends Role implements Serializable {
 	 */
 	public List<Manuscript> showAllManuscripts(List<Manuscript> theManuscripts) {
 		List<Manuscript> returnManuscripts = new ArrayList<Manuscript>();
-		
 		for(int i = 0; i < theManuscripts.size(); i++){
 			if(theManuscripts.get(i).getConference().equals(super.getConference().getConferenceID())) {
 				returnManuscripts.add(theManuscripts.get(i));
@@ -64,7 +59,6 @@ public class ProgramChair extends Role implements Serializable {
 	 * @return
 	 */
 	public Map<SubprogramChair, List<Manuscript>> findAllManuscriptsAssociatedWithEverySPC(List<User> users) {
-		
 		Map<SubprogramChair, List<Manuscript>> allSPCManus = new HashMap<>();
 		SubprogramChair subprogramChairToCompareForConferenceCheck;
 		for(int i = 0; i < allSPCManus.size();i++) {
@@ -116,7 +110,6 @@ public class ProgramChair extends Role implements Serializable {
 	 */
 	public void rejectManuscript(Manuscript theManuscript) {
 		theManuscript.setStatus(-1);
-		
 	}
 	
 	/**
@@ -132,7 +125,6 @@ public class ProgramChair extends Role implements Serializable {
 	 * {@inheritDoc}
 	 */
 	public boolean equals(Object theObj) {
-		
 		if(!(theObj instanceof ProgramChair)) {			
 			return false;
 		}
@@ -145,12 +137,9 @@ public class ProgramChair extends Role implements Serializable {
 			}
 		}
 		return false;
-		
 	}
 	
 	public int hashCode() {
 		return Objects.hash(super.getConference(),this.getMyUsername());
 	}
-	
-	
 }
