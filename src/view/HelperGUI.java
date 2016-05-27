@@ -193,7 +193,7 @@ public class HelperGUI {
 			tempString.append("--------End of List--------\n");
 			
 			// ADD IN BACK OPTION
-			tempString.append(tempRole.size() + 1);
+			tempString.append("0");
 			tempString.append(". BACK/EXIT\n");
 			
 			// Print input and try to get selected option
@@ -202,7 +202,7 @@ public class HelperGUI {
 				System.out.println(tempString);
 				int selected = getSelect(theConsole);
 				
-				if(selected == (tempRole.size() + 1)){
+				if(selected == 0){
 					validRole = true;
 				} else {
 					try{

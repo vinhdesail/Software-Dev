@@ -220,7 +220,7 @@ public class ProgramChairGUI {
 	}
 	
 	/**
-	 * The methof for the option to designate a spc for a manuscript.
+	 * The method for the option to designate a spc for a manuscript.
 	 */
 	public void optionToDesignateASPCForAManuscript(){
 		myHelper.setMyActivity("Designate a Subprogram Chair for a manuscript");
@@ -228,28 +228,37 @@ public class ProgramChairGUI {
 		
 		List<Manuscript> listManuscript = myRole.getAllManuscriptForThisConference(myMasterList);
 		displayManuscripts(listManuscript, true);
-		int select2 = HelperGUI.getSelect(myConsole);
+		int userSelectedManuscriptNumber = HelperGUI.getSelect(myConsole);
 		
 		
-		if(select2 == 0){
+		if(userSelectedManuscriptNumber == 0){
 			System.out.println(HelperGUI.BACK);
 		} else {
-			System.out.println("You pick: " + myMasterList.get(select2 - 1).getTitle());
+			System.out.println("You pick: " + myMasterList.get(userSelectedManuscriptNumber - 1).getTitle());
 			
-			List<SubprogramChair> tempArr = myRole.getAllSubprogramChair(myListOfUser);
+			List<SubprogramChair> listOfSubprogramChair = myRole.getAllSubprogramChair(myListOfUser);
 			System.out.println("-Select a Subprogram to assign too-");
-			displayAllSubprogramChair(tempArr);
-			int select3 = HelperGUI.getSelect(myConsole);
-			if(select3 == 0){
-				System.out.println(HelperGUI.BACK);
-			} else {
-				try{
-					tempArr.get(select3 - 1).assignManuscripts(myMasterList.get(select2 - 1));
-					System.out.println("Success!");
-				} catch(IllegalArgumentException e){
-					System.out.println(e.getMessage());
-					System.out.println("Unable to assign Manuscript");
-				}
+			displayAllSubprogramChair(listOfSubprogramChair);
+			int userSelectedSubprogramChairNumber = HelperGUI.getSelect(myConsole);
+			
+			// LOGIC STATEMENT
+			assignManuscriptToSubprogramChair(userSelectedSubprogramChairNumber, listOfSubprogramChair);
+		}
+	}
+	
+	/**
+	 * The logic for assigning the manuscript for sub-program chair. Mostly use for testing.
+	 */
+	public void assignManuscriptToSubprogramChair(final int theSelectedNumber, List<SubprogramChair> theListOfSubProgramChair){
+		if(theSelectedNumber == 0){
+			System.out.println(HelperGUI.BACK);
+		} else {
+			try{
+				theListOfSubProgramChair.get(theSelectedNumber - 1).assignManuscripts(myMasterList.get(theSelectedNumber - 1));
+				System.out.println("Success!");
+			} catch(IllegalArgumentException e){
+				System.out.println(e.getMessage());
+				System.out.println("Unable to assign Manuscript");
 			}
 		}
 	}

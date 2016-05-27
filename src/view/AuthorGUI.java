@@ -76,6 +76,7 @@ public class AuthorGUI {
 			System.out.println("4. Edit a Manuscript");
 			System.out.println("5. View All my Reviews");
 			System.out.println("0. Logout");
+			System.out.println("-1. Switch Role");
 		
 		} while(!logout);
 		return logout;
