@@ -37,7 +37,6 @@ public class User implements Serializable {
 	 * The conference involve in.
 	 */
 	private Conference myConference;
-	
 
 	/**
 	 * Default constructor
@@ -79,15 +78,13 @@ public class User implements Serializable {
 				isAuthor = true;
 			}
 		}
-		
 		if(!isAuthor){
 			final Author toAdd = new Author(myName, myConference);
 			myRole.add(toAdd);
 			theMasterList.add(theManu);
 		} else {
 			theMasterList.add(theManu);
-		}
-		
+		}	
 	}
 	
 	/**
@@ -120,7 +117,6 @@ public class User implements Serializable {
 	 */
 	public List<Role> getListOfAllRoles() {
 		List<Role> allRoles = new ArrayList<>();
-		
 		for(int i  = 0; i < myRole.size();i++) {
 			allRoles.add(myRole.get(i));
 		}
@@ -132,16 +128,6 @@ public class User implements Serializable {
 	 * @return List All roles for the user. 
 	 */
 	public List<Role> getAllRoles() {
-		
-		/*final StringBuilder toReturn = new StringBuilder();
-		for(int i = 0; i < myRole.size(); i++){
-			toReturn.append(i + 1);
-			toReturn.append(". ");
-			toReturn.append(myRole.get(i).getRole());
-			toReturn.append('\n');
-		}
-		return toReturn.toString();
-		*/
 		List<Role> toReturn = new ArrayList<>();
 		for(int i = 0; i < myRole.size(); i++){
 			if(myRole.get(i).getConference().equals(myConference)){
@@ -157,7 +143,6 @@ public class User implements Serializable {
 	 * @return boolean If the role switch properly. 
 	 */
 	public void switchRole(Role theRole){
-		
 		boolean flag = false;
 		for(int i = 0; i < myRole.size(); i++){
 			if(myRole.get(i).equals(theRole)){
@@ -184,11 +169,8 @@ public class User implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object theOther){
-		
 		User theUser = (User)theOther;
-		
 		return myName.equals(theUser.myName);
-		
 	}
 	
 	/**
@@ -201,12 +183,9 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * Method to change the current role back to null.
 	 */
 	public void returnToNoRole() {
 		myCurrentRole = null;
 	}
-	
-	
-	
 }

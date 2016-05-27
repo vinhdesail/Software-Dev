@@ -105,5 +105,4 @@ public class Review implements Serializable {
 			return true;
 		}
 	}
-
 }
