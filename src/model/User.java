@@ -8,7 +8,8 @@ import java.util.List;
 /**
  * Class that represents a user in the system.
  * 
- * @author Justin A. Clark & Vinh Vien
+ * @author Justin A. Clark
+ * @author Vinh Vien
  * @version 1.0
  */
 public class User implements Serializable {
@@ -73,17 +74,19 @@ public class User implements Serializable {
 	 */
 	public void submitManuscript(Manuscript theManu, List<Manuscript> theMasterList) {
 		boolean isAuthor = false;
-		for(Role temp : myRole){
-			if(temp.getRole().equals("Author") && temp.getConference().equals(myConference)){
+		Author toAuthorAdd = null;
+		for(Role iterRole : myRole){
+			if(iterRole.getRole().equals("Author") && iterRole.getConference().equals(myConference)){
 				isAuthor = true;
+				toAuthorAdd = (Author) iterRole;
 			}
 		}
 		if(!isAuthor){
 			final Author toAdd = new Author(myName, myConference);
 			myRole.add(toAdd);
-			theMasterList.add(theManu);
+			toAdd.addManuscript(theMasterList, theManu);
 		} else {
-			theMasterList.add(theManu);
+			toAuthorAdd.addManuscript(theMasterList, theManu);
 		}	
 	}
 	
