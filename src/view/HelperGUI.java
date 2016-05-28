@@ -4,10 +4,13 @@
  */
 package view;
 
+import java.io.Console;
+import java.io.File;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import model.Manuscript;
 import model.Role;
 import model.User;
 
@@ -146,6 +149,25 @@ public class HelperGUI {
 	}
 	
 	/**
+	 * The method to display a list of manuscript.
+	 * @param theList The List.
+	 * @param theDisplayBack See if you want to display the back option.
+	 */
+	public static void displayManuscripts(List<Manuscript> theList, boolean theDisplayBack){
+		StringBuilder toDisplay = new StringBuilder();
+		toDisplay.append("\n---Manuscripts---\n");
+		for(int i = 0; i < theList.size(); i++){
+			toDisplay.append((i + 1) + ". " + theList.get(i).getTitle());
+			toDisplay.append("\n");
+		}
+		toDisplay.append("--end of manuscript list--\n");
+		if(theDisplayBack){
+			toDisplay.append("0. Back");
+		}
+		System.out.println(toDisplay.toString());
+	}
+	
+	/**
 	 * {@inheritDoc}
 	 * The toString method to return the formatted string.
 	 */
@@ -198,7 +220,6 @@ public class HelperGUI {
 			
 			// Print input and try to get selected option
 			while(!validRole){
-				
 				System.out.println(tempString);
 				int selected = getSelect(theConsole);
 				
@@ -222,5 +243,43 @@ public class HelperGUI {
 		}
 		//return toReturn;
 	}
+	
+	/**
+	 * Allows any user to submit a manuscript.
+	 * 
+	 */
+	public static void submitManuscript(Scanner theConsole, User theUser, List<Manuscript> theMasterList){
+		String manuscriptFile;
+		int select = 0;
+		boolean quit = false;
+		do {
+			theConsole.nextLine();
+			System.out.println("Please enter the File Path for the Manuscript (Type \"EXIT\" to Exit)");
+			manuscriptFile = theConsole.nextLine();		
+			
+			if(manuscriptFile.equalsIgnoreCase("EXIT")){
+				quit = true;
+			} else {
+				System.out.println("The Filed you entered is: " + manuscriptFile + "\nIs This correct? Press 1 for yes, or any integer to try again");
+				select = getSelect(theConsole);	
+			}
+		} while (select != 1 && !quit);			
+		
+		if(!quit){
+			// ASK FOR TITLE
+			theConsole.nextLine();
+			System.out.println("Please enter the Title of this Manuscript");
+			String manuscriptName = theConsole.nextLine();				
+			
+			if(!manuscriptName.equalsIgnoreCase("Exit")){
+				//File file = new File(manuscriptFile);				
+				Manuscript newManu = new Manuscript(theUser.getName(), theUser.getConference().getConferenceID(), manuscriptName, manuscriptFile);
+				theUser.submitManuscript(newManu, theMasterList);
+				System.out.println("!!!SUCCESS!!!");
+				System.out.println("Manuscript: " + manuscriptName + " Submited to conference: " + theUser.getConference().getConferenceID() + " !\n");
+			}
+		}
+	}
+	
 	
 }
