@@ -9,10 +9,9 @@ public class SubprogramChair extends Role implements Serializable {
 
 	/** Generated Serialization number. */
 	private static final long serialVersionUID = -888370705327456440L;
+	
 	/** A List of all of the Manuscripts that are assigned to this given Subprogram Chair.*/
 	private ArrayList<Manuscript> myAssignedManuscripts;
-	
-
 	
 	/**
 	 * The constructor for the Subprogram Chair Class.
@@ -30,7 +29,6 @@ public class SubprogramChair extends Role implements Serializable {
 	public void AssignReviewer(Reviewer theReviewer, Manuscript theManuscript) {//will need to pass a reviewer obj
 		theReviewer.assignReview(theManuscript);
 	}
-
 	
 	/**
 	 * A Method that returns all of the Manuscripts that have been assigned to this given Subprogram Chair.
@@ -45,24 +43,21 @@ public class SubprogramChair extends Role implements Serializable {
 	 * @param theManuscripts The Manuscript being assigned to the Subprogram Chair.
 	 */
 	public void assignManuscripts(Manuscript theManuscript) throws IllegalArgumentException{
-		
-			if(myAssignedManuscripts.size()< 4) {
-				int manuscriptFoundAt = (containsManuscriptAt(theManuscript));
-				if(manuscriptFoundAt == -1) {
-					if(theManuscript.getConference().equals(this.getConference().getConferenceID())) {
-						myAssignedManuscripts.add(theManuscript);
-					} else{
-						throw new IllegalArgumentException("The Manuscript being assigned to this SubprogramChair does not match its given conference.");
-					}					
-				} else {
-					throw new IllegalArgumentException("Manuscript has already been assigned.");
-				}			
+		if(myAssignedManuscripts.size()< 4) {
+			int manuscriptFoundAt = (containsManuscriptAt(theManuscript));
+			if(manuscriptFoundAt == -1) {
+				if(theManuscript.getConference().equals(this.getConference().getConferenceID())) {
+					myAssignedManuscripts.add(theManuscript);
+				} else{
+					throw new IllegalArgumentException("The Manuscript being assigned to this SubprogramChair does not match its given conference.");
+				}					
 			} else {
-				throw new IllegalArgumentException("Four Manuscripts have already been assigned to this SPC.");				
-			}
-			
+				throw new IllegalArgumentException("Manuscript has already been assigned.");
+			}			
+		} else {
+			throw new IllegalArgumentException("Four Manuscripts have already been assigned to this SPC.");				
+		}
 	}
-	
 	
 	/**
 	 * A Method that submits a Recommendation to a given Manuscript, if the Manuscript is within the Subprogram Chairs List.
@@ -82,7 +77,6 @@ public class SubprogramChair extends Role implements Serializable {
 		}
 	}
 	
-	
 	/**
 	 * A Method that returns the Text of a Recommendation of a given Manuscript, if the Manuscript is within the Subprogram Chairs List.
 	 * @param theManuscript The Manuscript that the Recommendation belongs to.
@@ -96,23 +90,19 @@ public class SubprogramChair extends Role implements Serializable {
 				recommendationText = myAssignedManuscripts.get(manuscriptLocation).getRecommendation().getRecommmendationText();				
 			} else {
 				throw new IllegalArgumentException("Manuscript not found");
-			}
-			
+			}	
 		} else {
 			throw new IllegalArgumentException("No Assigned Manuscripts to get a reccemdation for.");
 		}		
 		return recommendationText;
 	}
 	
-	
-	//might not be needed. 
 	/**
 	 * A Method that returns the Text of a Recommendation of a given Manuscript, if the Manuscript is within the Subprogram Chairs List.
 	 * @param theManuscript The Manuscript that the Recommendation belongs to.
 	 * @return The Recommendation Text.
 	 */
 	public void editRecomendation(Manuscript theManuscript,String theRecommendationText) throws IllegalArgumentException{
-	    
 		if(myAssignedManuscripts.size() > 0 && myAssignedManuscripts.size() < 4) { //last part might not be needed.
 			if(containsManuscriptAt(theManuscript) >= 0) {
 				deleteRecomendation(theManuscript);
@@ -121,14 +111,11 @@ public class SubprogramChair extends Role implements Serializable {
 			} else {
 				throw new IllegalArgumentException("Manuscript not found");
 			}
-			
 		} else {
 			throw new IllegalArgumentException("No Assigned Manuscripts to get a reccemdation for.");
 		}
 	}
 	
-	
-	/*Might Not be needed*/
 	/**
 	 * A Method that sets a given Manuscripts Recommendation to be null, if the Manuscript is within the Subprogram Chairs List. 
 	 * @param theManuscript 
@@ -153,7 +140,6 @@ public class SubprogramChair extends Role implements Serializable {
 	}
 	
 	public boolean equals(Object theObj) {
-		
 		if(! (theObj instanceof SubprogramChair)) {
 			return false;
 		}		
@@ -172,9 +158,8 @@ public class SubprogramChair extends Role implements Serializable {
 			return false;
 		}
 		return true;
-}
+	}
 	
-
 	public int hashCode() {
 		return Objects.hash(this.myAssignedManuscripts,this.getMyUsername());
 	}
