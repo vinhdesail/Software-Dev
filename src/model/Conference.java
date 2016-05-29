@@ -44,7 +44,6 @@ public class Conference implements Serializable {
 	}
 	
 	/**
-	 * 
 	 * @param theConferenceID
 	 * @param theProgramChairID
 	 * @param theConferenceDate
@@ -56,7 +55,6 @@ public class Conference implements Serializable {
 	public Conference(String theConferenceID, String theProgramChairID, String theConferenceDate,
 						String theManuscriptDueDate, String theReviewDueDate, String theRecDueDate,
 						String theDecisionDueDate) {
-		
 		myConferenceID = theConferenceID;
 		myProgramChairID = theProgramChairID;
 		myConferenceDate = stringToDate(theConferenceDate);
@@ -64,7 +62,6 @@ public class Conference implements Serializable {
 		myReviewDueDate = stringToDate(theReviewDueDate);
 		myRecDueDate = stringToDate(theRecDueDate);
 		myDecisionDueDate = stringToDate(theDecisionDueDate);	
-		
 	}
 	
 	public String getConferenceID() {
@@ -114,7 +111,6 @@ public class Conference implements Serializable {
 		return null;
 	}
 	
-	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -155,5 +151,4 @@ public class Conference implements Serializable {
 		} 
 		return true;
 	}
-
 }

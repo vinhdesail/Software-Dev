@@ -11,17 +11,13 @@ public class ProgramChair extends Role implements Serializable {
 	
 	/** Generated Serialization number. */
 	private static final long serialVersionUID = 79453357450439428L;
-	/**The Conference that this Program Chair belongs to.*/
-	private Conference myConference;
 	
 	/**
 	 * The ProgramChair Constructor.
 	 * @param theConference The conference that this Program Chair belongs to.
 	 */
 	public ProgramChair(Conference theConference , String theUserName) {
-		super("Program Chair", theUserName, theConference);//Formating can be changed to whatever is easiest to work with.
-		myConference = theConference; //might be changed if a copy constructor is made. 
-		
+		super("Program Chair", theUserName, theConference);
 	}
 
 	/**
@@ -49,9 +45,8 @@ public class ProgramChair extends Role implements Serializable {
 	 */
 	public List<Manuscript> showAllManuscripts(List<Manuscript> theManuscripts) {
 		List<Manuscript> returnManuscripts = new ArrayList<Manuscript>();
-		
 		for(int i = 0; i < theManuscripts.size(); i++){
-			if(theManuscripts.get(i).getConference().equals(myConference.getConferenceID())) {
+			if(theManuscripts.get(i).getConference().equals(super.getConference().getConferenceID())) {
 				returnManuscripts.add(theManuscripts.get(i));
 			}
 		}
@@ -64,14 +59,13 @@ public class ProgramChair extends Role implements Serializable {
 	 * @return
 	 */
 	public Map<SubprogramChair, List<Manuscript>> findAllManuscriptsAssociatedWithEverySPC(List<User> users) {
-		
 		Map<SubprogramChair, List<Manuscript>> allSPCManus = new HashMap<>();
 		SubprogramChair subprogramChairToCompareForConferenceCheck;
 		for(int i = 0; i < allSPCManus.size();i++) {
 			for(int j = 0; j < users.get(i).getListOfAllRoles().size();j++) {
 				if(users.get(i).getListOfAllRoles().get(j) instanceof SubprogramChair) {
 					subprogramChairToCompareForConferenceCheck = (SubprogramChair)users.get(i).getListOfAllRoles().get(j);
-					if(subprogramChairToCompareForConferenceCheck.getConference().equals(myConference)) {
+					if(subprogramChairToCompareForConferenceCheck.getConference().equals(super.getConference())) {
 						allSPCManus.put(subprogramChairToCompareForConferenceCheck, showAllManuscriptAssignedToSpc((SubprogramChair)users.get(i).getListOfAllRoles().get(j)));	
 					}
 				}
@@ -93,7 +87,7 @@ public class ProgramChair extends Role implements Serializable {
 			for(int i = 0; i < tempRole.size(); i++){
 				if(tempRole.get(i) instanceof SubprogramChair){
 					subprogramChairToCompare = (SubprogramChair)tempRole.get(i);
-					if(subprogramChairToCompare.getConference().equals(myConference)) {
+					if(subprogramChairToCompare.getConference().equals(super.getConference())) {
 						toReturn.add(subprogramChairToCompare);
 					}					
 				}
@@ -116,7 +110,6 @@ public class ProgramChair extends Role implements Serializable {
 	 */
 	public void rejectManuscript(Manuscript theManuscript) {
 		theManuscript.setStatus(-1);
-		
 	}
 	
 	/**
@@ -132,25 +125,21 @@ public class ProgramChair extends Role implements Serializable {
 	 * {@inheritDoc}
 	 */
 	public boolean equals(Object theObj) {
-		
 		if(!(theObj instanceof ProgramChair)) {			
 			return false;
 		}
 		ProgramChair pc = (ProgramChair) theObj;
 		if(this.getMyUsername().equals(pc.getMyUsername())) {
-			if(this.myConference.equals(pc.myConference)) {
+			if(super.getConference().equals(pc.getConference())) {
 				return true;
 			} else {
 				return false;
 			}
 		}
 		return false;
-		
 	}
 	
 	public int hashCode() {
-		return Objects.hash(this.myConference,this.getMyUsername());
+		return Objects.hash(super.getConference(),this.getMyUsername());
 	}
-	
-	
 }

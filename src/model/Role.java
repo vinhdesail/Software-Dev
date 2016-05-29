@@ -11,7 +11,6 @@ import java.util.List;
  * @version 1.1
  */
 public class Role implements Serializable {
-	
 
 	/**
 	 * Serialize number.
@@ -24,29 +23,15 @@ public class Role implements Serializable {
 	private String myUsername;
 	
 	/** The conference for that role. */
-	protected Conference myConference;
-	
+	private Conference myConference;
 
-//	/**
-//	 * The constructor to take roletype and username.
-//	 * @param roleType The role type.
-//	 * @param username The user name.
-//	 * @deprecated No longer used.
-//	 */
-//	public Role(String roleType, String username) {
-//		Date tempDate = Conference.stringToDate("18-10-2016");
-//		myRoleName =  roleType;
-//		myUsername = username;
-//		myConference = new Conference("Default", "Default", tempDate, tempDate, tempDate, tempDate, tempDate);
-//	}
-	
 	/**
 	 * A constructor to take in conference as a field also.
 	 * @param roleType The role type.
 	 * @param username The username.
 	 * @param theConference The conference. 
 	 */
-	public Role(String roleType, String username, Conference theConference) {
+	public Role(final String roleType, final String username, final Conference theConference) {
 		myRoleName =  roleType;
 		myUsername = username;
 		myConference = theConference;
@@ -96,18 +81,15 @@ public class Role implements Serializable {
 	 * The method to get all manuscript for this conference.
 	 * @param theMaserList The main list.
 	 */
-	public List<Manuscript> getAllManuscriptForThisConference(List<Manuscript> theMasterList){
+	public List<Manuscript> getAllManuscriptForThisConference(final List<Manuscript> theMasterList){
 		List<Manuscript> toReturn = new ArrayList<>();
-		
 		for(int i = 0; i < theMasterList.size(); i++){
 			if(theMasterList.get(i).getConference().equals(myConference.getConferenceID())){
 				toReturn.add(theMasterList.get(i));
 			}
 		}
-		
 		return toReturn;
 	}
-	
 	
 	/**
 	 * {@inheritDoc}
@@ -115,17 +97,13 @@ public class Role implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object theOther) {
-		
 		if (!(theOther instanceof Role)) {
 			return false;
 		}
-
 		Role theRole = (Role) theOther;
-		
 		return this.myConference.equals(theRole.myConference) && 
 				this.myRoleName.equals(theRole.myRoleName) && 
 				this.myUsername.equals(theRole.myUsername);
-		
 	}
 	
 	/**
@@ -136,6 +114,4 @@ public class Role implements Serializable {
 	public int hashCode(){
 		return myRoleName.hashCode() + myUsername.hashCode() + myConference.hashCode();
 	}
-	
-	
 }
