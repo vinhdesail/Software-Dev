@@ -12,6 +12,9 @@ public class SubprogramChair extends Role implements Serializable {
 	/** A List of all of the Manuscripts that are assigned to this given Subprogram Chair.*/
 	private ArrayList<Manuscript> myAssignedManuscripts;
 	
+	private static final int MAX_AMOUNT_OF_MANUSCRIPTS = 4;
+	
+	private static final int EMPTY = 0;
 	/**
 	 * The constructor for the Subprogram Chair Class.
 	 */
@@ -42,7 +45,7 @@ public class SubprogramChair extends Role implements Serializable {
 	 * @param theManuscripts The Manuscript being assigned to the Subprogram Chair.
 	 */
 	public void assignManuscripts(Manuscript theManuscript) throws IllegalArgumentException{		
-			if(myAssignedManuscripts.size()< 4) {
+			if(!containsMaxAmmountOfManuscripts()) {
 				int manuscriptFoundAt = (containsManuscriptAt(theManuscript));
 				if(manuscriptFoundAt == -1) {
 					if(theManuscript.getConference().equals(this.getConference().getConferenceID())) {
@@ -64,9 +67,9 @@ public class SubprogramChair extends Role implements Serializable {
 	 * @param theRecommendationText The Text that carries the Recommendation body.
 	 */
 	public void submitRecomendation(Manuscript theManuscript, String theRecommendationText) throws IllegalArgumentException {		
-		if(myAssignedManuscripts.size() > 0 && myAssignedManuscripts.size() < 4) { //last part might not be needed.
+		if(myAssignedManuscripts.size() > EMPTY && !containsMaxAmmountOfManuscripts()) { //last part might not be needed.
 			int manuscriptLocation = containsManuscriptAt(theManuscript);
-			if(manuscriptLocation >= 0) {
+			if(manuscriptLocation >= EMPTY) {
 				if(!Objects.nonNull(myAssignedManuscripts.get(manuscriptLocation).getRecommendation() )) {
 					Recommendation recommendation = new Recommendation(super.getMyUsername(), theManuscript.getTitle(), theRecommendationText);
 					theManuscript.setRecommendation(recommendation);
@@ -89,8 +92,8 @@ public class SubprogramChair extends Role implements Serializable {
 	public String getRecommendationText(Manuscript theManuscript) throws IllegalArgumentException {
 		String recommendationText = "";
 		int manuscriptLocation = containsManuscriptAt(theManuscript);
-		if(myAssignedManuscripts.size() > 0 && myAssignedManuscripts.size() < 4) { //last part might not be needed.
-			if(manuscriptLocation >= 0) {
+		if(myAssignedManuscripts.size() > EMPTY && !containsMaxAmmountOfManuscripts()) { //last part might not be needed.
+			if(manuscriptLocation >= EMPTY) {
 				recommendationText = myAssignedManuscripts.get(manuscriptLocation).getRecommendation().getRecommmendationText();				
 			} else {
 				throw new IllegalArgumentException("Manuscript not found");
@@ -108,8 +111,8 @@ public class SubprogramChair extends Role implements Serializable {
 	 * @return The Recommendation Text.
 	 */
 	public void editRecomendation(Manuscript theManuscript,String theRecommendationText) throws IllegalArgumentException{    
-		if(myAssignedManuscripts.size() > 0 && myAssignedManuscripts.size() < 4) { //last part might not be needed.
-			if(containsManuscriptAt(theManuscript) >= 0) {
+		if(myAssignedManuscripts.size() > EMPTY && !containsMaxAmmountOfManuscripts()) { //last part might not be needed.
+			if(containsManuscriptAt(theManuscript) >= EMPTY) {
 				deleteRecomendation(theManuscript);
 				Recommendation recommendation = new Recommendation(super.getMyUsername(), theManuscript.getTitle(), theRecommendationText);
 				theManuscript.setRecommendation(recommendation);									
@@ -144,10 +147,18 @@ public class SubprogramChair extends Role implements Serializable {
 		}
 		return foundAt;
 	}
+	/**
+	 * A Method that returns a boolean value that represents the state of if this Subprogram Chair contains the maximum amount of Manuscripts.
+	 * @return False if this given SubprogramChair still contains room for more Manuscripts, True if it can not be assigned more. 	 
+	 */
+	public boolean containsMaxAmmountOfManuscripts() {
+		if(myAssignedManuscripts.size() < MAX_AMOUNT_OF_MANUSCRIPTS) {
+			return false;
+		}
+		return true;
+	}
 	
-	@Override
-	public boolean equals(Object theObj) {
-
+	public boolean equals(Object theObj) {	
 		if(! (theObj instanceof SubprogramChair)) {
 			return false;
 		}		
