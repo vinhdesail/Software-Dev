@@ -4,13 +4,12 @@
  */
 package view;
 
-import java.io.Console;
-import java.io.File;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 import model.Manuscript;
+import model.Review;
 import model.Role;
 import model.User;
 
@@ -161,6 +160,25 @@ public class HelperGUI {
 			toDisplay.append("\n");
 		}
 		toDisplay.append("--end of manuscript list--\n");
+		if(theDisplayBack){
+			toDisplay.append("0. Back");
+		}
+		System.out.println(toDisplay.toString());
+	}
+	
+	/**
+	 * The method to display a list of review for manuscripts.
+	 * @param theList The List.
+	 * @param theDisplayBack See if you want to display the back option.
+	 */
+	public static void displayReviews(List<Review> theList, boolean theDisplayBack){
+		StringBuilder toDisplay = new StringBuilder();
+		toDisplay.append("\n---Reviews---\n");
+		for(int i = 0; i < theList.size(); i++){
+			toDisplay.append((i + 1) + ". " + theList.get(i).getManuscriptTitle());
+			toDisplay.append("\n");
+		}
+		toDisplay.append("--end of reviews list--\n");
 		if(theDisplayBack){
 			toDisplay.append("0. Back");
 		}
