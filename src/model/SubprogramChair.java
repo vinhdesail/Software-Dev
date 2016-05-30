@@ -145,7 +145,9 @@ public class SubprogramChair extends Role implements Serializable {
 		return foundAt;
 	}
 	
-	public boolean equals(Object theObj) {	
+
+	@Override
+	public boolean equals(Object theObj) {
 		if(! (theObj instanceof SubprogramChair)) {
 			return false;
 		}		

@@ -127,6 +127,24 @@ public class SubprogramChairTest {
 		} 				
 	}
 	
+	/**
+	 * This test is to check the rule for a Subprogram Chair that checks if it has been assigned the maximum number of Manuscripts. In this test there is only one
+	 * Manuscript that has been assigned to the Subprogram Chair, so the expected result is false.
+	 */
+	@Test
+	public void containsMaxAmmountOfManuscriptsWhereThereIsOnlyOneManuscriptAssignedTest() {		
+		 assertFalse(mySubprogramChairThatContainsOneManuscript.containsMaxAmmountOfManuscripts());			
+	}	
+	
+	/**
+	 * This test is to check the rule for a Subprogram Chair that checks if it has been assigned the maximum number of Manuscripts. In this test there are four
+	 * Manuscripts that has been assigned to the Subprogram Chair, so the expected result is True.
+	 */
+	@Test
+	public void containsMaxAmmountOfManuscriptsWhereTheSubprogramChairHasBeenAssignedTheMaxAmountOfManuscriptsTest() {		
+		 assertTrue(mySubprogramChairThatContainsFourManuscripts.containsMaxAmmountOfManuscripts());			
+	}	
+	
 	@Test
 	public void containsManuscriptAtMethodWhereManuscriptIsNotWithinTheSPCWhereTheListIsEmptyTest() {		
 		 assertEquals(mySubprogramChairThatContainsNoManuscripts.containsManuscriptAt(firstManuscript),-1);				
