@@ -35,7 +35,16 @@ public class Manuscript implements Serializable {
 	
 	/** The full text of the manuscript itself, as a String. */
 	private String myURL;
-
+	
+//	/** 
+//	 * The no-argument constructor creates a Manuscript object but all fields must be manually
+//	 * set user setter methods.
+//	 */
+//	public Manuscript() {
+//		myStatus = 0;
+//		myReviews = new ArrayList<Review>();
+//	}
+	
 	/**
 	 * Creates a Manuscript object with all fields specified by parameters.
 	 * @param theAuthorID - the Author's unique username (User ID)
@@ -44,13 +53,16 @@ public class Manuscript implements Serializable {
 	 * @param theURL - the URL to the file location that contains the Manuscript text
 	 */
 	public Manuscript(String theAuthorID, String theConference, String theTitle, 
-			String theURL) {	
+			String theURL) {
+		
 		myStatus = 0;
 		myReviews = new ArrayList<Review>();
 		myRecommendation = null;
+		
 		myAuthorID = theAuthorID;
 		myConference = theConference;
 		myTitle = theTitle;
+		
 		myURL = theURL;
 	}
 	
@@ -220,11 +232,12 @@ public class Manuscript implements Serializable {
 		}
 		// cast theOther as a Manuscript (called other)
 		Manuscript other = (Manuscript) theOther;
-		// compare all fields for equality	
-		 if (Objects.isNull(myRecommendation) || Objects.isNull(((Manuscript)theOther).myRecommendation)) {
+		// compare all fields for equality
+		
+		 if (Objects.isNull(myRecommendation) || Objects.isNull(other.myRecommendation)) {
 			    if(Objects.nonNull(myRecommendation) && Objects.isNull(((Manuscript)theOther).myRecommendation)) {
 			    	return false;
-			    } else if(Objects.isNull(myRecommendation) && Objects.nonNull(((Manuscript)theOther).myRecommendation)) {
+			    } else if(Objects.isNull(myRecommendation) && Objects.nonNull(other.myRecommendation)) {
 			    	return false;
 			    } else {
 			    	skipper = false;		    	
@@ -234,7 +247,7 @@ public class Manuscript implements Serializable {
 			return false;
 		} else if (!myReviews.equals(other.myReviews)) {
 			return false;
-		} else if(skipper && !myRecommendation.equals(((Manuscript)theOther).myRecommendation)) {  
+		} else if(skipper && !myRecommendation.equals(other.getRecommendation())) {  
 			return false;
 		} else if (!myAuthorID.equals(other.myAuthorID)) {
 			return false;
@@ -246,6 +259,7 @@ public class Manuscript implements Serializable {
 			return false;
 		} 
 			return true;
+		
 	}
 	
 	/**
@@ -254,4 +268,22 @@ public class Manuscript implements Serializable {
 	public int hashCode() {
 		return this.toString().hashCode();
 	}
+	
+//	/**
+//	 * Overrides the Object hashCode method for consistency with the overridden equals method.
+//	 */
+//	@Override
+//	public int hashCode() {
+//		int hash = myStatus;
+//		hash += myReviews.hashCode();
+//		hash += myRecommendation.hashCode();
+//		hash += myConference.hashCode();
+//		hash += myAuthorID.hashCode();
+//		hash += myTitle.hashCode();
+//		hash += myText.hashCode();
+//		return hash;
+//	}
+	
+	
+
 }

@@ -1,0 +1,152 @@
+package view;
+
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+import model.Manuscript;
+import model.ProgramChair;
+import model.Recommendation;
+import model.Reviewer;
+import model.Role;
+import model.SubprogramChair;
+import model.User;
+
+public class SubprogramChairGUI {
+
+	/** The main console */
+	private Scanner myConsole;
+	
+	/** The user current selected */
+	private User myUser;
+	
+	/** The role. */
+	private SubprogramChair myRole;
+	
+	/** The List of users. */
+	private final Map<String, User> myListOfUser;
+	
+	/** The Master List. */
+	private final List<Manuscript> myMasterList;
+	
+	/** The helper GUI */
+	private final HelperGUI myHelper;
+	
+	/**
+	 * The constructor for the gui.
+	 * @param Scanner The main console.
+	 * @param User The user using the program.
+	 */
+	public SubprogramChairGUI(Scanner theConsole, User theUser, Map<String, User> theListOfUser, List<Manuscript> theMasterList){
+		if(theConsole == null){
+			throw new IllegalArgumentException("theConsole Cannot be null");
+		} else if( theUser == null ) {
+			throw new IllegalArgumentException("theUse Cannot be null");
+		} else if(theListOfUser == null) {
+			throw new IllegalArgumentException("theListOfUser Cannot be null");
+		} else if(theMasterList == null) {
+			throw new IllegalArgumentException("theMasterList Cannot be null");
+		}
+		myConsole = theConsole;
+		myUser = theUser;
+		myListOfUser = theListOfUser;
+		myMasterList = theMasterList;
+		if(!(myUser.getCurrentRole() instanceof SubprogramChair)){
+			throw new InputMismatchException();
+		}
+		myRole = (SubprogramChair)myUser.getCurrentRole();
+		myHelper = new HelperGUI(myUser.getName(), myRole.getRole(), myUser.getConference().getConferenceID(), "Subprogram Chair Menu");
+	}
+	
+	public boolean loop() {
+		
+		boolean logout = false;
+		do {
+			System.out.println("\n---------------\n");
+			myHelper.setMyActivity("Subprogram Chair Menu");
+			System.out.println(myHelper);
+			
+			System.out.println("\n---------------\n\nWhat Do you want to do?");
+			System.out.println("1. Assign A Reviewer A Manuscript");
+			System.out.println("2. Submit a Recommendation");
+			System.out.println("3. Logout");
+			
+			int select = HelperGUI.getSelect(myConsole);
+			
+			if(select == 1){		
+					myHelper.setMyActivity("Please Select a Manuscript to be assigned");
+					
+					Manuscript tempManu = manuscriptSelectionMenu();															
+					Reviewer tempReviewer = reviewerSelectionMenu();	
+					
+					myRole.AssignReviewer(tempReviewer, tempManu);				
+					System.out.println("Success!\n\n\n\n\n");
+					
+			} else if(select == 2) { 
+				System.out.println("Please Select a Manuscript for your recommendation");
+				
+				List<Manuscript> tempList = myRole.showAllAssignedManuscripts();
+				for(int i  = 0; i < tempList.size();i++) {
+					System.out.println((i + 1) + ". " + tempList.get(i).getTitle());
+				}
+				System.out.println("--end of manuscript list--");
+				select = HelperGUI.getSelect(myConsole);
+				Manuscript tempManu = tempList.get(select-1);
+				myConsole.nextLine();
+				System.out.print("Write a recommendation: ");
+				String recText = myConsole.nextLine();
+				Recommendation rec = new Recommendation(myRole.getMyUsername(), tempManu.getTitle(), recText);
+				tempManu.setRecommendation(rec);
+				System.out.println("Success!\n\n\n\n\n");
+			} else if(select == 3) {
+				logout = true;
+			}
+			
+			
+		} while(!logout);
+		
+		return logout;
+
+	}
+	
+
+	public Manuscript manuscriptSelectionMenu() {
+		Manuscript manuscriptThatHasBeenSelected;
+		int selection = 0;
+		List<Manuscript> tempList = myRole.showAllAssignedManuscripts();
+		for(int i = 0; i < tempList.size(); i++){
+			System.out.println((i + 1) + ". " + tempList.get(i).getTitle());
+		}
+		System.out.println("--end of manuscript list--");
+		selection = HelperGUI.getSelect(myConsole);
+		manuscriptThatHasBeenSelected = tempList.get(selection-1);
+		
+		return manuscriptThatHasBeenSelected;
+	}
+	
+	public Reviewer reviewerSelectionMenu() {
+		Reviewer reviewerThatHasBeenSelected;
+		int select = 0;
+		List<Reviewer> tempReviewerList = new ArrayList<>();
+		System.out.println("Please Select a reviewer to be assigned");
+		int indexToDisplay = 1;
+		for(String userName: myListOfUser.keySet()) {
+			Role roleToBeCheckedIfReviewer;
+			for(int i = 0; i < myListOfUser.get(userName).getListOfAllRoles().size(); i++) {
+				roleToBeCheckedIfReviewer = myListOfUser.get(userName).getListOfAllRoles().get(i);
+				if(roleToBeCheckedIfReviewer instanceof Reviewer) {
+					System.out.println((indexToDisplay++) + ". " + ((Reviewer)roleToBeCheckedIfReviewer).getMyUsername());
+					tempReviewerList.add((Reviewer)roleToBeCheckedIfReviewer);
+				}
+			}
+		}
+		select = HelperGUI.getSelect(myConsole);
+		reviewerThatHasBeenSelected = tempReviewerList.get(select-1);
+		return reviewerThatHasBeenSelected;
+		
+	}
+	
+}
+

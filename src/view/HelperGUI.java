@@ -244,6 +244,7 @@ public class HelperGUI {
 		//return toReturn;
 	}
 	
+	
 	/**
 	 * Allows any user to submit a manuscript.
 	 * 
@@ -283,3 +284,4 @@ public class HelperGUI {
 	
 	
 }
+
