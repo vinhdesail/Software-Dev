@@ -91,6 +91,26 @@ public class User implements Serializable {
 	}
 	
 	/**
+	 * Set the default role for this conference.
+	 * Priority Author > Others.
+	 */
+	public void autoSetRole(){
+		if(myRole.isEmpty()){
+			myCurrentRole = null;
+		} else {
+			for(Role iterRole : myRole){
+				if(iterRole.getRole().equals("Author") && iterRole.getConference().equals(myConference)){
+					myCurrentRole = iterRole;
+				}
+			}
+			// IF author not found just pick the first role.
+			if(myCurrentRole == null){
+				myCurrentRole = myRole.get(0);
+			}
+		}
+	}
+	
+	/**
 	 * Check if they have a role.
 	 * @return boolean If they have roles.
 	 */

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import model.Manuscript;
+import model.Review;
 import model.Role;
 import model.User;
 
@@ -168,6 +169,28 @@ public class HelperGUI {
 	}
 	
 	/**
+<<<<<<< HEAD
+=======
+	 * The method to display a list of review for manuscripts.
+	 * @param theList The List.
+	 * @param theDisplayBack See if you want to display the back option.
+	 */
+	public static void displayReviews(List<Review> theList, boolean theDisplayBack){
+		StringBuilder toDisplay = new StringBuilder();
+		toDisplay.append("\n---Reviews---\n");
+		for(int i = 0; i < theList.size(); i++){
+			toDisplay.append((i + 1) + ". " + theList.get(i).getManuscriptTitle());
+			toDisplay.append("\n");
+		}
+		toDisplay.append("--end of reviews list--\n");
+		if(theDisplayBack){
+			toDisplay.append("0. Back");
+		}
+		System.out.println(toDisplay.toString());
+	}
+	
+	/**
+>>>>>>> refs/heads/Vinh
 	 * {@inheritDoc}
 	 * The toString method to return the formatted string.
 	 */
@@ -243,7 +266,6 @@ public class HelperGUI {
 		}
 		//return toReturn;
 	}
-	
 	
 	/**
 	 * Allows any user to submit a manuscript.

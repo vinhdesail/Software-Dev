@@ -82,6 +82,7 @@ public class LogIn {
 			} else {
 				// SELECT A CONFERENCE
 				selectConference(console, currentUser);
+				currentUser.autoSetRole();
 			}
 			
 			if(!backToLogin){
@@ -162,8 +163,6 @@ public class LogIn {
 		return toReturn;
 	}
 	
-	
-	
 	/**
 	 * Test initialization for debugging.
 	 */
@@ -237,6 +236,7 @@ public class LogIn {
 		//ADD some review
 		Review review = new Review("Pat", "How To Increase Sales", "I really like his points");
 		tempManu.addReview(review);
+		tempManu.setStatus(1);
 		
 		
 		//Test Subprogram Chair

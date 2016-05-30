@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import model.Author;
 import model.Manuscript;
+import model.Review;
 import model.Role;
 import model.User;
 
@@ -108,8 +109,10 @@ public class AuthorGUI {
 				logout = true;
 				break;
 			case -1:
-				if(myIsAuthor){
+				if(myUser.hasRole()){
 					myHelper.selectRole(myConsole, myUser);
+					myHelper.setMyRoleName("Author");
+					myRole = (Author) myUser.getCurrentRole();
 				} else {
 					System.out.println("Submit a manuscript to get a role - Author");
 				}
@@ -156,7 +159,7 @@ public class AuthorGUI {
 		myHelper.setMyActivity("Submiting a Manuscript");
 		System.out.println(myHelper);
 		if(myIsAuthor){
-			List<Manuscript> listOfManuscript = myRole.getAllManuscriptForThisConference(myMasterList);
+			List<Manuscript> listOfManuscript = myRole.showAllMyManuscript(myMasterList, myUser.getName());
 			System.out.println("Showing all Manuscripts");
 			HelperGUI.displayManuscripts(listOfManuscript, false);
 			System.out.println();
@@ -164,18 +167,19 @@ public class AuthorGUI {
 		} else {
 			HelperGUI.submitManuscript(myConsole, myUser, myMasterList);
 			
-			assignToAuthor();
+			assignRoleToAuthor(myUser);
 		}
 		
 	}
 	
+	//TODO
 	/**
 	 * Assign role author to a non author.
 	 * Use for testing this logic.
 	 */
-	public void assignToAuthor(){
+	public void assignRoleToAuthor(User theUser){
 		
-		List<Role> listOfRole = myUser.getAllRoles();
+		List<Role> listOfRole = theUser.getAllRoles();
 		Author toAssign = null;
 		for(Role iterRole : listOfRole){
 			if(iterRole instanceof Author){
@@ -184,33 +188,115 @@ public class AuthorGUI {
 		}
 		
 		if(toAssign != null){
-			myUser.switchRole(toAssign);
+			theUser.switchRole(toAssign);
 			myRole = toAssign;
 			myHelper.setMyRoleName(myRole.getRole());
 			myIsAuthor = true;
 		}
 	}
 	
+	/**
+	 * You can only change the manuscript title.
+	 */
+	private void optionToUnsubmitAManuscript() {
+		myHelper.setMyActivity("Unsubmitting a Manuscript");
+		System.out.println(myHelper);
+		
+		List<Manuscript> listOfManuscript = myRole.showAllMyManuscript(myMasterList, myUser.getName());
+		HelperGUI.displayManuscripts(listOfManuscript, true);
+		int selectedManu = HelperGUI.getSelect(myConsole);
+		
+		if(selectedManu == 0){
+			System.out.println(HelperGUI.BACK);
+		} else {
+			myRole.deleteManuscript(myMasterList, listOfManuscript.get(selectedManu - 1));
+			System.out.println("Manuscript Unsubmitted Successful\n--Displaying All Your Manuscript--");
+			listOfManuscript = myRole.showAllMyManuscript(myMasterList, myUser.getName());
+			HelperGUI.displayManuscripts(listOfManuscript, false);
+		}
+	}
+	
+	private void optionToEditAManuscript() {
+		
+		myHelper.setMyActivity("Editing a Manuscript");
+		System.out.println(myHelper);
+		
+		List<Manuscript> listOfManuscript = myRole.showAllMyManuscript(myMasterList, myUser.getName());
+		HelperGUI.displayManuscripts(listOfManuscript, true);
+		int selectedManu = HelperGUI.getSelect(myConsole);
+		
+		if(selectedManu == 0){
+			System.out.println(HelperGUI.BACK);
+		} else {
+			String title = askForTitle();
+			if(!title.equalsIgnoreCase("EXIT")){
+				Manuscript newManuscript = new Manuscript(myUser.getName(), myUser.getConference().getConferenceID(), 
+						title, listOfManuscript.get(selectedManu - 1).getText());
+				myRole.editManuscript(myMasterList, listOfManuscript.get(selectedManu - 1), newManuscript);
+				System.out.println("SUCCESS!!!\n--Displaying All Your Manuscript--");
+				listOfManuscript = myRole.showAllMyManuscript(myMasterList, myUser.getName());
+				HelperGUI.displayManuscripts(listOfManuscript, false);
+			}
+		}
+	}
 	
 	private String askForTitle(){
+		myConsole.nextLine();
 		System.out.println("Please enter the Title of this Manuscript or \"EXIT\" to quit");
-		String manuscriptName = myConsole.nextLine();				
+		String manuscriptName = myConsole.nextLine();
+		int correctTitle = 0;
+		while(!manuscriptName.equalsIgnoreCase("EXIT") && correctTitle != 1){
+			System.out.println("Is this the name you want? (1 for yes, any integer for no): " + manuscriptName);
+			correctTitle = HelperGUI.getSelect(myConsole);
+			if(correctTitle != 1){
+				System.out.println("Please enter the Title of this Manuscript or \"EXIT\" to quit");
+				manuscriptName = myConsole.nextLine();
+			}
+		}
 		
 		return manuscriptName;
 	}
 	
-	private void optionToUnsubmitAManuscript() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	private void optionToEditAManuscript() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	private void optionToViewAllReviews() {
-		// TODO Auto-generated method stub
 		
+		myHelper.setMyActivity("Editing a Manuscript");
+		System.out.println(myHelper);
+		
+		List<Review> listOfReview = myRole.getReviews();
+		HelperGUI.displayReviews(listOfReview, true);
+		int selectedReview = HelperGUI.getInt(myConsole);
+		
+		if(selectedReview == 0){
+			System.out.println(HelperGUI.BACK);
+		} else {
+			Manuscript relatedManuscript = this.getManuConnectedWithReview(listOfReview.get(selectedReview - 1));
+			System.out.println(relatedManuscript.getTitle());
+			System.out.print("Status: ");
+			if(relatedManuscript.getStatus() == 1){
+				System.out.print("Accepted\n");
+			} else {
+				System.out.print("Rejected\n");
+			}
+			//System.out.println(listOfReview.get(selectedReview - 1));
+		}
+		
+	}
+	
+	//TODO
+	/**
+	 * Method to test logic of getting a manuscript connected to review.
+	 * @param The review.
+	 * @return The correct manuscript, null if otherwise.
+	 */
+	public Manuscript getManuConnectedWithReview(Review theReview){
+		Manuscript toReturn = null;
+		
+		List<Manuscript> listOfManuscript = myRole.showAllMyManuscript(myMasterList, myUser.getName());
+		for(int i = 0; i < listOfManuscript.size(); i++){
+			if(listOfManuscript.get(i).getTitle().equals(theReview.getManuscriptTitle())){
+				toReturn = listOfManuscript.get(i);
+			}
+		}
+		return toReturn;
 	}
 }
