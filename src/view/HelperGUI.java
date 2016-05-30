@@ -169,8 +169,6 @@ public class HelperGUI {
 	}
 	
 	/**
-<<<<<<< HEAD
-=======
 	 * The method to display a list of review for manuscripts.
 	 * @param theList The List.
 	 * @param theDisplayBack See if you want to display the back option.
@@ -190,7 +188,6 @@ public class HelperGUI {
 	}
 	
 	/**
->>>>>>> refs/heads/Vinh
 	 * {@inheritDoc}
 	 * The toString method to return the formatted string.
 	 */

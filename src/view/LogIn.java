@@ -62,8 +62,8 @@ public class LogIn {
 	 */
 	public LogIn(){
 		
-		//initializeFields();
-		restorePreviousState();
+		initializeFields();
+		//restorePreviousState();
 		Scanner console = new Scanner(System.in);
 		System.out.println("Log-In");
 		
@@ -74,7 +74,7 @@ public class LogIn {
 			User currentUser = login(console);
 			
 			boolean logout =  false;
-			boolean returnToNoRole = false;
+			//boolean returnToNoRole = false;
 			boolean backToLogin = false;
 			if(currentUser == null){
 				exit = true;
@@ -90,17 +90,19 @@ public class LogIn {
 				
 				if(currentRole == null){
 					AuthorGUI authorUI = new AuthorGUI(console, currentUser, myMasterList, false);
-					returnToNoRole = authorUI.loop();
+					authorUI.loop();
 				} else if(currentRole instanceof Author){
 					AuthorGUI authorUI = new AuthorGUI(console, currentUser, myMasterList, true);
-					returnToNoRole = authorUI.loop();
+					authorUI.loop();
 				} else if(currentRole instanceof ProgramChair){
 					ProgramChairGUI pcUI = new ProgramChairGUI(console, currentUser, myUsers, myMasterList);
-					returnToNoRole = pcUI.loop();
+					pcUI.loop();
 				} else if(currentRole instanceof SubprogramChair){
-					returnToNoRole = subprogramChairBranch(console, (SubprogramChair) currentRole);
+					SubprogramChairGUI spcUI = new SubprogramChairGUI(console, currentUser, myUsers, myMasterList);
+					spcUI.loop();
+					//returnToNoRole = subprogramChairBranch(console, (SubprogramChair) currentRole);
 				} else if(currentRole instanceof Reviewer){
-					returnToNoRole = reviewerBranch(console, (Reviewer) currentRole);
+					reviewerBranch(console, (Reviewer) currentRole);
 				}
 				
 //				if(logout){
@@ -285,7 +287,7 @@ public class LogIn {
 		pat.switchConference(testConference);
 		Reviewer rev3 = new Reviewer("Pat", testConference);
 		pat.addRole(rev3);
-		myUsers.put("Harry", pat);
+		myUsers.put("Pat", pat);
 		
 		
 		
@@ -338,7 +340,7 @@ public class LogIn {
 		
 		System.out.println("What conference?");
 		System.out.println(temp.toString());
-		int select = getSelect(theConsole);
+		int select = HelperGUI.getSelect(theConsole);
 		theUser.switchConference(myConferences.get(select - 1));
 		System.out.println("You selected: " + myConferences.get(select - 1).getConferenceID());
 		
