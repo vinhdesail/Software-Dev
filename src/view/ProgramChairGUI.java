@@ -53,7 +53,10 @@ public class ProgramChairGUI {
 		myListOfUser = theListOfUser;
 		myMasterList = theMasterList;
 		if(!(myUser.getCurrentRole() instanceof ProgramChair)){
-			throw new InputMismatchException();
+			throw new InputMismatchException("User need current Role of Program Chair");
+		}
+		if(myUser.getConference() == null){
+			throw new InputMismatchException("User need conference");
 		}
 		myRole = (ProgramChair)myUser.getCurrentRole();
 		myHelper = new HelperGUI(myUser.getName(), myRole.getRole(), myUser.getConference().getConferenceID(), "Program Chair Menu");
@@ -109,13 +112,13 @@ public class ProgramChairGUI {
 	 * The method to display all manuscript.
 	 * @return Manuscript The manuscript.
 	 */
-	public Manuscript displayAllManuscript(){
+	private Manuscript displayAllManuscript(){
 		
 		Manuscript toReturn = null;
 		System.out.println(myHelper);
 		
 		List<Manuscript> listOfManu = myRole.showAllManuscripts(myMasterList);
-		displayManuscripts(listOfManu, true);
+		HelperGUI.displayManuscripts(listOfManu, true);
 		
 		int select2 = HelperGUI.getSelect(myConsole);
 		if(select2 == 0){
@@ -126,30 +129,12 @@ public class ProgramChairGUI {
 		return toReturn;
 	}
 	
-	/**
-	 * The method to display a list of manuscript.
-	 * @param theList The List.
-	 * @param theDisplayBack See if you want to display the back option.
-	 */
-	public void displayManuscripts(List<Manuscript> theList, boolean theDisplayBack){
-		StringBuilder toDisplay = new StringBuilder();
-		toDisplay.append("\n---Manuscripts---\n");
-		for(int i = 0; i < theList.size(); i++){
-			toDisplay.append((i + 1) + ". " + theList.get(i).getTitle());
-			toDisplay.append("\n");
-		}
-		toDisplay.append("--end of manuscript list--\n");
-		if(theDisplayBack){
-			toDisplay.append("0. Back");
-		}
-		System.out.println(toDisplay.toString());
-	}
 	
 	/**
 	 * The method to display all subprogram chair.
 	 * @param theList The List.
 	 */
-	public void displayAllSubprogramChair(List<SubprogramChair> theList){
+	private void displayAllSubprogramChair(List<SubprogramChair> theList){
 		StringBuilder toDisplay = new StringBuilder();
 		toDisplay.append("\nSelect a Program Chair\n");
 		for(int i = 0; i < theList.size(); i++){
@@ -166,7 +151,7 @@ public class ProgramChairGUI {
 	/**
 	 * The method to view for the GUI of submitted manuscript.
 	 */
-	public void optionViewAListOfSubmittedManuscript(){
+	private void optionViewAListOfSubmittedManuscript(){
 		myHelper.setMyActivity("View a list of all submitted manuscripts");
 		Manuscript manu = displayAllManuscript();
 		if(manu != null){
@@ -177,7 +162,7 @@ public class ProgramChairGUI {
 	/**
 	 * The method for the GUI of Accept or Reject paper.
 	 */
-	public void optionAcceptOrRejectManuscript(){
+	private void optionAcceptOrRejectManuscript(){
 		myHelper.setMyActivity("\nMake acceptance decision");
 		Manuscript manu = displayAllManuscript();
 		
@@ -199,7 +184,7 @@ public class ProgramChairGUI {
 	/**
 	 * The method for the option of see paper assigned to SPC.
 	 */
-	public void optionShowPaperAssignToSPC(){
+	private void optionShowPaperAssignToSPC(){
 		
 		myHelper.setMyActivity("See which papers are assigned to which Subprogram chairs");
 		System.out.println(myHelper);
@@ -215,41 +200,50 @@ public class ProgramChairGUI {
 			System.out.println("You selected : " + tempArr.get(select2 - 1).getMyUsername());
 			System.out.println("--Showing Related Manuscripts--");
 			List<Manuscript> tempList = myRole.showAllManuscriptAssignedToSpc(tempArr.get(select2 - 1));
-			displayManuscripts(tempList, false);
+			HelperGUI.displayManuscripts(tempList, false);
 		}
 	}
 	
 	/**
-	 * The methof for the option to designate a spc for a manuscript.
+	 * The method for the option to designate a spc for a manuscript.
 	 */
-	public void optionToDesignateASPCForAManuscript(){
+	private void optionToDesignateASPCForAManuscript(){
 		myHelper.setMyActivity("Designate a Subprogram Chair for a manuscript");
 		System.out.println(myHelper);
 		
 		List<Manuscript> listManuscript = myRole.getAllManuscriptForThisConference(myMasterList);
-		displayManuscripts(listManuscript, true);
-		int select2 = HelperGUI.getSelect(myConsole);
+		HelperGUI.displayManuscripts(listManuscript, true);
+		int userSelectedManuscriptNumber = HelperGUI.getSelect(myConsole);
 		
 		
-		if(select2 == 0){
+		if(userSelectedManuscriptNumber == 0){
 			System.out.println(HelperGUI.BACK);
 		} else {
-			System.out.println("You pick: " + myMasterList.get(select2 - 1).getTitle());
+			System.out.println("You pick: " + myMasterList.get(userSelectedManuscriptNumber - 1).getTitle());
 			
-			List<SubprogramChair> tempArr = myRole.getAllSubprogramChair(myListOfUser);
+			List<SubprogramChair> listOfSubprogramChair = myRole.getAllSubprogramChair(myListOfUser);
 			System.out.println("-Select a Subprogram to assign too-");
-			displayAllSubprogramChair(tempArr);
-			int select3 = HelperGUI.getSelect(myConsole);
-			if(select3 == 0){
-				System.out.println(HelperGUI.BACK);
-			} else {
-				try{
-					tempArr.get(select3 - 1).assignManuscripts(myMasterList.get(select2 - 1));
-					System.out.println("Success!");
-				} catch(IllegalArgumentException e){
-					System.out.println(e.getMessage());
-					System.out.println("Unable to assign Manuscript");
-				}
+			displayAllSubprogramChair(listOfSubprogramChair);
+			int userSelectedSubprogramChairNumber = HelperGUI.getSelect(myConsole);
+			
+			// LOGIC STATEMENT
+			assignManuscriptToSubprogramChair(userSelectedSubprogramChairNumber, listOfSubprogramChair, userSelectedManuscriptNumber);
+		}
+	}
+	
+	/**
+	 * The logic for assigning the manuscript for sub-program chair. Mostly use for testing.
+	 */
+	public void assignManuscriptToSubprogramChair(final int theSelectedNumber, List<SubprogramChair> theListOfSubProgramChair, int theManuscriptNumber){
+		if(theSelectedNumber == 0){
+			System.out.println(HelperGUI.BACK);
+		} else {
+			try{
+				theListOfSubProgramChair.get(theSelectedNumber - 1).assignManuscripts(myMasterList.get(theManuscriptNumber - 1));
+				System.out.println("Success!");
+			} catch(IllegalArgumentException e){
+				System.out.println(e.getMessage());
+				System.out.println("Unable to assign Manuscript");
 			}
 		}
 	}

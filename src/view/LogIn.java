@@ -62,87 +62,63 @@ public class LogIn {
 	 */
 	public LogIn(){
 		
-		//TODO
-		
-		//initializeFields();
-		restorePreviousState();
-		
+		initializeFields();
+		//restorePreviousState();
 		Scanner console = new Scanner(System.in);
-		
 		System.out.println("Log-In");
 		
 		boolean exit = false;
-		
-		
+
 		// MAIN PROGRAM LOOP
 		do{
-			
 			User currentUser = login(console);
 			
-			// SELECT A CONFERENCE
-			selectConference(console, currentUser);
-			
 			boolean logout =  false;
+			//boolean returnToNoRole = false;
 			boolean backToLogin = false;
-			boolean returnToNoRole = false;
-			do{
-				
+			if(currentUser == null){
+				exit = true;
+				backToLogin = true;
+			} else {
+				// SELECT A CONFERENCE
+				selectConference(console, currentUser);
+				currentUser.autoSetRole();
+			}
+			
+			if(!backToLogin){
 				Role currentRole = currentUser.getCurrentRole();
 				
 				if(currentRole == null){
-					logout = noRole(console, currentUser);
+					AuthorGUI authorUI = new AuthorGUI(console, currentUser, myMasterList, false);
+					authorUI.loop();
 				} else if(currentRole instanceof Author){
-					returnToNoRole = authorBranch(console, (Author) currentRole, currentUser);
+					AuthorGUI authorUI = new AuthorGUI(console, currentUser, myMasterList, true);
+					authorUI.loop();
 				} else if(currentRole instanceof ProgramChair){
-					ProgramChairGUI tempGui = new ProgramChairGUI(console, currentUser, myUsers, myMasterList);
-					returnToNoRole = tempGui.loop();
+					ProgramChairGUI pcUI = new ProgramChairGUI(console, currentUser, myUsers, myMasterList);
+					pcUI.loop();
 				} else if(currentRole instanceof SubprogramChair){
-					returnToNoRole = subprogramChairBranch(console, (SubprogramChair) currentRole);
+					SubprogramChairGUI spcUI = new SubprogramChairGUI(console, currentUser, myUsers, myMasterList);
+					spcUI.loop();
+					//returnToNoRole = subprogramChairBranch(console, (SubprogramChair) currentRole);
 				} else if(currentRole instanceof Reviewer){
-					returnToNoRole = reviewerBranch(console, (Reviewer) currentRole);
+					reviewerBranch(console, (Reviewer) currentRole);
 				}
 				
-				if(returnToNoRole){
-					currentUser.returnToNoRole();
-					returnToNoRole = false;
-				}
+//				if(logout){
+//					// Ask to make sure if they want to log out.
+//					System.out.println("Are you sure about logout? (1 for yes, any integer for no): ");
+//					int tempLogout = getInt(console);
+//					if(tempLogout == 1){
+//						backToLogin = true;
+//					}
+//				}
 				
-				if(logout){
-					// Ask to make sure if they want to log out.
-					System.out.println("Are you sure about logout? (1 for yes, any integer for no): ");
-					int tempLogout = getInt(console);
-					if(tempLogout == 1){
-						backToLogin = true;
-					}
-				}
-				
-			}while(!backToLogin);
-			
-			System.out.print("Exit Program? (yes or no :go back to login): ");
-			String answer = console.next();
-			if(answer.toLowerCase().charAt(0) == 'y'){
-				exit = true;
-			}
-			
+			}//end inner if
 		}while(!exit);
 		
-		
 		console.close();
-		
 		logout();
-	}
-	
-	/**
-	 * Get a int.
-	 * @param scanner the Console scanner.
-	 * @return int The integer.
-	 */
-	public int getInt(Scanner theConsole){
-		while(!theConsole.hasNextInt()){
-			theConsole.next();
-			System.out.print("Please enter an integer : ");
-		} 
-		return theConsole.nextInt();
 	}
 	
 	/**
@@ -174,17 +150,20 @@ public class LogIn {
 	 * @return List<Role> The list of roles related to the user.
 	 */
 	public User login(Scanner theConsole){
-		System.out.print("Username: ");
+		
+		User toReturn = null;
+		System.out.print("Username (Type \"EXIT\" to quit): ");
 		String username = theConsole.next();
-		while(!myUsers.containsKey(username)){
+		while(!username.equalsIgnoreCase("EXIT") && !myUsers.containsKey(username)){
 			System.out.println("Sorry, there was no user with that name!");
-			System.out.print("Please Enter another one: ");
+			System.out.print("Please Enter another one (\"EXIT\" to quit): ");
 			username = theConsole.next();
 		}
-		return myUsers.get(username);
+		if(!username.equalsIgnoreCase("EXIT")){
+			toReturn = myUsers.get(username);
+		}
+		return toReturn;
 	}
-	
-	
 	
 	/**
 	 * Test initialization for debugging.
@@ -259,6 +238,7 @@ public class LogIn {
 		//ADD some review
 		Review review = new Review("Pat", "How To Increase Sales", "I really like his points");
 		tempManu.addReview(review);
+		tempManu.setStatus(1);
 		
 		
 		//Test Subprogram Chair
@@ -307,7 +287,7 @@ public class LogIn {
 		pat.switchConference(testConference);
 		Reviewer rev3 = new Reviewer("Pat", testConference);
 		pat.addRole(rev3);
-		myUsers.put("Harry", pat);
+		myUsers.put("Pat", pat);
 		
 		
 		
@@ -360,7 +340,7 @@ public class LogIn {
 		
 		System.out.println("What conference?");
 		System.out.println(temp.toString());
-		int select = getSelect(theConsole);
+		int select = HelperGUI.getSelect(theConsole);
 		theUser.switchConference(myConferences.get(select - 1));
 		System.out.println("You selected: " + myConferences.get(select - 1).getConferenceID());
 		
@@ -392,7 +372,7 @@ public class LogIn {
 			tempString.append("--------End of List--------\n");
 			
 			// ADD IN BACK OPTION
-			tempString.append(tempRole.size() + 1);
+			tempString.append("0");
 			tempString.append(". BACK/EXIT\n");
 			
 			// Print input and try to get selected option
@@ -401,7 +381,7 @@ public class LogIn {
 				System.out.println(tempString);
 				int selected = this.getSelect(theConsole);
 				
-				if(selected == (tempRole.size() + 1)){
+				if(selected == 0){
 					validRole = true;
 				} else {
 					try{
@@ -626,6 +606,7 @@ public class LogIn {
 	 * @param theConsole The input scanner.
 	 * @param theUser The current User.
 	 * @return boolean If the user wants to logout or not.
+	 * @deprecated
 	 */
 	public boolean noRole(Scanner theConsole, User theUser){
 		
@@ -689,10 +670,25 @@ public class LogIn {
 	 * Get select.
 	 * @param Scanner The scanner.
 	 * @return int The selected.
+	 * @deprecated
 	 */
 	public int getSelect(Scanner theConsole){
 		System.out.print("\nSelect: ");
 		return getInt(theConsole);
+	}
+	
+	/**
+	 * Get a int.
+	 * @param scanner the Console scanner.
+	 * @return int The integer.
+	 * @deprecated
+	 */
+	public int getInt(Scanner theConsole){
+		while(!theConsole.hasNextInt()){
+			theConsole.next();
+			System.out.print("Please enter an integer : ");
+		} 
+		return theConsole.nextInt();
 	}
 	
 	
