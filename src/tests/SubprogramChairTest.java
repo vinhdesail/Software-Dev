@@ -32,12 +32,12 @@ public class SubprogramChairTest {
 	private SubprogramChair mySubprogramChairThatContainsNoManuscripts;
     private Conference myConferenceToTestForAllSPC;
     private Conference mySecondaryConferenceForADifferentManuscript;
-    private Manuscript firstManuscript; 
-    private Manuscript secondManuscript;
-    private Manuscript thirdManuscript;
-    private Manuscript fourthManuscript;
-    private Manuscript fifthManuscript;
-    private Manuscript sixthManuscript;
+    private Manuscript myFirstManuscript; 
+    private Manuscript mySecondManuscript;
+    private Manuscript myThirdManuscript;
+    private Manuscript myFourthManuscript;
+    private Manuscript myFifthManuscript;
+    private Manuscript mySixthManuscript;
     private Map<String, User> myUsers;
     private List<Role> myReviewers;
     private List<Role> myReviewersToBeComparedWithOtherReviewers;
@@ -52,24 +52,24 @@ public class SubprogramChairTest {
 				manuscriptDueDate, reviewDueDate, recommendationDueDate, decisionDueDate);		
 		mySecondaryConferenceForADifferentManuscript = new Conference("Family Troubles 2016", "foxeT", conferenceDate,
 				manuscriptDueDate, reviewDueDate, recommendationDueDate, decisionDueDate);	
-		firstManuscript = new Manuscript("Jane Foster", myConferenceToTestForAllSPC.getConferenceID(), "How To Manage Money in the new age", "The Body");
-		secondManuscript = new Manuscript("Tim Allen", myConferenceToTestForAllSPC.getConferenceID(), "What your savings should go to", "The Body");
-		thirdManuscript = new Manuscript("Bill Free", myConferenceToTestForAllSPC.getConferenceID(), "How Bankers have been misleading your time", "The Body");
-		fourthManuscript = new Manuscript("Carl Sargan", myConferenceToTestForAllSPC.getConferenceID(), "Where your money goes when it is deposited", "The Body");
-		fifthManuscript = new Manuscript("Paula Menroe", myConferenceToTestForAllSPC.getConferenceID(), "How much your money will be worth in twenty years", "The Body");
-		sixthManuscript =  new Manuscript("Zach Fair", mySecondaryConferenceForADifferentManuscript.getConferenceID(), "The New Family of today", "The Body");	
+		myFirstManuscript = new Manuscript("Jane Foster", myConferenceToTestForAllSPC.getConferenceID(), "How To Manage Money in the new age", "The Body");
+		mySecondManuscript = new Manuscript("Tim Allen", myConferenceToTestForAllSPC.getConferenceID(), "What your savings should go to", "The Body");
+		myThirdManuscript = new Manuscript("Bill Free", myConferenceToTestForAllSPC.getConferenceID(), "How Bankers have been misleading your time", "The Body");
+		myFourthManuscript = new Manuscript("Carl Sargan", myConferenceToTestForAllSPC.getConferenceID(), "Where your money goes when it is deposited", "The Body");
+		myFifthManuscript = new Manuscript("Paula Menroe", myConferenceToTestForAllSPC.getConferenceID(), "How much your money will be worth in twenty years", "The Body");
+		mySixthManuscript =  new Manuscript("Zach Fair", mySecondaryConferenceForADifferentManuscript.getConferenceID(), "The New Family of today", "The Body");	
 		mySubprogramChairThatContainsOneManuscript = new SubprogramChair("ImASPC",myConferenceToTestForAllSPC);
-		mySubprogramChairThatContainsOneManuscript.assignManuscripts(firstManuscript);
-		mySubprogramChairThatContainsOneManuscript.submitRecomendation(firstManuscript,"This Paper was alright. It seemed to lack substance.");	
+		mySubprogramChairThatContainsOneManuscript.assignManuscripts(myFirstManuscript);
+		mySubprogramChairThatContainsOneManuscript.submitRecomendation(myFirstManuscript,"This Paper was alright. It seemed to lack substance.");	
 		mySubprogramChairThatContainsOneManuscriptToCompareToOtherSPCWithOneManuscriptThatIsTheSame = new SubprogramChair("ImASPC",myConferenceToTestForAllSPC);
-		mySubprogramChairThatContainsOneManuscriptToCompareToOtherSPCWithOneManuscriptThatIsTheSame.assignManuscripts(firstManuscript);	
+		mySubprogramChairThatContainsOneManuscriptToCompareToOtherSPCWithOneManuscriptThatIsTheSame.assignManuscripts(myFirstManuscript);	
 		mySubprogramChairThatContainsOneManuscriptToCompareToOtherSPCWithOneManuscriptThatIsDifferent = new SubprogramChair("ImASPC",myConferenceToTestForAllSPC);
-		mySubprogramChairThatContainsOneManuscriptToCompareToOtherSPCWithOneManuscriptThatIsDifferent.assignManuscripts(secondManuscript);
+		mySubprogramChairThatContainsOneManuscriptToCompareToOtherSPCWithOneManuscriptThatIsDifferent.assignManuscripts(mySecondManuscript);
 		mySubprogramChairThatContainsFourManuscripts =  new SubprogramChair("ImASPCWithFourManuscript", myConferenceToTestForAllSPC);
-		mySubprogramChairThatContainsFourManuscripts.assignManuscripts(firstManuscript);
-		mySubprogramChairThatContainsFourManuscripts.assignManuscripts(secondManuscript);
-		mySubprogramChairThatContainsFourManuscripts.assignManuscripts(thirdManuscript);
-		mySubprogramChairThatContainsFourManuscripts.assignManuscripts(fourthManuscript);	
+		mySubprogramChairThatContainsFourManuscripts.assignManuscripts(myFirstManuscript);
+		mySubprogramChairThatContainsFourManuscripts.assignManuscripts(mySecondManuscript);
+		mySubprogramChairThatContainsFourManuscripts.assignManuscripts(myThirdManuscript);
+		mySubprogramChairThatContainsFourManuscripts.assignManuscripts(myFourthManuscript);	
 		mySubprogramChairThatContainsNoManuscripts = new SubprogramChair("ImASPCWithNoManuscript", myConferenceToTestForAllSPC);
 		
 		myUsers = new HashMap<String, User>();
@@ -104,8 +104,18 @@ public class SubprogramChairTest {
 	 * Tests if all of the manuscripts that are assigned will show in their assigned list.
 	 */
 	@Test
-	public void showAllAssignedManuscriptsTest() {			
-		assertSame(mySubprogramChairThatContainsOneManuscript.showAllAssignedManuscripts().get(0),firstManuscript);	
+	public void assignManuscriptTest() {			
+		assertSame(mySubprogramChairThatContainsOneManuscript.showAllAssignedManuscripts().get(0),myFirstManuscript);	
+	}
+	
+	@Test
+	public void assignManuscriptsExceptionWhenTryingToAddAManuscriptThatIsNullTest() {	
+		try {
+			   mySubprogramChairThatContainsOneManuscript.assignManuscripts(null);
+			   fail("Exception wasn't caught");			   
+		} catch (IllegalArgumentException theException) {
+			   
+		} 				
 	}
 	/**
 	 * Tests the Bus. Rule that if a reviewer already has been assigned Four Manuscripts, that it will throw an exception.
@@ -113,7 +123,7 @@ public class SubprogramChairTest {
 	@Test
 	public void assignManuscriptsExceptionListMaxedTest() {
 		try {
-			   mySubprogramChairThatContainsFourManuscripts.assignManuscripts(fifthManuscript);
+			   mySubprogramChairThatContainsFourManuscripts.assignManuscripts(myFifthManuscript);
 			   fail("Exception wasn't caught");			   
 		} catch (IllegalArgumentException theException) {
 			   
@@ -123,7 +133,7 @@ public class SubprogramChairTest {
 	@Test
 	public void assignManuscriptsExceptionListManuscriptAlreadyAddedTest() {
 		try {
-			   mySubprogramChairThatContainsOneManuscript.assignManuscripts(firstManuscript);
+			   mySubprogramChairThatContainsOneManuscript.assignManuscripts(myFirstManuscript);
 			   fail("Exception wasn't caught");			   
 		} catch (IllegalArgumentException theException) {
 			   
@@ -133,17 +143,20 @@ public class SubprogramChairTest {
 	@Test
 	public void assignManuscriptsExceptionWhenTryingToAddAManuscriptFromAnotherConferenceTest() {	
 		try {
-			   mySubprogramChairThatContainsOneManuscript.assignManuscripts(sixthManuscript);
+			   mySubprogramChairThatContainsOneManuscript.assignManuscripts(mySixthManuscript);
 			   fail("Exception wasn't caught");			   
 		} catch (IllegalArgumentException theException) {
 			   
 		} 				
 	}
-	
 	@Test
-	public void submitRecomendationExceptionEmptyMaxedTest() {
+	public void submitRecomendationTest() {	
+		assertEquals(mySubprogramChairThatContainsOneManuscript.getRecommendationText(myFirstManuscript),"This Paper was alright. It seemed to lack substance.");			
+	}
+	@Test
+	public void submitRecomendationExceptionWhereManuscriptIsNotWithinThisSubprogramChairTest() {
 		try {
-			   mySubprogramChairThatContainsOneManuscript.submitRecomendation(secondManuscript,"Test Text");
+			   mySubprogramChairThatContainsOneManuscript.submitRecomendation(mySecondManuscript,"Test Text");
 			   fail("Exception wasn't caught");			   
 		} catch (IllegalArgumentException theException) {
 			   
@@ -151,16 +164,45 @@ public class SubprogramChairTest {
 	}
 	
 	@Test
-	public void submitRecomendationExceptionManuscriptNotFoundTest() {
+	public void submitRecomendationExceptionManuscriptAlreadyHasRecommendation() {	
+		try {
+			   mySubprogramChairThatContainsOneManuscript.submitRecomendation(myFirstManuscript,"Test Text");
+			   fail("Exception wasn't caught");			   
+		} catch (IllegalArgumentException theException) {
+			   
+		} 				
+	}
+	
+	@Test
+	public void submitRecomendationExceptionManuscriptWhereThisSubprogramChairHasNoAssignedManuscript() {	
+		try {
+			   mySubprogramChairThatContainsNoManuscripts.submitRecomendation(myFirstManuscript,"Test Text");
+			   fail("Exception wasn't caught");			   
+		} catch (IllegalArgumentException theException) {
+			   
+		} 				
+	}
+	
+	@Test
+	public void submitRecomendationExceptionManuscriptWhereTheGivenManuscriptIsNull() {		
+		try {
+			mySubprogramChairThatContainsOneManuscript.submitRecomendation(null,"Test Text");
+			   fail("Exception wasn't caught");			   
+		} catch (IllegalArgumentException theException) {
+			   
+		} 				
+	}
+	
+	@Test
+	public void submitRecomendationExceptionManuscriptWhereTheGivenRecommendationTextIsNull() {
 		
 		try {
-			   mySubprogramChairThatContainsOneManuscript.submitRecomendation(firstManuscript,"Test Text");
+			mySubprogramChairThatContainsOneManuscript.submitRecomendation(myFirstManuscript,null);
 			   fail("Exception wasn't caught");			   
 		} catch (IllegalArgumentException theException) {
 			   
 		} 				
 	}
-	
 	/**
 	 * This test is to check the rule for a Subprogram Chair that checks if it has been assigned the maximum number of Manuscripts. In this test there is only one
 	 * Manuscript that has been assigned to the Subprogram Chair, so the expected result is false.
@@ -181,28 +223,28 @@ public class SubprogramChairTest {
 	
 	@Test
 	public void containsManuscriptAtMethodWhereManuscriptIsNotWithinTheSPCWhereTheListIsEmptyTest() {		
-		 assertEquals(mySubprogramChairThatContainsNoManuscripts.containsManuscriptAt(firstManuscript),-1);				
+		 assertEquals(mySubprogramChairThatContainsNoManuscripts.containsManuscriptAt(myFirstManuscript),-1);				
 	}	
 	
 	@Test
 	public void containsManuscriptAtMethodWhereManuscriptIsNotWithinTheSPCWhereTheListIsNotEmptyTest() {		
-		assertEquals(mySubprogramChairThatContainsOneManuscript.containsManuscriptAt(secondManuscript),-1);				
+		assertEquals(mySubprogramChairThatContainsOneManuscript.containsManuscriptAt(mySecondManuscript),-1);				
 	}
 	
 	@Test
 	public void containsManuscriptAtMethodWhereManuscriptIsWithinTheSPCTest() {	
-		assertEquals(mySubprogramChairThatContainsOneManuscript.containsManuscriptAt(firstManuscript),0);
+		assertEquals(mySubprogramChairThatContainsOneManuscript.containsManuscriptAt(myFirstManuscript),0);
 	}	
 	
 	@Test
 	public void getRecommendationTextTest() {		
-		assertEquals(mySubprogramChairThatContainsOneManuscript.getRecommendationText(firstManuscript),"This Paper was alright. It seemed to lack substance.");
+		assertEquals(mySubprogramChairThatContainsOneManuscript.getRecommendationText(myFirstManuscript),"This Paper was alright. It seemed to lack substance.");
 	}
 	
 	@Test
-	public void getRecommendationTextExceptionMistakenManuTest() {
+	public void getRecommendationTextExceptionWhereTheGivenManuscriptIsNotAssignedToThisInstanceOfASubprogramChairTest() {
 		try {
-			   mySubprogramChairThatContainsOneManuscript.getRecommendationText(secondManuscript);
+			   mySubprogramChairThatContainsOneManuscript.getRecommendationText(mySecondManuscript);
 			   fail("Exception wasn't caught");			   
 		} catch (IllegalArgumentException theException) {
 			   
@@ -213,11 +255,32 @@ public class SubprogramChairTest {
 	public void getRecommendationTextExceptionManuscriptNotFoundTest() {
 		
 		try {
-			   mySubprogramChairThatContainsOneManuscript.getRecommendationText(secondManuscript);
+			   mySubprogramChairThatContainsOneManuscript.getRecommendationText(mySecondManuscript);
 			   fail("Exception wasn't caught");			   
 		} catch (IllegalArgumentException theException) {
 			   
 		} 				
+	}
+	
+	@Test
+	public void getRecommendationTextExceptionWhereTheGivenManuscriptIsNull() {
+		
+		try {
+			   mySubprogramChairThatContainsOneManuscript.getRecommendationText(null);
+			   fail("Exception wasn't caught");			   
+		} catch (IllegalArgumentException theException) {
+			   
+		} 				
+	}
+	
+	@Test
+	public void containsManuscriptAtExceptionWhereTheGivenManuscriptIsNullTest() {
+		try {
+			mySubprogramChairThatContainsOneManuscript.containsManuscriptAt(null);
+			   fail("Exception wasn't caught");			   
+		} catch (IllegalArgumentException theException) {
+			   
+		} 	
 	}
 	
 	@Test
@@ -228,31 +291,5 @@ public class SubprogramChairTest {
 	@Test
 	public void equalsWhereBothSPCAreTheDifferentByManuscript() {		
 		assertFalse(mySubprogramChairThatContainsOneManuscript.equals(mySubprogramChairThatContainsOneManuscriptToCompareToOtherSPCWithOneManuscriptThatIsDifferent));
-	}
-	
-	@Test
-	public void editRecomendationExceptionEmptyMaxedTest() {
-		try {
-			   mySubprogramChairThatContainsOneManuscript.editRecomendation(secondManuscript,"New Text");
-			   fail("Exception wasn't caught");			   
-		} catch (IllegalArgumentException theException) {
-			   
-		} 				
-	}
-	
-	
-	
-	
-	
-	@Test
-	public void editRecomendationExceptionManuscriptNotFoundTest() {	
-		try {
-			   mySubprogramChairThatContainsOneManuscript.editRecomendation(secondManuscript, "This Paper was alright. It seemed to lack substance.");
-			   fail("Exception wasn't caught");			   
-		} catch (IllegalArgumentException theException) {
-			   
-		} 				
-	}
-	
-	
+	}	
 }

@@ -102,6 +102,7 @@ public class ProgramChair extends Role implements Serializable {
 		List<SubprogramChair> toReturn = new ArrayList<>();
 		SubprogramChair subprogramChairToCompare;
 		for(String temp : theUsers.keySet()){
+			theUsers.get(temp).switchConference(getConference());
 			List<Role> tempRole = theUsers.get(temp).getMyConferenceRoles();
 			for(int i = 0; i < tempRole.size(); i++){
 				if(tempRole.get(i) instanceof SubprogramChair){
