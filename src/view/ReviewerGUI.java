@@ -80,7 +80,7 @@ public class ReviewerGUI {
 			
 			switch (select){
 			case 1:
-				optionToViewManuscriptThatAreBeingReview();
+				optionToViewManuscriptThatAreBeingReview(true);
 				break;
 			case 2:
 				optionToSubmitAReview();
@@ -100,18 +100,20 @@ public class ReviewerGUI {
 	}
 
 	
-	private void optionToViewManuscriptThatAreBeingReview() {
-		myHelper.setMyActivity("View my List");
+	private void optionToViewManuscriptThatAreBeingReview(boolean theAskToView) {
+		
+		if(theAskToView)
+			myHelper.setMyActivity("View my List of Manuscript I been assigned");
 		System.out.println(myHelper);
 		
 		List<Manuscript> listOfManu = myRole.getMyManuscripts();
 		List<Manuscript> completed = myRole.getAlreadyReviewManuscript();
 		
-		displayManuscriptWithStatusOfReview(listOfManu, completed);
+		displayManuscriptWithStatusOfReview(listOfManu, completed, theAskToView);
 		
 	}
 	
-	private void displayManuscriptWithStatusOfReview(List<Manuscript> theMainList, List<Manuscript> theCompletedList){
+	private void displayManuscriptWithStatusOfReview(List<Manuscript> theMainList, List<Manuscript> theCompletedList, boolean theAskToView){
 		StringBuilder toDisplay = new StringBuilder();
 		toDisplay.append("\n---Manuscripts---\n");
 		String add = String.format(HelperGUI.FORMAT_TABLE, "Manuscript Name", "Completed");
@@ -130,11 +132,69 @@ public class ReviewerGUI {
 			toDisplay.append("\n");
 		}
 		toDisplay.append("--end of reviews list--\n");
+		toDisplay.append("0. Back");
 		System.out.println(toDisplay.toString());
+		
+		if(theAskToView){
+			selectManuscriptToView(theMainList);
+		}
 	}
 	
+	private void selectManuscriptToView(List<Manuscript> theManuscripts){
+		
+		System.out.println("Pick a manuscript to View");
+		int manuscriptPick = HelperGUI.getSelect(myConsole);
+		if(manuscriptPick == 0){
+			System.out.println(HelperGUI.BACK);
+		} else {
+			System.out.println(theManuscripts.get(manuscriptPick - 1).toString());
+		}
+	}
+	
+	
 	private void optionToSubmitAReview() {
-		// TODO Auto-generated method stub
+		myHelper.setMyActivity("Submit a Review");
+		System.out.println(myHelper);
+		
+		int select = -1;
+		boolean quit = false;
+		String reviewURI = "";
+		int recheck = -1; 
+		int selectedManuscript = -1;
+		
+		List<Manuscript> listOfManu = myRole.getMyManuscripts();
+		do{
+			System.out.println("Pick a Manuscript to review");
+			optionToViewManuscriptThatAreBeingReview(false);
+		
+			System.out.println("Please Pick a Manuscript");
+			selectedManuscript = HelperGUI.getSelect(myConsole);
+			
+			if(selectedManuscript == 0){
+				quit = true;
+			} else {
+				
+				System.out.println("Are you sure you want this manuscript(1 for Yes, any integer for no)? \n" + listOfManu.get(selectedManuscript - 1));
+				recheck = HelperGUI.getSelect(myConsole);
+			}
+		}while (recheck != 1 && !quit);
+		
+		while (select != 1 && !quit) {
+			myConsole.nextLine();
+			System.out.println("Please enter the File Path for the Review (Type \"EXIT\" to Exit)");
+			reviewURI = myConsole.nextLine();		
+			
+			if(reviewURI.equalsIgnoreCase("EXIT")){
+				quit = true;
+			} else {
+				System.out.println("The Filed you entered is: " + reviewURI + "\nIs This correct? Press 1 for yes, or any integer to try again");
+				select = HelperGUI.getSelect(myConsole);	
+			}
+		}	
+		
+		if(!quit){
+			myRole.submitReview(listOfManu.get(selectedManuscript - 1), reviewURI);
+		}
 		
 	}
 	
