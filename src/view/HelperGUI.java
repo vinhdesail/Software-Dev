@@ -31,7 +31,7 @@ public class HelperGUI {
 	public static final String BACK = "\n Back \n";
 	
 	/** Formatter Layout */
-	public static final String FORMAT_TABLE = "%30s %10s";
+	public static final String FORMAT_TABLE = "%-40s %-10s";
 	
 	/** The Username. */
 	private String myUsername;
