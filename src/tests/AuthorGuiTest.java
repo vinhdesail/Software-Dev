@@ -82,6 +82,6 @@ public class AuthorGuiTest {
 	
 	@Test
 	public void getManuConnectedWithReviewWhereTheManuscriptIsNotConnectedWithTheReviewTest() {
-		assertNotEquals(myManuscript,myAuthorGUIForTestingReviews.getManuConnectedWithReview(myOtherReview));
+		assertEquals(null,myAuthorGUIForTestingReviews.getManuConnectedWithReview(myOtherReview));
 	}
 }
