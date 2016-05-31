@@ -18,61 +18,67 @@ import model.User;
 /**
  * 
  * @author Vinh Vien
- * @version 1.0
+ * @version 2016.05.31
  */
 public class AuthorGUI {
 	
-	/** The main console */
+	/* The main console */
 	private Scanner myConsole;
 	
-	/** The user current selected */
+	/* The user current selected */
 	private User myUser;
 	
-	/** The role. */
+	/* The role of the User. */
 	private Author myRole;
 	
-	/** The Master List. */
+	/* The Master List of all submitted Manuscripts. */
 	private final List<Manuscript> myMasterList;
 	
-	/** The helper GUI */
+	/* The helper GUI */
 	private final HelperGUI myHelper;
-	/**Represents the option for viewing all Manuscripts within the Menu*/
+	
+	/* Represents the option for viewing all Manuscripts within the Menu */
 	private static final int VIEW_ALL_MANUSCRIPT = 1;
-	/**Represents the option for submitting Manuscripts within the Menu*/
+	
+	/* Represents the option for submitting Manuscripts within the Menu */
 	private static final int SUBMIT_MANUSCRIPT = 2;
-	/**Represents the option for Un-submitting Manuscripts within the Menu*/
+	
+	/* Represents the option for Un-submitting Manuscripts within the Menu */
 	private static final int UNSUBMIT_MANUSCRIPT = 3;
-	/**Represents the option for editing a Manuscripts within the Menu*/
+	
+	/* Represents the option for editing a Manuscripts within the Menu */
 	private static final int EDIT_MANUSCRIPT = 4;
-	/**Represents the option for viewing all Reviews within the Menu*/
+	
+	/* Represents the option for viewing all Reviews within the Menu */
 	private static final int VIEW_ALL_REVIEWS = 5;
-	/**Represents the option for logging out within the Menu*/
+	
+	/* Represents the option for logging out within the Menu */
 	private static final int LOGOUT = 0;
-	/**Represents the option for returning to the previous menu*/
+	
+	/* Represents the option for returning to the previous menu */
 	private static final int BACK = 0;
-	/**Represents the option for switching roles within the Menu*/
+	
+	/* Represents the option for switching roles within the Menu */
 	private static final int SWITCH_ROLE = -1;
-	/**Represents an Offset for various Checks*/
+	
+	/* Represents an Offset for various Checks */
 	private static final int OFFSET = 1;
-	/**Represents the fact that there is at least one instance within certain lists*/
+	
+	/* Represents the fact that there is at least one instance within certain lists */
 	private static final int AT_LEAST_ONE_INSTANCE = 1;
-	/**Represents the Acceptance Status of "Accepted"*/
+	
+	/* Represents the Acceptance Status of "Accepted" */
 	private static final int ACCEPTED = 1;
-	/** */
+	
+	/* Represents whether or not the User is an Author */
 	private boolean myIsAuthor;
 	
-	
-	
-	
-	
-	
 	/**
-	 * 
-	 * @param theConsole The console.
-	 * @param theUser User that is using the program.
-	 * @param theListOfUser The List of all users.
-	 * @param theMasterList The Master List of manuscript
-	 * @throws IllegalArgumentException if null was pass in.
+	 * @param theConsole - The main console.
+	 * @param theUser - User that is using the program.
+	 * @param theMasterList - The Master List of all submitted Manuscripts
+	 * @param theIsAuthor - boolean indicating whether or not theUser is an author
+	 * @throws IllegalArgumentException if any parameter is null
 	 * @throws InputMismatchException if role is not currently correct.
 	 */
 	public AuthorGUI(Scanner theConsole, User theUser, List<Manuscript> theMasterList, boolean theIsAuthor){
@@ -97,8 +103,8 @@ public class AuthorGUI {
 	}
 	
 	/**
-	 * The main method for the GUI. Controls everything.
-	 * @return boolean True if they want to logout.
+	 * The main control method for the AuthorGUI. 
+	 * @return boolean True if the User wants to logout, false otherwise.
 	 */
 	public boolean loop(){
 		boolean logout = false;
@@ -155,7 +161,7 @@ public class AuthorGUI {
 	}
 	
 	/**
-	 * Let user pick a manuscript and show it.
+	 * Allows the User to pick a manuscript and view it.
 	 */
 	private void optionToViewYourManuscript() {
 		
@@ -183,7 +189,7 @@ public class AuthorGUI {
 	}
 	
 	/**
-	 * Option when to submit a manuscript.
+	 * Allows the User to submit a manuscript.
 	 */
 	private void optionToSubmitAManuscript() {
 		
@@ -204,14 +210,13 @@ public class AuthorGUI {
 	}
 
 	/**
-	 * Assign role author to a non author.
-	 * Use for testing this logic.
+	 * Assigns the Role of Author to a non-Author.
 	 */
 	public void assignRoleToAuthor(User theUser){
 		
 		List<Role> listOfRole = theUser.getMyConferenceRoles();
 		Author toAssign = null;
-		for(Role iterRole : listOfRole){
+		for(Role iterRole : listOfRole) {
 			if(iterRole instanceof Author){
 				toAssign = (Author) iterRole;
 			}
@@ -226,7 +231,7 @@ public class AuthorGUI {
 	}
 	
 	/**
-	 * You can only change the manuscript title.
+	 * Allows the User to unsubmit a Manuscript
 	 */
 	private void optionToUnsubmitAManuscript() {
 		myHelper.setMyActivity("Unsubmitting a Manuscript");
@@ -246,6 +251,9 @@ public class AuthorGUI {
 		}
 	}
 	
+	/**
+	 * Allows the User to edit a submitted Manuscript
+	 */
 	private void optionToEditAManuscript() {
 		
 		myHelper.setMyActivity("Editing a Manuscript");
@@ -268,6 +276,10 @@ public class AuthorGUI {
 		}
 	}
 	
+	/**
+	 * Gets the title of a Manuscript as input from the User and returns that title as a String
+	 * @return String title of the Manuscript
+	 */
 	private String askForTitle(){
 		myConsole.nextLine();
 		System.out.println("Please enter the Title of this Manuscript or \"EXIT\" to quit");
@@ -285,6 +297,9 @@ public class AuthorGUI {
 		return manuscriptName;
 	}
 	
+	/**
+	 * Allows the User to view all Reviews associated with a Manuscript
+	 */
 	private void optionToViewAllReviews() {
 		
 		myHelper.setMyActivity("Editing a Manuscript");
@@ -311,9 +326,9 @@ public class AuthorGUI {
 	}
 	
 	/**
-	 * Method to test logic of getting a manuscript connected to review.
-	 * @param The review.
-	 * @return The correct manuscript, null if otherwise.
+	 * Method that gets the Manuscript connected to a particular Review.
+	 * @param theReview - Review on a Manuscript
+	 * @return Manuscript associated with theReview, or null if none exists
 	 */
 	public Manuscript getManuConnectedWithReview(Review theReview){
 		Manuscript toReturn = null;
