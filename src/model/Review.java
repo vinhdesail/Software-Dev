@@ -89,7 +89,7 @@ public class Review implements Serializable {
 	@Override
 	public boolean equals(Object theOther) {
 		// first check that theOther Object is a Review
-		if (!theOther.getClass().equals(this.getClass())) {
+		if (theOther == null || !theOther.getClass().equals(this.getClass())) {
 			return false;
 		}
 		// cast theOther as a Manuscript (called other)
