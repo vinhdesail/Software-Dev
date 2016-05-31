@@ -288,6 +288,8 @@ public class Manuscript implements Serializable {
 		return myAuthorID.equals(otherManuscript.myAuthorID) && myConference.equals(otherManuscript.myConference)
 				&& myFilePath.equals(otherManuscript.myFilePath) 
 				&& myHasBeenAssignedToASubprogramChair == otherManuscript.myHasBeenAssignedToASubprogramChair
+				&& Objects.nonNull(myRecommendation) 
+				&& Objects.nonNull(otherManuscript.myRecommendation)
 				&& myRecommendation.equals(otherManuscript.myRecommendation)
 				&& myReviews.equals(otherManuscript.myReviews) && myStatus == otherManuscript.myStatus
 				&& myTitle.equals(otherManuscript.myTitle);
