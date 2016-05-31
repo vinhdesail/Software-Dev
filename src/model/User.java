@@ -19,6 +19,10 @@ public class User implements Serializable {
 	 */
 	private static final long serialVersionUID = -1010666887890962915L;
 	
+	private static final int EMPTY = 0;
+	
+	private static final int FIRST_INDEX = 0;
+	
 	/**
 	 * The username.
 	 */
@@ -105,7 +109,7 @@ public class User implements Serializable {
 			}
 			// IF author not found just pick the first role.
 			if(myCurrentRole == null){
-				myCurrentRole = myRole.get(0);
+				myCurrentRole = myRole.get(FIRST_INDEX);
 			}
 		}
 	}
@@ -115,7 +119,7 @@ public class User implements Serializable {
 	 * @return boolean If they have roles.
 	 */
 	public boolean hasRole(){
-		return myRole.size() != 0;
+		return myRole.size() != EMPTY;
 	}
 	
 	/**

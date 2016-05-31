@@ -36,9 +36,35 @@ public class AuthorGUI {
 	
 	/** The helper GUI */
 	private final HelperGUI myHelper;
-	
+	/**Represents the option for viewing all Manuscripts within the Menu*/
+	private static final int VIEW_ALL_MANUSCRIPT = 1;
+	/**Represents the option for submitting Manuscripts within the Menu*/
+	private static final int SUBMIT_MANUSCRIPT = 2;
+	/**Represents the option for Un-submitting Manuscripts within the Menu*/
+	private static final int UNSUBMIT_MANUSCRIPT = 3;
+	/**Represents the option for editing a Manuscripts within the Menu*/
+	private static final int EDIT_MANUSCRIPT = 4;
+	/**Represents the option for viewing all Reviews within the Menu*/
+	private static final int VIEW_ALL_REVIEWS = 5;
+	/**Represents the option for logging out within the Menu*/
+	private static final int LOGOUT = 0;
+	/**Represents the option for returning to the previous menu*/
+	private static final int BACK = 0;
+	/**Represents the option for switching roles within the Menu*/
+	private static final int SWITCH_ROLE = -1;
+	/**Represents an Offset for various Checks*/
+	private static final int OFFSET = 1;
+	/**Represents the fact that there is at least one instance within certain lists*/
+	private static final int AT_LEAST_ONE_INSTANCE = 1;
+	/**Represents the Acceptance Status of "Accepted"*/
+	private static final int ACCEPTED = 1;
 	/** */
 	private boolean myIsAuthor;
+	
+	
+	
+	
+	
 	
 	/**
 	 * 
@@ -92,26 +118,26 @@ public class AuthorGUI {
 			int select = HelperGUI.getSelect(myConsole);
 			
 			switch (select){
-			case 1:
+			case VIEW_ALL_MANUSCRIPT:
 				optionToViewYourManuscript();
 				break;
-			case 2:
+			case SUBMIT_MANUSCRIPT:
 				optionToSubmitAManuscript();
 				break;
-			case 3:
+			case UNSUBMIT_MANUSCRIPT:
 				optionToUnsubmitAManuscript();
 				break;
-			case 4:
+			case EDIT_MANUSCRIPT:
 				optionToEditAManuscript();
 				break;
-			case 5:
+			case VIEW_ALL_REVIEWS:
 				optionToViewAllReviews();
 				break;
-			case 0:
+			case LOGOUT:
 				System.out.println();
 				logout = true;
 				break;
-			case -1:
+			case SWITCH_ROLE:
 				if(myUser.hasRole()){
 					switchRole = myHelper.selectRole(myConsole, myUser);
 					myHelper.setMyRoleName("Author");
@@ -144,10 +170,10 @@ public class AuthorGUI {
 			
 			int userSelect = HelperGUI.getSelect(myConsole);
 	
-			if(userSelect == 0){
+			if(userSelect == BACK){
 				System.out.println(HelperGUI.BACK);
 			} else {
-				System.out.println(listOfManuscript.get(userSelect - 1));
+				System.out.println(listOfManuscript.get(userSelect - OFFSET));
 			}
 			
 		} else {
@@ -210,10 +236,10 @@ public class AuthorGUI {
 		HelperGUI.displayManuscripts(listOfManuscript, true);
 		int selectedManu = HelperGUI.getSelect(myConsole);
 		
-		if(selectedManu == 0){
+		if(selectedManu == BACK){
 			System.out.println(HelperGUI.BACK);
 		} else {
-			myRole.deleteManuscript(myMasterList, listOfManuscript.get(selectedManu - 1));
+			myRole.deleteManuscript(myMasterList, listOfManuscript.get(selectedManu - OFFSET));
 			System.out.println("Manuscript Unsubmitted Successful\n--Displaying All Your Manuscript--");
 			listOfManuscript = myRole.showAllMyManuscripts();
 			HelperGUI.displayManuscripts(listOfManuscript, false);
@@ -229,12 +255,12 @@ public class AuthorGUI {
 		HelperGUI.displayManuscripts(listOfManuscript, true);
 		int selectedManu = HelperGUI.getSelect(myConsole);
 		
-		if(selectedManu == 0){
+		if(selectedManu == BACK){
 			System.out.println(HelperGUI.BACK);
 		} else {
 			String title = askForTitle();
 			if(!title.equalsIgnoreCase("EXIT")){
-				myRole.editManuscript(myMasterList, listOfManuscript.get(selectedManu - 1), title);
+				myRole.editManuscript(myMasterList, listOfManuscript.get(selectedManu - OFFSET), title);
 				System.out.println("SUCCESS!!!\n--Displaying All Your Manuscript--");
 				listOfManuscript = myRole.showAllMyManuscripts();
 				HelperGUI.displayManuscripts(listOfManuscript, false);
@@ -247,10 +273,10 @@ public class AuthorGUI {
 		System.out.println("Please enter the Title of this Manuscript or \"EXIT\" to quit");
 		String manuscriptName = myConsole.nextLine();
 		int correctTitle = 0;
-		while(!manuscriptName.equalsIgnoreCase("EXIT") && correctTitle != 1){
+		while(!manuscriptName.equalsIgnoreCase("EXIT") && correctTitle != AT_LEAST_ONE_INSTANCE){
 			System.out.println("Is this the name you want? (1 for yes, any integer for no): " + manuscriptName);
 			correctTitle = HelperGUI.getSelect(myConsole);
-			if(correctTitle != 1){
+			if(correctTitle != AT_LEAST_ONE_INSTANCE){
 				System.out.println("Please enter the Title of this Manuscript or \"EXIT\" to quit");
 				manuscriptName = myConsole.nextLine();
 			}
@@ -268,13 +294,13 @@ public class AuthorGUI {
 		HelperGUI.displayReviews(listOfReview, true);
 		int selectedReview = HelperGUI.getInt(myConsole);
 		
-		if(selectedReview == 0){
+		if(selectedReview == BACK){
 			System.out.println(HelperGUI.BACK);
 		} else {
-			Manuscript relatedManuscript = this.getManuConnectedWithReview(listOfReview.get(selectedReview - 1));
+			Manuscript relatedManuscript = this.getManuConnectedWithReview(listOfReview.get(selectedReview - OFFSET));
 			System.out.println(relatedManuscript.getTitle());
 			System.out.print("Status: ");
-			if(relatedManuscript.getStatus() == 1){
+			if(relatedManuscript.getStatus() == ACCEPTED){
 				System.out.print("Accepted\n");
 			} else {
 				System.out.print("Rejected\n");
