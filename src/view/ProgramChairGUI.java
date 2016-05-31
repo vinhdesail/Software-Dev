@@ -8,6 +8,7 @@ package view;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 import model.Manuscript;
@@ -35,6 +36,20 @@ public class ProgramChairGUI {
 	
 	/** The Master List. */
 	private final List<Manuscript> myMasterList;
+	private static final int VIEW_ALL_SUBMITTED_MANUSCRIPTS = 1;
+	private static final int MAKE_A_ACCEPTANCE_DECISION = 2;
+	private static final int SEE_PAPERS_ASSIGNED_TO_SUBPROGRAM_CHAIR = 3;
+	private static final int DESIGNATE_A_SUBPROGRAM_CHAIR_FOR_A_MANUSCRIPT = 4;
+	private static final int LOGOUT = 0;
+	private static final int SWITCH_TO_A_DIFFERENT_ROLE = -1;
+	private static final int SUBMIT_A_MANUSCRIPT_TO_THIS_CONFERENCE = -2;
+	private static final int OFFSET = 1;
+	private static final int BACK = 0;
+	private static final int APPROVED = 1;
+	private static final int REJECTED = -1;
+	private static final int BACK_TO_MAIN_MENU = 3;
+	private static final int ACCEPT = 1;
+	private static final int REJECT = 2;
 	
 	/** The helper GUI */
 	private final HelperGUI myHelper;
@@ -43,12 +58,18 @@ public class ProgramChairGUI {
 	 * The constructor for the GUI.
 	 * @param Scanner The main console.
 	 * @param User The user using the program.
-	 * @throws IllegalArgumentException if null was pass in.
+	 * @throws IllegalArgumentException if null was passed in for any of the parameters.
 	 * @throws InputMismatchException if role is not currently correct.
 	 */
 	public ProgramChairGUI(Scanner theConsole, User theUser, Map<String, User> theListOfUser, List<Manuscript> theMasterList){
-		if(theConsole == null || theUser == null || theListOfUser == null || theMasterList == null){
-			throw new IllegalArgumentException("Cannot accept null");
+		if(Objects.isNull(theConsole)){
+			throw new IllegalArgumentException("The Console cannot be null");
+		} else if(Objects.isNull(theUser)) {
+			throw new IllegalArgumentException("The User Object cannot be null");
+		} else if(Objects.isNull(theListOfUser)) {
+			throw new IllegalArgumentException("The Map Of Users cannot be null");
+		} else if(Objects.isNull(theMasterList)) {
+			throw new IllegalArgumentException("The List of Manuscripts cannot be null");
 		}
 		myConsole = theConsole;
 		myUser = theUser;
@@ -87,26 +108,26 @@ public class ProgramChairGUI {
 			int select = HelperGUI.getSelect(myConsole);
 			
 			switch (select){
-				case 1:
+				case VIEW_ALL_SUBMITTED_MANUSCRIPTS:
 					optionViewAListOfSubmittedManuscript();
 					break;
-				case 2:
+				case MAKE_A_ACCEPTANCE_DECISION:
 					optionAcceptOrRejectManuscript();
 					break;
-				case 3:
+				case SEE_PAPERS_ASSIGNED_TO_SUBPROGRAM_CHAIR:
 					optionShowPaperAssignToSPC();
 					break;
-				case 4:
+				case DESIGNATE_A_SUBPROGRAM_CHAIR_FOR_A_MANUSCRIPT:
 					optionToDesignateASPCForAManuscript();
 					break;
-				case 0:
+				case LOGOUT:
 					System.out.println();
 					logout = true;
 					break;
-				case -1:
+				case SWITCH_TO_A_DIFFERENT_ROLE:
 					switchRole = myHelper.selectRole(myConsole, myUser);
 					break;
-				case -2:
+				case SUBMIT_A_MANUSCRIPT_TO_THIS_CONFERENCE:
 					HelperGUI.submitManuscript(myConsole, myUser, myMasterList);
 					break;
 			}
@@ -129,10 +150,10 @@ public class ProgramChairGUI {
 		
 		
 		int select2 = HelperGUI.getSelect(myConsole);
-		if(select2 == 0){
+		if(select2 == BACK){
 			System.out.println(HelperGUI.BACK);
 		} else {
-			toReturn = listOfManu.get(select2 - 1);
+			toReturn = listOfManu.get(select2 - OFFSET);
 		}
 		return toReturn;
 	}
@@ -150,11 +171,11 @@ public class ProgramChairGUI {
 		toDisplay.append(add);
 		toDisplay.append('\n');
 		for(int i = 0; i < theListOfManu.size(); i++){
-			toDisplay.append((i + 1) + ". ");
-			if(theListOfManu.get(i).getStatus() == 1){
+			toDisplay.append((i + OFFSET) + ". ");
+			if(theListOfManu.get(i).getStatus() == APPROVED){
 				toAppend = String.format(HelperGUI.FORMAT_TABLE, theListOfManu.get(i).getTitle(), "Accepted");
 				toDisplay.append(toAppend);
-			} else if(theListOfManu.get(i).getStatus() == -1){
+			} else if(theListOfManu.get(i).getStatus() == REJECTED){
 				toAppend = String.format(HelperGUI.FORMAT_TABLE, theListOfManu.get(i).getTitle(), "Rejected");
 				toDisplay.append(toAppend);
 			} else {
@@ -176,7 +197,7 @@ public class ProgramChairGUI {
 		StringBuilder toDisplay = new StringBuilder();
 		toDisplay.append("\nSelect a Program Chair\n");
 		for(int i = 0; i < theList.size(); i++){
-			toDisplay.append((i + 1) + ". " + theList.get(i).getMyUsername());
+			toDisplay.append((i + OFFSET) + ". " + theList.get(i).getMyUsername());
 			toDisplay.append("\n");
 		}
 		toDisplay.append("--end of Program Chair list--\n");
@@ -207,12 +228,12 @@ public class ProgramChairGUI {
 		if(manu != null){
 			System.out.println("Accept (1) or Reject (2) or Back PC Menu (3)? :");
 			int select3 = HelperGUI.getInt(myConsole);
-			if(select3 == 3){
+			if(select3 == BACK_TO_MAIN_MENU){
 				System.out.println(HelperGUI.BACK);
-			} else if(select3 == 1){
+			} else if(select3 == ACCEPT){
 				myRole.approveManuscript(manu);
 				//System.out.println(manu.getStatus());
-			} else if(select3 == 2){
+			} else if(select3 == REJECT){
 				myRole.rejectManuscript(manu);
 			}
 		}
@@ -232,12 +253,12 @@ public class ProgramChairGUI {
 		displayAllSubprogramChair(tempArr);
 		
 		int select2 = HelperGUI.getSelect(myConsole);
-		if(select2 == 0){
+		if(select2 == BACK){
 			System.out.println(HelperGUI.BACK);
 		} else {
-			System.out.println("You selected : " + tempArr.get(select2 - 1).getMyUsername());
+			System.out.println("You selected : " + tempArr.get(select2 - OFFSET).getMyUsername());
 			System.out.println("--Showing Related Manuscripts--");
-			List<Manuscript> tempList = myRole.showAllManuscriptAssignedToSpc(tempArr.get(select2 - 1));
+			List<Manuscript> tempList = myRole.showAllManuscriptAssignedToSpc(tempArr.get(select2 - OFFSET));
 			HelperGUI.displayManuscripts(tempList, false);
 		}
 	}
@@ -256,7 +277,7 @@ public class ProgramChairGUI {
 			int userSelectedManuscriptNumber = HelperGUI.getSelect(myConsole);
 		
 			back = false;
-			if(userSelectedManuscriptNumber == 0){
+			if(userSelectedManuscriptNumber == BACK){
 				System.out.println(HelperGUI.BACK);
 			} else {
 				System.out.println("You pick: " + myMasterList.get(userSelectedManuscriptNumber - 1).getTitle());
@@ -266,7 +287,7 @@ public class ProgramChairGUI {
 				displayAllSubprogramChair(listOfSubprogramChair);
 				int userSelectedSubprogramChairNumber = HelperGUI.getSelect(myConsole);
 				
-				if(userSelectedSubprogramChairNumber == 0){
+				if(userSelectedSubprogramChairNumber == BACK){
 					back = true;
 				}
 				// LOGIC STATEMENT
@@ -283,7 +304,7 @@ public class ProgramChairGUI {
 			System.out.println(HelperGUI.BACK);
 		} else {
 			try{
-				theListOfSubProgramChair.get(theSelectedNumber - 1).assignManuscripts(myMasterList.get(theManuscriptNumber - 1));
+				theListOfSubProgramChair.get(theSelectedNumber - OFFSET).assignManuscripts(myMasterList.get(theManuscriptNumber - OFFSET));
 				System.out.println("Success!");
 			} catch(IllegalArgumentException e){
 				System.out.println(e.getMessage());
