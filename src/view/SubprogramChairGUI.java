@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 import model.Manuscript;
@@ -95,10 +96,16 @@ public class SubprogramChairGUI {
 	
 	public void assignManuscriptToReviewerMenu() {
 		myHelper.setMyActivity("Please Select a Manuscript to be assigned");					
-		Manuscript tempManu = manuscriptSelectionMenu();															
-		Reviewer tempReviewer = reviewerSelectionMenu();						
-		myRole.AssignReviewer(tempReviewer, tempManu);				
-		System.out.println("Success!\n\n\n\n\n");	
+		Manuscript tempManu = manuscriptSelectionMenu();
+		if(Objects.nonNull(tempManu)) {
+			Reviewer tempReviewer = reviewerSelectionMenu();
+			if(Objects.isNull(tempReviewer)) {
+				assignManuscriptToReviewerMenu();
+			} else {
+				myRole.AssignReviewer(tempReviewer, tempManu);				
+				System.out.println("Success!\n\n\n\n\n");	
+			}
+		}				
 	}
 	
 	public Manuscript manuscriptSelectionMenu() {
@@ -109,9 +116,12 @@ public class SubprogramChairGUI {
 			System.out.println((i + 1) + ". " + tempList.get(i).getTitle());
 		}
 		System.out.println("--end of manuscript list--");
+		System.out.println("0.  Back to previous Menu");
 		selection = HelperGUI.getSelect(myConsole);
-		manuscriptThatHasBeenSelected = tempList.get(selection-1);
-		
+		if(selection == 0) {
+			return null;
+		}
+		manuscriptThatHasBeenSelected = tempList.get(selection-1);	
 		return manuscriptThatHasBeenSelected;
 	}
 	
@@ -124,7 +134,11 @@ public class SubprogramChairGUI {
 		for(String userName: myListOfUser.keySet()) {
 			indexToDisplay = checkThroughAllRolesOfAGivenUser(userName,indexToDisplay,listOfReviewers);
 		}
+		System.out.println("0. Back to previous Menu");
 		select = HelperGUI.getSelect(myConsole);
+		if(select == 0) {
+			return null;
+		}
 		reviewerThatHasBeenSelected = listOfReviewers.get(select-1);
 		return reviewerThatHasBeenSelected;
 		
