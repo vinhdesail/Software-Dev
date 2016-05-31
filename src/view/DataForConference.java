@@ -5,6 +5,7 @@
 package view;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -54,16 +55,11 @@ public class DataForConference {
 		//CONFERENCE AND PROGRAM CHAIRS
 		String firstConferenceProgramChairName = "Sally";
 		String firstConferenceName = "IEEE Conf. on Acoustics Speech";
-		//String dateConference = "02-11-2016";
-		Calendar dateConference = Conference.stringToDate("02-11-2016");
-		//String dateManuscript = "02-07-2016";
-		Calendar dateManuscript = Conference.stringToDate("02-07-2016");
-		//String dateReview = "02-08-2016";
-		Calendar dateReview = Conference.stringToDate("02-08-2016");
-		//String dateRecomendation = "02-09-2016";
-		Calendar dateRecommendation = Conference.stringToDate("02-09-2016");
-		//String dateDecision = "02-10-2016";
-		Calendar dateDecision = Conference.stringToDate("02-10-2016");
+		Calendar dateConference = new GregorianCalendar(2016, 11, 2);
+		Calendar dateManuscript = new GregorianCalendar(2016, 7, 2);
+		Calendar dateReview = new GregorianCalendar(2016, 8, 2);
+		Calendar dateRecommendation = new GregorianCalendar(2016, 9, 2);
+		Calendar dateDecision = new GregorianCalendar(2016, 10, 2);
 		
 		Conference firstConference = new Conference(firstConferenceName, firstConferenceProgramChairName, dateConference, 
 				dateManuscript, dateReview, dateRecommendation, dateDecision);
@@ -178,16 +174,11 @@ public class DataForConference {
 	public void secondConference(){
 		String secondConferenceProgramChairName = "Michael";
 		String secondConferenceName = "IEEE Image Processing Conference";
-		//String dateConference = "02-11-2017";
-		Calendar dateConference = Conference.stringToDate("02-11-2017");
-		//String dateManuscript = "02-07-2017";
-		Calendar dateManuscript = Conference.stringToDate("02-07-2017");
-		//String dateReview = "02-08-2017";
-		Calendar dateReview = Conference.stringToDate("02-08-2017");
-		//String dateRecomendation = "02-09-2017";
-		Calendar dateRecommendation = Conference.stringToDate("02-09-2017");
-		//String dateDecision = "02-10-2017";
-		Calendar dateDecision = Conference.stringToDate("02-10-2017");
+		Calendar dateConference = new GregorianCalendar(2017, 11,2);
+		Calendar dateManuscript = new GregorianCalendar(2017, 7, 2);
+		Calendar dateReview = new GregorianCalendar(2017, 8, 2);
+		Calendar dateRecommendation = new GregorianCalendar(2017, 9, 2);
+		Calendar dateDecision = new GregorianCalendar(2017, 10, 2);
 		Conference firstConference = new Conference(secondConferenceName, secondConferenceProgramChairName, dateConference, 
 				dateManuscript, dateReview, dateRecommendation, dateDecision);
 		myConferenceList.add(firstConference);

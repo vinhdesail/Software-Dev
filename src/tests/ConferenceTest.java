@@ -14,7 +14,7 @@ import model.ProgramChair;
 /**
  * Tests for the Conference class (model)
  * @author Joshua Meigs, Edie Megan Campbell
- *
+ * @version 2016.05.31
  */
 public class ConferenceTest {
 	
@@ -26,7 +26,6 @@ public class ConferenceTest {
 	String conference1ID = "Conference 1 ID";
 	String conference2ID = "Conference 2 ID";
 	Calendar conferenceDate = new GregorianCalendar(2016,10,17);
-	String conDateString = "17-10-2016";
 	Calendar manuscriptDueDate = new GregorianCalendar(2016,9,1);
 	Calendar reviewDueDate = new GregorianCalendar(2016,9,19);
 	Calendar recommendationDueDate = new GregorianCalendar(2016,10,1);
@@ -52,10 +51,10 @@ public class ConferenceTest {
 		myTestProgramChair =  new ProgramChair(myMainTestConference, programChairID);
 	}
 	
-	// must test all null parameter exceptions for both constructors!
+	// must test all null parameter exceptions for constructor:
 
 	@Test
-	public void constructor1NullConferenceIDExceptionTest() {
+	public void constructorNullConferenceIDExceptionTest() {
 		try {
 			new Conference(null, programChairID, conferenceDate, manuscriptDueDate, 
 					reviewDueDate, recommendationDueDate, decisionDueDate);
@@ -64,7 +63,7 @@ public class ConferenceTest {
 	}
 	
 	@Test
-	public void constructor1NullProgramIDExceptionTest() {
+	public void constructorNullProgramIDExceptionTest() {
 		try {
 			new Conference(conference1ID, null, conferenceDate, manuscriptDueDate, 
 					reviewDueDate, recommendationDueDate, decisionDueDate);
@@ -73,7 +72,7 @@ public class ConferenceTest {
 	}
 	
 	@Test
-	public void constructor1NullConferenceDateExceptionTest() {
+	public void constructorNullConferenceDateExceptionTest() {
 		try {
 			new Conference(conference1ID, programChairID, null, manuscriptDueDate, 
 					reviewDueDate, recommendationDueDate, decisionDueDate);
@@ -82,7 +81,7 @@ public class ConferenceTest {
 	}
 	
 	@Test
-	public void constructor1NullManuscriptDateExceptionTest() {
+	public void constructorNullManuscriptDateExceptionTest() {
 		try {
 			new Conference(conference1ID, programChairID, conferenceDate, null, 
 					reviewDueDate, recommendationDueDate, decisionDueDate);
@@ -91,7 +90,7 @@ public class ConferenceTest {
 	}
 	
 	@Test
-	public void constructor1NullReviewDateExceptionTest() {
+	public void constructorNullReviewDateExceptionTest() {
 		try {
 			new Conference(conference1ID, programChairID, conferenceDate, manuscriptDueDate, 
 					null, recommendationDueDate, decisionDueDate);
@@ -100,7 +99,7 @@ public class ConferenceTest {
 	}
 	
 	@Test
-	public void constructor1NullRecommendationDateExceptionTest() {
+	public void constructorNullRecommendationDateExceptionTest() {
 		try {
 			new Conference(conference1ID, programChairID, conferenceDate, manuscriptDueDate, 
 					reviewDueDate, null, decisionDueDate);
@@ -109,7 +108,7 @@ public class ConferenceTest {
 	}
 	
 	@Test
-	public void constructor1NullDecisionDateExceptionTest() {
+	public void constructorNullDecisionDateExceptionTest() {
 		try {
 			new Conference(conference1ID, programChairID, conferenceDate, manuscriptDueDate, 
 					reviewDueDate, recommendationDueDate, null);
@@ -126,6 +125,5 @@ public class ConferenceTest {
 	public void equalsBetweenTwoDifferentConferencesWithSameValuesTest() {
 		assertTrue(myMainTestConference.equals(mySameAsMainConference_conference));
 	}
-	
-	// need to test exceptions for stringToDate method
+
 }

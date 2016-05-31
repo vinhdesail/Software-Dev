@@ -75,45 +75,6 @@ public class Conference implements Serializable {
 		myDecisionDueDate = theDecisionDueDate;
 	}
 	
-//	/**
-//	 * Constructor that accepts all date-related fields as Strings. All String date 
-//	 * representations are in the format "DD-MM-YYYY"
-//	 * @param theConferenceID - the unique name to identify this Conference as a String
-//	 * @param theProgramChairID - the unique user ID of the User who will act as Program Chair
-//	 * @param theConferenceDate - the String date of this Conference
-//	 * @param theManuscriptDueDate - the String date when Manuscripts are due for this Conference
-//	 * @param theReviewDueDate - the String date when Reviews are due for this Conference
-//	 * @param theRecDueDate - the String date when Recommendations are due for this Conference
-//	 * @param theDecisionDueDate - the String date when program chair decisions are due
-//	 * @throws IllegalArgumentException if any of the parameters are null
-//	 */
-//	public Conference(String theConferenceID, String theProgramChairID, String theConferenceDate,
-//						String theManuscriptDueDate, String theReviewDueDate, String theRecDueDate,
-//						String theDecisionDueDate) {
-//		if (Objects.isNull(theConferenceID)) {
-//			throw new IllegalArgumentException("Conference ID cannot be null.");
-//		} else if (Objects.isNull(theProgramChairID)) {
-//			throw new IllegalArgumentException("Program Chair ID cannot be null.");
-//		} else if (Objects.isNull(theConferenceDate)) {
-//			throw new IllegalArgumentException("Conference date cannot be null.");
-//		} else if (Objects.isNull(theManuscriptDueDate)) {
-//			throw new IllegalArgumentException("Manuscript due date cannot be null.");
-//		} else if (Objects.isNull(theReviewDueDate)) {
-//			throw new IllegalArgumentException("Review due date cannot be null.");
-//		} else if (Objects.isNull(theRecDueDate)) {
-//			throw new IllegalArgumentException("Recommendation due date cannot be null.");
-//		} else if (Objects.isNull(theDecisionDueDate)) {
-//			throw new IllegalArgumentException("Decision due date cannot be null.");
-//		}
-//		myConferenceID = theConferenceID;
-//		myProgramChairID = theProgramChairID;
-//		myConferenceDate = stringToDate(theConferenceDate);
-//		myManuscriptDueDate = stringToDate(theManuscriptDueDate);
-//		myReviewDueDate = stringToDate(theReviewDueDate);
-//		myRecDueDate = stringToDate(theRecDueDate);
-//		myDecisionDueDate = stringToDate(theDecisionDueDate);	
-//	}
-	
 	/**
 	 * Getter method for the identifying Conference String for this Conference.
 	 * @return String conference ID
@@ -163,28 +124,6 @@ public class Conference implements Serializable {
 	 */
 	public Calendar getDecisionDueDate() {
 		return myDecisionDueDate;
-	}
-	
-	/**
-	 * This method converts Strings that express date in the format "dd-MM-yyyy" into Calendar
-	 * objects.
-	 * @param theDateString - String formatted as "dd-MM-yyyy" where dd is the two digit day, 
-	 * MM is the two digit month, and yyyy is the 4 digit year.
-	 * @return a Date object corresponding to the date specified in the String
-	 * @throws IllegalArguementException if theDateString is null or not in the expected format
-	 */
-	public static Calendar stringToDate(String theDateString) {
-		if (Objects.isNull(theDateString)) {
-			throw new IllegalArgumentException("Date string cannot be null.");
-		}
-		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-		Calendar theDate = new GregorianCalendar();
-		try {
-			theDate.setTime(df.parse(theDateString));
-		} catch (ParseException e) {
-			throw new IllegalArgumentException("Date string is not in expected format: dd-MM-yyyy");
-		}
-		return theDate;
 	}
 	
 	/**
