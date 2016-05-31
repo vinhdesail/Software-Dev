@@ -10,15 +10,14 @@ import java.util.Objects;
  * Class that represents an author.
  * 
  * @author Justin A. Clark, Josh Meigs
- * @version 2.0
+ * @version 2016.5.31
  */
 public class Author extends Role implements Serializable {
 	
 	/*Generated serialization number. */
 	private static final long serialVersionUID = 8150606980901061867L;
-	/**/
+	/*A Value that represents The Status of a Manuscript that has not had a Decision Made on it yet.*/
 	private static final int STATUS_DECISION_HAS_NOT_BEEN_MADE = 0;
-
 	/*List to hold manuscripts. */
 	private List<Manuscript> myManuscripts;
 
@@ -32,7 +31,7 @@ public class Author extends Role implements Serializable {
 	
 	/**
 	 * Method that returns a list of manuscripts.
-	 * @return 
+	 * @return List of Manuscripts Associated with this instance of Author.
 	 */
 	public List<Manuscript> showAllMyManuscripts() {		
 		return myManuscripts;
@@ -54,7 +53,6 @@ public class Author extends Role implements Serializable {
 	 * Method to add a manuscript to the list.
 	 * @throws IllegalArgumentException If the Given Manuscript has already been submitted, if the Submission Deadline for submitting Manuscripts,
 	 * or if any of the parameters are null.
-	 * is over.
 	 */
 	public void addManuscript(final List<Manuscript> theManuscripts,
 									 final Manuscript theManuscript) throws IllegalArgumentException {		
@@ -90,16 +88,19 @@ public class Author extends Role implements Serializable {
 	 * Method to allow an author to resubmit an edited manuscript.
 	 * @throws IllegalArgumentException if any of the parameters are null.
 	 */
-	public void editManuscript(final List<Manuscript> theManuscripts, final Manuscript oldManuscript,
+	public void editManuscript(final List<Manuscript> theManuscripts, final Manuscript theManuscript,
 					final String theTitle) throws IllegalArgumentException{
 		if(Objects.isNull(theManuscripts)) {
 			throw new IllegalArgumentException("The List of Manuscripts Cannot be null");
-		} else if(Objects.isNull(oldManuscript)) {
+		} else if(Objects.isNull(theManuscript)) {
 			throw new IllegalArgumentException("The Manuscript Cannot be null");
 		} else if(Objects.isNull(theTitle)) {
 			throw new IllegalArgumentException("The Title Cannot be null");
 		}
-		oldManuscript.setTitle(theTitle);
+		if(!myManuscripts.contains(theManuscript)) {
+			throw new IllegalArgumentException("The Given Manuscript is not this instance of Author's Manuscript");
+		}
+		theManuscript.setTitle(theTitle);
 	}
 	
 	/**

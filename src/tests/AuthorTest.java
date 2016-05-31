@@ -11,7 +11,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.*;
-
+/**
+ * Class that tests the Author Class.
+ * @author Joshua Meigs, Justin Clark
+ * @version 2016.5.31
+ */
 public class AuthorTest {
 	
 	private Author myAuthorThatIsInAConferenceThatIsInThePast;
@@ -67,77 +71,127 @@ public class AuthorTest {
 	}
 	
 	@Test
-	public void addManuscriptTest() {		
+	public void testAddManuscript() {		
 		assertSame(myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript.get(0), myFirstManuscript);
 	}
 	
 	@Test
-	public void deleteManuscriptTest() {
+	public void testAddManuscriptExceptionIfTheDeadlineHasBeenPassed() {	
+		try {
+			myAuthorThatIsInAConferenceThatIsInThePast.addManuscript(myMasterManuscriptListForAllManuscripts, mySecondManuscript);
+			fail("Exception not Caught.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testAddManuscriptExceptionIfTheManuscriptHasAlreadyBeenSubmited() {	
+		try {
+			myAuthorThatHasSubmitedOneManuscript.addManuscript(myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript, myFirstManuscript);
+			fail("Exception not Caught.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testAddManuscriptExpectionWhereTheGivenListIsNull() {		
+		try {
+			myAuthorThatHasSubmitedOneManuscript.addManuscript(null, myFirstManuscript);
+			fail("Exception not Caught.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testAddManuscriptExpectionWhereTheGivenManuscriptIsNull() {		
+		try {
+			myAuthorThatHasSubmitedOneManuscript.addManuscript(myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript, null);
+			fail("Exception not Caught.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}			
+	
+	@Test
+	public void testDeleteManuscript() {
 		assertEquals(myAuthorThatHasSubmitedAndDeletedOneManuscript.showAllMyManuscripts().size(), 0);
 	}
 	
 	@Test
-	public void deleteManuscriptWhereAuthorHasNoManuscriptsTest() {
-		try {
-			myAuthorThatHasSubmittedNoManuscripts.deleteManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript);
-			fail("Was Able to Delete from an Empty List of Manuscripts");
-		} catch(IllegalArgumentException theError) {
-			
-		}
-	}
-	
-	@Test
-	public void deleteManuscriptWhereTheManuscriptGivenIsNotWithinTheAuthorsSubmittedManuscriptsTest() {
-		try {
-			myAuthorThatHasSubmittedNoManuscripts.deleteManuscript(myMasterManuscriptListForAllManuscripts, mySecondManuscript);
-			fail("Was Able to Delete A Manuscript That wasn't within the given Authors List of Manuscripts");
-		} catch(IllegalArgumentException theError) {
-			
-		}
-	}
-	
-	@Test
-	public void editManuscriptToVerifyThatTheTextHasChangedTest() {
+	public void testEditManuscriptToVerifyThatTheTextHasChanged() {
 		assertEquals(myAuthorThatHasSubmitedAndEditedOneManuscript.showAllMyManuscripts().get(0).getTitle(), "The New Title");
 	}
 	
 	@Test
-	public void isPastSubmissionDeadlineForAAuthorThatIsWorkingInAConferenceThatStillHasTheAbilityToSubmitAManuscriptTest() {
+	public void testEditManuscriptExceptionWhereAuthorDoesNotContainTheGivenManuscript() {
+		try {
+			myAuthorThatHasSubmitedOneManuscript.editManuscript(myMasterManuscriptListForAllManuscripts, mySecondManuscript, "New Title");
+			fail("Exception not Caught.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testEditManuscriptExceptionWhereTheGivenListIsNull() {
+		try {
+			myAuthorThatHasSubmitedOneManuscript.editManuscript(null, mySecondManuscript, "New Title");
+			fail("Exception not Caught.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testEditManuscriptExceptionWhereTheGivenManuscriptIsNull() {
+		try {
+			myAuthorThatHasSubmitedOneManuscript.editManuscript(myMasterManuscriptListForAllManuscripts, null, "New Title");
+			fail("Exception not Caught.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testEditManuscriptExceptionWhereTheGivenTitleIsNull() {
+		try {
+			myAuthorThatHasSubmitedOneManuscript.editManuscript(myMasterManuscriptListForAllManuscripts, mySecondManuscript, null);
+			fail("Exception not Caught.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testDeleteManuscriptWhereAuthorHasNoManuscripts() {
+		try {
+			myAuthorThatHasSubmittedNoManuscripts.deleteManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript);
+			fail("Exception not Caught.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testIsPastSubmissionDeadlineForAAuthorThatIsWorkingInAConferenceThatStillHasTheAbilityToSubmitAManuscript() {
 		assertFalse(myAuthorThatHasSubmitedOneManuscript.isPastSubmissionDeadline());
 	}
 	
 	@Test
-	public void isPastSubmissionDeadlineForAAuthorThatIsWorkingInAConferenceThatDoesNotHaveTheAbilityToSubmitAManuscriptTest() {
+	public void testIsPastSubmissionDeadlineForAAuthorThatIsWorkingInAConferenceThatDoesNotHaveTheAbilityToSubmitAManuscript() {
 		assertTrue(myAuthorThatIsInAConferenceThatIsInThePast.isPastSubmissionDeadline());
 	}
 	
 	@Test
-	public void addManuscriptExceptionIfTheDeadlineHasBeenPassedTest() {	
-		try {
-			myAuthorThatIsInAConferenceThatIsInThePast.addManuscript(myMasterManuscriptListForAllManuscripts, mySecondManuscript);
-			fail("Exception not Caught for Deadline being Passed.");
-		} catch(IllegalArgumentException theError) {
-			
-		}
-	}
-	
-	@Test
-	public void addManuscriptExceptionIfTheManuscriptHasAlreadyBeenSubmitedTest() {	
-		try {
-			myAuthorThatHasSubmitedOneManuscript.addManuscript(myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript, myFirstManuscript);
-			fail("Exception not Caught for Deadline being Passed.");
-		} catch(IllegalArgumentException theError) {
-			
-		}
-	}
-	
-	@Test
-	public void equalsWhereBothAuthorsAreTheSameTest() {
+	public void testEqualsWhereBothAuthorsAreTheSame() {
 		assertTrue(myAuthorThatHasSubmitedOneManuscript.equals(myAuthorThatHasSubmitedOneManuscriptThatIsTheSameAsOtherAuthor));
 	}
 	
 	@Test
-	public void equalsWhereBothAuthorsAreDifferentTest() {
+	public void testEqualsWhereBothAuthorsAreDifferent() {
 		assertFalse(myAuthorThatHasSubmitedOneManuscript.equals(myAuthorThatHasSubmitedOneManuscriptThatIsDifferentAsOtherAuthor));
 	}
 	
