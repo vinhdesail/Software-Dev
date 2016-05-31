@@ -72,7 +72,9 @@ public class SubprogramChairGUI {
 				submitARecommendationMenu(select);
 			} else if(select == LOGOUT) {
 				logout = true;
-			}					
+			} else if(select == -2){
+				HelperGUI.submitManuscript(myConsole, myUser, myMasterList);
+			}
 		} while(!logout);	
 		return logout;
 	}	
@@ -163,7 +165,8 @@ public class SubprogramChairGUI {
 		System.out.println("\n---------------\n\nWhat Do you want to do?");
 		System.out.println("1. Assign A Reviewer A Manuscript");
 		System.out.println("2. Submit a Recommendation");
-		System.out.println("3. Logout");			
+		System.out.println("3. Logout");		
+		System.out.println("-2. Submit Manuscript to Conference");
 	}
 }
 

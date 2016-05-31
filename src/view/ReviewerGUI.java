@@ -75,6 +75,7 @@ public class ReviewerGUI {
 			System.out.println("2. Submit A Review");
 			System.out.println("0. Logout");
 			System.out.println("-1. Switch Role");
+			System.out.println("-2. Submit Manuscript to Conference");
 			int select = HelperGUI.getSelect(myConsole);
 			
 			switch (select){
@@ -90,6 +91,9 @@ public class ReviewerGUI {
 				break;
 			case -1:
 				switchRole = myHelper.selectRole(myConsole, myUser);
+				break;
+			case -2:
+				HelperGUI.submitManuscript(myConsole, myUser, myMasterList);
 				break;
 			}
 			
