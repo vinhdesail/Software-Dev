@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Before;
@@ -20,11 +22,11 @@ public class ProgramChairTest {
     
 	@Before
 	public void setUp() throws Exception {
-		Date conferenceDate = new Date(2016,10,17);
-		Date manuscriptDueDate =  new Date(2016,9,1);
-		Date reviewDueDate =  new Date(2016,9,19);
-		Date recommendationDueDate =  new Date(2016,10,1);
-		Date decisionDueDate =  new Date(2016,10,1);
+		Calendar conferenceDate = new GregorianCalendar(2016,10,17);
+		Calendar manuscriptDueDate = new GregorianCalendar(2016,9,1);
+		Calendar reviewDueDate = new GregorianCalendar(2016,9,19);
+		Calendar recommendationDueDate = new GregorianCalendar(2016,10,1);
+		Calendar decisionDueDate = new GregorianCalendar(2016,10,1);	
 		
 		myMainTestConference = new Conference("ANDESCON", "doeJ", conferenceDate,
 				manuscriptDueDate, reviewDueDate, recommendationDueDate, decisionDueDate);

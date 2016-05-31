@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -17,13 +18,13 @@ public class Author extends Role implements Serializable {
 
 	/** List to hold manuscripts. */
 	private List<Manuscript> myManuscripts;
-	
+
 	/**
 	 * Overloaded constructor to instantiate an author with author ID.
 	 */
 	public Author(final String theAuthorID, Conference theConference){
 		super("Author", theAuthorID, theConference);
-		myManuscripts = new ArrayList<Manuscript>();
+		myManuscripts = new ArrayList<Manuscript>();		
 	}
 	
 	/**
@@ -41,10 +42,25 @@ public class Author extends Role implements Serializable {
 	}
 	
 	/**
+	 * Method that checks if the current time is after the submission deadline.
+	 * @return True if the submission deadline has been passed, false otherwise.
+	 */
+	public boolean isPastSubmissionDeadline() {
+		Calendar currentTime = Calendar.getInstance();
+		if(currentTime.after(getConference().getManuscriptDueDate())) {
+			return true;
+		} 
+		return false;
+	}
+	
+	/**
 	 * Method to add a manuscript to the list.
 	 */
 	public void addManuscript(final List<Manuscript> theManuscripts,
-									 final Manuscript theManuscript) {
+									 final Manuscript theManuscript) throws IllegalArgumentException {		
+		if(isPastSubmissionDeadline()) {
+			throw new IllegalArgumentException("Manuscript Submission Deadline is over.");
+		}
 		theManuscripts.add(theManuscript);
 		myManuscripts.add(theManuscript);
 	}

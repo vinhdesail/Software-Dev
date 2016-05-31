@@ -3,7 +3,9 @@ package tests;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,11 +27,11 @@ public class ConferenceTest {
 	@Before
 	public void setUp() throws Exception {
 		
-		Date conferenceDate = new Date(2016,10,17);
-		Date manuscriptDueDate =  new Date(2016,9,1);
-		Date reviewDueDate =  new Date(2016,9,19);
-		Date recommendationDueDate =  new Date(2016,10,1);
-		Date decisionDueDate =  new Date(2016,10,1);
+		Calendar conferenceDate = new GregorianCalendar(2016,10,17);
+		Calendar manuscriptDueDate = new GregorianCalendar(2016,9,1);
+		Calendar reviewDueDate = new GregorianCalendar(2016,9,19);
+		Calendar recommendationDueDate = new GregorianCalendar(2016,10,1);
+		Calendar decisionDueDate = new GregorianCalendar(2016,10,1);	
 		
 		myMainTestConference = new Conference("ANDESCON", "doeJ", conferenceDate,
 				manuscriptDueDate, reviewDueDate, recommendationDueDate, decisionDueDate);

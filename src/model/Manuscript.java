@@ -36,6 +36,8 @@ public class Manuscript implements Serializable {
 	/** The full text of the manuscript itself, as a String. */
 	private String myURL;
 	
+	private boolean myHasBeenAssignedToASubprogramChair;
+	
 //	/** 
 //	 * The no-argument constructor creates a Manuscript object but all fields must be manually
 //	 * set user setter methods.
@@ -64,6 +66,7 @@ public class Manuscript implements Serializable {
 		myTitle = theTitle;
 		
 		myURL = theURL;
+		myHasBeenAssignedToASubprogramChair = false;
 	}
 	
 	/**
@@ -86,6 +89,7 @@ public class Manuscript implements Serializable {
 		myTitle = theTitle;
 		myURL = theURL;
 		myReviews = theReviews;
+		myHasBeenAssignedToASubprogramChair = false;
 	}
 	
 	/**
@@ -95,7 +99,20 @@ public class Manuscript implements Serializable {
 	public int getStatus() {
 		return myStatus;
 	}
+	/**
+	 * Returns the status of the manuscript, namely if the manuscript has been assigned to a Subprogram Chair.
+	 * @return True if this given manuscript has been assigned to a Subprogram Chair, false if it has not. 
+	 */
+	public boolean hasBeenAssignedToASubprogramChair() {
+		return myHasBeenAssignedToASubprogramChair;
+	}
 	
+	/**
+	 * Sets this given Manuscript's statues to be true that it has been assigned to a Subprogram Chair.
+	 */
+	public void becomeAssignedASubprogramChair() {
+		myHasBeenAssignedToASubprogramChair = true;
+	}
 	/**
 	 * Getter for the list of received Reviews for this Manuscript.
 	 * @return the ArrayList of Reviews (may be an empty list if no Reviews received)
