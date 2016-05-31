@@ -15,6 +15,7 @@ import model.*;
 public class AuthorTest {
 	
 	private Author myAuthorThatIsInAConferenceThatIsInThePast;
+	private Author myAuthorThatHasSubmittedNoManuscripts;
 	private Author myAuthorThatHasSubmitedOneManuscript;
 	private Author myAuthorThatHasSubmitedAndDeletedOneManuscript;
 	private Author myAuthorThatHasSubmitedAndEditedOneManuscript;
@@ -22,7 +23,6 @@ public class AuthorTest {
 	private Author myAuthorThatHasSubmitedOneManuscriptThatIsDifferentAsOtherAuthor;
 	private Manuscript myFirstManuscript;
 	private Manuscript mySecondManuscript;
-	private Manuscript myFirstManuscriptThatHasEditedFields;
 	private List<Manuscript> myMasterManuscriptListForAllManuscripts;
 	private List<Manuscript> myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript;
 	private Conference myConferenceThatHasASubmissionDeadlineInThePast;
@@ -46,7 +46,9 @@ public class AuthorTest {
 				pastReviewDueDate, pastRecommendationDueDate, pastDecisionDueDate);	
 		myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript =  new ArrayList<Manuscript>();
 		myMasterManuscriptListForAllManuscripts =  new ArrayList<Manuscript>();
+		
 		myAuthorThatIsInAConferenceThatIsInThePast =  new Author("Jim", myConferenceThatHasASubmissionDeadlineInThePast); 
+		myAuthorThatHasSubmittedNoManuscripts =  new Author("Tom Beth", myConferenceThatHasASubmissionDeadlineInTheFuture);
 		myAuthorThatHasSubmitedOneManuscript = new Author("Tom Banks", myConferenceThatHasASubmissionDeadlineInTheFuture);
 		myAuthorThatHasSubmitedAndDeletedOneManuscript = new Author("Tom Banks", myConferenceThatHasASubmissionDeadlineInTheFuture);
 		myAuthorThatHasSubmitedAndEditedOneManuscript = new Author("Buckle Tros", myConferenceThatHasASubmissionDeadlineInTheFuture);	
@@ -54,14 +56,13 @@ public class AuthorTest {
 		myAuthorThatHasSubmitedOneManuscriptThatIsDifferentAsOtherAuthor = new Author("Not Tom", myConferenceThatHasASubmissionDeadlineInTheFuture);		
 		myFirstManuscript = new Manuscript("Tom Banks", "Science", "Computer manuscript", "Some text");
 		mySecondManuscript = new Manuscript("Buckle Tros", "Science", "Computer manuscript", "Some text");
-		myFirstManuscriptThatHasEditedFields =  new Manuscript("Tom Banks", "Science", "Computer manuscript Edited", "Some New text");
 		myAuthorThatHasSubmitedOneManuscript.addManuscript(myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript, myFirstManuscript);
 		myAuthorThatHasSubmitedAndDeletedOneManuscript.addManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript);
 		myAuthorThatHasSubmitedAndEditedOneManuscript.addManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript);
 		myAuthorThatHasSubmitedOneManuscriptThatIsTheSameAsOtherAuthor.addManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript);
 		myAuthorThatHasSubmitedOneManuscriptThatIsDifferentAsOtherAuthor.addManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript);		
 		myAuthorThatHasSubmitedAndDeletedOneManuscript.deleteManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript);
-		myAuthorThatHasSubmitedAndEditedOneManuscript.editManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript, myFirstManuscriptThatHasEditedFields);
+		myAuthorThatHasSubmitedAndEditedOneManuscript.editManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript, "The New Title");
 		myMasterManuscriptListForAllManuscripts.add(mySecondManuscript);
 	}
 	
@@ -76,8 +77,28 @@ public class AuthorTest {
 	}
 	
 	@Test
+	public void deleteManuscriptWhereAuthorHasNoManuscriptsTest() {
+		try {
+			myAuthorThatHasSubmittedNoManuscripts.deleteManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript);
+			fail("Was Able to Delete from an Empty List of Manuscripts");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void deleteManuscriptWhereTheManuscriptGivenIsNotWithinTheAuthorsSubmittedManuscriptsTest() {
+		try {
+			myAuthorThatHasSubmittedNoManuscripts.deleteManuscript(myMasterManuscriptListForAllManuscripts, mySecondManuscript);
+			fail("Was Able to Delete A Manuscript That wasn't within the given Authors List of Manuscripts");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
 	public void editManuscriptToVerifyThatTheTextHasChangedTest() {
-		assertEquals(myAuthorThatHasSubmitedAndEditedOneManuscript.showAllMyManuscripts().get(0).getTitle(), "Computer manuscript Edited");
+		assertEquals(myAuthorThatHasSubmitedAndEditedOneManuscript.showAllMyManuscripts().get(0).getTitle(), "The New Title");
 	}
 	
 	@Test

@@ -49,6 +49,8 @@ public class Author extends Role implements Serializable {
 	
 	/**
 	 * Method to add a manuscript to the list.
+	 * @throws IllegalArgumentException If the Given Manuscript has already been submitted, or if the Submission Deadline for submitting Manuscripts
+	 * is over.
 	 */
 	public void addManuscript(final List<Manuscript> theManuscripts,
 									 final Manuscript theManuscript) throws IllegalArgumentException {		
@@ -64,9 +66,13 @@ public class Author extends Role implements Serializable {
 	
 	/**
 	 * Method to remove a manuscript from the list.
+	 * @throws IllegalArgumentException If the Given Manuscript is not within this Authors List of Submitted Manuscripts.
 	 */
 	public void deleteManuscript(final List<Manuscript> theManuscripts,
-			 							final Manuscript theManuscript) throws IllegalArgumentException {		
+			 							final Manuscript theManuscript) throws IllegalArgumentException {
+		if(!myManuscripts.contains(theManuscript)) {
+			throw new IllegalArgumentException("Manuscript is not within this Author.");
+		}
 		theManuscripts.remove(theManuscript);
 		myManuscripts.remove(theManuscript);
 	}
@@ -77,7 +83,6 @@ public class Author extends Role implements Serializable {
 	public void editManuscript(final List<Manuscript> theManuscripts, final Manuscript oldManuscript,
 					final String theTitle) {
 		oldManuscript.setTitle(theTitle);
-
 	}
 	
 	/**
