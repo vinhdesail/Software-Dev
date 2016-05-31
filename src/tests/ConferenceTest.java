@@ -12,6 +12,11 @@ import org.junit.Test;
 import model.Conference;
 import model.ProgramChair;
 
+/**
+ * Tests for the Conference class (model)
+ * @author Joshua Meigs, Edie Megan Campbell
+ *
+ */
 public class ConferenceTest {
 	
 	Conference myMainTestConference;
@@ -44,6 +49,8 @@ public class ConferenceTest {
 		
 		myTestProgramChair =  new ProgramChair(myMainTestConference, "doeJ");
 	}
+	
+	// must test all null parameter exceptions for both constructors!
 
 	@Test
 	public void equalsBetweenTwoDifferentConferencesWithDifferentValuesTest() {
@@ -54,4 +61,6 @@ public class ConferenceTest {
 	public void equalsBetweenTwoDifferentConferencesWithSameValuesTest() {
 		assertTrue(myMainTestConference.equals(mySameAsMainConference_conference));
 	}
+	
+	// need to test exceptions for stringToDate method
 }
