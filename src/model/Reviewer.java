@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class Reviewer extends Role implements Serializable {
 	
-	/** The maximum number of Manuscripts a Reviewer can be assigned to Review. */
-	public static final int MAX_MANUSCRIPTS = 4;
+	/* The maximum number of Manuscripts a Reviewer can be assigned to Review. */
+	private static final int MAX_MANUSCRIPTS = 4;
 	/**/
 	private List<Manuscript> myManuscripts;
 	/**/
