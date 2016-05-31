@@ -75,44 +75,44 @@ public class Conference implements Serializable {
 		myDecisionDueDate = theDecisionDueDate;
 	}
 	
-	/**
-	 * Constructor that accepts all date-related fields as Strings. All String date 
-	 * representations are in the format "DD-MM-YYYY"
-	 * @param theConferenceID - the unique name to identify this Conference as a String
-	 * @param theProgramChairID - the unique user ID of the User who will act as Program Chair
-	 * @param theConferenceDate - the String date of this Conference
-	 * @param theManuscriptDueDate - the String date when Manuscripts are due for this Conference
-	 * @param theReviewDueDate - the String date when Reviews are due for this Conference
-	 * @param theRecDueDate - the String date when Recommendations are due for this Conference
-	 * @param theDecisionDueDate - the String date when program chair decisions are due
-	 * @throws IllegalArgumentException if any of the parameters are null
-	 */
-	public Conference(String theConferenceID, String theProgramChairID, String theConferenceDate,
-						String theManuscriptDueDate, String theReviewDueDate, String theRecDueDate,
-						String theDecisionDueDate) {
-		if (Objects.isNull(theConferenceID)) {
-			throw new IllegalArgumentException("Conference ID cannot be null.");
-		} else if (Objects.isNull(theProgramChairID)) {
-			throw new IllegalArgumentException("Program Chair ID cannot be null.");
-		} else if (Objects.isNull(theConferenceDate)) {
-			throw new IllegalArgumentException("Conference date cannot be null.");
-		} else if (Objects.isNull(theManuscriptDueDate)) {
-			throw new IllegalArgumentException("Manuscript due date cannot be null.");
-		} else if (Objects.isNull(theReviewDueDate)) {
-			throw new IllegalArgumentException("Review due date cannot be null.");
-		} else if (Objects.isNull(theRecDueDate)) {
-			throw new IllegalArgumentException("Recommendation due date cannot be null.");
-		} else if (Objects.isNull(theDecisionDueDate)) {
-			throw new IllegalArgumentException("Decision due date cannot be null.");
-		}
-		myConferenceID = theConferenceID;
-		myProgramChairID = theProgramChairID;
-		myConferenceDate = stringToDate(theConferenceDate);
-		myManuscriptDueDate = stringToDate(theManuscriptDueDate);
-		myReviewDueDate = stringToDate(theReviewDueDate);
-		myRecDueDate = stringToDate(theRecDueDate);
-		myDecisionDueDate = stringToDate(theDecisionDueDate);	
-	}
+//	/**
+//	 * Constructor that accepts all date-related fields as Strings. All String date 
+//	 * representations are in the format "DD-MM-YYYY"
+//	 * @param theConferenceID - the unique name to identify this Conference as a String
+//	 * @param theProgramChairID - the unique user ID of the User who will act as Program Chair
+//	 * @param theConferenceDate - the String date of this Conference
+//	 * @param theManuscriptDueDate - the String date when Manuscripts are due for this Conference
+//	 * @param theReviewDueDate - the String date when Reviews are due for this Conference
+//	 * @param theRecDueDate - the String date when Recommendations are due for this Conference
+//	 * @param theDecisionDueDate - the String date when program chair decisions are due
+//	 * @throws IllegalArgumentException if any of the parameters are null
+//	 */
+//	public Conference(String theConferenceID, String theProgramChairID, String theConferenceDate,
+//						String theManuscriptDueDate, String theReviewDueDate, String theRecDueDate,
+//						String theDecisionDueDate) {
+//		if (Objects.isNull(theConferenceID)) {
+//			throw new IllegalArgumentException("Conference ID cannot be null.");
+//		} else if (Objects.isNull(theProgramChairID)) {
+//			throw new IllegalArgumentException("Program Chair ID cannot be null.");
+//		} else if (Objects.isNull(theConferenceDate)) {
+//			throw new IllegalArgumentException("Conference date cannot be null.");
+//		} else if (Objects.isNull(theManuscriptDueDate)) {
+//			throw new IllegalArgumentException("Manuscript due date cannot be null.");
+//		} else if (Objects.isNull(theReviewDueDate)) {
+//			throw new IllegalArgumentException("Review due date cannot be null.");
+//		} else if (Objects.isNull(theRecDueDate)) {
+//			throw new IllegalArgumentException("Recommendation due date cannot be null.");
+//		} else if (Objects.isNull(theDecisionDueDate)) {
+//			throw new IllegalArgumentException("Decision due date cannot be null.");
+//		}
+//		myConferenceID = theConferenceID;
+//		myProgramChairID = theProgramChairID;
+//		myConferenceDate = stringToDate(theConferenceDate);
+//		myManuscriptDueDate = stringToDate(theManuscriptDueDate);
+//		myReviewDueDate = stringToDate(theReviewDueDate);
+//		myRecDueDate = stringToDate(theRecDueDate);
+//		myDecisionDueDate = stringToDate(theDecisionDueDate);	
+//	}
 	
 	/**
 	 * Getter method for the identifying Conference String for this Conference.

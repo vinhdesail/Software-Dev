@@ -9,6 +9,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Before;
@@ -25,6 +27,12 @@ import model.Role;
 public class RoleTest {
 	
 	private Conference myConference;
+	Calendar conferenceDate = new GregorianCalendar(2016,10,17);
+	Calendar manuscriptDueDate = new GregorianCalendar(2016,9,1);
+	Calendar reviewDueDate = new GregorianCalendar(2016,9,19);
+	Calendar recommendationDueDate = new GregorianCalendar(2016,10,1);
+	Calendar decisionDueDate = new GregorianCalendar(2016,10,1);	
+	private String programChairID = "Program Chair ID";
 	private Role myRole;
 	private Role mySameRole;
 	private Role myOtherRole;
@@ -42,12 +50,12 @@ public class RoleTest {
 		
 		String conferenceID = "Conference ID";
 		String conferenceID2 = "Conference ID2";
-		myConference = new Conference(conferenceID, "Program Chair ID", "05-11-2016", "05-07-2016", 
-				"05-08-2016", "05-09-2016", "05-10-2016");
+		myConference = new Conference(conferenceID, programChairID, conferenceDate, manuscriptDueDate, 
+				reviewDueDate, recommendationDueDate, decisionDueDate);
 		myRole = new Role(myRoleName, myUsername, myConference);
 		mySameRole = new Role(myRoleName, myUsername, myConference);
-		Conference otherConference = new Conference(conferenceID2, "Program Chair ID2", "11-11-2016", "11-07-2016", 
-				"11-08-2016", "11-09-2016", "11-10-2016");
+		Conference otherConference = new Conference(conferenceID2, programChairID, conferenceDate, manuscriptDueDate, 
+				reviewDueDate, recommendationDueDate, decisionDueDate);
 		myOtherRole = new Role(myRoleName, "Oscar", otherConference);
 		
 		myEmptyList = new ArrayList<>();
