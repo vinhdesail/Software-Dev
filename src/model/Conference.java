@@ -4,35 +4,47 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * Conference class description.
+ * Conference objects store information about a Conference's program chair, dates, and deadlines.
  * @author Edie Megan Campbell
- * @version 2016.05.05
+ * @version 2016.05.30
  */
 public class Conference implements Serializable {
 	
-	/** Generated Serialization number. */
 	private static final long serialVersionUID = -156166686815320306L;
 
-	/** A unique name to identify this Conference. */
+	/* A unique name to identify this Conference. */
 	private String myConferenceID;
 	
-	/** Program Chair is identified by their unique username (User ID) .*/
+	/* The Program Chair, identified by their unique username (User ID) .*/
 	private String myProgramChairID;
 	
+	/* The date of the Conference itself as a Calendar object. */
 	private Calendar myConferenceDate;
 	
+	/* The date when all Manuscripts are due for this Conference as a Calendar object. */
 	private Calendar myManuscriptDueDate;
 	
+	/* The date when all Reviews are due for this Conference as a Calendar object. */
 	private Calendar myReviewDueDate;
 	
+	/* The date when all Recommendations are due for this Conference as a Calendar object. */
 	private Calendar myRecDueDate;
 	
+	/* The date when the final decisions from the program chair are due as a Calendar object. */
 	private Calendar myDecisionDueDate;
 	
+	/**
+	 * @param theConferenceID - the unique name to identify this Conference as a String
+	 * @param theProgramChairID - the unique user ID of the User who will act as Program Chair
+	 * @param theConferenceDate - the Calendar date of this Conference
+	 * @param theManuscriptDueDate - the Calendar date when Manuscripts are due for this Conference
+	 * @param theReviewDueDate - the Calendar date when Reviews are due for this Conference
+	 * @param theRecDueDate - the Calendar date when Recommendations are due for this Conference
+	 * @param theDecisionDueDate - the Calendar date when program chair decisions are due
+	 */
 	public Conference(String theConferenceID, String theProgramChairID, Calendar theConferenceDate, 
 			Calendar theManuscriptDueDate, Calendar theReviewDueDate, Calendar theRecDueDate,
 						Calendar theDecisionDueDate) {
@@ -46,13 +58,14 @@ public class Conference implements Serializable {
 	}
 	
 	/**
-	 * @param theConferenceID
-	 * @param theProgramChairID
-	 * @param theConferenceDate
-	 * @param theManuscriptDueDate
-	 * @param theReviewDueDate
-	 * @param theRecDueDate
-	 * @param theDecisionDueDate
+	 * All String date representations are in the format "DD-MM-YYYY"
+	 * @param theConferenceID - the unique name to identify this Conference as a String
+	 * @param theProgramChairID - the unique user ID of the User who will act as Program Chair
+	 * @param theConferenceDate - the String date of this Conference
+	 * @param theManuscriptDueDate - the String date when Manuscripts are due for this Conference
+	 * @param theReviewDueDate - the String date when Reviews are due for this Conference
+	 * @param theRecDueDate - the String date when Recommendations are due for this Conference
+	 * @param theDecisionDueDate - the String date when program chair decisions are due
 	 */
 	public Conference(String theConferenceID, String theProgramChairID, String theConferenceDate,
 						String theManuscriptDueDate, String theReviewDueDate, String theRecDueDate,
@@ -66,6 +79,10 @@ public class Conference implements Serializable {
 		myDecisionDueDate = stringToDate(theDecisionDueDate);	
 	}
 	
+	/**
+	 * Getter method for the identifying Conference String for this Conference.
+	 * @return String conference ID
+	 */
 	public String getConferenceID() {
 		return myConferenceID;
 	}
