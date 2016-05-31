@@ -20,7 +20,7 @@ public class Manuscript implements Serializable {
 	
 	/** integer code for a manuscript that the program chair has not made a decision on yet. */
 	public static final int UNDECIDED = 0;
-
+	
 	private static final long serialVersionUID = 7127767408772156417L;
 
 	/* Manuscript acceptance status: -1 = rejected, 0 = no decision, 1 = accepted. */
@@ -54,13 +54,13 @@ public class Manuscript implements Serializable {
 	 */
 	public Manuscript(String theAuthorID, String theConference, String theTitle, 
 			String theFilePath) {
-		if (theAuthorID == null) {
+		if (Objects.isNull(theAuthorID)) {
 			throw new IllegalArgumentException("Author ID cannot be null.");
-		} else if (theConference == null) {
+		} else if (Objects.isNull(theConference)) {
 			throw new IllegalArgumentException("Conference ID cannot be null.");
-		} else if (theTitle == null) {
+		} else if (Objects.isNull(theTitle)) {
 			throw new IllegalArgumentException("Title cannot be null.");
-		} else if (theFilePath == null) {
+		} else if (Objects.isNull(theFilePath)) {
 			throw new IllegalArgumentException("File Path cannot be null.");
 		}
 		myStatus = 0;
@@ -87,8 +87,8 @@ public class Manuscript implements Serializable {
 	 */
 	public Manuscript(String theAuthorID, String theConference, String theTitle, 
 			String theFilePath, List<Review> theReviews) {	
-		if (theAuthorID == null || theConference == null || theTitle == null || theFilePath == null
-				|| theReviews == null) {
+		if (Objects.isNull(theAuthorID) || Objects.isNull(theConference) || Objects.isNull(theTitle)
+				|| Objects.isNull(theFilePath) || Objects.isNull(theReviews)) {
 			throw new IllegalArgumentException("Null parameter passed to TEST ONLY constructor");
 		}
 		myStatus = 0;
@@ -180,7 +180,7 @@ public class Manuscript implements Serializable {
 	 * @throws IllegalArgumentException if theReview is null or is not for this Manuscript
 	 */
 	public void addReview(Review theReview) {
-		if (theReview == null) {
+		if (Objects.isNull(theReview)) {
 			throw new IllegalArgumentException("Review cannot be null.");
 		} else if (!theReview.getManuscriptTitle().equals(myTitle)) {
 			throw new IllegalArgumentException("Review is not for Manuscript: " + myTitle);
@@ -196,7 +196,7 @@ public class Manuscript implements Serializable {
 	 * is not found in this Manuscript's list of Reviews
 	 */
 	public void removeReview(Review theReview) {
-		if (theReview == null) {
+		if (Objects.isNull(theReview)) {
 			throw new IllegalArgumentException("Review cannot be null.");
 		} else if (!theReview.getManuscriptTitle().equals(myTitle)) {
 			throw new IllegalArgumentException("Review is not for Manuscript: " + myTitle);
@@ -212,7 +212,7 @@ public class Manuscript implements Serializable {
 	 * @param theRecommendation the Recommendation made for this Manuscript
 	 */
 	public void setRecommendation(Recommendation theRecommendation) {
-		if (theRecommendation == null) {
+		if (Objects.isNull(theRecommendation)) {
 			throw new IllegalArgumentException("Recommendation cannot be null.");
 		} else if (!theRecommendation.getManuscriptTitle().equals(myTitle)) {
 			throw new IllegalArgumentException("Recommendation is not for Mansucript: " + myTitle);
@@ -228,7 +228,7 @@ public class Manuscript implements Serializable {
 	 * @param newTitle the new Title of the Manuscript
 	 */
 	public void setTitle(String newTitle) {
-		if (newTitle == null) {
+		if (Objects.isNull(newTitle)) {
 			throw new IllegalArgumentException("Title cannot be null");
 		}
 		myTitle = newTitle;
@@ -239,7 +239,7 @@ public class Manuscript implements Serializable {
 	 * @param newText the new full Text of the edited Manuscript
 	 */
 	public void setFilePath(String newFilePath) {
-		if (newFilePath == null) {
+		if (Objects.isNull(newFilePath)) {
 			throw new IllegalArgumentException("File path cannot be null");
 		}
 		myFilePath = newFilePath;
