@@ -20,29 +20,39 @@ import model.User;
  */
 public class ReviewerGUI {
 	
-	/** The main console */
+	
+	/* The Master List. */
+	private final List<Manuscript> myMasterList;
+	/**/
+	private static final int VIEW_MY_ASSIGNED_MANUSCRIPT = 1;
+	/**/
+	private static final int SUBMIT_A_REVIEW = 2;
+	/**/
+	private static final int LOGOUT = 0;
+	/**/
+	private static final int SWITCH_ROLES = -1;
+	/**/
+	private static final int SUBMIT_MANUSCRIPT_TO_MY_CURRENT_CONFERENCE = -2;
+	/**/
+	private static final int OFFSET = 1;
+	/**/
+	private static final int BACK = 0;
+	/**/
+	private static final int START_POSISTION = -1;
+	/**/
+	private static final int SELECT_MANUSCRIPT = 1;
+	/**/
+	private static final int IS_CORRECT = 1;
+	
+	/* The main console */
 	private Scanner myConsole;
 	
-	/** The user current selected */
+	/* The user current selected */
 	private User myUser;
 	
-	/** The role. */
+	/* The role. */
 	private Reviewer myRole;
-	
-	/** The Master List. */
-	private final List<Manuscript> myMasterList;
-	
-	private static final int VIEW_MY_ASSIGNED_MANUSCRIPT = 1;
-	private static final int SUBMIT_A_REVIEW = 2;
-	private static final int LOGOUT = 0;
-	private static final int SWITCH_ROLES = -1;
-	private static final int SUBMIT_MANUSCRIPT_TO_MY_CURRENT_CONFERENCE = -2;
-	private static final int OFFSET = 1;
-	private static final int BACK = 0;
-	private static final int START_POSISTION = -1;
-	private static final int SELECT_MANUSCRIPT = 1;
-	private static final int IS_CORRECT = 1;
-	/** The helper GUI */
+	/* The helper GUI */
 	private final HelperGUI myHelper;
 	
 	/**

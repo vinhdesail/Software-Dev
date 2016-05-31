@@ -20,7 +20,7 @@ public class Manuscript implements Serializable {
 	
 	/** integer code for a manuscript that the program chair has not made a decision on yet. */
 	public static final int UNDECIDED = 0;
-	
+
 	private static final long serialVersionUID = 7127767408772156417L;
 
 	/* Manuscript acceptance status: -1 = rejected, 0 = no decision, 1 = accepted. */

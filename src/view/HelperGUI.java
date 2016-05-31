@@ -32,23 +32,24 @@ public class HelperGUI {
 	
 	/** Formatter Layout */
 	public static final String FORMAT_TABLE = "%-40s %-30s";
-	
+	/**/
 	private static final int BACK_OPTION = 0;
+	/**/
 	private static final int OFFSET = 1;
 	
-	/** The Username. */
+	/* The Username. */
 	private String myUsername;
 	
-	/** The Role. */
+	/*The Role. */
 	private String myRoleName;
 	
-	/** The Conference name. */
+	/* The Conference name. */
 	private String myConferenceName;
 	
-	/** The Activity At the Time. */
+	/* The Activity At the Time. */
 	private String myActivity;
 	
-	/** The submission Deadline for manuscript */
+	/* The submission Deadline for manuscript */
 	private String myDeadline;
 	
 	/**

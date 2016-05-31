@@ -14,9 +14,9 @@ import java.util.List;
  * @version 2016.05.31
  */
 public class User implements Serializable {
-	
+	/**/
 	private static final long serialVersionUID = -1010666887890962915L;
-	
+	/**/
 	private static final int FIRST_INDEX = 0;
 	
 	/* The unique username identifying this User.*/

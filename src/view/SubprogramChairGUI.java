@@ -22,29 +22,35 @@ import model.User;
  */
 public class SubprogramChairGUI {
 
-	/** The main console */
-	private Scanner myConsole;	
-	/** The user current selected */
-	private User myUser;	
-	/** The role. */
-	private SubprogramChair myRole;	
-	/** The List of users. */
-	private final Map<String, User> myListOfUser;	
-	/** The Master List. */
-	private final List<Manuscript> myMasterList;	
-	/** The helper GUI */
-	private final HelperGUI myHelper;
-	/** */
+	/* */
 	private static final int ASSIGN_MANUSCRIPT_TO_REVIEWER = 1;
-	/** */
+	/* */
 	private static final int SUBMIT_A_RECOMMENDATION = 2;
-	/** */
+	/* */
 	private static final int LOGOUT = 0;
+	/* */
 	private static final int SWITCH_ROLES = -1;
+	/* */
 	private static final int BACK = 0;
+	/* */
 	private static final int OFFSET = 1;
+	/* */
 	private static final int STARTING_POSISTION = -1;
+	/* */
 	private static final int SUBMIT_MANUSCRIPT_FOR_THIS_CONFERENCE = -2;
+	/* The main console */
+	private Scanner myConsole;	
+	/* The user current selected */
+	private User myUser;	
+	/* The role. */
+	private SubprogramChair myRole;	
+	/* The List of users. */
+	private final Map<String, User> myListOfUser;	
+	/* The Master List. */
+	private final List<Manuscript> myMasterList;	
+	/* The helper GUI */
+	private final HelperGUI myHelper;
+
 	/**
 	 * The constructor for the gui.
 	 * @param Scanner The main console.

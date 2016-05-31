@@ -12,17 +12,15 @@ import java.util.List;
  */
 public class Role implements Serializable {
 
-	/**
-	 * Serialize number.
-	 */
+	/**/
 	private static final long serialVersionUID = 1419088120307170425L;
-	/** String to hold the current role of the user. */
+	/* String to hold the current role of the user. */
 	private String myRoleName;
 	
-	/** The username of the role.  */
+	/* The username of the role.  */
 	private String myUsername;
 	
-	/** The conference for that role. */
+	/* The conference for that role. */
 	private Conference myConference;
 
 	/**

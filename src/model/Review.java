@@ -10,16 +10,16 @@ import java.io.Serializable;
  */
 public class Review implements Serializable {
 	
-	/** Generated Serialization number. */
+	/* Generated Serialization number. */
 	private static final long serialVersionUID = -886831885940281472L;
 
-	/** Reviewer is identified by their unique ID (username). */
+	/* Reviewer is identified by their unique ID (username). */
 	private String myReviewerID;
 	
-	/** The title of the Manuscript being reviewed (for reference to keep organized). */
+	/* The title of the Manuscript being reviewed (for reference to keep organized). */
 	private String myManuscriptTitle;
 	
-	/** The full text of the Review itself, as a String. */
+	/* The full text of the Review itself, as a String. */
 	private String myReviewText;
 	
 	/**

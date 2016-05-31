@@ -14,12 +14,12 @@ import java.util.Objects;
  */
 public class Author extends Role implements Serializable {
 	
-	/** Generated serialization number. */
+	/*Generated serialization number. */
 	private static final long serialVersionUID = 8150606980901061867L;
-	
+	/**/
 	private static final int STATUS_DECISION_HAS_NOT_BEEN_MADE = 0;
 
-	/** List to hold manuscripts. */
+	/*List to hold manuscripts. */
 	private List<Manuscript> myManuscripts;
 
 	/**

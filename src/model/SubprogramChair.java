@@ -8,12 +8,15 @@ import java.util.Objects;
 
 public class SubprogramChair extends Role implements Serializable {
 
-	/** Generated Serialization number. */
+	/*Generated Serialization number.*/
 	private static final long serialVersionUID = -888370705327456440L;
+	/**/
 	private static final int MAX_AMOUNT_OF_MANUSCRIPTS = 4;
+	/**/
 	private static final int NOT_FOUND = -1;
+	/**/
 	private static final int EMPTY = 0;
-	/** A List of all of the Manuscripts that are assigned to this given Subprogram Chair.*/
+	/*A List of all of the Manuscripts that are assigned to this given Subprogram Chair.*/
 	private ArrayList<Manuscript> myAssignedManuscripts;
 	
 

@@ -14,9 +14,9 @@ public class Reviewer extends Role implements Serializable {
 	
 	/** The maximum number of Manuscripts a Reviewer can be assigned to Review. */
 	public static final int MAX_MANUSCRIPTS = 4;
-	
+	/**/
 	private List<Manuscript> myManuscripts;
-
+	/**/
 	private static final long serialVersionUID = -3658253011793370271L;
 	
 	/**

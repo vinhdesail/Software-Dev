@@ -9,10 +9,11 @@ import java.util.Objects;
 
 public class ProgramChair extends Role implements Serializable {
 	
-	/** Generated Serialization number. */
+	/*Generated Serialization number.*/
 	private static final long serialVersionUID = 79453357450439428L;
-	
+	/**/
 	private static final int ACCEPTED = 1;
+	/**/
 	private static final int REJECTED = -1;
 	
 	
