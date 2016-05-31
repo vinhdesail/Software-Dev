@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Class that represents a general role that a user is.
+ * Role class represents the role a User can act as for a particular Conference
  * 
  * @author Joshua Meigs, Vinh Vien, Edie Megan Campbell
  * @version 2016.05.31
@@ -44,25 +44,27 @@ public class Role implements Serializable {
 	}
 	
 	/**
-	 * The method to get the role name.
-	 * @return String The role type.
+	 * Getter method for the role name.
+	 * @return String - the role name
 	 */
 	public String getRole(){
 		return myRoleName;
 	}
 	
 	/**
-	 * The method to get Username.
-	 * @return String The username. 
+	 * Getter method for the unique username of the User acting as this Role.
+	 * @return String - the username. 
 	 */
 	public String getMyUsername() {
 		return myUsername;
 	}
 	
 	/**
-	 * The method to get role name.
-	 * @return String The role name.
+	 * Overridden toString method that formats the User's name, the name of the Role, and the
+	 * Conference as a single String
+	 * @return String the Role with all fields
 	 */
+	@Override
 	public String toString() {
 		StringBuilder toReturn = new StringBuilder();
 		toReturn.append("This is user: ");
@@ -76,21 +78,26 @@ public class Role implements Serializable {
 	}
 	
 	/**
-	 * The getter for the conferences.
+	 * Getter method for the Conference associated with this Role.
 	 * @return Conference The conference.
 	 */
-	public Conference getConference(){
+	public Conference getConference() {
 		return myConference;
 	}
 	
 	/**
-	 * The method to get all manuscript for this conference.
-	 * @param theMaserList The main list.
+	 * Getter method for all manuscripts submitted to this Conference.
+	 * @param theMasterList - List<Manuscript> with all Manuscripts submitted to any Conference
+	 * @return List<Manuscript> - only those manuscripts associated with this Role's Conference
+	 * @throws IllegalArgumentException if theMasterList is null
 	 */
-	public List<Manuscript> getAllManuscriptForThisConference(final List<Manuscript> theMasterList){
+	public List<Manuscript> getAllManuscriptsForThisConference(final List<Manuscript> theMasterList) {
+		if (Objects.isNull(theMasterList)) {
+			throw new IllegalArgumentException("Master list of Manuscripts cannot be null.");
+		}
 		List<Manuscript> toReturn = new ArrayList<>();
-		for(int i = 0; i < theMasterList.size(); i++){
-			if(theMasterList.get(i).getConference().equals(myConference.getConferenceID())){
+		for (int i = 0; i < theMasterList.size(); i++){
+			if (theMasterList.get(i).getConference().equals(myConference.getConferenceID())){
 				toReturn.add(theMasterList.get(i));
 			}
 		}

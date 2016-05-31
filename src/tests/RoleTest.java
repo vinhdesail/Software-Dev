@@ -65,7 +65,7 @@ public class RoleTest {
 		myMultiConferenceList.add(manu3);
 	}
 
-	// must test COnstrucotr for null parameters
+	// must test Construcotr for null parameters
 	@Test
 	public void testConstructor(){
 		assertEquals(myRole.getConference(), myConference);
@@ -110,17 +110,19 @@ public class RoleTest {
 	 * Test the hashcode for the Role. If they are equal, hashcode should be as well.
 	 */
 	@Test
-	public void testHashCode(){
+	public void testHashCode() {
 		assertEquals(myRole, mySameRole);
 		assertTrue(myRole.hashCode() == mySameRole.hashCode());
 	}
+	
+	// test getAllManuscriptsForThisConference for null master list - must throw exception
 	
 	/**
 	 * Test the method getAllManuscriptForThisConference for a empty list.
 	 */
 	@Test
 	public void testGetAllManuscriptForThisConferenceEmptyList(){
-		assertEquals(myRole.getAllManuscriptForThisConference(myEmptyList), myEmptyList);
+		assertEquals(myRole.getAllManuscriptsForThisConference(myEmptyList), myEmptyList);
 	}
 	
 	/**
@@ -128,7 +130,7 @@ public class RoleTest {
 	 */
 	@Test
 	public void testGetAllManuscriptForThisConferenceOneConference(){
-		assertEquals(myRole.getAllManuscriptForThisConference(myOneConferenceList), myOneConferenceList);
+		assertEquals(myRole.getAllManuscriptsForThisConference(myOneConferenceList), myOneConferenceList);
 	}
 	
 	/**
@@ -136,7 +138,7 @@ public class RoleTest {
 	 */
 	@Test
 	public void testGetAllManuscriptForThisConferenceMultiConference(){
-		assertEquals(myRole.getAllManuscriptForThisConference(myMultiConferenceList), myOneConferenceList);
+		assertEquals(myRole.getAllManuscriptsForThisConference(myMultiConferenceList), myOneConferenceList);
 	}
 	
 	
