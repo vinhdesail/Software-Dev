@@ -3,7 +3,9 @@ package model;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Conference class description.
@@ -21,19 +23,19 @@ public class Conference implements Serializable {
 	/** Program Chair is identified by their unique username (User ID) .*/
 	private String myProgramChairID;
 	
-	private Date myConferenceDate;
+	private Calendar myConferenceDate;
 	
-	private Date myManuscriptDueDate;
+	private Calendar myManuscriptDueDate;
 	
-	private Date myReviewDueDate;
+	private Calendar myReviewDueDate;
 	
-	private Date myRecDueDate;
+	private Calendar myRecDueDate;
 	
-	private Date myDecisionDueDate;
+	private Calendar myDecisionDueDate;
 	
-	public Conference(String theConferenceID, String theProgramChairID, Date theConferenceDate, 
-						Date theManuscriptDueDate, Date theReviewDueDate, Date theRecDueDate,
-						Date theDecisionDueDate) {
+	public Conference(String theConferenceID, String theProgramChairID, Calendar theConferenceDate, 
+			Calendar theManuscriptDueDate, Calendar theReviewDueDate, Calendar theRecDueDate,
+						Calendar theDecisionDueDate) {
 		myConferenceID = theConferenceID;
 		myProgramChairID = theProgramChairID;
 		myConferenceDate = theConferenceDate;
@@ -72,23 +74,23 @@ public class Conference implements Serializable {
 		return myProgramChairID;
 	}
 	
-	public Date getConferenceDate() {
+	public Calendar getConferenceDate() {
 		return myConferenceDate;
 	}
 	
-	public Date getManuscriptDueDate() {
+	public Calendar getManuscriptDueDate() {
 		return myManuscriptDueDate;
 	}
 	
-	public Date getReviewDueDate() {
+	public Calendar getReviewDueDate() {
 		return myReviewDueDate;
 	}
 	
-	public Date getRecDueDate() {
+	public Calendar getRecDueDate() {
 		return myRecDueDate;
 	}
 	
-	public Date getDecisionDueDate() {
+	public Calendar getDecisionDueDate() {
 		return myDecisionDueDate;
 	}
 	
@@ -100,10 +102,12 @@ public class Conference implements Serializable {
 	 * @return a Date object corresponding to the date specified in the String, or null if 
 	 * the String was not of the expected format
 	 */
-	public static Date stringToDate(String theDateString) {
+	public static Calendar stringToDate(String theDateString) {
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		try {
-			Date theDate = df.parse(theDateString);
+			Calendar theDate = new GregorianCalendar();
+			theDate.setTime(df.parse(theDateString));
+			//Date theDate = df.parse(theDateString);
 			return theDate;
 		} catch (ParseException e) {
 			e.printStackTrace();
