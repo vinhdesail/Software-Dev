@@ -2,8 +2,8 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class that represents a user in the system.
@@ -14,9 +14,9 @@ import java.util.List;
  * @version 2016.05.31
  */
 public class User implements Serializable {
-	/**/
+	
 	private static final long serialVersionUID = -1010666887890962915L;
-	/**/
+	
 	private static final int FIRST_INDEX = 0;
 	
 	/* The unique username identifying this User.*/
@@ -47,7 +47,7 @@ public class User implements Serializable {
 	 * @throws IllegalArgumentException if theName is null
 	 */
 	public User(String theName){
-		if (theName == null) {
+		if (Objects.isNull(theName)) {
 			throw new IllegalArgumentException("User name cannot be null.");
 		}
 		myName = theName;
@@ -82,11 +82,11 @@ public class User implements Serializable {
 	 * been selected)
 	 */
 	public void submitManuscript(Manuscript theManu, List<Manuscript> theMasterList) {
-		if (theManu == null) {
+		if (Objects.isNull(theManu)) {
 			throw new IllegalArgumentException("Manuscript cannot be null.");
-		} else if (theMasterList == null) {
+		} else if (Objects.isNull(theMasterList)) {
 			throw new IllegalArgumentException("Master list of Manuscripts cannot be null.");
-		} else if (myConference == null) {
+		} else if (Objects.isNull(myConference)) {
 			throw new IllegalStateException("No conference has been selected.");
 		}
 		
@@ -124,7 +124,7 @@ public class User implements Serializable {
 				}
 			}
 			// if Author was not found in myRoles and myCurrentRole is null, pick the first role
-			if(myCurrentRole == null){
+			if(Objects.isNull(myCurrentRole)){
 				myCurrentRole = myRoles.get(FIRST_INDEX);
 			}
 			// if Author was not found in myRoles and myCurrentRole is non-null, it will stay as is
@@ -146,7 +146,7 @@ public class User implements Serializable {
 	 * to the User
 	 */
 	public void addRole(Role theRole){
-		if (theRole == null) {
+		if (Objects.isNull(theRole)) {
 			throw new IllegalArgumentException("Role cannot be null.");
 		} else if (myRoles.contains(theRole)) {
 			throw new IllegalArgumentException("Role has already been added.");
@@ -186,7 +186,7 @@ public class User implements Serializable {
 	 * available Roles
 	 */
 	public void switchRole(Role theRole){
-		if (theRole == null) {
+		if (Objects.isNull(theRole)) {
 			throw new IllegalArgumentException("Role cannot be null.");
 		}
 		if (myRoles.contains(theRole)) {
@@ -202,7 +202,7 @@ public class User implements Serializable {
 	 * @throws IllegalArgumentException if theCon is null
 	 */
 	public void switchConference(final Conference theCon){
-		if (theCon == null) {
+		if (Objects.isNull(theCon)) {
 			throw new IllegalArgumentException("Conference cannot be null.");
 		}
 		myConference = theCon;
@@ -214,7 +214,7 @@ public class User implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object theOther){
-		if (theOther == null) {
+		if (Objects.isNull(theOther)) {
 			return false;
 		} else if (!(theOther instanceof User)) {
 			return false;

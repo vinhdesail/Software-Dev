@@ -65,7 +65,7 @@ public class RoleTest {
 		myMultiConferenceList.add(manu3);
 	}
 
-	
+	// must test COnstrucotr for null parameters
 	@Test
 	public void testConstructor(){
 		assertEquals(myRole.getConference(), myConference);
