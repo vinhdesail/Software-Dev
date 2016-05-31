@@ -29,7 +29,7 @@ public class SubprogramChair extends Role implements Serializable {
 	 * @param theReviewer The Reviewer that is being assigned.
 	 * @param theManuscript The Manuscript being assigned.
 	 */
-	public void AssignReviewer(Reviewer theReviewer, Manuscript theManuscript) {//will need to pass a reviewer obj
+	public void AssignReviewer(Reviewer theReviewer, Manuscript theManuscript) {
 		theReviewer.assignReview(theManuscript);
 	}
 	

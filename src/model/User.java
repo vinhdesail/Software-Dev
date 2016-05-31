@@ -133,18 +133,7 @@ public class User implements Serializable {
 	public Role getCurrentRole(){
 		return myCurrentRole;
 	}
-	
-	/**
-	 * Get the List all Roles.
-	 * @return The list of all roles.
-	 */
-	public List<Role> getListOfAllRoles() {
-		List<Role> allRoles = new ArrayList<>();
-		for(int i  = 0; i < myRole.size();i++) {
-			allRoles.add(myRole.get(i));
-		}
-		return allRoles;
-	}
+
 	
 	/**
 	 * Method that returns all roles that are related to current confernce. 

@@ -81,6 +81,7 @@ public class ProgramChairGUITest {
 		sally.addRole(role);
 		sally.switchRole(role);
 		
+		
 		myGUI = new ProgramChairGUI(new Scanner(System.in), sally, new HashMap<String, User>(), myManuscriptList);
 		
 		// WRONG ROLE & NO CONFERENCE USER

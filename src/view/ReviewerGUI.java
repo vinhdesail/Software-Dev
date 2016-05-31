@@ -110,7 +110,7 @@ public class ReviewerGUI {
 		System.out.println(myHelper);
 		
 		List<Manuscript> listOfManu = myRole.getMyManuscripts();
-		List<Manuscript> completed = myRole.getAlreadyReviewManuscript();
+		List<Manuscript> completed = myRole.getMyReviewedManuscripts();
 		
 		displayManuscriptWithStatusOfReview(listOfManu, completed, theAskToView);
 		

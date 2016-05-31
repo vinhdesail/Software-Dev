@@ -46,10 +46,15 @@ public class Reviewer extends Role implements Serializable {
 	 * @param theManuscript
 	 * @param theReviewURL
 	 * @throws IllegalArgumentException if this Reviewer has not been assigned to theManuscript 
-	 * yet or if this Reviewer has already submitted a review for theManuscript
+	 * yet or if this Reviewer has already submitted a review for theManuscript, or if either
+	 * parameter is null.
 	 */
 	public void submitReview(Manuscript theManuscript, String theReviewURL) {
-		if (!myManuscripts.contains(theManuscript)) {
+		if (theManuscript == null) {
+			throw new IllegalArgumentException("Manuscript cannot be null.");
+		} else if (theReviewURL == null) {
+			throw new IllegalArgumentException("Review file path cannot be null.");
+		} else if (!myManuscripts.contains(theManuscript)) {
 			throw new IllegalArgumentException(this.getMyUsername() + " has not been assigned "
 					+ "to review the Manuscript: " + theManuscript.getTitle());
 		} else if (getMyReview(theManuscript) != null) {
@@ -64,12 +69,16 @@ public class Reviewer extends Role implements Serializable {
 	 * Edits a Review by this Reviewer for the given Manuscript
 	 * Reviews are "edited" by removing the old review and submitting a new one.
 	 * @param theManuscript - the Manuscript being reviewed
-	 * @param theReviewText - the full text of the (edited) Review
+	 * @param theReviewFilePath - the full text of the (edited) Review
 	 * @throws IllegalArguementException if this Reviewer is not assigned to theManuscript, or
 	 * if this Reviewer has not yet submitted a review for this Manuscript to edit.
 	 */
-	public void editReview(Manuscript theManuscript, String theReviewText) {
-		if (!myManuscripts.contains(theManuscript)) {
+	public void editReview(Manuscript theManuscript, String theReviewFilePath) {
+		if (theManuscript == null) {
+			throw new IllegalArgumentException("Manuscript cannot be null.");
+		} else if (theReviewFilePath == null) {
+			throw new IllegalArgumentException("Review file path cannot be null.");
+		} else if (!myManuscripts.contains(theManuscript)) {
 			throw new IllegalArgumentException(this.getMyUsername() + " has not been assigned "
 					+ "to review the Manuscript: " + theManuscript.getTitle());
 		}
@@ -79,13 +88,12 @@ public class Reviewer extends Role implements Serializable {
 								+ "Manuscript: " + theManuscript.getTitle());
 		}
 		theManuscript.removeReview(getMyReview(theManuscript));
-		Review review = new Review(this.getMyUsername(), theManuscript.getTitle(), theReviewText);
+		Review review = new Review(this.getMyUsername(), theManuscript.getTitle(), theReviewFilePath);
 		theManuscript.addReview(review);
 	}
 	
 	/**
-	 * Accessor method 
-	 * @return returns the ArrayList of all papers assigned to this Reviewer
+	 * @return ArrayList of all papers assigned to this Reviewer
 	 */
 	public List<Manuscript> getMyManuscripts() {
 		return myManuscripts;
@@ -99,21 +107,18 @@ public class Reviewer extends Role implements Serializable {
 		return myManuscripts.size();
 	}
 	
-	//TODO
 	/**
-	 * Accessor method
-	 * @return The list of paper already been reviewed.
+	 * @return ArrayList of papers from those assigned to this Reviewer that this Reviewer
+	 * has already reviewed
 	 */
-	public List<Manuscript> getAlreadyReviewManuscript(){
-		List<Manuscript> toReturn = new ArrayList<>();
-		for(Manuscript manu : myManuscripts){
-			for(Review rev : manu.getReviews()){
-				if(rev.getReviewerID().equals(this.getMyUsername())){
-					toReturn.add(manu);
-				}
+	public List<Manuscript> getMyReviewedManuscripts(){
+		List<Manuscript> myReviewedManuscripts = new ArrayList<>();
+		for (Manuscript manu : myManuscripts) {
+			if (getMyReview(manu) != null) {
+				myReviewedManuscripts.add(manu);
 			}
 		}
-		return toReturn;
+		return myReviewedManuscripts;
 	}
 	
 	/**
@@ -123,7 +128,9 @@ public class Reviewer extends Role implements Serializable {
 	 * @throws IllegalArgumentException if this Reviewer already has the max allowed number of papers.
 	 */
 	public void assignReview(Manuscript theManuscript) {
-		if (myManuscripts.size() < MAX_MANUSCRIPTS) {
+		if (theManuscript == null) {
+			throw new IllegalArgumentException("Manuscript cannot be null.");
+		} else if (myManuscripts.size() < MAX_MANUSCRIPTS) {
 			myManuscripts.add(theManuscript);
 		} else {
 			throw new IllegalArgumentException("Can't assign more than " + MAX_MANUSCRIPTS + 
@@ -137,9 +144,12 @@ public class Reviewer extends Role implements Serializable {
 	 * @return the Review object associated with this reviewer's unique username, or null if 
 	 * there is none
 	 * @throws IllegalArgumentException if this Reviewer has not been assigned to review theManuscript
+	 * or if theManuscript is null
 	 */
-	public Review getMyReview(Manuscript theManuscript) throws IllegalArgumentException {
-		if (!myManuscripts.contains(theManuscript)) {
+	public Review getMyReview(Manuscript theManuscript) {
+		if (theManuscript == null) {
+			throw new IllegalArgumentException("Manuscript cannot be null.");
+		} else if (!myManuscripts.contains(theManuscript)) {
 			throw new IllegalArgumentException(this.getMyUsername() + " has not been assigned "
 					+ "to review the Manuscript: " + theManuscript.getTitle());
 		}
