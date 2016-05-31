@@ -75,9 +75,8 @@ public class Author extends Role implements Serializable {
 	 * Method to allow an author to resubmit an edited manuscript.
 	 */
 	public void editManuscript(final List<Manuscript> theManuscripts, final Manuscript oldManuscript,
-					final Manuscript theManuscript) {
-		deleteManuscript(theManuscripts, oldManuscript);
-		addManuscript(theManuscripts, theManuscript);
+					final String theTitle) {
+		oldManuscript.setTitle(theTitle);
 
 	}
 	

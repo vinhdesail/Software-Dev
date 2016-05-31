@@ -235,9 +235,7 @@ public class AuthorGUI {
 		} else {
 			String title = askForTitle();
 			if(!title.equalsIgnoreCase("EXIT")){
-				Manuscript newManuscript = new Manuscript(myUser.getName(), myUser.getConference().getConferenceID(), 
-						title, listOfManuscript.get(selectedManu - 1).getText());
-				myRole.editManuscript(myMasterList, listOfManuscript.get(selectedManu - 1), newManuscript);
+				myRole.editManuscript(myMasterList, listOfManuscript.get(selectedManu - 1), title);
 				System.out.println("SUCCESS!!!\n--Displaying All Your Manuscript--");
 				listOfManuscript = myRole.showAllMyManuscripts();
 				HelperGUI.displayManuscripts(listOfManuscript, false);
