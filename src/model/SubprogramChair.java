@@ -50,7 +50,8 @@ public class SubprogramChair extends Role implements Serializable {
 	 * @param theManuscripts The Manuscript being assigned to the Subprogram Chair.
 	 * @throws IllegalArgumentException If the given Manuscript's Conference does not match with this 
 	 * Subprogram Chairs Conference, if the Manuscript has already been assigned to a Subprogram Chair,
-	 * if 
+	 * if this instance of a Subprogram Chair already has been assigned the maximum number of Manuscripts,
+	 * or if the given Manuscript is null. 
 	 */
 	public void assignManuscripts(Manuscript theManuscript) throws IllegalArgumentException{
 		if(Objects.isNull(theManuscript)){
@@ -77,8 +78,19 @@ public class SubprogramChair extends Role implements Serializable {
 	 * A Method that submits a Recommendation to a given Manuscript, if the Manuscript is within the Subprogram Chairs List.
 	 * @param theManuscript The Manuscript being given a Recommendation.
 	 * @param theRecommendationText The Text that carries the Recommendation body.
+	 * @throws IllegalArgumentException If the given Manuscript Already contains a Recommendation,
+	 * if the given Manuscript has not been assigned to this instance of a Subprogram Chair,
+	 * if this instance of a Subprogram Chair has not been assigned any Manuscripts,
+	 * or if the Given Manuscript or Recommendation Text are null. 
 	 */
 	public void submitRecomendation(Manuscript theManuscript, String theRecommendationText) throws IllegalArgumentException {		
+		
+		if(Objects.isNull(theManuscript)) {
+			throw new IllegalArgumentException("The Given Manuscript cannot be null");
+		}
+		if(Objects.isNull(theRecommendationText)) {
+			throw new IllegalArgumentException("The Given Recommedation Text cannot be null");
+		}
 		if(myAssignedManuscripts.size() > EMPTY && !containsMaxAmmountOfManuscripts()) { //last part might not be needed.
 			int manuscriptLocation = containsManuscriptAt(theManuscript);
 			if(manuscriptLocation >= EMPTY) {
@@ -89,7 +101,7 @@ public class SubprogramChair extends Role implements Serializable {
 					throw new IllegalArgumentException("Given Manuscript already contains a Recommendation");
 				}												
 			} else {
-				throw new IllegalArgumentException("Manuscript not found");				
+				throw new IllegalArgumentException("Given Manuscript has not been assigned to this instance of a Subprogram Chair");				
 			}			
 		} else {
 			throw new IllegalArgumentException("No Assigned Manuscripts to submit Reccomendation for.");
@@ -100,57 +112,39 @@ public class SubprogramChair extends Role implements Serializable {
 	 * A Method that returns the Text of a Recommendation of a given Manuscript, if the Manuscript is within the Subprogram Chairs List.
 	 * @param theManuscript The Manuscript that the Recommendation belongs to.
 	 * @return The Recommendation Text.
+	 * @throws IllegalArgumentException If the given Manuscript has not been 
+	 * assigned to this instance of a Subprogram Chair,
+	 * if this instance of a Subprogram Chair has not been assigned any Manuscripts,
+	 * or if the Given Manuscript is null. 
 	 */
 	public String getRecommendationText(Manuscript theManuscript) throws IllegalArgumentException {
 		String recommendationText = "";
+		if(Objects.isNull(theManuscript)) { 
+			throw new IllegalArgumentException("Given Manuscript Cannot be null");
+		}
 		int manuscriptLocation = containsManuscriptAt(theManuscript);
 		if(myAssignedManuscripts.size() > EMPTY && !containsMaxAmmountOfManuscripts()) { //last part might not be needed.
 			if(manuscriptLocation >= EMPTY) {
 				recommendationText = myAssignedManuscripts.get(manuscriptLocation).getRecommendation().getRecommmendationText();				
 			} else {
-				throw new IllegalArgumentException("Manuscript not found");
+				throw new IllegalArgumentException("Given Manuscript has not been assigned to this instance of a Subprogram Chair");								
 			}			
 		} else {
 			throw new IllegalArgumentException("No Assigned Manuscripts to get a reccemdation for.");
 		}		
 		return recommendationText;
-	}
-	
-	//might not be needed. 
-	/**
-	 * A Method that returns the Text of a Recommendation of a given Manuscript, if the Manuscript is within the Subprogram Chairs List.
-	 * @param theManuscript The Manuscript that the Recommendation belongs to.
-	 * @return The Recommendation Text.
-	 */
-	public void editRecomendation(Manuscript theManuscript,String theRecommendationText) throws IllegalArgumentException{    
-		if(myAssignedManuscripts.size() > EMPTY && !containsMaxAmmountOfManuscripts()) { //last part might not be needed.
-			if(containsManuscriptAt(theManuscript) >= EMPTY) {
-				deleteRecomendation(theManuscript);
-				Recommendation recommendation = new Recommendation(super.getMyUsername(), theManuscript.getTitle(), theRecommendationText);			
-				theManuscript.setRecommendation(recommendation);									
-			} else {
-				throw new IllegalArgumentException("Manuscript not found");
-			}		
-		} else {
-			throw new IllegalArgumentException("No Assigned Manuscripts to get a reccemdation for.");
-		}
-	}
-	
-	/*Might Not be needed*/
-	/**
-	 * A Method that sets a given Manuscripts Recommendation to be null, if the Manuscript is within the Subprogram Chairs List. 
-	 * @param theManuscript 
-	 */ 
-	public void deleteRecomendation(Manuscript theManuscript) {
-		theManuscript.setRecommendation(null);
-	}
+	}	
 	
 	/**
 	 * A method that checks if this given instance of a Subprogram Chair contains the given Manuscript.
 	 * @param theManuscript The Manuscript that is being searched for.
 	 * @return The index of where the Manuscript was found, else -1.
+	 * @throws IllegalArgumentException If the Given Manuscript is null.
 	 */
-	public int containsManuscriptAt(Manuscript theManuscript) {
+	public int containsManuscriptAt(Manuscript theManuscript) throws IllegalArgumentException{
+		if(Objects.isNull(theManuscript)) {
+			throw new IllegalArgumentException("The Given Manuscript cannot be null");		
+		}
 		int foundAt = NOT_FOUND;
 		for(int i  = 0; i < myAssignedManuscripts.size(); i++) {
 			if(myAssignedManuscripts.get(i).equals(theManuscript)) {
@@ -174,8 +168,12 @@ public class SubprogramChair extends Role implements Serializable {
 	 * Return all reviewer related to conference.
 	 * @param theUsers Map of all users.
 	 * @return A List of all the Reviewers for this conference.
+	 * @throws IllegalArgumentException If the Given Map of Users is Null.
 	 */
-	public List<Role> getAllReviewer(Map<String, User> theUsers){
+	public List<Role> getAllReviewer(Map<String, User> theUsers) throws IllegalArgumentException{
+		if(Objects.isNull(theUsers)) {
+			throw new IllegalArgumentException("The Given Map of Users cannot be null");
+		}
 		List<Role> toReturn = new ArrayList<>();
 		for(User addUser : theUsers.values()){
 			if(addUser.getConference().equals(getConference())){
