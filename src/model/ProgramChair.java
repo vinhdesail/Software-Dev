@@ -6,7 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
+/** 
+ * @author Joshua Meigs
+ * @version 2016.5.31
+ */
 public class ProgramChair extends Role implements Serializable {
 	
 	/*Generated Serialization number.*/
