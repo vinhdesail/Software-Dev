@@ -1,6 +1,8 @@
 package tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,22 +17,21 @@ import model.Author;
 import model.Conference;
 import model.Manuscript;
 import model.Review;
-import model.Role;
 import model.User;
 import view.AuthorGUI;
 
 public class AuthorGuiTest {
 
-	AuthorGUI myAuthorGUIForTestingAssignment;
-	AuthorGUI myAuthorGUIForTestingReviews;
-	Conference myConference;
-	User myUser;
-	User myUserToBeAssignedToBeAnAuthor;
-	Manuscript myManuscript;
-	Review myReview;
-	Review myOtherReview;
-	List<Manuscript> myMasterListOfManuscriptsForAssignmentAuthorGui;
-	List<Manuscript> myMasterListOfManuscriptsForReviewerAuthorGui;
+	private AuthorGUI myAuthorGUIForTestingAssignment;
+	private AuthorGUI myAuthorGUIForTestingReviews;
+	private Conference myConferenceToBeUsedForAllTests;
+	private User myUserThatHasBeenAssignedAsAnAuthor;
+	private User myUserToBeAssignedToBeAnAuthor;
+	private Manuscript myManuscriptToUseWithAllTests;
+	private Review myReviewToBeUsedWithTheTestWhereTheReviewIsLinkedWithTheMainManuscript;
+	private Review myReviewToBeUsedWithTheTestWhereTheReviewIsNotLinkedWithTheMainManuscript;
+	private List<Manuscript> myMasterListOfManuscriptsForAssignmentAuthorGui;
+	private List<Manuscript> myMasterListOfManuscriptsForReviewerAuthorGui;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -40,34 +41,34 @@ public class AuthorGuiTest {
 		Calendar recommendationDueDate = new GregorianCalendar(2016,10,1);
 		Calendar decisionDueDate = new GregorianCalendar(2016,10,1);
 		
-		myConference = new Conference("Conference ID", "Program Chair ID", conferenceDate, manuscriptDueDate, 
+		myConferenceToBeUsedForAllTests = new Conference("Conference ID", "Program Chair ID", conferenceDate, manuscriptDueDate, 
 				reviewDueDate, recommendationDueDate, decisionDueDate);
 		Scanner console = new Scanner(System.in);
 						
-		myUser = new User("UserName");	
+		myUserThatHasBeenAssignedAsAnAuthor = new User("UserName");	
 		myUserToBeAssignedToBeAnAuthor = new User();
-		myUserToBeAssignedToBeAnAuthor.switchConference(myConference);
-		myUser.switchConference(myConference);
+		myUserToBeAssignedToBeAnAuthor.switchConference(myConferenceToBeUsedForAllTests);
+		myUserThatHasBeenAssignedAsAnAuthor.switchConference(myConferenceToBeUsedForAllTests);
 		
 		myMasterListOfManuscriptsForAssignmentAuthorGui = new ArrayList<Manuscript>();
 		myMasterListOfManuscriptsForReviewerAuthorGui = new ArrayList<Manuscript>();
 		
-		myAuthorGUIForTestingReviews = new AuthorGUI(console, myUser, myMasterListOfManuscriptsForReviewerAuthorGui, false);
+		myAuthorGUIForTestingReviews = new AuthorGUI(console, myUserThatHasBeenAssignedAsAnAuthor, myMasterListOfManuscriptsForReviewerAuthorGui, false);
 		myAuthorGUIForTestingAssignment = new AuthorGUI(console, myUserToBeAssignedToBeAnAuthor,
 				myMasterListOfManuscriptsForAssignmentAuthorGui, false);	
 		
-		myManuscript = new Manuscript("Jim West", myConference.getConferenceID(), "theTitle", "theURI");
+		myManuscriptToUseWithAllTests = new Manuscript("Jim West", myConferenceToBeUsedForAllTests.getConferenceID(), "theTitle", "theURI");
 		
-		myReview = new Review("TheReviewer", myManuscript.getTitle(), "reviewText");
-		myOtherReview = new Review("TheReviewer", "otherManuscript", "reviewText");				
+		myReviewToBeUsedWithTheTestWhereTheReviewIsLinkedWithTheMainManuscript = new Review("TheReviewer", myManuscriptToUseWithAllTests.getTitle(), "reviewText");
+		myReviewToBeUsedWithTheTestWhereTheReviewIsNotLinkedWithTheMainManuscript = new Review("TheReviewer", "otherManuscript", "reviewText");				
 		
-		myUserToBeAssignedToBeAnAuthor.submitManuscript(myManuscript, myMasterListOfManuscriptsForAssignmentAuthorGui);
+		myUserToBeAssignedToBeAnAuthor.submitManuscript(myManuscriptToUseWithAllTests, myMasterListOfManuscriptsForAssignmentAuthorGui);
 		myAuthorGUIForTestingAssignment.assignRoleToAuthor(myUserToBeAssignedToBeAnAuthor);
 		
-		myUser.submitManuscript(myManuscript, myMasterListOfManuscriptsForReviewerAuthorGui);
-		myAuthorGUIForTestingReviews.assignRoleToAuthor(myUser);
+		myUserThatHasBeenAssignedAsAnAuthor.submitManuscript(myManuscriptToUseWithAllTests, myMasterListOfManuscriptsForReviewerAuthorGui);
+		myAuthorGUIForTestingReviews.assignRoleToAuthor(myUserThatHasBeenAssignedAsAnAuthor);
 		
-		myManuscript.addReview(myReview);
+		myManuscriptToUseWithAllTests.addReview(myReviewToBeUsedWithTheTestWhereTheReviewIsLinkedWithTheMainManuscript);
 	}
 
 	@Test
@@ -77,11 +78,11 @@ public class AuthorGuiTest {
 
 	@Test
 	public void getManuConnectedWithReviewWhereTheManuscriptIsConnectedWithTheReviewTest() {
-		assertSame(myManuscript,myAuthorGUIForTestingReviews.getManuConnectedWithReview(myReview));
+		assertSame(myManuscriptToUseWithAllTests,myAuthorGUIForTestingReviews.getManuConnectedWithReview(myReviewToBeUsedWithTheTestWhereTheReviewIsLinkedWithTheMainManuscript));
 	}
 	
 	@Test
 	public void getManuConnectedWithReviewWhereTheManuscriptIsNotConnectedWithTheReviewTest() {
-		assertNotEquals(myManuscript,myAuthorGUIForTestingReviews.getManuConnectedWithReview(myOtherReview));
+		assertEquals(null,myAuthorGUIForTestingReviews.getManuConnectedWithReview(myReviewToBeUsedWithTheTestWhereTheReviewIsNotLinkedWithTheMainManuscript));
 	}
 }

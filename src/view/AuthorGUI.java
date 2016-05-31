@@ -176,8 +176,7 @@ public class AuthorGUI {
 		}
 		
 	}
-	
-	//TODO
+
 	/**
 	 * Assign role author to a non author.
 	 * Use for testing this logic.
@@ -285,7 +284,6 @@ public class AuthorGUI {
 		
 	}
 	
-	//TODO
 	/**
 	 * Method to test logic of getting a manuscript connected to review.
 	 * @param The review.

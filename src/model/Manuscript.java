@@ -285,22 +285,5 @@ public class Manuscript implements Serializable {
 	public int hashCode() {
 		return this.toString().hashCode();
 	}
-	
-//	/**
-//	 * Overrides the Object hashCode method for consistency with the overridden equals method.
-//	 */
-//	@Override
-//	public int hashCode() {
-//		int hash = myStatus;
-//		hash += myReviews.hashCode();
-//		hash += myRecommendation.hashCode();
-//		hash += myConference.hashCode();
-//		hash += myAuthorID.hashCode();
-//		hash += myTitle.hashCode();
-//		hash += myText.hashCode();
-//		return hash;
-//	}
-	
-	
 
 }
