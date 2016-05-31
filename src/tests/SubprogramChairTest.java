@@ -95,11 +95,10 @@ public class SubprogramChairTest {
 	 * Test for getting a list of reviewers.
 	 */
 	@Test
-	public void testGetAllReviewer(){
+	public void getAllReviewersTest(){
 		assertEquals(myReviewersToBeComparedWithOtherReviewers, myReviewers);
 	}
-	
-	
+		
 	/**
 	 * Tests if all of the manuscripts that are assigned will show in their assigned list.
 	 */
@@ -284,8 +283,48 @@ public class SubprogramChairTest {
 	}
 	
 	@Test
+	public void getAllReviewerExceptionWhereTheGivenMaMapOfUsersIsNullTest() {
+		try {
+			mySubprogramChairThatContainsOneManuscript.getAllReviewer(null);
+		    fail("Exception wasn't caught");
+		} catch (IllegalArgumentException theException) {
+			   
+		} 	
+	}
+	
+	@Test
 	public void equalsWhereBothSPCAreTheSameTest() {		
 		assertTrue(mySubprogramChairThatContainsOneManuscript.equals(mySubprogramChairThatContainsOneManuscriptToCompareToOtherSPCWithOneManuscriptThatIsTheSame));
+	}
+	
+	@Test
+	public void assignReviewerExceptionWhereTheGivenManuscriptIsNull() {
+		try {
+			mySubprogramChairThatContainsOneManuscript.assignReviewer((Reviewer)myReviewers.get(0), null);
+			   fail("Exception wasn't caught");			   
+		} catch (IllegalArgumentException theException) {
+			   
+		} 
+	}
+	
+	@Test
+	public void assignReviewerExceptionWhereTheGivenReviewerIsNull() {
+		try {
+			mySubprogramChairThatContainsOneManuscript.assignReviewer(null, myFirstManuscript);
+			   fail("Exception wasn't caught");			   
+		} catch (IllegalArgumentException theException) {
+			   
+		} 
+	}
+	
+	@Test
+	public void assignReviewerExceptionWhereTheGivenManuscriptHasNotBeenAssignedToThisInstanceOfASubprogramChairNull() {
+		try {
+			mySubprogramChairThatContainsOneManuscript.assignReviewer((Reviewer)myReviewers.get(0), mySecondManuscript);
+			   fail("Exception wasn't caught");			   
+		} catch (IllegalArgumentException theException) {
+			   
+		} 
 	}
 	
 	@Test

@@ -69,7 +69,7 @@ public class ManuscriptTest {
 	// test all possible null parameter exceptions for Manuscript constructor
 	
 	@Test
-	public void constructorNullAuthorIDExceptionTest() {
+	public void testConstructorNullAuthorIDException() {
 		try {
 			new Manuscript(null, conferenceID, title1, filePath1);
 			fail("null Manuscript in constructor did not throw exception");
@@ -77,14 +77,14 @@ public class ManuscriptTest {
 	}
 	
 	@Test
-	public void constructorNullConferenceIDExceptionTest() {
+	public void testConstructorNullConferenceIDException() {
 		try {
 			new Manuscript(authorID, null, title1, filePath1);
 			fail("null Conference in constructor did not throw exception");
 		} catch (IllegalArgumentException theException) {	}
 	}
 	
-	public void constructorNullTitleExceptionTest() {
+	public void testConstructorNullTitleException() {
 		try {
 			new Manuscript(authorID, conferenceID, null, filePath1);
 			fail("null Manuscript in constructor did not throw exception");
@@ -92,7 +92,7 @@ public class ManuscriptTest {
 	}
 	
 	@Test
-	public void constructorNullFilePathExceptionTest() {
+	public void testConstructorNullFilePathException() {
 		try {
 			new Manuscript(authorID, conferenceID, title1, null);
 			fail("null Conference in constructor did not throw exception");
@@ -104,7 +104,7 @@ public class ManuscriptTest {
 	/* Unsuccessful addReview: null Review must throw IllegalArgumentException
 	 */
 	@Test
-	public void addReviewNullReviewExceptionTest() {
+	public void testAddReviewNullReviewException() {
 		try {
 			basicManuscript.addReview(null);
 			fail("null Review in addReview did not throw exception");
@@ -115,7 +115,7 @@ public class ManuscriptTest {
 	 * IllegalArgumentException
 	 */
 	@Test
-	public void addReviewWrongManuscriptExceptionTest() {
+	public void testAddReviewWrongManuscriptException() {
 		try {
 			basicManuscript.addReview(review2);
 			fail("Review on wrong manuscript in addReview did not throw exception");
@@ -125,7 +125,7 @@ public class ManuscriptTest {
 	/* Successful addReview: add a non-null Review that is for this Manuscript
 	 */
 	@Test
-	public void addReviewSuccessTest() {
+	public void testAddReviewSuccess() {
 		assertTrue("Manuscript did not start with empty Review list", basicManuscript.getReviews().isEmpty());
 		basicManuscript.addReview(review1);
 		assertEquals("Manuscript did not finish with 1 Review", 1, basicManuscript.getReviews().size());
@@ -138,7 +138,7 @@ public class ManuscriptTest {
 	/* Unsuccessful removeReview: null Review must throw IllegalArgumentException
 	 */
 	@Test
-	public void removeReviewNullReviewExceptionTest() {
+	public void testRemoveReviewNullReviewException() {
 		try {
 			basicManuscript.removeReview(null);
 			fail("null Review in removeReview did not throw exception");
@@ -149,7 +149,7 @@ public class ManuscriptTest {
 	 * IllegalArgumentException
 	 */
 	@Test
-	public void removeReviewWrongManuscriptExceptionTest() {
+	public void testRemoveReviewWrongManuscriptException() {
 		try {
 			basicManuscript.removeReview(review2);
 			fail("Review on wrong manuscript in removeReview did not throw exception");
@@ -160,7 +160,7 @@ public class ManuscriptTest {
 	 * must throw an IllegalArgumentException
 	 */
 	@Test
-	public void removeReviewNotFoundExceptionTest() {
+	public void testRemoveReviewNotFoundException() {
 		try {
 			basicManuscript.removeReview(review1);
 			fail("Review not found in removeReview did not throw exception");
@@ -174,7 +174,7 @@ public class ManuscriptTest {
 	 * was part of the Manuscript's review list
 	 */
 	@Test
-	public void removeReviewSuccessTest() {
+	public void testRemoveReviewSuccess() {
 		
 		assertEquals("Manuscript did not start with 1 review.", 1, 
 				manuscriptWithOneReview.getReviews().size());
@@ -192,7 +192,7 @@ public class ManuscriptTest {
 	/* Unsuccessful setRecommendation: null Recommendation must throw  an IllegalArgumentException
 	 */
 	@Test
-	public void setRecommendationNullRecommendationExceptionTest() {
+	public void testSetRecommendationNullRecommendationException() {
 		try {
 			basicManuscript.setRecommendation(null);
 			fail("Null recommendation didn't throw an exception in setRecommendation");
@@ -203,7 +203,7 @@ public class ManuscriptTest {
 	 * IllegalArgumentException
 	 */
 	@Test
-	public void setRecommendationWrongManuscriptExceptionTest() {
+	public void testSetRecommendationWrongManuscriptException() {
 		try {
 			basicManuscript.setRecommendation(recommendation2);
 			fail("Recommendation for wrong manuscript didn't throw an exception");
@@ -214,7 +214,7 @@ public class ManuscriptTest {
 	 * must throw an IllegalArgumentException
 	 */
 	@Test
-	public void setRecommendationNotAssignedToSPCExceptionTest() {
+	public void testSetRecommendationNotAssignedToSPCException() {
 		try {
 			basicManuscript.setRecommendation(recommendation1);
 			fail("Manuscript not assigned to SPC didn't throw an exception");
@@ -226,7 +226,7 @@ public class ManuscriptTest {
 	
 	/* Successful setRecommendation
 	 */
-	public void setRecommendationSuccessTest() {
+	public void testSetRecommendationSuccess() {
 		assertEquals("Recommendation did not start as null", null, 
 				manuscriptAssignedToSPC.getRecommendation());
 		manuscriptAssignedToSPC.setRecommendation(recommendation1);
@@ -236,7 +236,7 @@ public class ManuscriptTest {
 	
 	/* Null title in setTitle must throw an IllegalArgumentException
 	 */
-	public void setTitleNullTitleExceptionTest() {
+	public void testSetTitleNullTitleException() {
 		try {
 			basicManuscript.setTitle(null);
 			fail("Null title did not throw exception in setTitle");
@@ -245,7 +245,7 @@ public class ManuscriptTest {
 	
 	/* Null file path in setFilePath must throw an IllegalArgumentException
 	 */
-	public void setFilePathNullFilePathExceptionTest() {
+	public void testSetFilePathNullFilePathException() {
 		try {
 			basicManuscript.setFilePath(null);
 			fail("Null file path did not throw exception in setFilePath");
@@ -254,7 +254,7 @@ public class ManuscriptTest {
 	
 	/* Invalid status code in setStatus must throw an IllegalArgumentException
 	 */
-	public void setStatusInvalidStatusExceptionTest() {
+	public void testSetStatusInvalidStatusException() {
 		try {
 			basicManuscript.setStatus(invalidStatus);
 			fail("Invalid status code " + invalidStatus + " did not throw exception in setFilePath");

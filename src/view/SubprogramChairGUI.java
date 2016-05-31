@@ -171,7 +171,7 @@ public class SubprogramChairGUI {
 		
 		if(tempReviewer != null && !exit){
 			try{
-				myRole.AssignReviewer(tempReviewer, tempManu);	
+				myRole.assignReviewer(tempReviewer, tempManu);	
 				System.out.println("Success!");	
 			} catch (IllegalArgumentException e){
 				System.out.println(e.getMessage());
