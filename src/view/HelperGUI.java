@@ -6,9 +6,13 @@ package view;
 
 import java.io.Console;
 import java.io.File;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.xml.crypto.Data;
 
 import model.Manuscript;
 import model.Review;
@@ -38,6 +42,9 @@ public class HelperGUI {
 	/** The Activity At the Time. */
 	private String myActivity;
 	
+	/** The submission Deadline for manuscript */
+	private String myDeadline;
+	
 	/**
 	 * The constructor for the class.
 	 */
@@ -46,6 +53,7 @@ public class HelperGUI {
 		setMyRoleName("Blank");
 		setMyConferenceName("Blank");
 		setMyActivity("Blank");
+		setMyDeadline("Not-Available");
 		
 	}
 	
@@ -58,6 +66,22 @@ public class HelperGUI {
 		setMyConferenceName(theConferenceName);
 		setMyActivity(theActivity);
 		
+	}
+	
+	/**
+	 * get the deadline.
+	 * @return String representing deadline.
+	 */
+	public String getMyDeadline() {
+		return myDeadline;
+	}
+	
+	/**
+	 * Set the deadline.
+	 * @param myDeadline
+	 */
+	public void setMyDeadline(String myDeadline) {
+		this.myDeadline = myDeadline;
 	}
 	
 	/**
@@ -207,18 +231,36 @@ public class HelperGUI {
 		toReturn.append("Current Task: ");
 		toReturn.append(myActivity);
 		toReturn.append('\n');
+		toReturn.append("Due date for Manuscript Submission (dd-mm-yyyy): ");
+		toReturn.append(myDeadline);
+		toReturn.append('\n');
 		toReturn.append("----------INFO---------\n");
 		return toReturn.toString();
+	}
+	
+	/**
+	 * The method to parse the date and assign it.
+	 */
+	public void parseDate(Calendar theDate){
+		StringBuilder date = new StringBuilder();
+		date.append(theDate.get(Calendar.DAY_OF_MONTH));
+		date.append('-');
+		date.append(theDate.get(Calendar.MONTH));
+		date.append('-');
+		date.append(theDate.get(Calendar.YEAR));
+		myDeadline = date.toString();
 	}
 	
 	/**
 	 * The method to select Role.
 	 * @param theConsole The console input.
 	 * @param theUser The user pass in.
+	 * @return boolean True if they switch role.
 	 */
-	public void selectRole(final Scanner theConsole, final User theUser){
+	public boolean selectRole(final Scanner theConsole, final User theUser){
 		
-		Role toReturn = null;
+		boolean toReturn = false;
+		Role currentRole = null;
 		boolean validRole = false;
 		StringBuilder tempString = new StringBuilder();
 		List<Role> tempRole = theUser.getAllRoles();
@@ -247,10 +289,11 @@ public class HelperGUI {
 					validRole = true;
 				} else {
 					try{
-						toReturn = tempRole.get(selected - 1);
-						theUser.switchRole(toReturn);
+						currentRole = tempRole.get(selected - 1);
+						theUser.switchRole(currentRole);
 						validRole = true;
 						System.out.println("Role Change Successful");
+						toReturn = true;
 					} catch (InputMismatchException e){
 						System.out.println("FAILED TO SWITCH ROLES! TRY AGAIN!");
 					} catch (IndexOutOfBoundsException e){
@@ -261,7 +304,7 @@ public class HelperGUI {
 		} else {
 			System.out.println("You have no available roles, please submit a paper to become an Author.");
 		}
-		//return toReturn;
+		return toReturn;
 	}
 	
 	/**

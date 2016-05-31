@@ -43,6 +43,8 @@ public class ProgramChairGUI {
 	 * The constructor for the GUI.
 	 * @param Scanner The main console.
 	 * @param User The user using the program.
+	 * @throws IllegalArgumentException if null was pass in.
+	 * @throws InputMismatchException if role is not currently correct.
 	 */
 	public ProgramChairGUI(Scanner theConsole, User theUser, Map<String, User> theListOfUser, List<Manuscript> theMasterList){
 		if(theConsole == null || theUser == null || theListOfUser == null || theMasterList == null){
@@ -60,6 +62,7 @@ public class ProgramChairGUI {
 		}
 		myRole = (ProgramChair)myUser.getCurrentRole();
 		myHelper = new HelperGUI(myUser.getName(), myRole.getRole(), myUser.getConference().getConferenceID(), "Program Chair Menu");
+		myHelper.parseDate(myUser.getConference().getManuscriptDueDate());
 	}
 	
 	/**
@@ -67,7 +70,7 @@ public class ProgramChairGUI {
 	 * @return boolean True if they want to logout.
 	 */
 	public boolean loop(){
-		
+		boolean switchRole = false;
 		boolean logout = false;
 		do{
 			myHelper.setMyActivity("Program Chair Menu");
@@ -100,12 +103,12 @@ public class ProgramChairGUI {
 					logout = true;
 					break;
 				case -1:
-					myHelper.selectRole(myConsole, myUser);
+					switchRole = myHelper.selectRole(myConsole, myUser);
 					break;
 			}
-		} while(!logout);
+		} while(!logout && !switchRole);
 		
-		return logout;
+		return switchRole;
 	}
 	
 	/**

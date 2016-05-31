@@ -73,8 +73,6 @@ public class LogIn {
 		do{
 			User currentUser = login(console);
 			
-			boolean logout =  false;
-			//boolean returnToNoRole = false;
 			boolean backToLogin = false;
 			if(currentUser == null){
 				exit = true;
@@ -85,36 +83,29 @@ public class LogIn {
 				currentUser.autoSetRole();
 			}
 			
-			if(!backToLogin){
-				Role currentRole = currentUser.getCurrentRole();
-				
-				if(currentRole == null){
-					AuthorGUI authorUI = new AuthorGUI(console, currentUser, myMasterList, false);
-					authorUI.loop();
-				} else if(currentRole instanceof Author){
-					AuthorGUI authorUI = new AuthorGUI(console, currentUser, myMasterList, true);
-					authorUI.loop();
-				} else if(currentRole instanceof ProgramChair){
-					ProgramChairGUI pcUI = new ProgramChairGUI(console, currentUser, myUsers, myMasterList);
-					pcUI.loop();
-				} else if(currentRole instanceof SubprogramChair){
-					SubprogramChairGUI spcUI = new SubprogramChairGUI(console, currentUser, myUsers, myMasterList);
-					spcUI.loop();
-					//returnToNoRole = subprogramChairBranch(console, (SubprogramChair) currentRole);
-				} else if(currentRole instanceof Reviewer){
-					reviewerBranch(console, (Reviewer) currentRole);
-				}
-				
-//				if(logout){
-//					// Ask to make sure if they want to log out.
-//					System.out.println("Are you sure about logout? (1 for yes, any integer for no): ");
-//					int tempLogout = getInt(console);
-//					if(tempLogout == 1){
-//						backToLogin = true;
-//					}
-//				}
-				
-			}//end inner if
+			boolean loopAgain =  false;
+			do {
+				if(!backToLogin){
+					Role currentRole = currentUser.getCurrentRole();
+					
+					if(currentRole == null){
+						AuthorGUI authorUI = new AuthorGUI(console, currentUser, myMasterList, false);
+						loopAgain = authorUI.loop();
+					} else if(currentRole instanceof Author){
+						AuthorGUI authorUI = new AuthorGUI(console, currentUser, myMasterList, true);
+						loopAgain = authorUI.loop();
+					} else if(currentRole instanceof ProgramChair){
+						ProgramChairGUI pcUI = new ProgramChairGUI(console, currentUser, myUsers, myMasterList);
+						loopAgain = pcUI.loop();
+					} else if(currentRole instanceof SubprogramChair){
+						SubprogramChairGUI spcUI = new SubprogramChairGUI(console, currentUser, myUsers, myMasterList);
+						loopAgain = spcUI.loop();
+						//returnToNoRole = subprogramChairBranch(console, (SubprogramChair) currentRole);
+					} else if(currentRole instanceof Reviewer){
+						reviewerBranch(console, (Reviewer) currentRole);
+					}
+				}//end inner if
+			} while (loopAgain);
 		}while(!exit);
 		
 		console.close();
@@ -189,6 +180,8 @@ public class LogIn {
 		ProgramChair pc = new ProgramChair(testConference, testProgramChairName);
 		sally.addRole(pc);
 		myUsers.put(testProgramChairName, sally);
+		sally.switchConference(testConference);
+		sally.submitManuscript(new Manuscript(testProgramChairName, testConferenceName, "Boss idea to Increase Sale", "C:/dc.txt"), myMasterList);
 		
 		/*
 		String testProgramChairName2 = "Sherry";
@@ -288,8 +281,6 @@ public class LogIn {
 		Reviewer rev3 = new Reviewer("Pat", testConference);
 		pat.addRole(rev3);
 		myUsers.put("Pat", pat);
-		
-		
 		
 	}
 	

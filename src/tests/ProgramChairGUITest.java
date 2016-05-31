@@ -1,6 +1,6 @@
 package tests;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -176,7 +176,7 @@ public class ProgramChairGUITest {
 	@Test
 	public void testAssigningAManuscriptToSubprogramChairFail(){
 		myGUI.assignManuscriptToSubprogramChair(1, myListOfSubprogramChair, 1);
-		assertEquals(mySubprogramChairWithFirstPaper, mySubprogramChairWithOnePaper);
+		assertFalse(mySubprogramChairWithFirstPaper.equals(mySubprogramChairWithOnePaper));
 	}
 
 }
