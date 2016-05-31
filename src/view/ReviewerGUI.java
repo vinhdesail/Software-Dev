@@ -104,8 +104,22 @@ public class ReviewerGUI {
 		myHelper.setMyActivity("View my List");
 		System.out.println(myHelper);
 		
+		List<Manuscript> listOfManu = myRole.getMyManuscripts();
+		List<Manuscript> completed = myRole.getAlreadyReviewManuscript();
 		
 		
+		
+	}
+	
+	private void displayManuscriptWithStatusOfReview(List<Manuscript> theMainList, List<Manuscript> theCompletedList){
+		StringBuilder toDisplay = new StringBuilder();
+		toDisplay.append("\n---Manuscripts---\n");
+		for(int i = 0; i < theMainList.size(); i++){
+			toDisplay.append((i + 1) + ". " + theMainList.get(i).getTitle());
+			toDisplay.append("\n");
+		}
+		toDisplay.append("--end of reviews list--\n");
+		System.out.println(toDisplay.toString());
 	}
 	
 	private void optionToSubmitAReview() {
