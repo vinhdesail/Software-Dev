@@ -125,7 +125,8 @@ public class ProgramChairGUI {
 		System.out.println(myHelper);
 		
 		List<Manuscript> listOfManu = myRole.showAllManuscripts(myMasterList);
-		HelperGUI.displayManuscripts(listOfManu, true);
+		displayManuscriptWithStatus(listOfManu);
+		
 		
 		int select2 = HelperGUI.getSelect(myConsole);
 		if(select2 == 0){
@@ -136,6 +137,36 @@ public class ProgramChairGUI {
 		return toReturn;
 	}
 	
+	/**
+	 * Display all manuscript with status.
+	 */
+	private void displayManuscriptWithStatus(List<Manuscript> theListOfManu){
+		
+		StringBuilder toDisplay = new StringBuilder();
+		String toAppend = "";
+		toDisplay.append("\n---Manuscripts---\n");
+		String add = String.format(HelperGUI.FORMAT_TABLE, "Manuscript Name", "Completed");
+		toDisplay.append("   ");
+		toDisplay.append(add);
+		toDisplay.append('\n');
+		for(int i = 0; i < theListOfManu.size(); i++){
+			toDisplay.append((i + 1) + ". ");
+			if(theListOfManu.get(i).getStatus() == 1){
+				toAppend = String.format(HelperGUI.FORMAT_TABLE, theListOfManu.get(i).getTitle(), "Accepted");
+				toDisplay.append(toAppend);
+			} else if(theListOfManu.get(i).getStatus() == -1){
+				toAppend = String.format(HelperGUI.FORMAT_TABLE, theListOfManu.get(i).getTitle(), "Rejected");
+				toDisplay.append(toAppend);
+			} else {
+				toAppend = String.format(HelperGUI.FORMAT_TABLE, theListOfManu.get(i).getTitle(), "Neutral");
+				toDisplay.append(toAppend);
+			}
+			toDisplay.append("\n");
+		}
+		toDisplay.append("--end of reviews list--\n");
+		toDisplay.append("0. Back");
+		System.out.println(toDisplay.toString());
+	}
 	
 	/**
 	 * The method to display all subprogram chair.
