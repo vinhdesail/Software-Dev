@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class that represents an author.
@@ -15,6 +16,8 @@ public class Author extends Role implements Serializable {
 	
 	/** Generated serialization number. */
 	private static final long serialVersionUID = 8150606980901061867L;
+	
+	private static final int STATUS_DECISION_HAS_NOT_BEEN_MADE = 0;
 
 	/** List to hold manuscripts. */
 	private List<Manuscript> myManuscripts;
@@ -49,11 +52,17 @@ public class Author extends Role implements Serializable {
 	
 	/**
 	 * Method to add a manuscript to the list.
-	 * @throws IllegalArgumentException If the Given Manuscript has already been submitted, or if the Submission Deadline for submitting Manuscripts
+	 * @throws IllegalArgumentException If the Given Manuscript has already been submitted, if the Submission Deadline for submitting Manuscripts,
+	 * or if any of the parameters are null.
 	 * is over.
 	 */
 	public void addManuscript(final List<Manuscript> theManuscripts,
 									 final Manuscript theManuscript) throws IllegalArgumentException {		
+		if(Objects.isNull(theManuscripts)) {
+			throw new IllegalArgumentException("The List of Manuscripts Cannot be null");
+		} else if(Objects.isNull(theManuscript)) {
+			throw new IllegalArgumentException("The Manuscript Cannot be null");
+		}
 		if(myManuscripts.contains(theManuscript)) {
 			throw new IllegalArgumentException("Manuscript has already been submitted");
 		}
@@ -79,9 +88,17 @@ public class Author extends Role implements Serializable {
 	
 	/**
 	 * Method to allow an author to resubmit an edited manuscript.
+	 * @throws IllegalArgumentException if any of the parameters are null.
 	 */
 	public void editManuscript(final List<Manuscript> theManuscripts, final Manuscript oldManuscript,
-					final String theTitle) {
+					final String theTitle) throws IllegalArgumentException{
+		if(Objects.isNull(theManuscripts)) {
+			throw new IllegalArgumentException("The List of Manuscripts Cannot be null");
+		} else if(Objects.isNull(oldManuscript)) {
+			throw new IllegalArgumentException("The Manuscript Cannot be null");
+		} else if(Objects.isNull(theTitle)) {
+			throw new IllegalArgumentException("The Title Cannot be null");
+		}
 		oldManuscript.setTitle(theTitle);
 	}
 	
@@ -92,7 +109,7 @@ public class Author extends Role implements Serializable {
 	public List<Review> getReviews() {
 		List<Review> returnReviews = new ArrayList<Review>();
 		for(int i = 0; i < myManuscripts.size(); i++){
-			if(myManuscripts.get(i).getStatus() != 0) {
+			if(myManuscripts.get(i).getStatus() != STATUS_DECISION_HAS_NOT_BEEN_MADE) {
 				returnReviews.addAll(myManuscripts.get(i).getReviews());
 			}
 		}

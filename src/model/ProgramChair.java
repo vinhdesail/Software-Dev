@@ -12,6 +12,10 @@ public class ProgramChair extends Role implements Serializable {
 	/** Generated Serialization number. */
 	private static final long serialVersionUID = 79453357450439428L;
 	
+	private static final int ACCEPTED = 1;
+	private static final int REJECTED = -1;
+	
+	
 	/**
 	 * The ProgramChair Constructor.
 	 * @param theConference The conference that this Program Chair belongs to.
@@ -24,8 +28,12 @@ public class ProgramChair extends Role implements Serializable {
 	 * Returns the List that of Manuscripts that belongs to a given Subprogram Chair.
 	 * @param theSpc The Subprogram Chair.
 	 * @return The list of Manuscripts that belong to the given Subprogram Chair.
+	 * @throws IllegalArgumentException if the Given Subprogram Chair or is null.
 	 */
-	public List<Manuscript> showAllManuscriptAssignedToSpc(SubprogramChair theSpc) {
+	public List<Manuscript> showAllManuscriptAssignedToSpc(SubprogramChair theSpc) throws IllegalArgumentException {
+		if(Objects.isNull(theSpc)) {
+			throw new IllegalArgumentException("The Given Subprogram Chair can not be null");
+		} 
 		return theSpc.showAllAssignedManuscripts();	
 	}
 	
@@ -33,8 +41,14 @@ public class ProgramChair extends Role implements Serializable {
 	 * Assigns a given Manuscript to a given Subprogram Chair.
 	 * @param theSpc The Subprogram Chair.
 	 * @param theManuscript The Manuscript.
+	 * @throws IllegalArgumentException if the Given Subprogram Chair and/or Manuscript are null.
 	 */
-	public void assignManuscript(SubprogramChair theSpc, Manuscript theManuscript) {
+	public void assignManuscript(SubprogramChair theSpc, Manuscript theManuscript) throws IllegalArgumentException {
+		if(Objects.isNull(theSpc)) {
+			throw new IllegalArgumentException("The Given Subprogram Chair can not be null");
+		} else if(Objects.isNull(theManuscript)) {
+			throw new IllegalArgumentException("The Given Manuscript can not be null");
+		}
 		theSpc.assignManuscripts(theManuscript);
 	}
 
@@ -42,8 +56,12 @@ public class ProgramChair extends Role implements Serializable {
 	 * A Method that returns a List of all the Manuscripts that belong to the given Program Chairs Conference.  
 	 * @param theManuscripts A List containing all of the Manuscripts on the system.
 	 * @return A List of Manuscripts that belong to the Program Chairs Conference.
+	 * @throws IllegalArgumentException if the list of Manuscripts given is null.
 	 */
-	public List<Manuscript> showAllManuscripts(List<Manuscript> theManuscripts) {
+	public List<Manuscript> showAllManuscripts(List<Manuscript> theManuscripts) throws IllegalArgumentException{
+		if(Objects.isNull(theManuscripts)) {
+			throw new IllegalArgumentException("The List of Manuscripts cannot be null.");
+		}
 		List<Manuscript> returnManuscripts = new ArrayList<Manuscript>();
 		for(int i = 0; i < theManuscripts.size(); i++){
 			if(theManuscripts.get(i).getConference().equals(super.getConference().getConferenceID())) {
@@ -101,7 +119,7 @@ public class ProgramChair extends Role implements Serializable {
 	 * @param theManuscript The Manuscript that is receiving judgment.
 	 */
 	public void approveManuscript(Manuscript theManuscript) {
-		theManuscript.setStatus(1);
+		theManuscript.setStatus(ACCEPTED);
 	}
 	
 	/**
@@ -109,7 +127,7 @@ public class ProgramChair extends Role implements Serializable {
 	 * @param theManuscript The Manuscript that is receiving judgment.
 	 */
 	public void rejectManuscript(Manuscript theManuscript) {
-		theManuscript.setStatus(-1);
+		theManuscript.setStatus(REJECTED);
 	}
 	
 	/**

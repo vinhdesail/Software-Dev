@@ -14,6 +14,8 @@ public class Manuscript implements Serializable {
 	
 	/** Generated Serialization number. */
 	private static final long serialVersionUID = 7127767408772156417L;
+	
+	private static final int UNDECIDED = 0;
 
 	/** Manuscript acceptance status: -1 = rejected, 0 = no decision, 1 = accepted. */
 	private int myStatus;
@@ -57,7 +59,7 @@ public class Manuscript implements Serializable {
 	public Manuscript(String theAuthorID, String theConference, String theTitle, 
 			String theURL) {
 		
-		myStatus = 0;
+		myStatus = UNDECIDED;
 		myReviews = new ArrayList<Review>();
 		myRecommendation = null;
 		
@@ -81,7 +83,7 @@ public class Manuscript implements Serializable {
 	 */
 	public Manuscript(String theAuthorID, String theConference, String theTitle, 
 			String theURL, List<Review> theReviews) {	
-		myStatus = 0;
+		myStatus = UNDECIDED;
 		myReviews = new ArrayList<Review>();
 		myRecommendation = null;
 		myAuthorID = theAuthorID;
