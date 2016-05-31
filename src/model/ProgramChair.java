@@ -11,9 +11,9 @@ public class ProgramChair extends Role implements Serializable {
 	
 	/*Generated Serialization number.*/
 	private static final long serialVersionUID = 79453357450439428L;
-	/**/
+	/*A Value that represents the Acceptance Status of "Accept"*/
 	private static final int ACCEPTED = 1;
-	/**/
+	/*A Value that represents the Acceptance Status of "Rejected"*/
 	private static final int REJECTED = -1;
 	
 	
@@ -56,7 +56,7 @@ public class ProgramChair extends Role implements Serializable {
 	/**
 	 * A Method that returns a List of all the Manuscripts that belong to the given Program Chairs Conference.  
 	 * @param theManuscripts A List containing all of the Manuscripts on the system.
-	 * @return A List of Manuscripts that belong to the Program Chairs Conference.
+	 * @return A List of Manuscripts that belong to the Program Chair's Conference.
 	 * @throws IllegalArgumentException if the list of Manuscripts given is null.
 	 */
 	public List<Manuscript> showAllManuscripts(List<Manuscript> theManuscripts) throws IllegalArgumentException{
@@ -73,19 +73,24 @@ public class ProgramChair extends Role implements Serializable {
 	}
 	
 	/**
-	 * Get all manuscript related to a certain program chair. 
-	 * @param users
-	 * @return
+	 * Get all Manuscripts related to a this Program Chair. 
+	 * @param theUsers The List Of Users that belong to the system.
+	 * @return A Map of Subprogram Chairs as a Key 
+	 * and Manuscripts as its value.
+	 * @throws If the Given List of Users is Null.
 	 */
-	public Map<SubprogramChair, List<Manuscript>> findAllManuscriptsAssociatedWithEverySPC(List<User> users) {
+	public Map<SubprogramChair, List<Manuscript>> findAllManuscriptsAssociatedWithEverySPC(List<User> theUsers) throws IllegalArgumentException {
+		if(Objects.isNull(theUsers)) {
+			throw new IllegalArgumentException("The List of Users cannot be null.");
+		}
 		Map<SubprogramChair, List<Manuscript>> allSPCManus = new HashMap<>();
 		SubprogramChair subprogramChairToCompareForConferenceCheck;
 		for(int i = 0; i < allSPCManus.size();i++) {
-			for(int j = 0; j < users.get(i).getMyConferenceRoles().size();j++) {
-				if(users.get(i).getMyConferenceRoles().get(j) instanceof SubprogramChair) {
-					subprogramChairToCompareForConferenceCheck = (SubprogramChair)users.get(i).getMyConferenceRoles().get(j);
+			for(int j = 0; j < theUsers.get(i).getMyConferenceRoles().size();j++) {
+				if(theUsers.get(i).getMyConferenceRoles().get(j) instanceof SubprogramChair) {
+					subprogramChairToCompareForConferenceCheck = (SubprogramChair)theUsers.get(i).getMyConferenceRoles().get(j);
 					if(subprogramChairToCompareForConferenceCheck.getConference().equals(super.getConference())) {
-						allSPCManus.put(subprogramChairToCompareForConferenceCheck, showAllManuscriptAssignedToSpc((SubprogramChair)users.get(i).getMyConferenceRoles().get(j)));	
+						allSPCManus.put(subprogramChairToCompareForConferenceCheck, showAllManuscriptAssignedToSpc((SubprogramChair)theUsers.get(i).getMyConferenceRoles().get(j)));	
 					}
 				}
 			}							
@@ -95,10 +100,16 @@ public class ProgramChair extends Role implements Serializable {
 	
 	/**
 	 * Get a List of all the subprogram chair.
-	 * @param theUsers
-	 * @return
+	 * @param theUsers A Map of all The Users and their 
+	 * assigned Manuscripts.
+	 * @return A List of All Of the Subprogram Chairs for the
+	 * conference that match's this Program Chair's conference.
+	 * @throws If the Given Map of Users is Null.
 	 */
 	public List<SubprogramChair> getAllSubprogramChair(Map<String, User> theUsers){
+		if(Objects.isNull(theUsers)) {
+			throw new IllegalArgumentException("The Map of Users cannot be null.");
+		}
 		List<SubprogramChair> toReturn = new ArrayList<>();
 		SubprogramChair subprogramChairToCompare;
 		for(String temp : theUsers.keySet()){
@@ -119,16 +130,24 @@ public class ProgramChair extends Role implements Serializable {
 	/**
 	 * A Method that approves a given manuscript.
 	 * @param theManuscript The Manuscript that is receiving judgment.
+	 * @throws IllegalArgumentException If the Given Manuscript is Null.
 	 */
 	public void approveManuscript(Manuscript theManuscript) {
+		if(Objects.isNull(theManuscript)) {
+			throw new IllegalArgumentException("The Given Manuscript cannot be null.");
+		}
 		theManuscript.setStatus(ACCEPTED);
 	}
 	
 	/**
 	 * A Method that rejects a given manuscript.
 	 * @param theManuscript The Manuscript that is receiving judgment.
+	 * @throws IllegalArgumentException If the Given Manuscript is Null.
 	 */
 	public void rejectManuscript(Manuscript theManuscript) {
+		if(Objects.isNull(theManuscript)) {
+			throw new IllegalArgumentException("The Given Manuscript cannot be null.");
+		}
 		theManuscript.setStatus(REJECTED);
 	}
 	

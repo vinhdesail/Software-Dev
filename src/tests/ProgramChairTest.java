@@ -1,6 +1,6 @@
 package tests;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,9 +16,14 @@ import model.ProgramChair;
 import model.SubprogramChair;
 
 public class ProgramChairTest {
-	private ProgramChair myProgramChairToTest;
+	private ProgramChair myStandardProgramChairForTesting;
+	private ProgramChair myProgramChairToCompareToTheMainProgramChairThatIsTheSame;
+	private ProgramChair myProgramChairToCompareToTheMainProgramChairThatIsDifferent;
     private Conference myMainTestConference;
-    
+    private Manuscript myFirstManuscript;
+    private Manuscript mySecondManuscript;
+    private List<Manuscript> myMasterListOfAllManuscriptsAssignedToThisConfernce;
+    SubprogramChair mySpc;
 	@Before
 	public void setUp() throws Exception {
 		Calendar conferenceDate = new GregorianCalendar(2016,10,17);
@@ -29,49 +34,122 @@ public class ProgramChairTest {
 		
 		myMainTestConference = new Conference("ANDESCON", "doeJ", conferenceDate,
 				manuscriptDueDate, reviewDueDate, recommendationDueDate, decisionDueDate);
-		myProgramChairToTest = new ProgramChair(myMainTestConference, "UserName");
+		myStandardProgramChairForTesting = new ProgramChair(myMainTestConference, "UserName");
+		myProgramChairToCompareToTheMainProgramChairThatIsTheSame = new ProgramChair(myMainTestConference, "UserName");
+		myProgramChairToCompareToTheMainProgramChairThatIsTheSame = new ProgramChair(myMainTestConference, "DifferentUserName");
+	    myFirstManuscript = new Manuscript("Author", myMainTestConference.getConferenceID(), "TitleOne", "The Body");
+		mySecondManuscript = new Manuscript("Author", myMainTestConference.getConferenceID(), "TitleTwo", "The Body");
+		mySpc =  new SubprogramChair("SubUser",myMainTestConference);
+		myStandardProgramChairForTesting.assignManuscript(mySpc, myFirstManuscript);
+		myStandardProgramChairForTesting.approveManuscript(myFirstManuscript);
+		myStandardProgramChairForTesting.rejectManuscript(mySecondManuscript);
 	}
 
 	@Test
-	public void showAllManuscriptAssignedToSpcTest() {
-		SubprogramChair theSpc =  new SubprogramChair("SubUser",myMainTestConference);
-		
-		Manuscript theFirstManuscript = new Manuscript("Author", myMainTestConference.getConferenceID(), "TitleOne", "The Body");
-		Manuscript theSecondManuscript = new Manuscript("Author", myMainTestConference.getConferenceID(), "TitleTwo", "The Body");
-		myProgramChairToTest.assignManuscript(theSpc, theFirstManuscript);
-		myProgramChairToTest.assignManuscript(theSpc, theSecondManuscript);		
-		assertEquals(theFirstManuscript, myProgramChairToTest.showAllManuscriptAssignedToSpc(theSpc).get(0));	
-		assertEquals(theSecondManuscript, myProgramChairToTest.showAllManuscriptAssignedToSpc(theSpc).get(1));
-		
-		
+	public void testShowAllManuscriptAssignedToSpc() {			
+		assertEquals(myFirstManuscript, myStandardProgramChairForTesting.showAllManuscriptAssignedToSpc(mySpc).get(0));			
 	}
 	
 	@Test
-	public void showAllManuscriptsTest() {
-		
-		
-		Manuscript theFirstManuscript = new Manuscript("Author", myMainTestConference.getConferenceID(), "TitleOne", "The Body");
-		Manuscript theSecondManuscript = new Manuscript("Author", myMainTestConference.getConferenceID(), "TitleTwo", "The Body");		
-		List<Manuscript> aListOfManuscripts = new ArrayList<Manuscript>();
-		assertEquals(0, myProgramChairToTest.showAllManuscripts(aListOfManuscripts).size());	
-		aListOfManuscripts.add(theFirstManuscript);
-		aListOfManuscripts.add(theSecondManuscript);
-		assertEquals(theFirstManuscript, myProgramChairToTest.showAllManuscripts(aListOfManuscripts).get(0));	
-		assertEquals(theSecondManuscript, myProgramChairToTest.showAllManuscripts(aListOfManuscripts).get(1));
-		
-		
+	public void testShowAllManuscriptAssignedToSpcExceptionWhereTheGivenSubprogramChairIsNull() {
+		try {
+			myStandardProgramChairForTesting.showAllManuscriptAssignedToSpc(null);	
+			fail("The Exception was not passed.");
+		} catch(IllegalArgumentException theError) {
+			
+		}			
 	}
 	
 	@Test
-	public void equalsTest() {		
-		ProgramChair otherPc = new ProgramChair(myMainTestConference, "UserName");
-		assertEquals(true, myProgramChairToTest.equals(otherPc));					
+	public void testAssignManuscript() {
+		assertEquals(myFirstManuscript,mySpc.showAllAssignedManuscripts().get(0));
 	}
 	
 	@Test
-	public void hashCodeTest() {		
-		ProgramChair otherPc = myProgramChairToTest;
-		assertEquals(myProgramChairToTest.hashCode(), otherPc.hashCode());				
+	public void testAssignManuscriptExceptionWhereTheGivenSubprogramChairIsNull() {
+		try {
+			myStandardProgramChairForTesting.assignManuscript(null, myFirstManuscript);	
+			fail("The Exception was not passed.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
 	}
+	
+	@Test
+	public void testAssignManuscriptExceptionWhereTheGivenManuscriptIsNull() {
+		try {
+			myStandardProgramChairForTesting.assignManuscript(mySpc, null);		
+			fail("The Exception was not passed.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testShowAllManuscriptsExceptionWhereTheGivenListIsNull() {	
+		try {
+			myStandardProgramChairForTesting.showAllManuscripts(null);
+			fail("The Exception was not passed.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testFindAllManuscriptsAssociatedWithEverySPCExceptionWhereTheGivenListIsNull() {	
+		try {
+			myStandardProgramChairForTesting.findAllManuscriptsAssociatedWithEverySPC(null);
+			fail("The Exception was not passed.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testGetAllSubprogramChairExceptionWhereTheGivenMapIsNull() {	
+		try {
+			myStandardProgramChairForTesting.getAllSubprogramChair(null);
+			fail("The Exception was not passed.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testApproveManuscript() {				
+		assertEquals(1, myFirstManuscript.getStatus());					
+	}
+	
+	@Test
+	public void testApproveManuscriptExceptionWhereTheGivenManuscriptIsNull() {
+		try {
+			myStandardProgramChairForTesting.approveManuscript(null);	
+			fail("The Exception was not passed.");
+		} catch(IllegalArgumentException theError) {
+			
+		}		
+	}
+	
+	@Test
+	public void testRejectManuscript() {				
+		assertEquals(-1, mySecondManuscript.getStatus());
+	}
+	
+	@Test
+	public void testRejectManuscriptExceptionWhereTheGivenManuscriptIsNull() {				
+		try {
+			myStandardProgramChairForTesting.rejectManuscript(null);	
+			fail("The Exception was not passed.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testEqualsWhereBothValuesAreDifferent() {				
+		assertEquals(false, myStandardProgramChairForTesting.equals(myProgramChairToCompareToTheMainProgramChairThatIsDifferent));					
+	}
+	
+	
 	
 }
