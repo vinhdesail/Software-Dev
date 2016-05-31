@@ -46,6 +46,8 @@ public class AuthorGUI {
 	 * @param theUser User that is using the program.
 	 * @param theListOfUser The List of all users.
 	 * @param theMasterList The Master List of manuscript
+	 * @throws IllegalArgumentException if null was pass in.
+	 * @throws InputMismatchException if role is not currently correct.
 	 */
 	public AuthorGUI(Scanner theConsole, User theUser, List<Manuscript> theMasterList, boolean theIsAuthor){
 		if(theConsole == null || theUser == null || theMasterList == null){
@@ -73,7 +75,7 @@ public class AuthorGUI {
 	 */
 	public boolean loop(){
 		boolean logout = false;
-		
+		boolean switchRole = false;
 		do{
 			myHelper.setMyActivity("Author Menu");
 			System.out.println(myHelper);
@@ -110,17 +112,19 @@ public class AuthorGUI {
 				break;
 			case -1:
 				if(myUser.hasRole()){
-					myHelper.selectRole(myConsole, myUser);
+					switchRole = myHelper.selectRole(myConsole, myUser);
 					myHelper.setMyRoleName("Author");
-					myRole = (Author) myUser.getCurrentRole();
+					if(myUser.getCurrentRole() instanceof Author){
+						myRole = (Author) myUser.getCurrentRole();
+					}
 				} else {
 					System.out.println("Submit a manuscript to get a role - Author");
 				}
 				break;
-		}
+			}
 			
-		} while(!logout);
-		return logout;
+		} while(!logout && !switchRole);
+		return switchRole;
 	}
 	
 	/**

@@ -215,10 +215,12 @@ public class HelperGUI {
 	 * The method to select Role.
 	 * @param theConsole The console input.
 	 * @param theUser The user pass in.
+	 * @return boolean True if they switch role.
 	 */
-	public void selectRole(final Scanner theConsole, final User theUser){
+	public boolean selectRole(final Scanner theConsole, final User theUser){
 		
-		Role toReturn = null;
+		boolean toReturn = false;
+		Role currentRole = null;
 		boolean validRole = false;
 		StringBuilder tempString = new StringBuilder();
 		List<Role> tempRole = theUser.getAllRoles();
@@ -247,10 +249,11 @@ public class HelperGUI {
 					validRole = true;
 				} else {
 					try{
-						toReturn = tempRole.get(selected - 1);
-						theUser.switchRole(toReturn);
+						currentRole = tempRole.get(selected - 1);
+						theUser.switchRole(currentRole);
 						validRole = true;
 						System.out.println("Role Change Successful");
+						toReturn = true;
 					} catch (InputMismatchException e){
 						System.out.println("FAILED TO SWITCH ROLES! TRY AGAIN!");
 					} catch (IndexOutOfBoundsException e){
@@ -261,7 +264,7 @@ public class HelperGUI {
 		} else {
 			System.out.println("You have no available roles, please submit a paper to become an Author.");
 		}
-		//return toReturn;
+		return toReturn;
 	}
 	
 	/**
