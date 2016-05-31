@@ -1,11 +1,10 @@
 package tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +14,11 @@ import model.Manuscript;
 import model.ProgramChair;
 import model.SubprogramChair;
 
+/** 
+ * Tests for the ProgramChair class (model)
+ * @author Joshua Meigs
+ * @version 2016.5.31
+ */
 public class ProgramChairTest {
 	private ProgramChair myStandardProgramChairForTesting;
 	private ProgramChair myProgramChairToCompareToTheMainProgramChairThatIsTheSame;
@@ -22,8 +26,7 @@ public class ProgramChairTest {
     private Conference myMainTestConference;
     private Manuscript myFirstManuscript;
     private Manuscript mySecondManuscript;
-    private List<Manuscript> myMasterListOfAllManuscriptsAssignedToThisConfernce;
-    SubprogramChair mySpc;
+    private SubprogramChair myStandardSubprogramChairForTesting;
 	@Before
 	public void setUp() throws Exception {
 		Calendar conferenceDate = new GregorianCalendar(2016,10,17);
@@ -36,18 +39,18 @@ public class ProgramChairTest {
 				manuscriptDueDate, reviewDueDate, recommendationDueDate, decisionDueDate);
 		myStandardProgramChairForTesting = new ProgramChair(myMainTestConference, "UserName");
 		myProgramChairToCompareToTheMainProgramChairThatIsTheSame = new ProgramChair(myMainTestConference, "UserName");
-		myProgramChairToCompareToTheMainProgramChairThatIsTheSame = new ProgramChair(myMainTestConference, "DifferentUserName");
+		myProgramChairToCompareToTheMainProgramChairThatIsDifferent = new ProgramChair(myMainTestConference, "DifferentUserName");
 	    myFirstManuscript = new Manuscript("Author", myMainTestConference.getConferenceID(), "TitleOne", "The Body");
 		mySecondManuscript = new Manuscript("Author", myMainTestConference.getConferenceID(), "TitleTwo", "The Body");
-		mySpc =  new SubprogramChair("SubUser",myMainTestConference);
-		myStandardProgramChairForTesting.assignManuscript(mySpc, myFirstManuscript);
+		myStandardSubprogramChairForTesting =  new SubprogramChair("SubUser",myMainTestConference);
+		myStandardProgramChairForTesting.assignManuscript(myStandardSubprogramChairForTesting, myFirstManuscript);
 		myStandardProgramChairForTesting.approveManuscript(myFirstManuscript);
 		myStandardProgramChairForTesting.rejectManuscript(mySecondManuscript);
 	}
 
 	@Test
 	public void testShowAllManuscriptAssignedToSpc() {			
-		assertEquals(myFirstManuscript, myStandardProgramChairForTesting.showAllManuscriptAssignedToSpc(mySpc).get(0));			
+		assertEquals(true, myFirstManuscript.equals(myStandardProgramChairForTesting.showAllManuscriptAssignedToSpc(myStandardSubprogramChairForTesting).get(0)));			
 	}
 	
 	@Test
@@ -62,7 +65,7 @@ public class ProgramChairTest {
 	
 	@Test
 	public void testAssignManuscript() {
-		assertEquals(myFirstManuscript,mySpc.showAllAssignedManuscripts().get(0));
+		assertEquals(myFirstManuscript,myStandardSubprogramChairForTesting.showAllAssignedManuscripts().get(0));
 	}
 	
 	@Test
@@ -78,7 +81,7 @@ public class ProgramChairTest {
 	@Test
 	public void testAssignManuscriptExceptionWhereTheGivenManuscriptIsNull() {
 		try {
-			myStandardProgramChairForTesting.assignManuscript(mySpc, null);		
+			myStandardProgramChairForTesting.assignManuscript(myStandardSubprogramChairForTesting, null);		
 			fail("The Exception was not passed.");
 		} catch(IllegalArgumentException theError) {
 			
@@ -146,10 +149,14 @@ public class ProgramChairTest {
 	}
 	
 	@Test
+	public void testEqualsWhereBothValuesAreTheSame() {				
+		assertEquals(true, myStandardProgramChairForTesting.equals(myProgramChairToCompareToTheMainProgramChairThatIsTheSame));					
+	}
+	
+	@Test
 	public void testEqualsWhereBothValuesAreDifferent() {				
 		assertEquals(false, myStandardProgramChairForTesting.equals(myProgramChairToCompareToTheMainProgramChairThatIsDifferent));					
 	}
-	
 	
 	
 }
