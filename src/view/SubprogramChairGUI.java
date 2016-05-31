@@ -148,8 +148,8 @@ public class SubprogramChairGUI {
 	
 	public int checkThroughAllRolesOfAGivenUser(String theUserName,int theIndexToDisplay, List<Reviewer> theListOfReviewers){
 		Role roleToBeCheckedIfReviewer;
-		for(int i = 0; i < myListOfUser.get(theUserName).getListOfAllRoles().size(); i++) {
-			roleToBeCheckedIfReviewer = myListOfUser.get(theUserName).getListOfAllRoles().get(i);
+		for(int i = 0; i < myListOfUser.get(theUserName).getAllRoles().size(); i++) {
+			roleToBeCheckedIfReviewer = myListOfUser.get(theUserName).getAllRoles().get(i);
 			if(roleToBeCheckedIfReviewer instanceof Reviewer) {
 				System.out.println((theIndexToDisplay++) + ". " + ((Reviewer)roleToBeCheckedIfReviewer).getMyUsername());
 				theListOfReviewers.add((Reviewer)roleToBeCheckedIfReviewer);
