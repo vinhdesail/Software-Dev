@@ -120,7 +120,7 @@ public class SubprogramChair extends Role implements Serializable {
 		if(myAssignedManuscripts.size() > EMPTY && !containsMaxAmmountOfManuscripts()) { //last part might not be needed.
 			if(containsManuscriptAt(theManuscript) >= EMPTY) {
 				deleteRecomendation(theManuscript);
-				Recommendation recommendation = new Recommendation(super.getMyUsername(), theManuscript.getTitle(), theRecommendationText);
+				Recommendation recommendation = new Recommendation(super.getMyUsername(), theManuscript.getTitle(), theRecommendationText);			
 				theManuscript.setRecommendation(recommendation);									
 			} else {
 				throw new IllegalArgumentException("Manuscript not found");
@@ -167,7 +167,7 @@ public class SubprogramChair extends Role implements Serializable {
 	/**
 	 * Return all reviewer related to conference.
 	 * @param theUsers Map of all users.
-	 * @return
+	 * @return A List of all the Reviewers for this conference.
 	 */
 	public List<Role> getAllReviewer(Map<String, User> theUsers){
 		List<Role> toReturn = new ArrayList<>();
