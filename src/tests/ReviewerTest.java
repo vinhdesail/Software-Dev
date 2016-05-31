@@ -32,8 +32,8 @@ public class ReviewerTest {
 	private String reviewer1ID = "Reviewer 1's Name";
 	private String reviewer2ID = "Reviewer 2's Name";
 	
-	private String reviewURL1 = "URL of Review where I loved it";
-	private String reviewURL2 = "URL of Review where I hated it";
+	private String review1FilePath = "File Path of Review where I loved it";
+	private String review2FilePath = "File Path of Review where I hated it";
 	
 	private Manuscript manuscriptStartingWithNoReviews;
 	private Manuscript manuscriptStartingWithOtherReview;
@@ -55,9 +55,9 @@ public class ReviewerTest {
 	@Before
 	public void setup() {
 		
-		expectedReview1 = new Review(reviewer1ID, title, reviewURL1);
-		expectedReview2 = new Review(reviewer2ID, title, reviewURL2);
-		expectedEdit1 = new Review(reviewer1ID, title, reviewURL2);
+		expectedReview1 = new Review(reviewer1ID, title, review1FilePath);
+		expectedReview2 = new Review(reviewer2ID, title, review2FilePath);
+		expectedEdit1 = new Review(reviewer1ID, title, review2FilePath);
 		
 		testCon = new Conference(conferenceID, programChairID, "01-12-2016", "01-06-2016", 
 									"01-08-2016", "01-09-2016", "01-10-2016");
@@ -107,7 +107,7 @@ public class ReviewerTest {
 	@Test
 	public void submitFirstReviewForManuscriptTest() {
 		
-		reviewerAssignedToManuscript.submitReview(manuscriptStartingWithNoReviews, reviewURL1);
+		reviewerAssignedToManuscript.submitReview(manuscriptStartingWithNoReviews, review1FilePath);
 		
 		// because manuscript started with no submitted reviews, this should be the only Review
 		assertEquals("Manuscript's number of Reviews was not 1!", 1, 
@@ -124,7 +124,7 @@ public class ReviewerTest {
 		assertEquals("Manuscript did not start with 1 Review!", 1, 
 						manuscriptStartingWithOtherReview.getReviews().size());
 		
-		reviewerAssignedToManuscript.submitReview(manuscriptStartingWithOtherReview, reviewURL1);
+		reviewerAssignedToManuscript.submitReview(manuscriptStartingWithOtherReview, review1FilePath);
 		
 		// now the number of Reviews must equal 2
 		assertEquals("Manuscript did not finish with 2 Reviews!", 2, 
@@ -135,23 +135,23 @@ public class ReviewerTest {
 				manuscriptStartingWithOtherReview.getReviews().contains(expectedReview1));
 	}
 
-	 /* Reviewer hasn't been assigned to this Manuscript, must throw an IllegalArgumentException
-	  * for both cases:
-	  * 1. with a manuscript with no reviews
-	  * 2. with a manuscript with some reviews
-	  */
+	/* Reviewer hasn't been assigned to this Manuscript, must throw an IllegalArgumentException
+	 * for both cases:
+	 * 1. with a manuscript with no reviews
+     * 2. with a manuscript with some reviews
+     */
 	@Test
 	public void submitReviewForUnassignedManuscriptExceptionTest() {
 		
 		// test for a manuscript with no reviews
 		try {
-			   reviewerNotAssignedToManuscript.submitReview(manuscriptStartingWithNoReviews, reviewURL1);
+			   reviewerNotAssignedToManuscript.submitReview(manuscriptStartingWithNoReviews, review1FilePath);
 			   fail("Exception for submitting a review on a manuscript not assigned wasn't caught");			   
 		} catch (IllegalArgumentException theException) {   } 		
 		
 		// test for a manuscript with a review
 		try {
-			   reviewerNotAssignedToManuscript.submitReview(manuscriptStartingWithOtherReview, reviewURL1);
+			   reviewerNotAssignedToManuscript.submitReview(manuscriptStartingWithOtherReview, review1FilePath);
 			   fail("Exception for submitting a review on a manuscript not assigned wasn't caught");			   
 		} catch (IllegalArgumentException theException) {   } 
 	}
@@ -163,7 +163,7 @@ public class ReviewerTest {
 	@Test
 	public void resubmitReviewForManuscriptExceptionTest() {
 		try {
-			reviewerAssignedToManuscript.submitReview(manuscriptStartingWithMyReview, reviewURL1);
+			reviewerAssignedToManuscript.submitReview(manuscriptStartingWithMyReview, review1FilePath);
 			fail("Exception for submitting a review when one has already been submitted wasn't caught");
 		} catch (IllegalArgumentException theException) {	}
 	}
@@ -176,8 +176,30 @@ public class ReviewerTest {
 	@Test
 	public void submitReviewWhenTryingToEditReviewExceptionTest() {
 		try {
-			reviewerAssignedToManuscript.submitReview(manuscriptStartingWithMyReview, reviewURL2);
+			reviewerAssignedToManuscript.submitReview(manuscriptStartingWithMyReview, review2FilePath);
 			fail("Exception for submitting a review when one has already been submitted wasn't caught");
+		} catch (IllegalArgumentException theException) {	}
+	}
+	
+	/*
+	 * Null argument passed as Manuscript must throw IllegalArgumentException.
+	 */
+	@Test
+	public void submitReviewForNullManuscriptExceptionTest() {
+		try {
+			reviewerAssignedToManuscript.submitReview(null, review1FilePath);
+			fail("Null Manuscript did not throw exception.");
+		} catch (IllegalArgumentException theException) {	}
+	}
+	
+	/*
+	 * Null argument passed as File Path must throw IllegalArgumentException.
+	 */
+	@Test
+	public void submitReviewForNullFilePathExceptionTest() {
+		try {
+			reviewerAssignedToManuscript.submitReview(manuscriptStartingWithNoReviews, null);
+			fail("Null File Path did not throw exception.");
 		} catch (IllegalArgumentException theException) {	}
 	}
 	
@@ -192,7 +214,7 @@ public class ReviewerTest {
 		assertEquals("Manuscript did not start out with expected Review from this Reviewer!", 
 					expectedReview1, manuscriptStartingWithMyReview.getReviews().get(0));
 		
-		reviewerAssignedToManuscript.editReview(manuscriptStartingWithMyReview, reviewURL2);
+		reviewerAssignedToManuscript.editReview(manuscriptStartingWithMyReview, review2FilePath);
 		
 		assertEquals("Manuscript did not finish with 1 Review!", 1, 
 						manuscriptStartingWithMyReview.getReviews().size());
@@ -212,7 +234,7 @@ public class ReviewerTest {
 		assertTrue("Initially: Other Review not part of Manuscript's Review List", 
 				manuscriptStartingWithBothReviews.getReviews().contains(expectedReview2));
 		
-		reviewerAssignedToManuscript.editReview(manuscriptStartingWithBothReviews, reviewURL2);
+		reviewerAssignedToManuscript.editReview(manuscriptStartingWithBothReviews, review2FilePath);
 		
 		assertEquals("Manuscript did not finish with 2 Reviews", 2, 
 					manuscriptStartingWithBothReviews.getReviews().size());
@@ -228,7 +250,7 @@ public class ReviewerTest {
 	@Test
 	public void editReviewForUnnassignedManuscriptExceptionTest() {
 		try {
-			reviewerNotAssignedToManuscript.editReview(manuscriptStartingWithMyReview, reviewURL2);
+			reviewerNotAssignedToManuscript.editReview(manuscriptStartingWithMyReview, review2FilePath);
 			fail("Exception for editing a Review on a Manuscript not assigned to this Review not Caught");
 		} catch (IllegalArgumentException theException) {	}
 	}
@@ -239,9 +261,31 @@ public class ReviewerTest {
 	@Test
 	public void editReviewForManuscriptNotYetReviewedExceptionTest() {
 		try {
-			reviewerAssignedToManuscript.editReview(manuscriptStartingWithNoReviews, reviewURL1);
+			reviewerAssignedToManuscript.editReview(manuscriptStartingWithNoReviews, review1FilePath);
 			fail("Exception for editing a Review when this Reviewer has not yet submitted one not Caught");
 		} catch (IllegalArgumentException theException) {	}	
+	}
+	
+	/*
+	 * Null argument passed as Manuscript must throw IllegalArgumentException.
+	 */
+	@Test
+	public void editReviewForNullManuscriptExceptionTest() {
+		try {
+			reviewerAssignedToManuscript.editReview(null, review1FilePath);
+			fail("Null Manuscript did not throw exception.");
+		} catch (IllegalArgumentException theException) {	}
+	}
+	
+	/*
+	 * Null argument passed as File Path must throw IllegalArgumentException.
+	 */
+	@Test
+	public void editReviewForNullFilePathExceptionTest() {
+		try {
+			reviewerAssignedToManuscript.editReview(manuscriptStartingWithNoReviews, null);
+			fail("Null File Path did not throw exception.");
+		} catch (IllegalArgumentException theException) {	}
 	}
 	
 	// Paritions for assignReview():
@@ -320,6 +364,44 @@ public class ReviewerTest {
 		} catch (IllegalArgumentException theException) {	}
 	}
 	
+	/* Unsuccessful: null manuscript passed to assignReview
+	 */
+	@Test
+	public void assignReviewNullManuscriptExceptionTest() {
+		try {
+			reviewerAssignedToManuscript.assignReview(null);
+			fail("Null Manuscript in assignReview didn't throw exception.");
+		} catch (IllegalArgumentException theException) {	}
+	}
+	
+	// partitions for getMyReviewedManuscripts():
+	
+	// no manuscripts assigned
+	@Test
+	public void getMyReviewedManuscriptsNoneAssignedTest() {
+		assertTrue("No reviews submitted by list was nonempty", 
+				reviewerNotAssignedToManuscript.getMyReviewedManuscripts().isEmpty());
+	}
+	
+	// 1 assigned, 0 reviewed
+	@Test
+	public void getMyReviewedManuscriptsOneAssignedNoneReviewedTest() {
+		assertTrue("No reviews submitted but list was nonempty",
+				reviewerAssignedToSingleManuscript.getMyReviewedManuscripts().isEmpty());
+	}
+	
+	// 1 assigned, 1 reviewed
+	@Test
+	public void getMyReviewedManscriptsOneAssignedOneReviewedTest() {
+		
+	}
+	
+	// 2 assigned, 1 reviewed
+	@Test 
+	public void getMyReviewedManuscriptsTwoAssignedOneReviewedTest() {
+		
+	}
+	
 	// partitions for getMyReview():
 	
 	/* Reviewer is assigned to the manuscript, but has not submitted a review for this manuscript, 
@@ -344,10 +426,20 @@ public class ReviewerTest {
 	 * IllegalArgumentException.
 	 */
 	@Test
-	public void getMyReviewerForManuscriptNotAssignedExceptionTest() {
+	public void getMyReviewForManuscriptNotAssignedExceptionTest() {
 		try {
 			reviewerNotAssignedToManuscript.getMyReview(manuscriptStartingWithNoReviews);
 			fail("Exception for not being assigned to Manuscript not thrown!");
+		} catch (IllegalArgumentException theException) {	}
+	}
+	
+	/* Unsuccessful: null Manuscript passed as argument must throw IllegalArgumentException
+	 */
+	@Test
+	public void getMyReviewForNullManuscriptExceptionTest() {
+		try {
+			reviewerAssignedToManuscript.getMyReview(null);
+			fail("Null manuscript did not throw exception in getMyReview.");
 		} catch (IllegalArgumentException theException) {	}
 	}
 
