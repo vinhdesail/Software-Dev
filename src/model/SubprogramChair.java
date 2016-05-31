@@ -10,11 +10,11 @@ public class SubprogramChair extends Role implements Serializable {
 
 	/*Generated Serialization number.*/
 	private static final long serialVersionUID = -888370705327456440L;
-	/**/
+	/*A Value that represents the Maximum number of Manuscripts*/
 	private static final int MAX_AMOUNT_OF_MANUSCRIPTS = 4;
-	/**/
+	/*A Value that represents the a Manuscript Not being found.*/
 	private static final int NOT_FOUND = -1;
-	/**/
+	/*A Value that represents the emptiness of the list of Manuscripts*/
 	private static final int EMPTY = 0;
 	/*A List of all of the Manuscripts that are assigned to this given Subprogram Chair.*/
 	private ArrayList<Manuscript> myAssignedManuscripts;
@@ -23,7 +23,7 @@ public class SubprogramChair extends Role implements Serializable {
 	/**
 	 * The constructor for the Subprogram Chair Class.
 	 */
-	public SubprogramChair(String theUserName, Conference theConference) {
+	public SubprogramChair(String theUserName, Conference theConference) {		
 		super("SubProgram Chair", theUserName, theConference);//Formating can be changed to whatever is easiest to work with.
 		myAssignedManuscripts =  new ArrayList<Manuscript>();			
 	}
@@ -32,8 +32,19 @@ public class SubprogramChair extends Role implements Serializable {
 	 * A Method that assigns a given Review a given Manuscript.
 	 * @param theReviewer The Reviewer that is being assigned.
 	 * @param theManuscript The Manuscript being assigned.
+	 * @throws IllegalArgumentException If the given Manuscript has not been assigned to this instance of Subprogram Chair,
+	 * or if the Manuscript or Reviewer are null.
 	 */
-	public void AssignReviewer(Reviewer theReviewer, Manuscript theManuscript) {
+	public void assignReviewer(Reviewer theReviewer, Manuscript theManuscript) {
+		if(Objects.isNull(theManuscript)) {
+			throw new IllegalArgumentException("The Given Manuscript cannot be Null.");
+		}
+		if(Objects.isNull(theReviewer)) {
+			throw new IllegalArgumentException("The Given Reviewer cannot be Null.");
+		}
+		if(!myAssignedManuscripts.contains(theManuscript)) {
+			throw new IllegalArgumentException("The Given Manuscript is not assigned to this Subprogram Chair.");
+		}
 		theReviewer.assignReview(theManuscript);
 	}
 	
