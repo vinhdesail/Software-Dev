@@ -66,7 +66,7 @@ public class Author extends Role implements Serializable {
 	 * Method to remove a manuscript from the list.
 	 */
 	public void deleteManuscript(final List<Manuscript> theManuscripts,
-			 							final Manuscript theManuscript) {
+			 							final Manuscript theManuscript) throws IllegalArgumentException {		
 		theManuscripts.remove(theManuscript);
 		myManuscripts.remove(theManuscript);
 	}
