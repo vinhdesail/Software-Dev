@@ -132,7 +132,7 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Verifies whether of not this user has an available Role.
+	 * Verifies whether of not this user has any available Role.
 	 * @return boolean true if they have available roles, false otherwise
 	 */
 	public boolean hasRole(){
@@ -180,7 +180,7 @@ public class User implements Serializable {
 	
 	/**
 	 * Switches this User's current Role to theRole, assuming that theRole is available
-	 * to them
+	 * to them.
 	 * @param Role- the role the user wants to select as current role.
 	 * @throws IllegalArgumentException if theRole is null or is not one of this User's 
 	 * available Roles
@@ -197,7 +197,7 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Switched the current conference for this User.
+	 * Switches the current conference for this User.
 	 * @param Conference theCon - the new conference to switch to
 	 * @throws IllegalArgumentException if theCon is null
 	 */
