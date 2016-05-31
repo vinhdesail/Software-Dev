@@ -55,6 +55,7 @@ public class SubprogramChair extends Role implements Serializable {
 				if(manuscriptFoundAt == NOT_FOUND) {
 					if(theManuscript.getConference().equals(this.getConference().getConferenceID())) {
 						myAssignedManuscripts.add(theManuscript);
+						theManuscript.setAssignedASubprogramChair();
 					} else{
 						throw new IllegalArgumentException("The Manuscript being assigned to this SubprogramChair does not match its given conference.");
 					}					

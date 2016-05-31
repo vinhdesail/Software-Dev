@@ -88,10 +88,12 @@ public class UserTest {
 	// not available Role exception
 	// success
 	
+	// getMyConferenceRoles
+	
 	//switch conference:
 	// null Conference exception
 	// success
 	
-	// return to noRole sucess
+	// return to noRole success
 
 }
