@@ -91,6 +91,14 @@ public class Reviewer extends Role implements Serializable {
 		return myManuscripts;
 	}
 	
+	/**
+	 * Accessor method
+	 * @return manuscript assigned size.
+	 */
+	public int getAssignmentSize(){
+		return myManuscripts.size();
+	}
+	
 	//TODO
 	/**
 	 * Accessor method

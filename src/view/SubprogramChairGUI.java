@@ -14,6 +14,12 @@ import model.Role;
 import model.SubprogramChair;
 import model.User;
 
+/**
+ * 
+ * @author Josh Meigs
+ * @author Vinh Vien
+ *
+ */
 public class SubprogramChairGUI {
 
 	/** The main console */
@@ -61,112 +67,158 @@ public class SubprogramChairGUI {
 		myHelper.parseDate(myUser.getConference().getManuscriptDueDate());
 	}
 	
+	
+	private void printMainMenu() {
+		myHelper.setMyActivity("Subprogram Chair Menu");
+		System.out.println(myHelper);			
+		System.out.println("\nWhat Do you want to do?");
+		System.out.println("1. Assign A Reviewer A Manuscript");
+		System.out.println("2. Submit a Recommendation");
+		System.out.println("0. Logout");		
+		System.out.println("-1. Switch to a Different Role");
+		System.out.println("-2. Submit Manuscript to Conference");
+	}
+	
 	public boolean loop() {	
 		boolean logout = false;
+		boolean switchRole = false;
 		do {
 			printMainMenu();
-			int select = HelperGUI.getSelect(myConsole);			
-			if(select == ASSIGN_MANUSCRIPT_TO_REVIEWER){		
-				assignManuscriptToReviewerMenu();
-			} else if(select == SUBMIT_A_RECOMMENDATION) { 
-				submitARecommendationMenu(select);
-			} else if(select == LOGOUT) {
-				logout = true;
-			} else if(select == -2){
-				HelperGUI.submitManuscript(myConsole, myUser, myMasterList);
+			int select = HelperGUI.getSelect(myConsole);
+			switch (select){
+				case ASSIGN_MANUSCRIPT_TO_REVIEWER:
+					optionAssignManuscriptToReviewerMenu();
+					break;
+				case SUBMIT_A_RECOMMENDATION:
+					optionSubmitARecommendationMenu();
+					break;
+				case 0:
+					System.out.println();
+					logout = true;
+					break;
+				case -1:
+					switchRole = myHelper.selectRole(myConsole, myUser);
+					break;
+				case -2:
+					HelperGUI.submitManuscript(myConsole, myUser, myMasterList);
+					break;
 			}
-		} while(!logout);	
-		return logout;
+		} while(!logout && !switchRole);	
+		return switchRole;
 	}	
 
-	public void submitARecommendationMenu(int select) {
-		System.out.println("Please Select a Manuscript for your recommendation");			
-		List<Manuscript> tempList = myRole.showAllAssignedManuscripts();
-		for(int i  = 0; i < tempList.size();i++) {
-			System.out.println((i + 1) + ". " + tempList.get(i).getTitle());
-		}
-		System.out.println("--end of manuscript list--");
-		select = HelperGUI.getSelect(myConsole);
-		Manuscript tempManu = tempList.get(select-1);
-		myConsole.nextLine();
-		System.out.print("Write a recommendation: ");
-		String recText = myConsole.nextLine();
-		Recommendation rec = new Recommendation(myRole.getMyUsername(), tempManu.getTitle(), recText);
-		tempManu.setRecommendation(rec);
-		System.out.println("Success!\n\n\n\n\n");
-	}
-	
-	public void assignManuscriptToReviewerMenu() {
-		myHelper.setMyActivity("Please Select a Manuscript to be assigned");					
-		Manuscript tempManu = manuscriptSelectionMenu();
-		if(Objects.nonNull(tempManu)) {
-			Reviewer tempReviewer = reviewerSelectionMenu();
-			if(Objects.isNull(tempReviewer)) {
-				assignManuscriptToReviewerMenu();
+	private void optionSubmitARecommendationMenu() {
+		
+		myHelper.setMyActivity("Submit a recommendation for a manuscript");
+		System.out.println(myHelper);
+		boolean exit = false;
+		do{
+			int select = -1;
+			System.out.println("Please Select a Manuscript for your recommendation");			
+			List<Manuscript> tempList = myRole.showAllAssignedManuscripts();
+			HelperGUI.displayManuscripts(tempList, true);
+			select = HelperGUI.getSelect(myConsole);
+			
+			if(select == 0){
+				System.out.println(HelperGUI.BACK);
+				exit = true;
 			} else {
-				myRole.AssignReviewer(tempReviewer, tempManu);				
-				System.out.println("Success!\n\n\n\n\n");	
+				Manuscript editManu = tempList.get(select - 1); 
+				myConsole.nextLine();
+				System.out.println("Write a recommendation \n(or \"EXIT\" to quit or \"BACK\" to select a different manuscript) ");
+				System.out.println("--: ");
+				String recText = myConsole.nextLine();
+				if(recText.equalsIgnoreCase("EXIT")){
+					exit = true;
+				} else if(recText.equalsIgnoreCase("BACK")){
+					exit = false;
+				} else {
+					Recommendation rec = new Recommendation(myRole.getMyUsername(), editManu.getTitle(), recText);
+					editManu.setRecommendation(rec);
+					System.out.println("Success!");
+					exit = true;
+				}
 			}
-		}				
+		} while(!exit);
+		
 	}
 	
-	public Manuscript manuscriptSelectionMenu() {
+	private void optionAssignManuscriptToReviewerMenu() {
+		myHelper.setMyActivity("Please Select a Manuscript to be assigned");
+		Reviewer tempReviewer = null;
+		Manuscript tempManu = null;
+		boolean exit = false;
+		do{
+			tempManu = manuscriptSelectionMenu();
+			if(Objects.nonNull(tempManu)) {
+				
+				tempReviewer = reviewerSelectionMenu();
+			} else {
+				exit = true;
+			}
+		} while(tempReviewer == null && !exit);
+		
+		if(tempReviewer != null && !exit){
+			try{
+				myRole.AssignReviewer(tempReviewer, tempManu);	
+				System.out.println("Success!");	
+			} catch (IllegalArgumentException e){
+				System.out.println(e.getMessage());
+			}
+		}
+		
+	}
+	
+	/**
+	 * Display a list of manuscript and get a selection.
+	 * @return
+	 */
+	private Manuscript manuscriptSelectionMenu() {
 		Manuscript manuscriptThatHasBeenSelected;
 		int selection = 0;
-		List<Manuscript> tempList = myRole.showAllAssignedManuscripts();
-		for(int i = 0; i < tempList.size(); i++){
-			System.out.println((i + 1) + ". " + tempList.get(i).getTitle());
-		}
-		System.out.println("--end of manuscript list--");
-		System.out.println("0.  Back to previous Menu");
+		List<Manuscript> listOfManu = myRole.showAllAssignedManuscripts();
+		HelperGUI.displayManuscripts(listOfManu, true);
 		selection = HelperGUI.getSelect(myConsole);
 		if(selection == 0) {
 			return null;
 		}
-		manuscriptThatHasBeenSelected = tempList.get(selection-1);	
+		manuscriptThatHasBeenSelected = listOfManu.get(selection-1);	
 		return manuscriptThatHasBeenSelected;
 	}
 	
-	public Reviewer reviewerSelectionMenu() {
-		Reviewer reviewerThatHasBeenSelected;
-		int select = 0;
-		List<Reviewer> listOfReviewers = new ArrayList<>();
+	/**
+	 * Display a list of reviewer and get a selection.
+	 * @return
+	 */
+	private Reviewer reviewerSelectionMenu() {
+		Role reviewerThatHasBeenSelected;
+		int select = -1;
+		List<Role> listOfReviewers = myRole.getAllReviewer(myListOfUser);
 		System.out.println("Please Select a reviewer to be assigned");
-		int indexToDisplay = 1;
-		for(String userName: myListOfUser.keySet()) {
-			indexToDisplay = checkThroughAllRolesOfAGivenUser(userName,indexToDisplay,listOfReviewers);
+		StringBuilder toPrint = new StringBuilder();
+		
+		String add = String.format(HelperGUI.FORMAT_TABLE, "Reviewer Name", "# of Manuscript Assigned");
+		toPrint.append("   ");
+		toPrint.append(add);
+		toPrint.append('\n');
+		
+		for(int i = 0; i < listOfReviewers.size(); i++) {
+			toPrint.append((i + 1) + ". ");
+			Reviewer rev = (Reviewer) listOfReviewers.get(i);
+			String toAppend = String.format(HelperGUI.FORMAT_TABLE, rev.getMyUsername(), rev.getAssignmentSize());
+			toPrint.append(toAppend);
+			toPrint.append('\n');
 		}
-		System.out.println("0. Back to previous Menu");
+		System.out.println(toPrint);
+		System.out.println("0. Back");
 		select = HelperGUI.getSelect(myConsole);
 		if(select == 0) {
 			return null;
 		}
 		reviewerThatHasBeenSelected = listOfReviewers.get(select-1);
-		return reviewerThatHasBeenSelected;
+		return (Reviewer) reviewerThatHasBeenSelected;
 		
 	}
-	
-	public int checkThroughAllRolesOfAGivenUser(String theUserName,int theIndexToDisplay, List<Reviewer> theListOfReviewers){
-		Role roleToBeCheckedIfReviewer;
-		for(int i = 0; i < myListOfUser.get(theUserName).getListOfAllRoles().size(); i++) {
-			roleToBeCheckedIfReviewer = myListOfUser.get(theUserName).getListOfAllRoles().get(i);
-			if(roleToBeCheckedIfReviewer instanceof Reviewer) {
-				System.out.println((theIndexToDisplay++) + ". " + ((Reviewer)roleToBeCheckedIfReviewer).getMyUsername());
-				theListOfReviewers.add((Reviewer)roleToBeCheckedIfReviewer);
-			}
-		}
-		return theIndexToDisplay;
-	}
-	
-	public void printMainMenu() {
-		System.out.println("\n---------------\n");
-		myHelper.setMyActivity("Subprogram Chair Menu");
-		System.out.println(myHelper);			
-		System.out.println("\n---------------\n\nWhat Do you want to do?");
-		System.out.println("1. Assign A Reviewer A Manuscript");
-		System.out.println("2. Submit a Recommendation");
-		System.out.println("3. Logout");		
-		System.out.println("-2. Submit Manuscript to Conference");
-	}
+
 }
 

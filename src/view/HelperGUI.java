@@ -31,7 +31,7 @@ public class HelperGUI {
 	public static final String BACK = "\n Back \n";
 	
 	/** Formatter Layout */
-	public static final String FORMAT_TABLE = "%-40s %-10s";
+	public static final String FORMAT_TABLE = "%-40s %-30s";
 	
 	/** The Username. */
 	private String myUsername;
@@ -228,14 +228,14 @@ public class HelperGUI {
 		toReturn.append("Conference: ");
 		toReturn.append(myConferenceName);
 		toReturn.append('\n');
+		toReturn.append("Due date for Manuscript Submission (dd-mm-yyyy): ");
+		toReturn.append(myDeadline);
+		toReturn.append('\n');
 		toReturn.append("Role: ");
 		toReturn.append(myRoleName);
 		toReturn.append('\n');
 		toReturn.append("Current Task: ");
 		toReturn.append(myActivity);
-		toReturn.append('\n');
-		toReturn.append("Due date for Manuscript Submission (dd-mm-yyyy): ");
-		toReturn.append(myDeadline);
 		toReturn.append('\n');
 		toReturn.append("----------INFO---------\n");
 		return toReturn.toString();
