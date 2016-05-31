@@ -30,6 +30,9 @@ public class HelperGUI {
 	/** A 'back' display to help display */
 	public static final String BACK = "\n Back \n";
 	
+	/** Formatter Layout */
+	public static final String FORMAT_TABLE = "%-40s %-10s";
+	
 	/** The Username. */
 	private String myUsername;
 	
@@ -242,13 +245,22 @@ public class HelperGUI {
 	 * The method to parse the date and assign it.
 	 */
 	public void parseDate(Calendar theDate){
+		
+		myDeadline = HelperGUI.getStringFromDate(theDate);
+	}
+	
+	/**
+	 * Helper to get a display date.
+	 * @return string The date.
+	 */
+	public static String getStringFromDate(Calendar theDate){
 		StringBuilder date = new StringBuilder();
 		date.append(theDate.get(Calendar.DAY_OF_MONTH));
 		date.append('-');
 		date.append(theDate.get(Calendar.MONTH));
 		date.append('-');
 		date.append(theDate.get(Calendar.YEAR));
-		myDeadline = date.toString();
+		return date.toString();
 	}
 	
 	/**

@@ -214,24 +214,30 @@ public class ProgramChairGUI {
 		myHelper.setMyActivity("Designate a Subprogram Chair for a manuscript");
 		System.out.println(myHelper);
 		
-		List<Manuscript> listManuscript = myRole.getAllManuscriptForThisConference(myMasterList);
-		HelperGUI.displayManuscripts(listManuscript, true);
-		int userSelectedManuscriptNumber = HelperGUI.getSelect(myConsole);
+		boolean back = false;
+		do{
+			List<Manuscript> listManuscript = myRole.getAllManuscriptForThisConference(myMasterList);
+			HelperGUI.displayManuscripts(listManuscript, true);
+			int userSelectedManuscriptNumber = HelperGUI.getSelect(myConsole);
 		
-		
-		if(userSelectedManuscriptNumber == 0){
-			System.out.println(HelperGUI.BACK);
-		} else {
-			System.out.println("You pick: " + myMasterList.get(userSelectedManuscriptNumber - 1).getTitle());
-			
-			List<SubprogramChair> listOfSubprogramChair = myRole.getAllSubprogramChair(myListOfUser);
-			System.out.println("-Select a Subprogram to assign too-");
-			displayAllSubprogramChair(listOfSubprogramChair);
-			int userSelectedSubprogramChairNumber = HelperGUI.getSelect(myConsole);
-			
-			// LOGIC STATEMENT
-			assignManuscriptToSubprogramChair(userSelectedSubprogramChairNumber, listOfSubprogramChair, userSelectedManuscriptNumber);
-		}
+			back = false;
+			if(userSelectedManuscriptNumber == 0){
+				System.out.println(HelperGUI.BACK);
+			} else {
+				System.out.println("You pick: " + myMasterList.get(userSelectedManuscriptNumber - 1).getTitle());
+				
+				List<SubprogramChair> listOfSubprogramChair = myRole.getAllSubprogramChair(myListOfUser);
+				System.out.println("-Select a Subprogram to assign too-");
+				displayAllSubprogramChair(listOfSubprogramChair);
+				int userSelectedSubprogramChairNumber = HelperGUI.getSelect(myConsole);
+				
+				if(userSelectedSubprogramChairNumber == 0){
+					back = true;
+				}
+				// LOGIC STATEMENT
+				assignManuscriptToSubprogramChair(userSelectedSubprogramChairNumber, listOfSubprogramChair, userSelectedManuscriptNumber);
+			}
+		} while(back);
 	}
 	
 	/**

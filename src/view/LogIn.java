@@ -102,7 +102,8 @@ public class LogIn {
 						loopAgain = spcUI.loop();
 						//returnToNoRole = subprogramChairBranch(console, (SubprogramChair) currentRole);
 					} else if(currentRole instanceof Reviewer){
-						reviewerBranch(console, (Reviewer) currentRole);
+						ReviewerGUI reviewUI = new ReviewerGUI(console, currentUser, myMasterList);
+						loopAgain = reviewUI.loop();
 					}
 				}//end inner if
 			} while (loopAgain);

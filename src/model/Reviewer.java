@@ -91,6 +91,23 @@ public class Reviewer extends Role implements Serializable {
 		return myManuscripts;
 	}
 	
+	//TODO
+	/**
+	 * Accessor method
+	 * @return The list of paper already been reviewed.
+	 */
+	public List<Manuscript> getAlreadyReviewManuscript(){
+		List<Manuscript> toReturn = new ArrayList<>();
+		for(Manuscript manu : myManuscripts){
+			for(Review rev : manu.getReviews()){
+				if(rev.getReviewerID().equals(this.getMyUsername())){
+					toReturn.add(manu);
+				}
+			}
+		}
+		return toReturn;
+	}
+	
 	/**
 	 * Assigns the given Manuscript to this Reviewer so that they will have the ability to 
 	 * access the Manuscript and submit a Review for it.
