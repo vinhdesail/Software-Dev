@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class SubprogramChair extends Role implements Serializable {
@@ -156,6 +157,26 @@ public class SubprogramChair extends Role implements Serializable {
 			return false;
 		}
 		return true;
+	}
+	
+	//TODO
+	/**
+	 * Return all reviewer related to conference.
+	 * @param theUsers Map of all users.
+	 * @return
+	 */
+	public List<Role> getAllReviewer(Map<String, User> theUsers){
+		List<Role> toReturn = new ArrayList<>();
+		for(User addUser : theUsers.values()){
+			if(addUser.getConference().equals(getConference())){
+				for(Role role : addUser.getAllRoles()){
+					if(role instanceof Reviewer){
+						toReturn.add(role);
+					}
+				}
+			}
+		}
+		return toReturn;
 	}
 	
 	public boolean equals(Object theObj) {	

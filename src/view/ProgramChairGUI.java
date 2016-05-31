@@ -145,7 +145,7 @@ public class ProgramChairGUI {
 		StringBuilder toDisplay = new StringBuilder();
 		String toAppend = "";
 		toDisplay.append("\n---Manuscripts---\n");
-		String add = String.format(HelperGUI.FORMAT_TABLE, "Manuscript Name", "Completed");
+		String add = String.format(HelperGUI.FORMAT_TABLE, "Manuscript Name", "Status");
 		toDisplay.append("   ");
 		toDisplay.append(add);
 		toDisplay.append('\n');
