@@ -169,7 +169,7 @@ public class SubprogramChair extends Role implements Serializable {
 		List<Role> toReturn = new ArrayList<>();
 		for(User addUser : theUsers.values()){
 			if(addUser.getConference().equals(getConference())){
-				for(Role role : addUser.getAllRoles()){
+				for(Role role : addUser.getMyConferenceRoles()){
 					if(role instanceof Reviewer){
 						toReturn.add(role);
 					}

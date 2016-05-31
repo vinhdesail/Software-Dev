@@ -278,7 +278,7 @@ public class HelperGUI {
 		Role currentRole = null;
 		boolean validRole = false;
 		StringBuilder tempString = new StringBuilder();
-		List<Role> tempRole = theUser.getAllRoles();
+		List<Role> tempRole = theUser.getMyConferenceRoles();
 		
 		// IF USER ACTUALLY HAVE ROLE
 		if(theUser.hasRole()){

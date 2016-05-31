@@ -80,11 +80,11 @@ public class ProgramChair extends Role implements Serializable {
 		Map<SubprogramChair, List<Manuscript>> allSPCManus = new HashMap<>();
 		SubprogramChair subprogramChairToCompareForConferenceCheck;
 		for(int i = 0; i < allSPCManus.size();i++) {
-			for(int j = 0; j < users.get(i).getAllRoles().size();j++) {
-				if(users.get(i).getAllRoles().get(j) instanceof SubprogramChair) {
-					subprogramChairToCompareForConferenceCheck = (SubprogramChair)users.get(i).getAllRoles().get(j);
+			for(int j = 0; j < users.get(i).getMyConferenceRoles().size();j++) {
+				if(users.get(i).getMyConferenceRoles().get(j) instanceof SubprogramChair) {
+					subprogramChairToCompareForConferenceCheck = (SubprogramChair)users.get(i).getMyConferenceRoles().get(j);
 					if(subprogramChairToCompareForConferenceCheck.getConference().equals(super.getConference())) {
-						allSPCManus.put(subprogramChairToCompareForConferenceCheck, showAllManuscriptAssignedToSpc((SubprogramChair)users.get(i).getAllRoles().get(j)));	
+						allSPCManus.put(subprogramChairToCompareForConferenceCheck, showAllManuscriptAssignedToSpc((SubprogramChair)users.get(i).getMyConferenceRoles().get(j)));	
 					}
 				}
 			}							
@@ -101,7 +101,7 @@ public class ProgramChair extends Role implements Serializable {
 		List<SubprogramChair> toReturn = new ArrayList<>();
 		SubprogramChair subprogramChairToCompare;
 		for(String temp : theUsers.keySet()){
-			List<Role> tempRole = theUsers.get(temp).getAllRoles();
+			List<Role> tempRole = theUsers.get(temp).getMyConferenceRoles();
 			for(int i = 0; i < tempRole.size(); i++){
 				if(tempRole.get(i) instanceof SubprogramChair){
 					subprogramChairToCompare = (SubprogramChair)tempRole.get(i);

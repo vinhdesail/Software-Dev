@@ -20,7 +20,7 @@ import model.Review;
 import model.User;
 import view.AuthorGUI;
 
-public class AuthorGuiTest {
+public class AuthorGUITest {
 
 	private AuthorGUI myAuthorGUIForTestingAssignment;
 	private AuthorGUI myAuthorGUIForTestingReviews;
@@ -73,7 +73,7 @@ public class AuthorGuiTest {
 
 	@Test
 	public void assignRoleToAuthorTest() {
-		assertTrue(myUserToBeAssignedToBeAnAuthor.getAllRoles().get(0) instanceof Author);
+		assertTrue(myUserToBeAssignedToBeAnAuthor.getMyConferenceRoles().get(0) instanceof Author);
 	}
 
 	@Test

@@ -209,7 +209,7 @@ public class AuthorGUI {
 	 */
 	public void assignRoleToAuthor(User theUser){
 		
-		List<Role> listOfRole = theUser.getAllRoles();
+		List<Role> listOfRole = theUser.getMyConferenceRoles();
 		Author toAssign = null;
 		for(Role iterRole : listOfRole){
 			if(iterRole instanceof Author){
