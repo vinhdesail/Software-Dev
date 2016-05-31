@@ -165,19 +165,12 @@ public class LogIn {
 		myUsers = new HashMap<>();
 		myConferences = new ArrayList<>();
 		
-		
+		DataForConference myData = new DataForConference(myUsers, myMasterList, myConferences);
+		myData.firstConference();
+		myData.secondConference();
 		
 	}
 	
-	/**
-	 * Create serialize stuff.
-	 */
-	private void initializeFields2(){
-		myMasterList = new ArrayList<>();//all Manuscripts
-		myUsers = new HashMap<>();
-		myConferences = new ArrayList<>();
-
-	}
 	
 	/**
 	 * The method to store serializable objects.

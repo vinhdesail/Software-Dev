@@ -125,7 +125,9 @@ public class User implements Serializable {
 			}
 			// if Author was not found in myRoles and myCurrentRole is null, pick the first role
 			if(Objects.isNull(myCurrentRole)){
-				myCurrentRole = myRoles.get(FIRST_INDEX);
+				if(myRoles.get(FIRST_INDEX).getConference().equals(myConference)){
+					myCurrentRole = myRoles.get(FIRST_INDEX);
+				}
 			}
 			// if Author was not found in myRoles and myCurrentRole is non-null, it will stay as is
 		}

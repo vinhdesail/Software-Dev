@@ -269,7 +269,7 @@ public class DataForConference {
 		Reviewer rev3 = new Reviewer(pattyName, theConference);
 		rev3.assignReview(firstManu);
 		pat.addRole(rev3);
-		Review review = new Review(pattyName, firstManu.getTitle(), "Computer Eyes is a manuscript worthy of this conference");
+		Review review = new Review(pattyName, firstManu.getTitle(), "Computer Eyes is a manuscript worthy of this conference. Great Review");
 		firstManu.addReview(review);
 		firstManu.setStatus(1);
 	}
