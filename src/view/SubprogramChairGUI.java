@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import model.Manuscript;
-import model.ProgramChair;
 import model.Recommendation;
 import model.Reviewer;
 import model.Role;

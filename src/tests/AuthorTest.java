@@ -3,6 +3,8 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Before;
@@ -12,39 +14,63 @@ import model.*;
 
 public class AuthorTest {
 	
-	private Author myAuthor;
-	private Manuscript myManuscript;
-	private List<Manuscript> myManuscriptList;
+	private Author myAuthorThatHasNotSubmitedAManuscript;
+	private Author myAuthorThatHasSubmitedOneManuscript;
+	private Author myAuthorThatHasSubmitedOneManuscriptThatIsTheSameAsOtherAuthor;
+	private Author myAuthorThatHasSubmitedOneManuscriptThatIsDifferentAsOtherAuthor;
+	private Manuscript myFirstManuscript;
+	private Manuscript mySecondManuscript;
+	private List<Manuscript> myMasterManuscriptListForAllManuscripts;
+	private List<Manuscript> myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript;
+	private List<Manuscript> myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscriptThatIsIdenticalToTheOtherListForComparison;
+	
 	private String myAuthorID;
+	private Conference myConferenceThatHasASubmissionDeadlineInThePast;
 	private Conference myConferenceThatHasASubmissionDeadlineInTheFuture;
 	
 	@Before
 	public void setUp() {
-		myConferenceThatHasASubmissionDeadlineInTheFuture = new Conference("Conference ID", "Program Chair ID", "05-11-2016", "05-07-2016", 
-				"05-08-2016", "05-09-2016", "05-10-2016");
-		myAuthor = new Author(myAuthorID, myConferenceThatHasASubmissionDeadlineInTheFuture);
-		myManuscript = new Manuscript("John", "Science", "Computer manuscript", "Some text");
-		myAuthor.addManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);	
-		myManuscriptList = new ArrayList<Manuscript>();
+		Calendar futureConferenceDate = new GregorianCalendar(2018,10,17);
+		Calendar futureManuscriptDueDate = new GregorianCalendar(2018,9,1);
+		Calendar futureReviewDueDate = new GregorianCalendar(2018,9,19);
+		Calendar futureRecommendationDueDate = new GregorianCalendar(2018,10,1);
+		Calendar futureDecisionDueDate = new GregorianCalendar(2018,10,1);
+		
+		Calendar pastConferenceDate = new GregorianCalendar(2014,10,17);
+		Calendar pastManuscriptDueDate = new GregorianCalendar(2014,9,1);
+		Calendar pastReviewDueDate = new GregorianCalendar(2014,9,19);
+		Calendar pastRecommendationDueDate = new GregorianCalendar(2014,10,1);
+		Calendar pastDecisionDueDate = new GregorianCalendar(2014,10,1);
+		
+		myConferenceThatHasASubmissionDeadlineInTheFuture = new Conference("Conference ID", "Program Chair ID", futureConferenceDate, futureManuscriptDueDate, 
+				futureReviewDueDate, futureRecommendationDueDate, futureDecisionDueDate);
+		myConferenceThatHasASubmissionDeadlineInTheFuture = new Conference("Conference ID", "Program Chair ID", pastConferenceDate, pastManuscriptDueDate, 
+				pastReviewDueDate, pastRecommendationDueDate, pastDecisionDueDate);
+		
+		myAuthorThatHasNotSubmitedAManuscript = new Author(myAuthorID, myConferenceThatHasASubmissionDeadlineInThePast);
+		myAuthorThatHasSubmitedOneManuscript = new Author(myAuthorID, myConferenceThatHasASubmissionDeadlineInTheFuture);
+		myAuthorThatHasSubmitedOneManuscriptThatIsTheSameAsOtherAuthor = new Author(myAuthorID, myConferenceThatHasASubmissionDeadlineInTheFuture);
+		myAuthorThatHasSubmitedOneManuscriptThatIsDifferentAsOtherAuthor = new Author(myAuthorID, myConferenceThatHasASubmissionDeadlineInTheFuture);
+		myFirstManuscript = new Manuscript("John", "Science", "Computer manuscript", "Some text");
+		myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript = new ArrayList<Manuscript>();
+		myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscriptThatIsIdenticalToTheOtherListForComparison = new ArrayList<Manuscript>();
+		myAuthorThatHasSubmitedOneManuscript.addManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript);	
+		
 	}
 	/// need to create a conference for this to work. Not being added because its failing to meet requirements
 	@Test
-	public void ShowAllMyManuscriptTest() {
-		
-		
-		List<Manuscript> myManuscriptList2 = new ArrayList<Manuscript>();
-		myManuscriptList2 = myAuthor.showAllMyManuscript(myManuscriptList, "John");
-		assertSame(myManuscriptList2.get(0).getAuthor(), myManuscriptList.get(0).getAuthor());
+	public void ShowAllMyManuscriptTest() {					
+		assertSame(myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript.get(0).getAuthor(), myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscriptThatIsIdenticalToTheOtherListForComparison.get(0).getAuthor());
 	}
 	
 	@Test
 	public void addManuscriptTest() {		
-		assertSame(myManuscriptList.get(0), myManuscript);
+		assertSame(myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscriptThatIsIdenticalToTheOtherListForComparison.get(0), myFirstManuscript);
 	}
 	
 	@Test
 	public void deleteManuscriptTest() {
-		myAuthor.deleteManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
+		myAuthor.deleteManuscript((ArrayList<Manuscript>) myMasterManuscriptListForAllManuscripts, myManuscript);
 		assertEquals(myManuscriptList.size(), 0);
 	}
 	

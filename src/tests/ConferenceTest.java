@@ -4,7 +4,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.junit.Before;
@@ -32,6 +31,7 @@ public class ConferenceTest {
 		Calendar reviewDueDate = new GregorianCalendar(2016,9,19);
 		Calendar recommendationDueDate = new GregorianCalendar(2016,10,1);
 		Calendar decisionDueDate = new GregorianCalendar(2016,10,1);	
+		
 		
 		myMainTestConference = new Conference("ANDESCON", "doeJ", conferenceDate,
 				manuscriptDueDate, reviewDueDate, recommendationDueDate, decisionDueDate);
