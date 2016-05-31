@@ -1,7 +1,6 @@
 package tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,6 +41,7 @@ public class UserTest {
 	private Role myAuthor;
 	private Role myIncorrectRole;
 	
+	private User userWithDifferentName;
 	private User userNotAnAuthor;
 	private User userIsAnAuthor;
 	private User userIsAnAuthorWithTwoManuscript;
@@ -67,6 +67,7 @@ public class UserTest {
 		masterList = new ArrayList<Manuscript>();
 		
 		user1 = new User(userName1);
+		userWithDifferentName = new User("Bobby");
 		manuscript1 = new Manuscript(userName1, conferenceID, title1, filePath1);
 		manuscript2 = new Manuscript(userName1, conferenceID, title2, filePath1);
 		
@@ -99,6 +100,20 @@ public class UserTest {
 		userWithMultipleRole.addRole(myAuthor);
 		myListOfRoles.add(myReviewer);
 		myListOfRoles.add(myAuthor);
+	}
+	
+	@Test
+	public void testEqualsDifferentObject(){
+		assertFalse(userNotAnAuthor.equals(userAuthorRole));
+	}
+	
+	@Test
+	public void testEqualsDifferentName(){
+		assertFalse(userNotAnAuthor.equals(userWithDifferentName));
+	}
+	@Test
+	public void testEqualsDifferentRoleAssigned(){
+		assertFalse(userIsAnAuthor.equals(userWithMultipleRole));
 	}
 	
 	@Test
@@ -136,19 +151,33 @@ public class UserTest {
 	@Test
 	public void testSubmitManuscriptUserIsNotAuthor(){
 		userNotAnAuthor.submitManuscript(manuscript1, masterList);
-		assertEquals(userNotAnAuthor, userIsAnAuthor);
+		assertTrue(userNotAnAuthor.getMyConferenceRoles().size() == 1);
 	}
 	
 	@Test
 	public void testSubmitManuscriptUserIsAnAuthor(){
 		userIsAnAuthor.submitManuscript(manuscript2, masterList);
-		assertEquals(userIsAnAuthorWithTwoManuscript, userIsAnAuthor);
+		assertTrue(userAuthorRole2.showAllMyManuscripts().size() == 2);
 	}
 	
-	// for autoSetRole need to test:
-	// myRoles is empty
-	// they are an author
-	// they are not an author
+	@Test
+	public void testAutoSetRoleIsEmpty(){
+		userWithNoRole.autoSetRole();
+		assertTrue(userWithNoRole.getCurrentRole() == null);
+	}
+	
+	@Test
+	public void testAutoSetRoleThereIsAnAuthor(){
+		userIsAnAuthor.autoSetRole();
+		assertEquals(userIsAnAuthor.getCurrentRole(), userAuthorRole);
+	}
+	
+	@Test
+	public void testAutoSetRoleIfTheyAreNotAnAuthor(){
+		userNotAnAuthor.addRole(myReviewer);
+		userNotAnAuthor.autoSetRole();
+		assertEquals(userNotAnAuthor.getCurrentRole(), myReviewer);
+	}
 	
 	@Test
 	public void testAddRoleNullRoleExceptionTest() {
