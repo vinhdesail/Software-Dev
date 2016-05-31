@@ -57,6 +57,7 @@ public class ReviewerGUI {
 			throw new InputMismatchException();
 		}
 		myHelper = new HelperGUI(myUser.getName(), myRole.getRole(), myUser.getConference().getConferenceID(), "Reviewer Menu");
+		myHelper.parseDate(myUser.getConference().getManuscriptDueDate());
 	}
 	
 	/**

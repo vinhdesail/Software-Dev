@@ -6,9 +6,13 @@ package view;
 
 import java.io.Console;
 import java.io.File;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.xml.crypto.Data;
 
 import model.Manuscript;
 import model.Review;
@@ -38,6 +42,9 @@ public class HelperGUI {
 	/** The Activity At the Time. */
 	private String myActivity;
 	
+	/** The submission Deadline for manuscript */
+	private String myDeadline;
+	
 	/**
 	 * The constructor for the class.
 	 */
@@ -46,6 +53,7 @@ public class HelperGUI {
 		setMyRoleName("Blank");
 		setMyConferenceName("Blank");
 		setMyActivity("Blank");
+		setMyDeadline("Not-Available");
 		
 	}
 	
@@ -58,6 +66,22 @@ public class HelperGUI {
 		setMyConferenceName(theConferenceName);
 		setMyActivity(theActivity);
 		
+	}
+	
+	/**
+	 * get the deadline.
+	 * @return String representing deadline.
+	 */
+	public String getMyDeadline() {
+		return myDeadline;
+	}
+	
+	/**
+	 * Set the deadline.
+	 * @param myDeadline
+	 */
+	public void setMyDeadline(String myDeadline) {
+		this.myDeadline = myDeadline;
 	}
 	
 	/**
@@ -207,8 +231,24 @@ public class HelperGUI {
 		toReturn.append("Current Task: ");
 		toReturn.append(myActivity);
 		toReturn.append('\n');
+		toReturn.append("Due date for Manuscript Submission (dd-mm-yyyy): ");
+		toReturn.append(myDeadline);
+		toReturn.append('\n');
 		toReturn.append("----------INFO---------\n");
 		return toReturn.toString();
+	}
+	
+	/**
+	 * The method to parse the date and assign it.
+	 */
+	public void parseDate(Calendar theDate){
+		StringBuilder date = new StringBuilder();
+		date.append(theDate.get(Calendar.DAY_OF_MONTH));
+		date.append('-');
+		date.append(theDate.get(Calendar.MONTH));
+		date.append('-');
+		date.append(theDate.get(Calendar.YEAR));
+		myDeadline = date.toString();
 	}
 	
 	/**

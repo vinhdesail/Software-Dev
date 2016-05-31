@@ -62,6 +62,7 @@ public class ProgramChairGUI {
 		}
 		myRole = (ProgramChair)myUser.getCurrentRole();
 		myHelper = new HelperGUI(myUser.getName(), myRole.getRole(), myUser.getConference().getConferenceID(), "Program Chair Menu");
+		myHelper.parseDate(myUser.getConference().getManuscriptDueDate());
 	}
 	
 	/**

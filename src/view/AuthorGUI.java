@@ -67,6 +67,7 @@ public class AuthorGUI {
 			myRole = null;
 			myHelper = new HelperGUI(myUser.getName(), "Submit a paper to become an Author", myUser.getConference().getConferenceID(), "User Menu");
 		}
+		myHelper.parseDate(myUser.getConference().getManuscriptDueDate());
 	}
 	
 	/**

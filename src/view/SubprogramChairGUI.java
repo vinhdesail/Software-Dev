@@ -58,6 +58,7 @@ public class SubprogramChairGUI {
 		}
 		myRole = (SubprogramChair)myUser.getCurrentRole();
 		myHelper = new HelperGUI(myUser.getName(), myRole.getRole(), myUser.getConference().getConferenceID(), "Subprogram Chair Menu");
+		myHelper.parseDate(myUser.getConference().getManuscriptDueDate());
 	}
 	
 	public boolean loop() {	
