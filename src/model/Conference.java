@@ -100,7 +100,7 @@ public class Conference implements Serializable {
 	}
 	
 	public Calendar getReviewDueDate() {
-		return myReviewDueDate;
+		return myReviewDueDate;		
 	}
 	
 	public Calendar getRecDueDate() {

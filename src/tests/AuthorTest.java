@@ -3,6 +3,8 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Before;
@@ -12,67 +14,111 @@ import model.*;
 
 public class AuthorTest {
 	
-	private Author myAuthor;
-	private Manuscript myManuscript;
-	private List<Manuscript> myManuscriptList;
-	private String myAuthorID;
+	private Author myAuthorThatIsInAConferenceThatIsInThePast;
+	private Author myAuthorThatHasSubmitedOneManuscript;
+	private Author myAuthorThatHasSubmitedAndDeletedOneManuscript;
+	private Author myAuthorThatHasSubmitedAndEditedOneManuscript;
+	private Author myAuthorThatHasSubmitedOneManuscriptThatIsTheSameAsOtherAuthor;
+	private Author myAuthorThatHasSubmitedOneManuscriptThatIsDifferentAsOtherAuthor;
+	private Manuscript myFirstManuscript;
+	private Manuscript mySecondManuscript;
+	private Manuscript myFirstManuscriptThatHasEditedFields;
+	private List<Manuscript> myMasterManuscriptListForAllManuscripts;
+	private List<Manuscript> myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript;
+	private Conference myConferenceThatHasASubmissionDeadlineInThePast;
 	private Conference myConferenceThatHasASubmissionDeadlineInTheFuture;
 	
 	@Before
 	public void setUp() {
-		myConferenceThatHasASubmissionDeadlineInTheFuture = new Conference("Conference ID", "Program Chair ID", "05-11-2016", "05-07-2016", 
-				"05-08-2016", "05-09-2016", "05-10-2016");
-		myAuthor = new Author(myAuthorID, myConferenceThatHasASubmissionDeadlineInTheFuture);
-		myManuscript = new Manuscript("John", "Science", "Computer manuscript", "Some text");
-		myAuthor.addManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);	
-		myManuscriptList = new ArrayList<Manuscript>();
-	}
-	/// need to create a conference for this to work. Not being added because its failing to meet requirements
-	@Test
-	public void ShowAllMyManuscriptTest() {
-		
-		
-		List<Manuscript> myManuscriptList2 = new ArrayList<Manuscript>();
-		myManuscriptList2 = myAuthor.showAllMyManuscript(myManuscriptList, "John");
-		assertSame(myManuscriptList2.get(0).getAuthor(), myManuscriptList.get(0).getAuthor());
+		Calendar futureConferenceDate = new GregorianCalendar(2018,10,17);
+		Calendar futureManuscriptDueDate = new GregorianCalendar(2018,9,1);
+		Calendar futureReviewDueDate = new GregorianCalendar(2018,9,19);
+		Calendar futureRecommendationDueDate = new GregorianCalendar(2018,10,1);
+		Calendar futureDecisionDueDate = new GregorianCalendar(2018,10,1);	
+		Calendar pastConferenceDate = new GregorianCalendar(2014,10,17);
+		Calendar pastManuscriptDueDate = new GregorianCalendar(2014,9,1);
+		Calendar pastReviewDueDate = new GregorianCalendar(2014,9,19);
+		Calendar pastRecommendationDueDate = new GregorianCalendar(2014,10,1);
+		Calendar pastDecisionDueDate = new GregorianCalendar(2014,10,1);	
+		myConferenceThatHasASubmissionDeadlineInTheFuture = new Conference("Conference ID", "Program Chair ID", futureConferenceDate, futureManuscriptDueDate, 
+				futureReviewDueDate, futureRecommendationDueDate, futureDecisionDueDate);
+		myConferenceThatHasASubmissionDeadlineInThePast = new Conference("Conference ID", "Program Chair ID", pastConferenceDate, pastManuscriptDueDate, 
+				pastReviewDueDate, pastRecommendationDueDate, pastDecisionDueDate);	
+		myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript =  new ArrayList<Manuscript>();
+		myMasterManuscriptListForAllManuscripts =  new ArrayList<Manuscript>();
+		myAuthorThatIsInAConferenceThatIsInThePast =  new Author("Jim", myConferenceThatHasASubmissionDeadlineInThePast); 
+		myAuthorThatHasSubmitedOneManuscript = new Author("Tom Banks", myConferenceThatHasASubmissionDeadlineInTheFuture);
+		myAuthorThatHasSubmitedAndDeletedOneManuscript = new Author("Tom Banks", myConferenceThatHasASubmissionDeadlineInTheFuture);
+		myAuthorThatHasSubmitedAndEditedOneManuscript = new Author("Buckle Tros", myConferenceThatHasASubmissionDeadlineInTheFuture);	
+		myAuthorThatHasSubmitedOneManuscriptThatIsTheSameAsOtherAuthor = new Author("Tom Banks", myConferenceThatHasASubmissionDeadlineInTheFuture);
+		myAuthorThatHasSubmitedOneManuscriptThatIsDifferentAsOtherAuthor = new Author("Not Tom", myConferenceThatHasASubmissionDeadlineInTheFuture);		
+		myFirstManuscript = new Manuscript("Tom Banks", "Science", "Computer manuscript", "Some text");
+		mySecondManuscript = new Manuscript("Buckle Tros", "Science", "Computer manuscript", "Some text");
+		myFirstManuscriptThatHasEditedFields =  new Manuscript("Tom Banks", "Science", "Computer manuscript Edited", "Some New text");
+		myAuthorThatHasSubmitedOneManuscript.addManuscript(myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript, myFirstManuscript);
+		myAuthorThatHasSubmitedAndDeletedOneManuscript.addManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript);
+		myAuthorThatHasSubmitedAndEditedOneManuscript.addManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript);
+		myAuthorThatHasSubmitedOneManuscriptThatIsTheSameAsOtherAuthor.addManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript);
+		myAuthorThatHasSubmitedOneManuscriptThatIsDifferentAsOtherAuthor.addManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript);		
+		myAuthorThatHasSubmitedAndDeletedOneManuscript.deleteManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript);
+		myAuthorThatHasSubmitedAndEditedOneManuscript.editManuscript(myMasterManuscriptListForAllManuscripts, myFirstManuscript, myFirstManuscriptThatHasEditedFields);
+		myMasterManuscriptListForAllManuscripts.add(mySecondManuscript);
 	}
 	
 	@Test
 	public void addManuscriptTest() {		
-		assertSame(myManuscriptList.get(0), myManuscript);
+		assertSame(myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript.get(0), myFirstManuscript);
 	}
 	
 	@Test
 	public void deleteManuscriptTest() {
-		myAuthor.deleteManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
-		assertEquals(myManuscriptList.size(), 0);
+		assertEquals(myAuthorThatHasSubmitedAndDeletedOneManuscript.showAllMyManuscript().size(), 0);
 	}
 	
 	@Test
-	public void editManuscriptTest() {
-		Manuscript myNewManuscript = new Manuscript("John", "Science", "Computer manuscript", "Some different text!");
-		myAuthor.editManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript, myNewManuscript);
-		assertEquals(myManuscriptList.size(), 1);
-	}
-	
-	// will have to make conference and assign a review.
-	@Test
-	public void getReviewsTest() {
-		myManuscript.addReview(new Review("Bob", myManuscript.getTitle(), "All good!"));
-		myAuthor.addManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript);
-		
-		System.out.println(myManuscriptList.get(0).getReviews());
-		myManuscript.setStatus(1);
-		List<Review> myReviews = new ArrayList<Review>();
-		myReviews.addAll(myAuthor.getReviews());
-		System.out.println(myReviews);
-		assertEquals(myReviews.get(0).getReviewText(), myManuscriptList.get(0).getReviews().get(0).getReviewText());
+	public void editManuscriptToVerifyThatTheTextHasChangedTest() {
+		assertEquals(myAuthorThatHasSubmitedAndEditedOneManuscript.showAllMyManuscript().get(0).getTitle(), "Computer manuscript Edited");
 	}
 	
 	@Test
-	public void isPastSubmissionDeadlineTest() {
-		Manuscript myNewManuscript = new Manuscript("John", "Science", "Computer manuscript", "Some different text!");
-		myAuthor.editManuscript((ArrayList<Manuscript>) myManuscriptList, myManuscript, myNewManuscript);
-		assertEquals(myManuscriptList.size(), 1);
+	public void isPastSubmissionDeadlineForAAuthorThatIsWorkingInAConferenceThatStillHasTheAbilityToSubmitAManuscriptTest() {
+		assertFalse(myAuthorThatHasSubmitedOneManuscript.isPastSubmissionDeadline());
 	}
+	
+	@Test
+	public void isPastSubmissionDeadlineForAAuthorThatIsWorkingInAConferenceThatDoesNotHaveTheAbilityToSubmitAManuscriptTest() {
+		assertTrue(myAuthorThatIsInAConferenceThatIsInThePast.isPastSubmissionDeadline());
+	}
+	
+	@Test
+	public void addManuscriptExceptionIfTheDeadlineHasBeenPassedTest() {	
+		try {
+			myAuthorThatIsInAConferenceThatIsInThePast.addManuscript(myMasterManuscriptListForAllManuscripts, mySecondManuscript);
+			fail("Exception not Caught for Deadline being Passed.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void addManuscriptExceptionIfTheManuscriptHasAlreadyBeenSubmitedTest() {	
+		try {
+			myAuthorThatHasSubmitedOneManuscript.addManuscript(myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript, myFirstManuscript);
+			fail("Exception not Caught for Deadline being Passed.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void equalsWhereBothAuthorsAreTheSameTest() {
+		assertTrue(myAuthorThatHasSubmitedOneManuscript.equals(myAuthorThatHasSubmitedOneManuscriptThatIsTheSameAsOtherAuthor));
+	}
+	
+	@Test
+	public void equalsWhereBothAuthorsAreDifferentTest() {
+		assertFalse(myAuthorThatHasSubmitedOneManuscript.equals(myAuthorThatHasSubmitedOneManuscriptThatIsDifferentAsOtherAuthor));
+	}
+	
+	
 }

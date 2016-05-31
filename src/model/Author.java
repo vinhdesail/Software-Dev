@@ -42,6 +42,14 @@ public class Author extends Role implements Serializable {
 	}
 	
 	/**
+	 * Method that returns a list of manuscripts.
+	 * @return 
+	 */
+	public List<Manuscript> showAllMyManuscript() {		
+		return myManuscripts;
+	}
+	
+	/**
 	 * Method that checks if the current time is after the submission deadline.
 	 * @return True if the submission deadline has been passed, false otherwise.
 	 */
@@ -58,6 +66,9 @@ public class Author extends Role implements Serializable {
 	 */
 	public void addManuscript(final List<Manuscript> theManuscripts,
 									 final Manuscript theManuscript) throws IllegalArgumentException {		
+		if(myManuscripts.contains(theManuscript)) {
+			throw new IllegalArgumentException("Manuscript has already been submitted");
+		}
 		if(isPastSubmissionDeadline()) {
 			throw new IllegalArgumentException("Manuscript Submission Deadline is over.");
 		}
@@ -97,4 +108,20 @@ public class Author extends Role implements Serializable {
 		}
 		return returnReviews;
 	}
+	
+	@Override
+	public boolean equals(Object theObject){
+		if(!(theObject instanceof Author)) {
+			return false;
+		}
+		Author otherAuthor = (Author) theObject;
+		if(!super.equals(otherAuthor)) {
+			return false;
+		} else if(!myManuscripts.equals(otherAuthor.showAllMyManuscript())) {
+			return false;
+		}
+		return true;
+	}
+	
+	
 }
