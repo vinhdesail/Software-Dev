@@ -99,14 +99,7 @@ public class Reviewer extends Role implements Serializable {
 		return myManuscripts;
 	}
 	
-	/**
-	 * Accessor method
-	 * @return manuscript assigned size.
-	 */
-	public int getAssignmentSize(){
-		return myManuscripts.size();
-	}
-	
+
 	/**
 	 * @return ArrayList of papers from those assigned to this Reviewer that this Reviewer
 	 * has already reviewed
@@ -130,11 +123,14 @@ public class Reviewer extends Role implements Serializable {
 	public void assignReview(Manuscript theManuscript) {
 		if (theManuscript == null) {
 			throw new IllegalArgumentException("Manuscript cannot be null.");
-		} else if (myManuscripts.size() < MAX_MANUSCRIPTS) {
-			myManuscripts.add(theManuscript);
-		} else {
+		} else if (myManuscripts.size() >= MAX_MANUSCRIPTS) {
 			throw new IllegalArgumentException("Can't assign more than " + MAX_MANUSCRIPTS + 
 					" Manuscripts to this reviewer!");
+		} else if (myManuscripts.contains(theManuscript)) {
+			throw new IllegalArgumentException(getMyUsername() + " has already been assigned "
+					+ "to review manuscript: " + theManuscript.getTitle());
+		} else {
+			myManuscripts.add(theManuscript);
 		}	
 	}
 	
@@ -160,6 +156,11 @@ public class Reviewer extends Role implements Serializable {
 			}
 		}
 		return null;
+	}
+	
+	
+	public int getAssignmentSize() {
+		return myManuscripts.size();
 	}
 	
 	/**
