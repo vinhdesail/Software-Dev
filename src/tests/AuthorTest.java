@@ -72,12 +72,12 @@ public class AuthorTest {
 	
 	@Test
 	public void deleteManuscriptTest() {
-		assertEquals(myAuthorThatHasSubmitedAndDeletedOneManuscript.showAllMyManuscript().size(), 0);
+		assertEquals(myAuthorThatHasSubmitedAndDeletedOneManuscript.showAllMyManuscripts().size(), 0);
 	}
 	
 	@Test
 	public void editManuscriptToVerifyThatTheTextHasChangedTest() {
-		assertEquals(myAuthorThatHasSubmitedAndEditedOneManuscript.showAllMyManuscript().get(0).getTitle(), "Computer manuscript Edited");
+		assertEquals(myAuthorThatHasSubmitedAndEditedOneManuscript.showAllMyManuscripts().get(0).getTitle(), "Computer manuscript Edited");
 	}
 	
 	@Test

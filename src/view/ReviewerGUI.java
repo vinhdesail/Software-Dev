@@ -9,7 +9,6 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import model.Author;
 import model.Manuscript;
 import model.Reviewer;
 import model.User;

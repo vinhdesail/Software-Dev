@@ -138,7 +138,7 @@ public class AuthorGUI {
 		
 		if(myIsAuthor){
 			
-			List<Manuscript> listOfManuscript = myRole.showAllMyManuscript(myMasterList, myUser.getName());
+			List<Manuscript> listOfManuscript = myRole.showAllMyManuscripts();
 			
 			HelperGUI.displayManuscripts(listOfManuscript, true);
 			
@@ -164,7 +164,7 @@ public class AuthorGUI {
 		myHelper.setMyActivity("Submiting a Manuscript");
 		System.out.println(myHelper);
 		if(myIsAuthor){
-			List<Manuscript> listOfManuscript = myRole.showAllMyManuscript(myMasterList, myUser.getName());
+			List<Manuscript> listOfManuscript = myRole.showAllMyManuscripts();
 			System.out.println("Showing all Manuscripts");
 			HelperGUI.displayManuscripts(listOfManuscript, false);
 			System.out.println();
@@ -207,7 +207,7 @@ public class AuthorGUI {
 		myHelper.setMyActivity("Unsubmitting a Manuscript");
 		System.out.println(myHelper);
 		
-		List<Manuscript> listOfManuscript = myRole.showAllMyManuscript(myMasterList, myUser.getName());
+		List<Manuscript> listOfManuscript = myRole.showAllMyManuscripts();
 		HelperGUI.displayManuscripts(listOfManuscript, true);
 		int selectedManu = HelperGUI.getSelect(myConsole);
 		
@@ -216,7 +216,7 @@ public class AuthorGUI {
 		} else {
 			myRole.deleteManuscript(myMasterList, listOfManuscript.get(selectedManu - 1));
 			System.out.println("Manuscript Unsubmitted Successful\n--Displaying All Your Manuscript--");
-			listOfManuscript = myRole.showAllMyManuscript(myMasterList, myUser.getName());
+			listOfManuscript = myRole.showAllMyManuscripts();
 			HelperGUI.displayManuscripts(listOfManuscript, false);
 		}
 	}
@@ -226,7 +226,7 @@ public class AuthorGUI {
 		myHelper.setMyActivity("Editing a Manuscript");
 		System.out.println(myHelper);
 		
-		List<Manuscript> listOfManuscript = myRole.showAllMyManuscript(myMasterList, myUser.getName());
+		List<Manuscript> listOfManuscript = myRole.showAllMyManuscripts();
 		HelperGUI.displayManuscripts(listOfManuscript, true);
 		int selectedManu = HelperGUI.getSelect(myConsole);
 		
@@ -239,7 +239,7 @@ public class AuthorGUI {
 						title, listOfManuscript.get(selectedManu - 1).getText());
 				myRole.editManuscript(myMasterList, listOfManuscript.get(selectedManu - 1), newManuscript);
 				System.out.println("SUCCESS!!!\n--Displaying All Your Manuscript--");
-				listOfManuscript = myRole.showAllMyManuscript(myMasterList, myUser.getName());
+				listOfManuscript = myRole.showAllMyManuscripts();
 				HelperGUI.displayManuscripts(listOfManuscript, false);
 			}
 		}
@@ -296,7 +296,7 @@ public class AuthorGUI {
 	public Manuscript getManuConnectedWithReview(Review theReview){
 		Manuscript toReturn = null;
 		
-		List<Manuscript> listOfManuscript = myRole.showAllMyManuscript(myMasterList, myUser.getName());
+		List<Manuscript> listOfManuscript = myRole.showAllMyManuscripts();
 		for(int i = 0; i < listOfManuscript.size(); i++){
 			if(listOfManuscript.get(i).getTitle().equals(theReview.getManuscriptTitle())){
 				toReturn = listOfManuscript.get(i);

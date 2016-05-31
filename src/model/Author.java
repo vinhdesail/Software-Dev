@@ -31,21 +31,7 @@ public class Author extends Role implements Serializable {
 	 * Method that returns a list of manuscripts.
 	 * @return 
 	 */
-	public List<Manuscript> showAllMyManuscript(final List<Manuscript> theManuscripts, final String theAuthorID) {
-		List<Manuscript> returnManuscripts = new ArrayList<Manuscript>();	
-		for(int i = 0; i < theManuscripts.size(); i++){
-			if(theManuscripts.get(i).getAuthor().equals(theAuthorID)) {
-				returnManuscripts.add(theManuscripts.get(i));
-			}
-		}
-		return returnManuscripts;
-	}
-	
-	/**
-	 * Method that returns a list of manuscripts.
-	 * @return 
-	 */
-	public List<Manuscript> showAllMyManuscript() {		
+	public List<Manuscript> showAllMyManuscripts() {		
 		return myManuscripts;
 	}
 	
@@ -117,7 +103,7 @@ public class Author extends Role implements Serializable {
 		Author otherAuthor = (Author) theObject;
 		if(!super.equals(otherAuthor)) {
 			return false;
-		} else if(!myManuscripts.equals(otherAuthor.showAllMyManuscript())) {
+		} else if(!myManuscripts.equals(otherAuthor.showAllMyManuscripts())) {
 			return false;
 		}
 		return true;
