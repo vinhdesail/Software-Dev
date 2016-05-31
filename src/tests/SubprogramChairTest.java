@@ -105,8 +105,8 @@ public class SubprogramChairTest {
 	 */
 	@Test
 	public void showAllAssignedManuscriptsTest() {			
-		assertSame(mySubprogramChairThatContainsOneManuscript.showAllAssignedManuscripts().get(0),firstManuscript);
-		}
+		assertSame(mySubprogramChairThatContainsOneManuscript.showAllAssignedManuscripts().get(0),firstManuscript);	
+	}
 	/**
 	 * Tests the Bus. Rule that if a reviewer already has been assigned Four Manuscripts, that it will throw an exception.
 	 */

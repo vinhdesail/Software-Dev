@@ -48,23 +48,29 @@ public class SubprogramChair extends Role implements Serializable {
 	/**
 	 * A method that assigns this Subprogram Chair a given Manuscript.
 	 * @param theManuscripts The Manuscript being assigned to the Subprogram Chair.
+	 * @throws IllegalArgumentException If the given Manuscript's Conference does not match with this 
+	 * Subprogram Chairs Conference, if the Manuscript has already been assigned to a Subprogram Chair,
+	 * if 
 	 */
-	public void assignManuscripts(Manuscript theManuscript) throws IllegalArgumentException{		
-			if(!containsMaxAmmountOfManuscripts()) {
-				int manuscriptFoundAt = (containsManuscriptAt(theManuscript));
-				if(manuscriptFoundAt == NOT_FOUND) {
-					if(theManuscript.getConference().equals(this.getConference().getConferenceID())) {
-						myAssignedManuscripts.add(theManuscript);
-						theManuscript.setAssignedASubprogramChair();
-					} else{
-						throw new IllegalArgumentException("The Manuscript being assigned to this SubprogramChair does not match its given conference.");
-					}					
-				} else {
-					throw new IllegalArgumentException("Manuscript has already been assigned.");
-				}			
+	public void assignManuscripts(Manuscript theManuscript) throws IllegalArgumentException{
+		if(Objects.isNull(theManuscript)){
+			throw new IllegalArgumentException("The Given Manuscript cannot be null.");
+		}
+		if(!containsMaxAmmountOfManuscripts()) {
+			int manuscriptFoundAt = (containsManuscriptAt(theManuscript));
+			if(manuscriptFoundAt == NOT_FOUND) {
+				if(theManuscript.getConference().equals(this.getConference().getConferenceID())) {
+					myAssignedManuscripts.add(theManuscript);
+					theManuscript.setAssignedASubprogramChair();
+				} else{
+					throw new IllegalArgumentException("The Manuscript being assigned to this SubprogramChair does not match its given conference.");
+				}					
 			} else {
-				throw new IllegalArgumentException("Four Manuscripts have already been assigned to this SPC.");				
-			}		
+				throw new IllegalArgumentException("Manuscript has already been assigned.");
+			}			
+		} else {
+			throw new IllegalArgumentException("Four Manuscripts have already been assigned to this SPC.");				
+		}		
 	}
 	
 	/**
