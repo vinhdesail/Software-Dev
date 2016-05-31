@@ -118,8 +118,8 @@ public class DataForConference {
 		robert.submitManuscript(manuscript6, myMasterList);
 		myUsers.put(robertName, robert);
 		
-		firstConferenceReviewer(theConference, manuscript1, manuscript2);
 		firstConferenceSubprogramChair(theConference, manuscript1, manuscript2);
+		firstConferenceReviewer(theConference, manuscript1, manuscript2);
 		
 	}
 	
@@ -176,20 +176,20 @@ public class DataForConference {
 		String dateReview = "02-08-2017";
 		String dateRecomendation = "02-09-2017";
 		String dateDecision = "02-10-2017";
-		Conference firstConference = new Conference(secondConferenceName, secondConferenceProgramChairName, dateConference, 
+		Conference secondConference = new Conference(secondConferenceName, secondConferenceProgramChairName, dateConference, 
 				dateManuscript, dateReview, dateRecomendation, dateDecision);
-		myConferenceList.add(firstConference);
+		myConferenceList.add(secondConference);
 		
 		////////////////////PROGRAM CHAIR ///////////////////////
 		User michael = new User(secondConferenceProgramChairName);
-		ProgramChair pc = new ProgramChair(firstConference, secondConferenceProgramChairName);
+		ProgramChair pc = new ProgramChair(secondConference, secondConferenceProgramChairName);
 		michael.addRole(pc);
 		myUsers.put(secondConferenceProgramChairName, michael);
-		michael.switchConference(firstConference);
+		michael.switchConference(secondConference);
 		
 		//CALL OTHER METHODS
-		secondConferenceUser(firstConference);
-		secondConferenceAuthor(firstConference);
+		secondConferenceUser(secondConference);
+		secondConferenceAuthor(secondConference);
 	}
 	
 	private void secondConferenceUser(Conference theConference){
@@ -229,8 +229,8 @@ public class DataForConference {
 		sally.submitManuscript(manuscript5, myMasterList);
 		sally.submitManuscript(manuscript6, myMasterList);
 		
-		secondConferenceReviewer(theConference, manuscript1, manuscript2, manuscript3);
 		secondConferenceSubprogramChair(theConference, manuscript4, manuscript5, manuscript6);
+		secondConferenceReviewer(theConference, manuscript1, manuscript2, manuscript3);
 		
 	}
 	

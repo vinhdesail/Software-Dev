@@ -195,12 +195,12 @@ public class ProgramChairGUI {
 	 */
 	private void displayAllSubprogramChair(List<SubprogramChair> theList){
 		StringBuilder toDisplay = new StringBuilder();
-		toDisplay.append("\nSelect a Program Chair\n");
+		toDisplay.append("\nSelect a subprogram Chair\n");
 		for(int i = 0; i < theList.size(); i++){
 			toDisplay.append((i + OFFSET) + ". " + theList.get(i).getMyUsername());
 			toDisplay.append("\n");
 		}
-		toDisplay.append("--end of Program Chair list--\n");
+		toDisplay.append("--end of subprogram Chair list--\n");
 		toDisplay.append("0. Back");
 		
 		System.out.println(toDisplay.toString());
