@@ -171,7 +171,7 @@ public class AuthorGUI {
 		if(myIsAuthor){
 			
 			List<Manuscript> listOfManuscript = myRole.showAllMyManuscripts();
-			
+			System.out.println("Select a number for more Detail");
 			HelperGUI.displayManuscripts(listOfManuscript, true);
 			
 			int userSelect = HelperGUI.getSelect(myConsole);

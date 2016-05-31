@@ -334,12 +334,13 @@ public class HelperGUI {
 		do {
 			theConsole.nextLine();
 			System.out.println("Please enter the File Path for the Manuscript (Type \"EXIT\" to Exit)");
+			System.out.println("Example: C:/HowToImproveSoundQuality.txt");
 			manuscriptFile = theConsole.nextLine();		
 			
 			if(manuscriptFile.equalsIgnoreCase("EXIT")){
 				quit = true;
 			} else {
-				System.out.println("The Filed you entered is: " + manuscriptFile + "\nIs This correct? Press 1 for yes, or any integer to try again");
+				System.out.println("The file you entered is: " + manuscriptFile + "\nIs This correct? Press 1 for yes, or any integer to try again");
 				select = getSelect(theConsole);	
 			}
 		} while (select != 1 && !quit);			
