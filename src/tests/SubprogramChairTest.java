@@ -1,17 +1,27 @@
 package tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import model.Conference;
 import model.Manuscript;
+import model.Reviewer;
+import model.Role;
 import model.SubprogramChair;
+import model.User;
 
 public class SubprogramChairTest {
 
@@ -28,6 +38,8 @@ public class SubprogramChairTest {
     private Manuscript fourthManuscript;
     private Manuscript fifthManuscript;
     private Manuscript sixthManuscript;
+    private Map<String, User> myUsers;
+    private List<Role> myReviewers;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -59,7 +71,36 @@ public class SubprogramChairTest {
 		mySubprogramChairThatContainsFourManuscripts.assignManuscripts(thirdManuscript);
 		mySubprogramChairThatContainsFourManuscripts.assignManuscripts(fourthManuscript);	
 		mySubprogramChairThatContainsNoManuscripts = new SubprogramChair("ImASPCWithNoManuscript", myConferenceToTestForAllSPC);
+		
+		myUsers = new HashMap<String, User>();
+		myReviewers = new ArrayList<>();
+		User bob = new User("Bob");
+		Reviewer bobR = new Reviewer("Bob", myConferenceToTestForAllSPC);
+		bob.addRole(bobR);
+		bob.switchConference(myConferenceToTestForAllSPC);
+		bob.autoSetRole();
+		User alice = new User("Alice");
+		Reviewer aliceR = new Reviewer("Alice", myConferenceToTestForAllSPC);
+		alice.addRole(aliceR);
+		alice.switchConference(myConferenceToTestForAllSPC);
+		alice.autoSetRole();
+		myUsers.put("Bob", bob);
+		myUsers.put("Alice", alice);
+		myReviewers.add(bobR);
+		myReviewers.add(aliceR);
+		
 	}
+	
+	/**
+	 * Test for getting a list of reviewers.
+	 */
+	@Test
+	public void testGetAllReviewer(){
+		List<Role> testReviewers = mySubprogramChairThatContainsOneManuscript.getAllReviewer(myUsers);
+		assertEquals(testReviewers, myReviewers);
+	}
+	
+	
 	/**
 	 * Tests if all of the manuscripts that are assigned will show in their assigned list.
 	 */

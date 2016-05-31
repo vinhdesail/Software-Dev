@@ -158,8 +158,7 @@ public class SubprogramChair extends Role implements Serializable {
 		}
 		return true;
 	}
-	
-	//TODO
+
 	/**
 	 * Return all reviewer related to conference.
 	 * @param theUsers Map of all users.
