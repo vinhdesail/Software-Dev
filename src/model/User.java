@@ -103,10 +103,19 @@ public class User implements Serializable {
 		if(!isAuthor){
 			final Author newAuthor = new Author(myName, myConference);
 			myRoles.add(newAuthor);
-			newAuthor.addManuscript(theMasterList, theManu);
+			// Author is expected to test the exceptions thus Client (User class) does not need to check these
+			try{
+				newAuthor.addManuscript(theMasterList, theManu);
+			} catch (IllegalArgumentException e){
+				System.out.println(e.getMessage());
+			}
 		} else {
 			// else, simply add the Manuscript using the already existing Author object
-			userAsAuthor.addManuscript(theMasterList, theManu);
+			try{
+				userAsAuthor.addManuscript(theMasterList, theManu);
+			} catch (IllegalArgumentException e){
+				System.out.println(e.getMessage());
+			}
 		}	
 	}
 	
