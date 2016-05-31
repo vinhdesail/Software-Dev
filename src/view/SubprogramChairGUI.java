@@ -22,37 +22,48 @@ import model.User;
  */
 public class SubprogramChairGUI {
 
-	/** The main console */
-	private Scanner myConsole;	
-	/** The user current selected */
-	private User myUser;	
-	/** The role. */
-	private SubprogramChair myRole;	
-	/** The List of users. */
-	private final Map<String, User> myListOfUser;	
-	/** The Master List. */
-	private final List<Manuscript> myMasterList;	
-	/** The helper GUI */
-	private final HelperGUI myHelper;
-	/** */
+	/* */
 	private static final int ASSIGN_MANUSCRIPT_TO_REVIEWER = 1;
-	/** */
+	/* */
 	private static final int SUBMIT_A_RECOMMENDATION = 2;
-	/** */
-	private static final int LOGOUT = 3;
+	/* */
+	private static final int LOGOUT = 0;
+	/* */
+	private static final int SWITCH_ROLES = -1;
+	/* */
+	private static final int BACK = 0;
+	/* */
+	private static final int OFFSET = 1;
+	/* */
+	private static final int STARTING_POSISTION = -1;
+	/* */
+	private static final int SUBMIT_MANUSCRIPT_FOR_THIS_CONFERENCE = -2;
+	/* The main console */
+	private Scanner myConsole;	
+	/* The user current selected */
+	private User myUser;	
+	/* The role. */
+	private SubprogramChair myRole;	
+	/* The List of users. */
+	private final Map<String, User> myListOfUser;	
+	/* The Master List. */
+	private final List<Manuscript> myMasterList;	
+	/* The helper GUI */
+	private final HelperGUI myHelper;
+
 	/**
 	 * The constructor for the gui.
 	 * @param Scanner The main console.
 	 * @param User The user using the program.
 	 */
 	public SubprogramChairGUI(Scanner theConsole, User theUser, Map<String, User> theListOfUser, List<Manuscript> theMasterList){
-		if(theConsole == null){
+		if(Objects.isNull(theConsole)){
 			throw new IllegalArgumentException("theConsole Cannot be null");
-		} else if( theUser == null ) {
+		} else if( Objects.isNull(theUser) ) {
 			throw new IllegalArgumentException("theUse Cannot be null");
-		} else if(theListOfUser == null) {
+		} else if(Objects.isNull(theListOfUser)) {
 			throw new IllegalArgumentException("theListOfUser Cannot be null");
-		} else if(theMasterList == null) {
+		} else if(Objects.isNull(theMasterList)) {
 			throw new IllegalArgumentException("theMasterList Cannot be null");
 		}
 		myConsole = theConsole;
@@ -92,14 +103,14 @@ public class SubprogramChairGUI {
 				case SUBMIT_A_RECOMMENDATION:
 					optionSubmitARecommendationMenu();
 					break;
-				case 0:
+				case LOGOUT:
 					System.out.println();
 					logout = true;
 					break;
-				case -1:
+				case SWITCH_ROLES:
 					switchRole = myHelper.selectRole(myConsole, myUser);
 					break;
-				case -2:
+				case SUBMIT_MANUSCRIPT_FOR_THIS_CONFERENCE:
 					HelperGUI.submitManuscript(myConsole, myUser, myMasterList);
 					break;
 			}
@@ -113,17 +124,17 @@ public class SubprogramChairGUI {
 		System.out.println(myHelper);
 		boolean exit = false;
 		do{
-			int select = -1;
+			int select = STARTING_POSISTION;
 			System.out.println("Please Select a Manuscript for your recommendation");			
 			List<Manuscript> tempList = myRole.showAllAssignedManuscripts();
 			HelperGUI.displayManuscripts(tempList, true);
 			select = HelperGUI.getSelect(myConsole);
 			
-			if(select == 0){
+			if(select == BACK){
 				System.out.println(HelperGUI.BACK);
 				exit = true;
 			} else {
-				Manuscript editManu = tempList.get(select - 1); 
+				Manuscript editManu = tempList.get(select - OFFSET); 
 				myConsole.nextLine();
 				System.out.println("Write a recommendation \n(or \"EXIT\" to quit or \"BACK\" to select a different manuscript) ");
 				System.out.println("--: ");
@@ -179,7 +190,7 @@ public class SubprogramChairGUI {
 		List<Manuscript> listOfManu = myRole.showAllAssignedManuscripts();
 		HelperGUI.displayManuscripts(listOfManu, true);
 		selection = HelperGUI.getSelect(myConsole);
-		if(selection == 0) {
+		if(selection == BACK) {
 			return null;
 		}
 		manuscriptThatHasBeenSelected = listOfManu.get(selection-1);	
@@ -192,7 +203,7 @@ public class SubprogramChairGUI {
 	 */
 	private Reviewer reviewerSelectionMenu() {
 		Role reviewerThatHasBeenSelected;
-		int select = -1;
+		int select = STARTING_POSISTION;
 		List<Role> listOfReviewers = myRole.getAllReviewer(myListOfUser);
 		System.out.println("Please Select a reviewer to be assigned");
 		StringBuilder toPrint = new StringBuilder();
@@ -203,7 +214,7 @@ public class SubprogramChairGUI {
 		toPrint.append('\n');
 		
 		for(int i = 0; i < listOfReviewers.size(); i++) {
-			toPrint.append((i + 1) + ". ");
+			toPrint.append((i + OFFSET) + ". ");
 			Reviewer rev = (Reviewer) listOfReviewers.get(i);
 			String toAppend = String.format(HelperGUI.FORMAT_TABLE, rev.getMyUsername(), rev.getAssignmentSize());
 			toPrint.append(toAppend);
@@ -212,10 +223,10 @@ public class SubprogramChairGUI {
 		System.out.println(toPrint);
 		System.out.println("0. Back");
 		select = HelperGUI.getSelect(myConsole);
-		if(select == 0) {
+		if(select == BACK) {
 			return null;
 		}
-		reviewerThatHasBeenSelected = listOfReviewers.get(select-1);
+		reviewerThatHasBeenSelected = listOfReviewers.get(select-OFFSET);
 		return (Reviewer) reviewerThatHasBeenSelected;
 		
 	}

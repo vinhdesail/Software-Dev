@@ -40,7 +40,7 @@ public class SubprogramChairTest {
     private Manuscript sixthManuscript;
     private Map<String, User> myUsers;
     private List<Role> myReviewers;
-	
+    private List<Role> myReviewersToBeComparedWithOtherReviewers;
 	@Before
 	public void setUp() throws Exception {
 		Calendar conferenceDate = new GregorianCalendar(2016,10,17);
@@ -88,7 +88,7 @@ public class SubprogramChairTest {
 		myUsers.put("Alice", alice);
 		myReviewers.add(bobR);
 		myReviewers.add(aliceR);
-		
+		myReviewersToBeComparedWithOtherReviewers = mySubprogramChairThatContainsOneManuscript.getAllReviewer(myUsers);
 	}
 	
 	/**
@@ -96,8 +96,7 @@ public class SubprogramChairTest {
 	 */
 	@Test
 	public void testGetAllReviewer(){
-		List<Role> testReviewers = mySubprogramChairThatContainsOneManuscript.getAllReviewer(myUsers);
-		assertEquals(testReviewers, myReviewers);
+		assertEquals(myReviewersToBeComparedWithOtherReviewers, myReviewers);
 	}
 	
 	
@@ -139,14 +138,6 @@ public class SubprogramChairTest {
 		} catch (IllegalArgumentException theException) {
 			   
 		} 				
-	}
-	
-	@Test
-	public void submitRecomendationTest() {
-			    
-	    assertEquals(firstManuscript.getRecommendation().getSubprogramChairID(),"ImASPC");
-	    assertEquals(firstManuscript.getRecommendation().getManuscriptTitle(),"How To Manage Money in the new age");
-		assertEquals(firstManuscript.getRecommendation().getRecommmendationText(),"This Paper was alright. It seemed to lack substance.");
 	}
 	
 	@Test
@@ -227,15 +218,6 @@ public class SubprogramChairTest {
 		} catch (IllegalArgumentException theException) {
 			   
 		} 				
-	}
-	
-	@Test
-	public void editRecomendationTest() {
-	    mySubprogramChairThatContainsOneManuscript.editRecomendation(firstManuscript, "New Text");
-	    
-	    assertEquals(firstManuscript.getRecommendation().getSubprogramChairID(),"ImASPC");
-	    assertEquals(firstManuscript.getRecommendation().getManuscriptTitle(),"How To Manage Money in the new age");
-		assertEquals(firstManuscript.getRecommendation().getRecommmendationText(),"New Text");
 	}
 	
 	@Test

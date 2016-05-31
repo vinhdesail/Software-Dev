@@ -6,57 +6,63 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Manuscript class description
+ * Manuscript Objects maintain data about a submitted paper.
  * @author Edie Megan Campbell
  * @version 2016.05.05
  */
 public class Manuscript implements Serializable {
 	
-	/** Generated Serialization number. */
+	/** integer code for a manuscript that has been rejected by the program chair. */
+	public static final int REJECT = -1;
+	
+	/** integer code for a manuscript that has been accepted by the program chair. */
+	public static final int ACCEPT = 1;
+	
+	/** integer code for a manuscript that the program chair has not made a decision on yet. */
+	public static final int UNDECIDED = 0;
+	
 	private static final long serialVersionUID = 7127767408772156417L;
 
-	/** Manuscript acceptance status: -1 = rejected, 0 = no decision, 1 = accepted. */
+	/* Manuscript acceptance status: -1 = rejected, 0 = no decision, 1 = accepted. */
 	private int myStatus;
 	
-	/** List of all received Reviews for this Manuscript. */
+	/* List of all received Reviews for this Manuscript. */
 	private List<Review> myReviews;
 	
-	/** The Recommendation given by the SubProgram Chair to this Manuscript. */
+	/* The Recommendation given by the SubProgram Chair to this Manuscript. */
 	private Recommendation myRecommendation;
 	
-	/** Author is identified by their unique ID (username). */
+	/* Author is identified by their unique ID (username). */
 	private final String myAuthorID;
 	
-	/** Conference is identified by conference ID. */
+	/* Conference is identified by conference ID. */
 	private final String myConference;
 	
-	/** Each Manuscript must have a Title for identification. */
+	/* Each Manuscript must have a Title for identification. */
 	private String myTitle;
 	
-	/** The full text of the manuscript itself, as a String. */
-	private String myURL;
+	/* The file path that directs to the text file of this Manuscript. */
+	private String myFilePath;
 	
 	private boolean myHasBeenAssignedToASubprogramChair;
 	
-//	/** 
-//	 * The no-argument constructor creates a Manuscript object but all fields must be manually
-//	 * set user setter methods.
-//	 */
-//	public Manuscript() {
-//		myStatus = 0;
-//		myReviews = new ArrayList<Review>();
-//	}
-	
 	/**
-	 * Creates a Manuscript object with all fields specified by parameters.
 	 * @param theAuthorID - the Author's unique username (User ID)
 	 * @param theConference - the Conference's unique ID
 	 * @param theTitle - the Manuscript's title
-	 * @param theURL - the URL to the file location that contains the Manuscript text
+	 * @param theFilePath - the file location that contains the Manuscript text
 	 */
 	public Manuscript(String theAuthorID, String theConference, String theTitle, 
-			String theURL) {
-		
+			String theFilePath) {
+		if (Objects.isNull(theAuthorID)) {
+			throw new IllegalArgumentException("Author ID cannot be null.");
+		} else if (Objects.isNull(theConference)) {
+			throw new IllegalArgumentException("Conference ID cannot be null.");
+		} else if (Objects.isNull(theTitle)) {
+			throw new IllegalArgumentException("Title cannot be null.");
+		} else if (Objects.isNull(theFilePath)) {
+			throw new IllegalArgumentException("File Path cannot be null.");
+		}
 		myStatus = 0;
 		myReviews = new ArrayList<Review>();
 		myRecommendation = null;
@@ -65,42 +71,47 @@ public class Manuscript implements Serializable {
 		myConference = theConference;
 		myTitle = theTitle;
 		
-		myURL = theURL;
+		myFilePath = theFilePath;
 		myHasBeenAssignedToASubprogramChair = false;
 	}
 	
 	/**
 	 * TEST ONLY
-	 * Overloaded constructor for Reviewer test class, allows creating a Manuscript with a specific
-	 * list of Reviews already in place.
+	 * Overloaded constructor for Reviewer and Manuscript test classes, allows creating a 
+	 * Manuscript with a specific list of Reviews already in place.
 	 * @param theAuthorID - the Author's unique username (User ID)
 	 * @param theConference - the Conference's unique ID
 	 * @param theTitle - the Manuscript's title
-	 * @param theURL - the URL to the file location that contains the Manuscript text
+	 * @param theFilePath - The path that directs to the text file of this Manuscript.
 	 * @param theReviews - the List of Reviews to associate with this Manuscript
 	 */
 	public Manuscript(String theAuthorID, String theConference, String theTitle, 
-			String theURL, List<Review> theReviews) {	
+			String theFilePath, List<Review> theReviews) {	
+		if (Objects.isNull(theAuthorID) || Objects.isNull(theConference) || Objects.isNull(theTitle)
+				|| Objects.isNull(theFilePath) || Objects.isNull(theReviews)) {
+			throw new IllegalArgumentException("Null parameter passed to TEST ONLY constructor");
+		}
 		myStatus = 0;
-		myReviews = new ArrayList<Review>();
 		myRecommendation = null;
+		
 		myAuthorID = theAuthorID;
 		myConference = theConference;
 		myTitle = theTitle;
-		myURL = theURL;
-		myReviews = theReviews;
+		myFilePath = theFilePath;
+		myReviews = new ArrayList<Review>(theReviews);
 		myHasBeenAssignedToASubprogramChair = false;
 	}
 	
 	/**
 	 * Getter for the acceptance status of this Manuscript
-	 * @return -1 if rejected, 0 if undecided, 1 if accepted
+	 * @return integer status code: -1 if rejected, 0 if undecided, 1 if accepted
 	 */
 	public int getStatus() {
 		return myStatus;
 	}
+	
 	/**
-	 * Returns the status of the manuscript, namely if the manuscript has been assigned to a Subprogram Chair.
+	 * Returns whether the manuscript has been assigned to a Subprogram Chair or not.
 	 * @return True if this given manuscript has been assigned to a Subprogram Chair, false if it has not. 
 	 */
 	public boolean hasBeenAssignedToASubprogramChair() {
@@ -108,11 +119,12 @@ public class Manuscript implements Serializable {
 	}
 	
 	/**
-	 * Sets this given Manuscript's statues to be true that it has been assigned to a Subprogram Chair.
+	 * Sets this given Manuscript's status to be true that it has been assigned to a Subprogram Chair.
 	 */
-	public void becomeAssignedASubprogramChair() {
+	public void setAssignedASubprogramChair() {
 		myHasBeenAssignedToASubprogramChair = true;
 	}
+	
 	/**
 	 * Getter for the list of received Reviews for this Manuscript.
 	 * @return the ArrayList of Reviews (may be an empty list if no Reviews received)
@@ -155,35 +167,44 @@ public class Manuscript implements Serializable {
 	}
 	
 	/**
-	 * Getter for the full text of the Manuscript itself.
-	 * @return the text of the Manuscript as a String
+	 * Getter for file path of the Manuscript itself.
+	 * @return the path of the text file containing this manuscript as a String
 	 */
-	public String getText() {
-		return myURL;
+	public String getFilePath() {
+		return myFilePath;
 	}
 	
 	/**
-	 * Adds a Review to this Manuscript's list of received Reviews
+	 * Adds a Review to this Manuscript's list of received Reviews.
 	 * @param theReview
+	 * @throws IllegalArgumentException if theReview is null or is not for this Manuscript
 	 */
 	public void addReview(Review theReview) {
+		if (Objects.isNull(theReview)) {
+			throw new IllegalArgumentException("Review cannot be null.");
+		} else if (!theReview.getManuscriptTitle().equals(myTitle)) {
+			throw new IllegalArgumentException("Review is not for Manuscript: " + myTitle);
+		}
 		myReviews.add(theReview);
 	}
 	
 	/**
 	 * For use when a Reviewer is editing their Review of a Manuscript. The old Review is
 	 * removed and the new one may be added via the addReview method (above).
-	 * @param theReview the old Review to remove from the list
-	 * @return true if the Review was found and removed, false if theReview was not in list.
+	 * @param theReview is the old Review to remove from the list
+	 * @throws IllegalArgumentException if theReview is null, is not for this Manuscript, or
+	 * is not found in this Manuscript's list of Reviews
 	 */
-	public boolean removeReview(Review theReview) {
-		for (int i = 0; i < myReviews.size(); i++) {
-			if (myReviews.get(i).equals(theReview)) {
-				myReviews.remove(i);
-				return true;
-			}
+	public void removeReview(Review theReview) {
+		if (Objects.isNull(theReview)) {
+			throw new IllegalArgumentException("Review cannot be null.");
+		} else if (!theReview.getManuscriptTitle().equals(myTitle)) {
+			throw new IllegalArgumentException("Review is not for Manuscript: " + myTitle);
+		} else if (!myReviews.contains(theReview)) {
+			throw new IllegalArgumentException("Review was not found in Manuscript's list.");
 		}
-		return false;
+		myReviews.remove(theReview);
+		
 	}
 	
 	/**
@@ -191,6 +212,14 @@ public class Manuscript implements Serializable {
 	 * @param theRecommendation the Recommendation made for this Manuscript
 	 */
 	public void setRecommendation(Recommendation theRecommendation) {
+		if (Objects.isNull(theRecommendation)) {
+			throw new IllegalArgumentException("Recommendation cannot be null.");
+		} else if (!theRecommendation.getManuscriptTitle().equals(myTitle)) {
+			throw new IllegalArgumentException("Recommendation is not for Mansucript: " + myTitle);
+		} else if (!myHasBeenAssignedToASubprogramChair) {
+			throw new IllegalArgumentException("Manuscript has not been assigned to a Subprogram "
+					+ "Chair for recommendation.");
+		}
 		myRecommendation = theRecommendation;
 	}
 	
@@ -199,6 +228,9 @@ public class Manuscript implements Serializable {
 	 * @param newTitle the new Title of the Manuscript
 	 */
 	public void setTitle(String newTitle) {
+		if (Objects.isNull(newTitle)) {
+			throw new IllegalArgumentException("Title cannot be null");
+		}
 		myTitle = newTitle;
 	}
 	
@@ -206,15 +238,21 @@ public class Manuscript implements Serializable {
 	 * Setter for editing the Text of a Manuscript (by replacing old text with new)
 	 * @param newText the new full Text of the edited Manuscript
 	 */
-	public void setText(String newText) {
-		myURL = newText;
+	public void setFilePath(String newFilePath) {
+		if (Objects.isNull(newFilePath)) {
+			throw new IllegalArgumentException("File path cannot be null");
+		}
+		myFilePath = newFilePath;
 	}
 	
 	/**
 	 * Setter for Program Chair to decide whether to accept or reject a paper.
-	 * @param theStatus - int, -1 if Manuscript is rejected, 1 if Manuscript is accepted.
+	 * @param theStatus: integer, -1 if Manuscript is rejected, 1 if Manuscript is accepted.
 	 */
 	public void setStatus(int theStatus) {
+		if (theStatus != REJECT && theStatus != ACCEPT && theStatus != UNDECIDED) {
+			throw new IllegalArgumentException("Invalid status code");
+		}
 		myStatus = theStatus;
 	}
 	
@@ -231,8 +269,8 @@ public class Manuscript implements Serializable {
 		sb.append(myAuthorID);
 		sb.append("\nConference: ");
 		sb.append(myConference);
-		sb.append("\n\n");
-		sb.append(myURL);
+		sb.append("\nFile Path: ");
+		sb.append(myFilePath);
 		sb.append("\n[End of Manuscript]");
 		return sb.toString();
 	}
@@ -272,7 +310,7 @@ public class Manuscript implements Serializable {
 			return false;
 		} else if (!myTitle.equals(other.myTitle)) {
 			return false;
-		} else if (!myURL.equals(other.myURL)) {
+		} else if (!myFilePath.equals(other.myFilePath)) {
 			return false;
 		} 
 			return true;

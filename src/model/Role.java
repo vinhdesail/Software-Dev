@@ -3,36 +3,42 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class that represents a general role that a user is.
  * 
- * @author Joshua Meigs, Vinh Vien
- * @version 1.1
+ * @author Joshua Meigs, Vinh Vien, Edie Megan Campbell
+ * @version 2016.05.31
  */
 public class Role implements Serializable {
 
-	/**
-	 * Serialize number.
-	 */
 	private static final long serialVersionUID = 1419088120307170425L;
-	/** String to hold the current role of the user. */
+	
+	/* String name of this Role. */
 	private String myRoleName;
 	
-	/** The username of the role.  */
+	/* The username of the User acting as this Role.  */
 	private String myUsername;
 	
-	/** The conference for that role. */
+	/* The Conference associated with this Role. */
 	private Conference myConference;
 
 	/**
-	 * A constructor to take in conference as a field also.
-	 * @param roleType The role type.
-	 * @param username The username.
-	 * @param theConference The conference. 
+	 * @param roleName - the name of the Role being constructed as a String
+	 * @param username - the username of the User acting as this Role
+	 * @param theConference - the Conference associated with this Role
+	 * @throws IllegalArgumentException if any of the parameters are null
 	 */
-	public Role(final String roleType, final String username, final Conference theConference) {
-		myRoleName =  roleType;
+	public Role(final String roleName, final String username, final Conference theConference) {
+		if (Objects.isNull(roleName)) {
+			throw new IllegalArgumentException("Role name cannot be null.");
+		} else if (Objects.isNull(username)) {
+			throw new IllegalArgumentException("User name cannot be null.");
+		} else if (Objects.isNull(theConference)) {
+			throw new IllegalArgumentException("Conference cannot be null.");
+		}
+		myRoleName =  roleName;
 		myUsername = username;
 		myConference = theConference;
 	}

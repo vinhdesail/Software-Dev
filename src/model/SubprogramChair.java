@@ -8,14 +8,18 @@ import java.util.Objects;
 
 public class SubprogramChair extends Role implements Serializable {
 
-	/** Generated Serialization number. */
+	/*Generated Serialization number.*/
 	private static final long serialVersionUID = -888370705327456440L;
-	/** A List of all of the Manuscripts that are assigned to this given Subprogram Chair.*/
+	/**/
+	private static final int MAX_AMOUNT_OF_MANUSCRIPTS = 4;
+	/**/
+	private static final int NOT_FOUND = -1;
+	/**/
+	private static final int EMPTY = 0;
+	/*A List of all of the Manuscripts that are assigned to this given Subprogram Chair.*/
 	private ArrayList<Manuscript> myAssignedManuscripts;
 	
-	private static final int MAX_AMOUNT_OF_MANUSCRIPTS = 4;
-	
-	private static final int EMPTY = 0;
+
 	/**
 	 * The constructor for the Subprogram Chair Class.
 	 */
@@ -48,9 +52,10 @@ public class SubprogramChair extends Role implements Serializable {
 	public void assignManuscripts(Manuscript theManuscript) throws IllegalArgumentException{		
 			if(!containsMaxAmmountOfManuscripts()) {
 				int manuscriptFoundAt = (containsManuscriptAt(theManuscript));
-				if(manuscriptFoundAt == -1) {
+				if(manuscriptFoundAt == NOT_FOUND) {
 					if(theManuscript.getConference().equals(this.getConference().getConferenceID())) {
 						myAssignedManuscripts.add(theManuscript);
+						theManuscript.setAssignedASubprogramChair();
 					} else{
 						throw new IllegalArgumentException("The Manuscript being assigned to this SubprogramChair does not match its given conference.");
 					}					
@@ -115,7 +120,7 @@ public class SubprogramChair extends Role implements Serializable {
 		if(myAssignedManuscripts.size() > EMPTY && !containsMaxAmmountOfManuscripts()) { //last part might not be needed.
 			if(containsManuscriptAt(theManuscript) >= EMPTY) {
 				deleteRecomendation(theManuscript);
-				Recommendation recommendation = new Recommendation(super.getMyUsername(), theManuscript.getTitle(), theRecommendationText);
+				Recommendation recommendation = new Recommendation(super.getMyUsername(), theManuscript.getTitle(), theRecommendationText);			
 				theManuscript.setRecommendation(recommendation);									
 			} else {
 				throw new IllegalArgumentException("Manuscript not found");
@@ -140,7 +145,7 @@ public class SubprogramChair extends Role implements Serializable {
 	 * @return The index of where the Manuscript was found, else -1.
 	 */
 	public int containsManuscriptAt(Manuscript theManuscript) {
-		int foundAt = -1;
+		int foundAt = NOT_FOUND;
 		for(int i  = 0; i < myAssignedManuscripts.size(); i++) {
 			if(myAssignedManuscripts.get(i).equals(theManuscript)) {
 				foundAt = i;		
@@ -162,13 +167,13 @@ public class SubprogramChair extends Role implements Serializable {
 	/**
 	 * Return all reviewer related to conference.
 	 * @param theUsers Map of all users.
-	 * @return
+	 * @return A List of all the Reviewers for this conference.
 	 */
 	public List<Role> getAllReviewer(Map<String, User> theUsers){
 		List<Role> toReturn = new ArrayList<>();
 		for(User addUser : theUsers.values()){
 			if(addUser.getConference().equals(getConference())){
-				for(Role role : addUser.getAllRoles()){
+				for(Role role : addUser.getMyConferenceRoles()){
 					if(role instanceof Reviewer){
 						toReturn.add(role);
 					}
@@ -186,7 +191,7 @@ public class SubprogramChair extends Role implements Serializable {
 		if(this.getMyUsername().equals(spc.getMyUsername())) {
 			if(this.myAssignedManuscripts.size() == spc.myAssignedManuscripts.size()) {
 				for(int i = 0; i < this.myAssignedManuscripts.size(); i++) {
-					if(this.containsManuscriptAt(spc.myAssignedManuscripts.get(i)) == -1) {
+					if(this.containsManuscriptAt(spc.myAssignedManuscripts.get(i)) == NOT_FOUND) {
 						return false;
 					}
 				}

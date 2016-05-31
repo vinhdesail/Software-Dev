@@ -20,19 +20,39 @@ import model.User;
  */
 public class ReviewerGUI {
 	
-	/** The main console */
+	
+	/* The Master List. */
+	private final List<Manuscript> myMasterList;
+	/**/
+	private static final int VIEW_MY_ASSIGNED_MANUSCRIPT = 1;
+	/**/
+	private static final int SUBMIT_A_REVIEW = 2;
+	/**/
+	private static final int LOGOUT = 0;
+	/**/
+	private static final int SWITCH_ROLES = -1;
+	/**/
+	private static final int SUBMIT_MANUSCRIPT_TO_MY_CURRENT_CONFERENCE = -2;
+	/**/
+	private static final int OFFSET = 1;
+	/**/
+	private static final int BACK = 0;
+	/**/
+	private static final int START_POSISTION = -1;
+	/**/
+	private static final int SELECT_MANUSCRIPT = 1;
+	/**/
+	private static final int IS_CORRECT = 1;
+	
+	/* The main console */
 	private Scanner myConsole;
 	
-	/** The user current selected */
+	/* The user current selected */
 	private User myUser;
 	
-	/** The role. */
+	/* The role. */
 	private Reviewer myRole;
-	
-	/** The Master List. */
-	private final List<Manuscript> myMasterList;
-	
-	/** The helper GUI */
+	/* The helper GUI */
 	private final HelperGUI myHelper;
 	
 	/**
@@ -79,20 +99,20 @@ public class ReviewerGUI {
 			int select = HelperGUI.getSelect(myConsole);
 			
 			switch (select){
-			case 1:
+			case VIEW_MY_ASSIGNED_MANUSCRIPT:
 				optionToViewManuscriptThatAreBeingReview(true);
 				break;
-			case 2:
+			case SUBMIT_A_REVIEW:
 				optionToSubmitAReview();
 				break;
-			case 0:
+			case LOGOUT:
 				System.out.println();
 				logout = true;
 				break;
-			case -1:
+			case SWITCH_ROLES:
 				switchRole = myHelper.selectRole(myConsole, myUser);
 				break;
-			case -2:
+			case SUBMIT_MANUSCRIPT_TO_MY_CURRENT_CONFERENCE:
 				HelperGUI.submitManuscript(myConsole, myUser, myMasterList);
 				break;
 			}
@@ -124,7 +144,7 @@ public class ReviewerGUI {
 		toDisplay.append(add);
 		toDisplay.append('\n');
 		for(int i = 0; i < theMainList.size(); i++){
-			toDisplay.append((i + 1) + ". ");
+			toDisplay.append((i + OFFSET) + ". ");
 			if(theCompletedList.contains(theMainList.get(i))){
 				String toAppend = String.format(HelperGUI.FORMAT_TABLE, theMainList.get(i).getTitle(), "-True");
 				toDisplay.append(toAppend);
@@ -147,10 +167,10 @@ public class ReviewerGUI {
 		
 		System.out.println("Pick a manuscript to View");
 		int manuscriptPick = HelperGUI.getSelect(myConsole);
-		if(manuscriptPick == 0){
+		if(manuscriptPick == BACK){
 			System.out.println(HelperGUI.BACK);
 		} else {
-			System.out.println(theManuscripts.get(manuscriptPick - 1).toString());
+			System.out.println(theManuscripts.get(manuscriptPick - OFFSET).toString());
 		}
 	}
 	
@@ -159,11 +179,11 @@ public class ReviewerGUI {
 		myHelper.setMyActivity("Submit a Review");
 		System.out.println(myHelper);
 		
-		int select = -1;
+		int select = START_POSISTION;
 		boolean quit = false;
 		String reviewURI = "";
-		int recheck = -1; 
-		int selectedManuscript = -1;
+		int recheck = START_POSISTION; 
+		int selectedManuscript = START_POSISTION;
 		
 		List<Manuscript> listOfManu = myRole.getMyManuscripts();
 		do{
@@ -173,16 +193,16 @@ public class ReviewerGUI {
 			System.out.println("Please Pick a Manuscript");
 			selectedManuscript = HelperGUI.getSelect(myConsole);
 			
-			if(selectedManuscript == 0){
+			if(selectedManuscript == BACK){
 				quit = true;
 			} else {
 				
-				System.out.println("Are you sure you want this manuscript(1 for Yes, any integer for no)? \n" + listOfManu.get(selectedManuscript - 1));
+				System.out.println("Are you sure you want this manuscript(1 for Yes, any integer for no)? \n" + listOfManu.get(selectedManuscript - OFFSET));
 				recheck = HelperGUI.getSelect(myConsole);
 			}
-		}while (recheck != 1 && !quit);
+		}while (recheck != SELECT_MANUSCRIPT && !quit);
 		
-		while (select != 1 && !quit) {
+		while (select != IS_CORRECT && !quit) {
 			myConsole.nextLine();
 			System.out.println("Please enter the File Path for the Review (Type \"EXIT\" to Exit)");
 			reviewURI = myConsole.nextLine();		
@@ -196,7 +216,7 @@ public class ReviewerGUI {
 		}	
 		
 		if(!quit){
-			myRole.submitReview(listOfManu.get(selectedManuscript - 1), reviewURI);
+			myRole.submitReview(listOfManu.get(selectedManuscript - OFFSET), reviewURI);
 		}
 		
 	}

@@ -9,16 +9,16 @@ import java.io.Serializable;
  */
 public class Recommendation implements Serializable {
 	
-	/** Generated Serialization number. */
+	/* Generated Serialization number. */
 	private static final long serialVersionUID = 3412683669998140643L;
 
-	/** Subprogram Chair is identified by their unique ID (username). */
+	/* Subprogram Chair is identified by their unique ID (username). */
 	private String mySubprogramChairID;
 	
-	/** The title of the Manuscript being reviewed (for reference to keep organized). */
+	/* The title of the Manuscript being reviewed (for reference to keep organized). */
 	private String myManuscriptTitle;
 	
-	/** The full text of the Recommendation itself, as a String. */
+	/* The full text of the Recommendation itself, as a String. */
 	private String myRecommendationText;
 	
 	/**

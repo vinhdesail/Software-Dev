@@ -32,20 +32,24 @@ public class HelperGUI {
 	
 	/** Formatter Layout */
 	public static final String FORMAT_TABLE = "%-40s %-30s";
+	/**/
+	private static final int BACK_OPTION = 0;
+	/**/
+	private static final int OFFSET = 1;
 	
-	/** The Username. */
+	/* The Username. */
 	private String myUsername;
 	
-	/** The Role. */
+	/*The Role. */
 	private String myRoleName;
 	
-	/** The Conference name. */
+	/* The Conference name. */
 	private String myConferenceName;
 	
-	/** The Activity At the Time. */
+	/* The Activity At the Time. */
 	private String myActivity;
 	
-	/** The submission Deadline for manuscript */
+	/* The submission Deadline for manuscript */
 	private String myDeadline;
 	
 	/**
@@ -185,7 +189,7 @@ public class HelperGUI {
 		StringBuilder toDisplay = new StringBuilder();
 		toDisplay.append("\n---Manuscripts---\n");
 		for(int i = 0; i < theList.size(); i++){
-			toDisplay.append((i + 1) + ". " + theList.get(i).getTitle());
+			toDisplay.append((i + OFFSET) + ". " + theList.get(i).getTitle());
 			toDisplay.append("\n");
 		}
 		toDisplay.append("--end of manuscript list--\n");
@@ -204,7 +208,7 @@ public class HelperGUI {
 		StringBuilder toDisplay = new StringBuilder();
 		toDisplay.append("\n---Reviews---\n");
 		for(int i = 0; i < theList.size(); i++){
-			toDisplay.append((i + 1) + ". " + theList.get(i).getManuscriptTitle());
+			toDisplay.append((i + OFFSET) + ". " + theList.get(i).getManuscriptTitle());
 			toDisplay.append("\n");
 		}
 		toDisplay.append("--end of reviews list--\n");
@@ -275,13 +279,13 @@ public class HelperGUI {
 		Role currentRole = null;
 		boolean validRole = false;
 		StringBuilder tempString = new StringBuilder();
-		List<Role> tempRole = theUser.getAllRoles();
+		List<Role> tempRole = theUser.getMyConferenceRoles();
 		
 		// IF USER ACTUALLY HAVE ROLE
 		if(theUser.hasRole()){
 			tempString.append("\n--------Showing all Role for this Conference--------\n");
 			for(int i = 0; i < tempRole.size(); i++){
-				tempString.append(i + 1);
+				tempString.append(i + OFFSET);
 				tempString.append(". ");
 				tempString.append(tempRole.get(i).getRole());
 				tempString.append("\n");
@@ -297,11 +301,11 @@ public class HelperGUI {
 				System.out.println(tempString);
 				int selected = getSelect(theConsole);
 				
-				if(selected == 0){
+				if(selected == BACK_OPTION){
 					validRole = true;
 				} else {
 					try{
-						currentRole = tempRole.get(selected - 1);
+						currentRole = tempRole.get(selected - OFFSET);
 						theUser.switchRole(currentRole);
 						validRole = true;
 						System.out.println("Role Change Successful");

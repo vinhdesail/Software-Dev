@@ -39,10 +39,13 @@ import model.User;
  */
 public class LogIn {
 	
+	private static final int OFFSET = 1;
+	
 	/**
 	 * The master list of manuscript.
 	 */
 	private List<Manuscript> myMasterList;
+	
 	
 	/**
 	 * The hash of users and there names.
@@ -205,7 +208,7 @@ public class LogIn {
 		
 		StringBuilder temp = new StringBuilder();
 		for(int i = 0; i < myConferences.size(); i++){
-			temp.append(i + 1);
+			temp.append(i + OFFSET);
 			temp.append(". ");
 			temp.append(myConferences.get(i).getConferenceID());
 			temp.append('\n');
@@ -214,8 +217,8 @@ public class LogIn {
 		System.out.println("What conference?");
 		System.out.println(temp.toString());
 		int select = HelperGUI.getSelect(theConsole);
-		theUser.switchConference(myConferences.get(select - 1));
-		System.out.println("You selected: " + myConferences.get(select - 1).getConferenceID());
+		theUser.switchConference(myConferences.get(select - OFFSET));
+		System.out.println("You selected: " + myConferences.get(select - OFFSET).getConferenceID());
 		
 	}
 	
