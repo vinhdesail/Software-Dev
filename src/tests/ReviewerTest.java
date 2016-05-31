@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Before;
@@ -21,6 +23,11 @@ public class ReviewerTest {
 	private Conference testCon;
 	private String conferenceID = "Conference ID";
 	private String programChairID = "Program Chair ID";
+	private Calendar conferenceDate = new GregorianCalendar(2016,10,17);
+	private Calendar manuscriptDueDate = new GregorianCalendar(2016,9,1);
+	private Calendar reviewDueDate = new GregorianCalendar(2016,9,19);
+	private Calendar recommendationDueDate = new GregorianCalendar(2016,10,1);
+	private Calendar decisionDueDate = new GregorianCalendar(2016,10,1);
 	private Reviewer reviewerAssignedToManuscript;
 	private Reviewer reviewerNotAssignedToManuscript;
 	private Reviewer reviewerAssignedToSingleManuscript;
@@ -60,8 +67,8 @@ public class ReviewerTest {
 		expectedReview2 = new Review(reviewer2ID, title, review2FilePath);
 		expectedEdit1 = new Review(reviewer1ID, title, review2FilePath);
 		
-		testCon = new Conference(conferenceID, programChairID, "01-12-2016", "01-06-2016", 
-									"01-08-2016", "01-09-2016", "01-10-2016");
+		testCon = new Conference(conferenceID, programChairID, conferenceDate, manuscriptDueDate, 
+									reviewDueDate, recommendationDueDate, decisionDueDate);
 		
 		manuscriptStartingWithNoReviews = new Manuscript(authorID, conferenceID, title, textURL);
 		otherManuscriptStartingWithNoReviews = new Manuscript(authorID, conferenceID, textURL, title);

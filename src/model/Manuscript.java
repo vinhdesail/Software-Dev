@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Manuscript Objects maintain data about a submitted paper.
  * @author Edie Megan Campbell
- * @version 2016.05.05
+ * @version 2016.05.31
  */
 public class Manuscript implements Serializable {
 	
@@ -276,48 +276,25 @@ public class Manuscript implements Serializable {
 	}
 	
 	/**
+	 * {@inheritDoc}
 	 * Overrides the Object equals method to compare all fields.
 	 */
 	@Override
 	public boolean equals(Object theOther) {
-		boolean skipper = true;//Will better work this in later.
-		// first check that theOther Object is a Manuscript
-		if (!theOther.getClass().equals(this.getClass())) {
+		if (!(theOther instanceof Manuscript)) {
 			return false;
 		}
-		// cast theOther as a Manuscript (called other)
-		Manuscript other = (Manuscript) theOther;
-		// compare all fields for equality
-		
-		 if (Objects.isNull(myRecommendation) || Objects.isNull(other.myRecommendation)) {
-			    if(Objects.nonNull(myRecommendation) && Objects.isNull(((Manuscript)theOther).myRecommendation)) {
-			    	return false;
-			    } else if(Objects.isNull(myRecommendation) && Objects.nonNull(other.myRecommendation)) {
-			    	return false;
-			    } else {
-			    	skipper = false;		    	
-			    }
-		}
-		if (myStatus != other.myStatus) {
-			return false;
-		} else if (!myReviews.equals(other.myReviews)) {
-			return false;
-		} else if(skipper && !myRecommendation.equals(other.getRecommendation())) {  
-			return false;
-		} else if (!myAuthorID.equals(other.myAuthorID)) {
-			return false;
-		} else if (!myConference.equals(other.myConference)) {
-			return false;
-		} else if (!myTitle.equals(other.myTitle)) {
-			return false;
-		} else if (!myFilePath.equals(other.myFilePath)) {
-			return false;
-		} 
-			return true;
-		
+		Manuscript otherManuscript = (Manuscript) theOther;
+		return myAuthorID.equals(otherManuscript.myAuthorID) && myConference.equals(otherManuscript.myConference)
+				&& myFilePath.equals(otherManuscript.myFilePath) 
+				&& myHasBeenAssignedToASubprogramChair == otherManuscript.myHasBeenAssignedToASubprogramChair
+				&& myRecommendation.equals(otherManuscript.myRecommendation)
+				&& myReviews.equals(otherManuscript.myReviews) && myStatus == otherManuscript.myStatus
+				&& myTitle.equals(otherManuscript.myTitle);
 	}
 	
 	/**
+	 * {@inheritDoc}
 	 * Overrides the Object hashCode method for consistency with the overridden equals method.
 	 */
 	public int hashCode() {

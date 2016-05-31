@@ -4,6 +4,8 @@
  */
 package view;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +18,8 @@ import model.SubprogramChair;
 import model.User;
 
 /**
- * @author Vinh Vien
- *
+ * @author Vinh Vien, Edie Megan Campbell
+ * @version 2016.05.31
  */
 public class DataForConference {
 	
@@ -53,13 +55,14 @@ public class DataForConference {
 		//CONFERENCE AND PROGRAM CHAIRS
 		String firstConferenceProgramChairName = "Sally";
 		String firstConferenceName = "IEEE Conf. on Acoustics Speech";
-		String dateConference = "02-11-2016";
-		String dateManuscript = "02-07-2016";
-		String dateReview = "02-08-2016";
-		String dateRecomendation = "02-09-2016";
-		String dateDecision = "02-10-2016";
+		Calendar dateConference = new GregorianCalendar(2016, 11, 2);
+		Calendar dateManuscript = new GregorianCalendar(2016, 7, 2);
+		Calendar dateReview = new GregorianCalendar(2016, 8, 2);
+		Calendar dateRecommendation = new GregorianCalendar(2016, 9, 2);
+		Calendar dateDecision = new GregorianCalendar(2016, 10, 2);
+		
 		Conference firstConference = new Conference(firstConferenceName, firstConferenceProgramChairName, dateConference, 
-				dateManuscript, dateReview, dateRecomendation, dateDecision);
+				dateManuscript, dateReview, dateRecommendation, dateDecision);
 		myConferenceList.add(firstConference);
 		
 		//////////////////// PROGRAM CHAIR ///////////////////////
@@ -118,8 +121,8 @@ public class DataForConference {
 		robert.submitManuscript(manuscript6, myMasterList);
 		myUsers.put(robertName, robert);
 		
-		firstConferenceReviewer(theConference, manuscript1, manuscript2);
 		firstConferenceSubprogramChair(theConference, manuscript1, manuscript2);
+		firstConferenceReviewer(theConference, manuscript1, manuscript2);
 		
 	}
 	
@@ -171,25 +174,26 @@ public class DataForConference {
 	public void secondConference(){
 		String secondConferenceProgramChairName = "Michael";
 		String secondConferenceName = "IEEE Image Processing Conference";
-		String dateConference = "02-11-2017";
-		String dateManuscript = "02-07-2017";
-		String dateReview = "02-08-2017";
-		String dateRecomendation = "02-09-2017";
-		String dateDecision = "02-10-2017";
-		Conference firstConference = new Conference(secondConferenceName, secondConferenceProgramChairName, dateConference, 
-				dateManuscript, dateReview, dateRecomendation, dateDecision);
-		myConferenceList.add(firstConference);
+
+		Calendar dateConference = new GregorianCalendar(2017, 11,2);
+		Calendar dateManuscript = new GregorianCalendar(2017, 7, 2);
+		Calendar dateReview = new GregorianCalendar(2017, 8, 2);
+		Calendar dateRecommendation = new GregorianCalendar(2017, 9, 2);
+		Calendar dateDecision = new GregorianCalendar(2017, 10, 2);
+		Conference secondConference = new Conference(secondConferenceName, secondConferenceProgramChairName, dateConference, 
+				dateManuscript, dateReview, dateRecommendation, dateDecision);
+		myConferenceList.add(secondConference);
 		
 		////////////////////PROGRAM CHAIR ///////////////////////
 		User michael = new User(secondConferenceProgramChairName);
-		ProgramChair pc = new ProgramChair(firstConference, secondConferenceProgramChairName);
+		ProgramChair pc = new ProgramChair(secondConference, secondConferenceProgramChairName);
 		michael.addRole(pc);
 		myUsers.put(secondConferenceProgramChairName, michael);
-		michael.switchConference(firstConference);
+		michael.switchConference(secondConference);
 		
 		//CALL OTHER METHODS
-		secondConferenceUser(firstConference);
-		secondConferenceAuthor(firstConference);
+		secondConferenceUser(secondConference);
+		secondConferenceAuthor(secondConference);
 	}
 	
 	private void secondConferenceUser(Conference theConference){
@@ -229,8 +233,8 @@ public class DataForConference {
 		sally.submitManuscript(manuscript5, myMasterList);
 		sally.submitManuscript(manuscript6, myMasterList);
 		
-		secondConferenceReviewer(theConference, manuscript1, manuscript2, manuscript3);
 		secondConferenceSubprogramChair(theConference, manuscript4, manuscript5, manuscript6);
+		secondConferenceReviewer(theConference, manuscript1, manuscript2, manuscript3);
 		
 	}
 	

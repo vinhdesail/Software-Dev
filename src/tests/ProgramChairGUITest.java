@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -30,13 +32,19 @@ public class ProgramChairGUITest {
 	private List<Manuscript> myManuscriptList;
 	private Manuscript myFirstManuscript;
 	private Manuscript mySecondManuscript;
-	private Manuscript myThirdManuscript;
 	
 	private List<SubprogramChair> myListOfSubprogramChair;
 	private SubprogramChair mySubprogramChairWithOnePaper;
 	private SubprogramChair mySubprogramChairWithNoPaper;
 	
+	private String programChairID = "Sally";
+	
 	private Conference myConference;
+	private Calendar conferenceDate = new GregorianCalendar(2016,10,17);
+	private Calendar manuscriptDueDate = new GregorianCalendar(2016,9,1);
+	private Calendar reviewDueDate = new GregorianCalendar(2016,9,19);
+	private Calendar recommendationDueDate = new GregorianCalendar(2016,10,1);
+	private Calendar decisionDueDate = new GregorianCalendar(2016,10,1);	
 	
 	private String CONFERENCE_NAME = "Work Environment";
 	
@@ -53,7 +61,8 @@ public class ProgramChairGUITest {
 	@Before
 	public void setUp() throws Exception {
 		// Made conference
-		myConference = new Conference(CONFERENCE_NAME, "Sally", "05-11-2016", "05-07-2016", "05-08-2016", "05-09-2016", "05-10-2016");
+		myConference = new Conference(CONFERENCE_NAME, programChairID, conferenceDate, 
+				manuscriptDueDate, reviewDueDate, recommendationDueDate, decisionDueDate);
 		// Make List of Manuscript
 		myManuscriptList = new ArrayList<>();
 		myFirstManuscript = new Manuscript("Bob", CONFERENCE_NAME, "Ways to Increase Productivity", "C:\\Document\\WayIncreaseProductivity.txt");
