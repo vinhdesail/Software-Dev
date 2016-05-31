@@ -216,9 +216,7 @@ public class User implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object theOther){
-		if (Objects.isNull(theOther)) {
-			return false;
-		} else if (!(theOther instanceof User)) {
+		if (!(theOther instanceof User)) {
 			return false;
 		}
 		User otherUser = (User) theOther;

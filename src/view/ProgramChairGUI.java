@@ -272,7 +272,7 @@ public class ProgramChairGUI {
 		
 		boolean back = false;
 		do{
-			List<Manuscript> listManuscript = myRole.getAllManuscriptForThisConference(myMasterList);
+			List<Manuscript> listManuscript = myRole.getAllManuscriptsForThisConference(myMasterList);
 			HelperGUI.displayManuscripts(listManuscript, true);
 			int userSelectedManuscriptNumber = HelperGUI.getSelect(myConsole);
 		
