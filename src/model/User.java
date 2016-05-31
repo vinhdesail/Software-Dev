@@ -220,7 +220,7 @@ public class User implements Serializable {
 			return false;
 		}
 		User otherUser = (User) theOther;
-		return myName.equals(otherUser.myName);
+		return myName.equals(otherUser.myName) && myRoles.equals(otherUser.myRoles);
 	}
 	
 	/**
