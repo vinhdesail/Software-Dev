@@ -1,12 +1,10 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -31,15 +29,11 @@ public class ReviewerTest {
 	private Review expectedReview2;
 	private Review expectedEdit1;
 	
-	private Reviewer reviewer1;
-	private Reviewer reviewer2;
 	private String reviewer1ID = "Reviewer 1's Name";
 	private String reviewer2ID = "Reviewer 2's Name";
 	
-	private String review1Text = "I just loved it.";
-	private String review2Text = "I just hated it.";
-	private String review1Edit = "Acutally, I hated it.";
-	private String review2Edit = "Actually, I loved it.";
+	private String reviewURL1 = "URL of Review where I loved it";
+	private String reviewURL2 = "URL of Review where I hated it";
 	
 	private Manuscript manuscriptStartingWithNoReviews;
 	private Manuscript manuscriptStartingWithOtherReview;
@@ -61,9 +55,9 @@ public class ReviewerTest {
 	@Before
 	public void setup() {
 		
-		expectedReview1 = new Review(reviewer1ID, title, review1Text);
-		expectedReview2 = new Review(reviewer2ID, title, review2Text);
-		expectedEdit1 = new Review(reviewer1ID, title, review1Edit);
+		expectedReview1 = new Review(reviewer1ID, title, reviewURL1);
+		expectedReview2 = new Review(reviewer2ID, title, reviewURL2);
+		expectedEdit1 = new Review(reviewer1ID, title, reviewURL2);
 		
 		testCon = new Conference(conferenceID, programChairID, "01-12-2016", "01-06-2016", 
 									"01-08-2016", "01-09-2016", "01-10-2016");
@@ -98,7 +92,7 @@ public class ReviewerTest {
 		reviewerAssignedToSingleManuscript = new Reviewer(reviewer1ID, testCon, listOfSingleManuscript);
 		
 		listOfMaxNumManuscripts = new ArrayList<Manuscript>();
-		for (int i = 0; i < Reviewer.MAX_PAPERS; i++) {
+		for (int i = 0; i < Reviewer.MAX_MANUSCRIPTS; i++) {
 			listOfMaxNumManuscripts.add(manuscriptStartingWithNoReviews);
 		}
 		reviewerAssignedToMaxNumberManuscripts = new Reviewer(reviewer1ID, testCon, listOfMaxNumManuscripts);
@@ -113,92 +107,103 @@ public class ReviewerTest {
 	@Test
 	public void submitFirstReviewForManuscriptTest() {
 		
-		reviewerAssignedToManuscript.submitReview(manuscriptStartingWithNoReviews, review1Text);
+		reviewerAssignedToManuscript.submitReview(manuscriptStartingWithNoReviews, reviewURL1);
+		
 		// because manuscript started with no submitted reviews, this should be the only Review
-		assertEquals("Manuscript's Review is not equal to Review submitted!",
-				expectedReview1, manuscriptStartingWithNoReviews.getReviews().get(0));
 		assertEquals("Manuscript's number of Reviews was not 1!", 1, 
 				manuscriptStartingWithNoReviews.getReviews().size());
+		
+		// verify that the Review associated with the Manuscript is the expected Review
+		assertEquals("Manuscript's Review is not equal to expected submitted Review!",
+				expectedReview1, manuscriptStartingWithNoReviews.getReviews().get(0));
 	}
 	
 	// successful submit, not the first review submitted for manuscript
 	@Test
 	public void submitNotFirstReviewForManuscriptTest() {
+		assertEquals("Manuscript did not start with 1 Review!", 1, 
+						manuscriptStartingWithOtherReview.getReviews().size());
 		
-		assertEquals("Manuscript did not start with 1 Review!", 1, manuscriptStartingWithOtherReview.getReviews().size());
+		reviewerAssignedToManuscript.submitReview(manuscriptStartingWithOtherReview, reviewURL1);
 		
-		reviewerAssignedToManuscript.submitReview(manuscriptStartingWithOtherReview, review1Text);
-		
-		assertTrue("Review submitted was not found in Manuscript's Review List!", 
-				manuscriptStartingWithOtherReview.getReviews().contains(expectedReview1));
-		assertEquals("Manuscript's number of Reviews was not 2!", 2, 
+		// now the number of Reviews must equal 2
+		assertEquals("Manuscript did not finish with 2 Reviews!", 2, 
 				manuscriptStartingWithOtherReview.getReviews().size());
 		
-		
+		// verify that the expected Review is now associated with the Manuscript
+		assertTrue("Expected submitted Review was not found in Manuscript's Review List!", 
+				manuscriptStartingWithOtherReview.getReviews().contains(expectedReview1));
 	}
 
-	// Reviewer hasn't been assigned to this Manuscript - IllegalArgumentException
+	 /* Reviewer hasn't been assigned to this Manuscript, must throw an IllegalArgumentException
+	  * for both cases:
+	  * 1. with a manuscript with no reviews
+	  * 2. with a manuscript with some reviews
+	  */
 	@Test
 	public void submitReviewForUnassignedManuscriptExceptionTest() {
 		
+		// test for a manuscript with no reviews
 		try {
-			   reviewerNotAssignedToManuscript.submitReview(manuscriptStartingWithNoReviews, review1Text);
+			   reviewerNotAssignedToManuscript.submitReview(manuscriptStartingWithNoReviews, reviewURL1);
 			   fail("Exception for submitting a review on a manuscript not assigned wasn't caught");			   
-		} catch (IllegalArgumentException theException) {
-			   
-		} 		
+		} catch (IllegalArgumentException theException) {   } 		
 		
+		// test for a manuscript with a review
 		try {
-			   reviewerNotAssignedToManuscript.submitReview(manuscriptStartingWithOtherReview, review1Text);
+			   reviewerNotAssignedToManuscript.submitReview(manuscriptStartingWithOtherReview, reviewURL1);
 			   fail("Exception for submitting a review on a manuscript not assigned wasn't caught");			   
-		} catch (IllegalArgumentException theException) {
-			   
-		} 
+		} catch (IllegalArgumentException theException) {   } 
 	}
 	
-	// Reviewer has already submitted a Review for this Manuscript - IllegalArgumentException
+	/* Reviewer has already submitted a Review for this Manuscript, must throw an
+	 * IllegalArgumentException
+	 * This tests for attempts to resubmit the exact same Review for a manuscript twice.
+	 */
 	@Test
 	public void resubmitReviewForManuscriptExceptionTest() {
-		reviewerAssignedToManuscript.submitReview(manuscriptStartingWithNoReviews, review1Text);
-
 		try {
-			reviewerAssignedToManuscript.submitReview(manuscriptStartingWithNoReviews, review1Text);
+			reviewerAssignedToManuscript.submitReview(manuscriptStartingWithMyReview, reviewURL1);
 			fail("Exception for submitting a review when one has already been submitted wasn't caught");
-		} catch (IllegalArgumentException theException) {
-			
-		}
-		
+		} catch (IllegalArgumentException theException) {	}
 	}
 	
-	// Reviewer has submitted a Review for this Manuscript and is attempting to edit - IllegalArgumentException
+	 /*  Reviewer has submitted a Review for this Manuscript and is attempting to "edit", 
+	  *  must throw an IllegalArgumentException.
+	  *  This tests for attempts to submit a new review for a manuscript that this Reviewer has
+	  *  already reviewed. 
+	  */
 	@Test
 	public void submitReviewWhenTryingToEditReviewExceptionTest() {
-		reviewerAssignedToManuscript.submitReview(manuscriptStartingWithNoReviews, review1Text);
-		
 		try {
-			reviewerAssignedToManuscript.submitReview(manuscriptStartingWithNoReviews, review1Edit);
+			reviewerAssignedToManuscript.submitReview(manuscriptStartingWithMyReview, reviewURL2);
 			fail("Exception for submitting a review when one has already been submitted wasn't caught");
-		} catch (IllegalArgumentException theException) {
-			
-		}
+		} catch (IllegalArgumentException theException) {	}
 	}
 	
 	// Partitions for editReview():
 	
-	// successful edit, no other Reviews for this Manuscript besides this Reviewer
+	/* Successful edit for the case when this Manuscript has no other Reviews besides the one
+	 * written by this Reviewer.
+	 */
 	@Test
 	public void editReviewForManuscriptWithNoOtherReviewsTest() {
 		
-		assertEquals("Manuscript did not start out with expected Review from this Reviewer", expectedReview1, 
-				manuscriptStartingWithMyReview.getReviews().get(0));
+		assertEquals("Manuscript did not start out with expected Review from this Reviewer!", 
+					expectedReview1, manuscriptStartingWithMyReview.getReviews().get(0));
 		
-		reviewerAssignedToManuscript.editReview(manuscriptStartingWithMyReview, review1Edit);
-		assertEquals("Manuscript did not have 1 Review", 1, manuscriptStartingWithMyReview.getReviews().size());
-		assertEquals("Review from this Manuscript not equal to edited Review", expectedEdit1, 
-				manuscriptStartingWithMyReview.getReviews().get(0));
+		reviewerAssignedToManuscript.editReview(manuscriptStartingWithMyReview, reviewURL2);
+		
+		assertEquals("Manuscript did not finish with 1 Review!", 1, 
+						manuscriptStartingWithMyReview.getReviews().size());
+		assertEquals("Manuscript's Review not equal to expected edited Review!", expectedEdit1, 
+						manuscriptStartingWithMyReview.getReviews().get(0));
 	}
 	
-	// successful edit, with other Reviews for this Manuscript besides this Reviewer
+	/* Successful edit, for a Manuscript with other Reviews besides the one written and
+	 * edited by this Reviewer. The test verifies that the other Reivew is not affected
+	 * by the call to editReview().
+	 */
 	@Test
 	public void editReviewForManuscriptWithOtherReviewsTest() {
 		
@@ -207,41 +212,143 @@ public class ReviewerTest {
 		assertTrue("Initially: Other Review not part of Manuscript's Review List", 
 				manuscriptStartingWithBothReviews.getReviews().contains(expectedReview2));
 		
-		reviewerAssignedToManuscript.editReview(manuscriptStartingWithBothReviews, review1Edit);
-		assertEquals("Manuscript did not have 2 Reviews", 2, manuscriptStartingWithBothReviews.getReviews().size());
-		assertTrue("Edited Review not part of Manuscript's Review List", 
-				manuscriptStartingWithBothReviews.getReviews().contains(expectedEdit1));
+		reviewerAssignedToManuscript.editReview(manuscriptStartingWithBothReviews, reviewURL2);
+		
+		assertEquals("Manuscript did not finish with 2 Reviews", 2, 
+					manuscriptStartingWithBothReviews.getReviews().size());
+		assertTrue("Expected edited Review not part of Manuscript's Review List", 
+					manuscriptStartingWithBothReviews.getReviews().contains(expectedEdit1));
 		assertTrue("Other Review no longer part of Manuscript's Review List", 
-				manuscriptStartingWithBothReviews.getReviews().contains(expectedReview2));
+					manuscriptStartingWithBothReviews.getReviews().contains(expectedReview2));
 	}
 	
-	// unsuccessful: editing a Review for a Manuscript this Reviewer has not been assigned to
+	/* Unsuccessful edit: editing a Review for a Manuscript this Reviewer has not been assigned to.
+	 * Must throw an IllegalArgumentException.
+	 */
 	@Test
 	public void editReviewForUnnassignedManuscriptExceptionTest() {
 		try {
-			reviewerNotAssignedToManuscript.editReview(manuscriptStartingWithMyReview, review1Edit);
+			reviewerNotAssignedToManuscript.editReview(manuscriptStartingWithMyReview, reviewURL2);
 			fail("Exception for editing a Review on a Manuscript not assigned to this Review not Caught");
-		} catch (IllegalArgumentException theException) {
-			
-		}
-		
+		} catch (IllegalArgumentException theException) {	}
 	}
 	
-	// unsuccessful: editing a Review for a Manuscript which this Reviewer has not yet submitted a Review for
+	/* Unsuccessful: editing a Review for a Manuscript which this Reviewer has not yet submitted a 
+	 * Review for. Must throw an IllegalArgumentException.
+	 */
 	@Test
 	public void editReviewForManuscriptNotYetReviewedExceptionTest() {
 		try {
-			reviewerAssignedToManuscript.editReview(manuscriptStartingWithNoReviews, review1Text);
+			reviewerAssignedToManuscript.editReview(manuscriptStartingWithNoReviews, reviewURL1);
 			fail("Exception for editing a Review when this Reviewer has not yet submitted one not Caught");
-		} catch (IllegalArgumentException theException) {
-			
-		}
-		
+		} catch (IllegalArgumentException theException) {	}	
 	}
 	
 	// Paritions for assignReview():
-	// successfully assign first paper to Reviewer
-	// successfully assign not-first paper to Reviewer
-	// unsuccessful: assign more than the max number of papers to Reviewer
+	
+	/* Successfully assign first paper to Reviewer, where that paper currently has no reviews.
+	 */
+	@Test
+	public void assignFirstPaperWithNoReviewsToReviewerTest() {
+		assertEquals("Reviewer did not start unassigned to any Manuscripts!", 0, 
+				reviewerNotAssignedToManuscript.getMyManuscripts().size());
+		
+		reviewerNotAssignedToManuscript.assignReview(manuscriptStartingWithNoReviews);
+		
+		assertEquals("Reviewer did not finish assigned to 1 Manuscript!", 1, 
+				reviewerNotAssignedToManuscript.getMyManuscripts().size());
+		assertEquals("Reviewer not assigned to expected Manuscript!", manuscriptStartingWithNoReviews, 
+				reviewerNotAssignedToManuscript.getMyManuscripts().get(0));
+	}
+	
+	/* Successfully assign first paper to Reviewer, where that paper currently has a review.
+	 */
+	@Test
+	public void assignFirstPaperWithOtherReviewToReviewerTest() {
+		assertEquals("Reviewer did not start unassigned to any Manuscripts!", 0, 
+				reviewerNotAssignedToManuscript.getMyManuscripts().size());
+		
+		reviewerNotAssignedToManuscript.assignReview(manuscriptStartingWithOtherReview);
+		
+		assertEquals("Reviewer did not finish assigned to 1 Manuscript!", 1, 
+				reviewerNotAssignedToManuscript.getMyManuscripts().size());
+		assertEquals("Reviewer not assigned to expected Manuscript!", manuscriptStartingWithOtherReview, 
+				reviewerNotAssignedToManuscript.getMyManuscripts().get(0));
+	}
+	
+	/* Successfully assign a paper with no reviews to a Reviewer already assigned to other 
+	 * papers.
+	 */
+	@Test
+	public void assignSecondPaperWithNoReviewsToReviewerTest() {
+		assertEquals("Reviewer did not start assigned to 1 Manuscript!", 1, 
+				reviewerAssignedToSingleManuscript.getMyManuscripts().size());
+		
+		reviewerAssignedToSingleManuscript.assignReview(manuscriptStartingWithNoReviews);
+		
+		assertEquals("Reviewer did not finish assigned to 2 Manuscripts!", 2, 
+				reviewerAssignedToSingleManuscript.getMyManuscripts().size());
+		assertTrue("Reviewer not assigned to expected Manuscript!",
+		reviewerAssignedToSingleManuscript.getMyManuscripts().contains(manuscriptStartingWithNoReviews));
+	}
+	
+	/* Successfully assign a paper with other review to a Reviewer already assigned to other 
+	 * papers.
+	 */
+	@Test
+	public void assignSecondPaperWithOtherReviewToReviewerTest() {
+		assertEquals("Reviewer did not start assigned to 1 Manuscript!", 1, 
+				reviewerAssignedToSingleManuscript.getMyManuscripts().size());
+		
+		reviewerAssignedToSingleManuscript.assignReview(manuscriptStartingWithOtherReview);
+		
+		assertEquals("Reviewer did not finish assigned to 2 Manuscripts!", 2, 
+				reviewerAssignedToSingleManuscript.getMyManuscripts().size());
+		assertTrue("Reviewer not assigned to expected Manuscript!",
+		reviewerAssignedToSingleManuscript.getMyManuscripts().contains(manuscriptStartingWithOtherReview));
+	}
+	
+	/* Unsuccessful: assign more than the max number of papers to a Reviewer
+	 */
+	@Test
+	public void assignMoreThanMaxNumberOfPapersToReviewerTest() {
+		assertEquals("Reviewer did not start assigned to max number of Manuscripts!", 
+			Reviewer.MAX_MANUSCRIPTS, reviewerAssignedToMaxNumberManuscripts.getMyManuscripts().size());
+		try {
+			reviewerAssignedToMaxNumberManuscripts.assignReview(manuscriptStartingWithNoReviews);
+			fail("Exception for assigning more than max number of manuscripts to reviewer wasn't thrown!");
+		} catch (IllegalArgumentException theException) {	}
+	}
+	
+	// partitions for getMyReview():
+	
+	/* Reviewer is assigned to the manuscript, but has not submitted a review for this manuscript, 
+	 * so getMyReview() must return null.
+	 */
+	@Test
+	public void getMyReviewNullForNoSubmittedReviewTest() {
+		assertEquals("getMyReview did not return Null for Reviewer with no Reviews submitted!",
+			null, reviewerAssignedToManuscript.getMyReview(manuscriptStartingWithNoReviews));
+	}
+	
+	/* Reviewer has submitted a review for this manuscript, so getMyReview must return their 
+	 * review.
+	 */
+	@Test
+	public void getMyReviewForSubmittedReviewTest() {
+		assertEquals("getMyReview did not return my Review on manuscript with my Review submitted!",
+			expectedReview1, reviewerAssignedToManuscript.getMyReview(manuscriptStartingWithMyReview));
+	}
+	
+	/* Unsuccessful: Reviewer not assigned to this Manuscript, must throw an 
+	 * IllegalArgumentException.
+	 */
+	@Test
+	public void getMyReviewerForManuscriptNotAssignedExceptionTest() {
+		try {
+			reviewerNotAssignedToManuscript.getMyReview(manuscriptStartingWithNoReviews);
+			fail("Exception for not being assigned to Manuscript not thrown!");
+		} catch (IllegalArgumentException theException) {	}
+	}
 
 }

@@ -571,7 +571,7 @@ public class LogIn {
 //				
 //			}
 			System.out.println("Please Select Which Manuscript you are reviewing.");
-			List<Manuscript> tempList = theRole.viewMyPapers();
+			List<Manuscript> tempList = theRole.getMyManuscripts();
 			for(int i  = 0; i < tempList.size();i++) {
 				System.out.println((i + 1) + ". " + tempList.get(i).getTitle());
 			}
