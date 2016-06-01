@@ -229,13 +229,13 @@ public class DataForConference {
 		sally.submitManuscript(manuscript5, myMasterList);
 		sally.submitManuscript(manuscript6, myMasterList);
 		
-		secondConferenceSubprogramChair(theConference, manuscript4, manuscript5, manuscript6, manuscript1, manuscript2);
+		secondConferenceSubprogramChair(theConference, manuscript1, manuscript2, manuscript3, manuscript4, manuscript5, manuscript6);
 		secondConferenceReviewer(theConference, manuscript1, manuscript2, manuscript3, manuscript5, manuscript6);
 		
 	}
 	
 	private void secondConferenceSubprogramChair(Conference theConference, Manuscript manuscript1, Manuscript manuscript2, 
-			Manuscript manuscript3, Manuscript manuscript4, Manuscript manuscript5){
+			Manuscript manuscript3, Manuscript manuscript4, Manuscript manuscript5, Manuscript manuscript6){
 		String timName = "Tim";
 		User tim = myUsers.get(timName);
 		tim.switchConference(theConference);
