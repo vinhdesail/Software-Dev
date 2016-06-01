@@ -148,6 +148,7 @@ public class SubprogramChairTest {
 			   
 		} 				
 	}
+
 	@Test
 	public void submitRecomendationTest() {	
 		assertEquals(mySubprogramChairThatContainsOneManuscript.getRecommendationText(myFirstManuscript),"This Paper was alright. It seemed to lack substance.");			
