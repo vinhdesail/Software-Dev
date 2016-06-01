@@ -130,7 +130,7 @@ public class Reviewer extends Role implements Serializable {
 		} else if (myManuscripts.contains(theManuscript)) {
 			throw new IllegalArgumentException(getMyUsername() + " has already been assigned "
 					+ "to review manuscript: " + theManuscript.getTitle());
-		} else if(isManuscriptsAuthorTheSameAsMyUserName(theManuscript)) {
+		} else if(isAuthorOf(theManuscript)) {
 			throw new IllegalArgumentException("The Manuscript was Authored by this Reviewer.");
 		} else {
 			myManuscripts.add(theManuscript);
@@ -142,7 +142,7 @@ public class Reviewer extends Role implements Serializable {
 	 * @return A boolean value that represents if the Given Manuscript is Authored by this Reviewer
 	 * @throws IllegalArgumentException If the Given Manuscript is null.
 	 */
-	public boolean isManuscriptsAuthorTheSameAsMyUserName(Manuscript theManuscript) throws IllegalArgumentException {
+	public boolean isAuthorOf(Manuscript theManuscript) throws IllegalArgumentException {
 		if (Objects.isNull(theManuscript)) {
 			throw new IllegalArgumentException("Manuscript cannot be null.");
 		}

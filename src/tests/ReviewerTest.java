@@ -456,21 +456,21 @@ public class ReviewerTest {
 	 */
 	@Test
 	public void testIsManuscriptsAuthorTheSameAsMyUserNameWhereTheGivenManuscriptIsAuthoredByTheReviewer(){
-		assertTrue(reviewerNotAssignedToManuscript.isManuscriptsAuthorTheSameAsMyUserName(manuscriptThatIsAuthoredByAReviewer));
+		assertTrue(reviewerNotAssignedToManuscript.isAuthorOf(manuscriptThatIsAuthoredByAReviewer));
 	}
 	/*
 	 * Successful: manuscript was not authored by this reviewer -- Bus. Rule
 	 */
 	@Test
 	public void testIsManuscriptsAuthorTheSameAsMyUserNameWhereTheGivenManuscriptIsNotAuthoredByTheReviewer(){
-		assertFalse(reviewerNotAssignedToManuscript.isManuscriptsAuthorTheSameAsMyUserName(manuscriptThatIsNotAuthoredByAReviewer));
+		assertFalse(reviewerNotAssignedToManuscript.isAuthorOf(manuscriptThatIsNotAuthoredByAReviewer));
 	}
 	/* Unsuccessful: manuscript is null this method throws an IllegalArgumentException
 	 */
 	@Test
 	public void testIsManuscriptsAuthorTheSameAsMyUserNameWhereTheGivenManuscriptIsNullException(){
 		try {
-			reviewerNotAssignedToManuscript.isManuscriptsAuthorTheSameAsMyUserName(null);
+			reviewerNotAssignedToManuscript.isAuthorOf(null);
 			fail("Null manuscript did not throw exception in isManuscriptsAuthorTheSameAsMyUserName.");
 		} catch(IllegalArgumentException theError) {
 			

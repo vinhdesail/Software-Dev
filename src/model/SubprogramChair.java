@@ -79,7 +79,7 @@ public class SubprogramChair extends Role implements Serializable {
 			int manuscriptFoundAt = (containsManuscriptAt(theManuscript));
 			if(manuscriptFoundAt == NOT_FOUND) {
 				if(theManuscript.getConference().equals(this.getConference().getConferenceID())) {
-					if(!theManuscript.getAuthor().equals(getMyUsername())) {
+					if(!isAuthorOf(theManuscript)) {
 						myAssignedManuscripts.add(theManuscript);
 						theManuscript.setAssignedASubprogramChair();
 					} else {
@@ -96,6 +96,17 @@ public class SubprogramChair extends Role implements Serializable {
 		}		
 	}
 	
+	/**
+	 * A Method that checks if the given Manuscript is Authored by this SubprogramChair
+	 * @return true if the given Subprogram Chair Authored the given Manuscript, false otherwise.
+	 * @throws IllegalArgumentException If the Given Manuscript is null. 
+	 */
+	public boolean isAuthorOf(Manuscript theManuscript) throws IllegalArgumentException {
+		if(Objects.isNull(theManuscript)) {
+			throw new IllegalArgumentException("The Given Manuscript cannot be null.");
+		}
+		return theManuscript.getAuthor().equals(getMyUsername());
+	}
 	/**
 	 * A Method that submits a Recommendation to a given Manuscript, if the Manuscript is within the Subprogram Chairs List.
 	 * @param theManuscript The Manuscript being given a Recommendation.
