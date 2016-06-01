@@ -136,7 +136,8 @@ public class SubprogramChairGUI {
 			} else {
 				Manuscript editManu = tempList.get(select - OFFSET); 
 				myConsole.nextLine();
-				System.out.println("Write a recommendation \n(or \"EXIT\" to quit or \"BACK\" to select a different manuscript) ");
+				System.out.println("Enter a file path of your recomendation \n(or \"EXIT\" to quit or \"BACK\" to select a different manuscript) ");
+				System.out.println("Example: C:/RecommendationForMagicSounds.txt");
 				System.out.println("--: ");
 				String recText = myConsole.nextLine();
 				if(recText.equalsIgnoreCase("EXIT")){

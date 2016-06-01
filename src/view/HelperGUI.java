@@ -361,6 +361,17 @@ public class HelperGUI {
 		}
 	}
 	
+	/**
+	 * Stoper to pause for a second.
+	 */
+	public static void stopForASecond(Scanner theConsole, boolean getTwo){
+		if(getTwo){
+			theConsole.nextLine();
+		}
+		System.out.print("Press Enter to Continue: ");
+		theConsole.nextLine();
+	}
+	
 	
 }
 

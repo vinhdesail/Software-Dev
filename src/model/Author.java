@@ -100,7 +100,11 @@ public class Author extends Role implements Serializable {
 		if(!myManuscripts.contains(theManuscript)) {
 			throw new IllegalArgumentException("The Given Manuscript is not this instance of Author's Manuscript");
 		}
+
 		theManuscript.setTitle(theTitle);
+		for(Review rev : theManuscript.getReviews()){
+			rev.setManuscriptTitle(theTitle);
+		}
 	}
 	
 	/**

@@ -156,22 +156,27 @@ public class ReviewerGUI {
 		}
 		toDisplay.append("--end of reviews list--\n");
 		toDisplay.append("0. Back");
-		System.out.println(toDisplay.toString());
-		
-		if(theAskToView){
-			selectManuscriptToView(theMainList);
-		}
+		boolean back = false;
+		do{
+			System.out.println(toDisplay.toString());
+			
+			if(theAskToView){
+				back = selectManuscriptToView(theMainList);
+			}
+		} while(theAskToView && !back);
 	}
 	
-	private void selectManuscriptToView(List<Manuscript> theManuscripts){
-		
+	private boolean selectManuscriptToView(List<Manuscript> theManuscripts){
+		boolean back = false;
 		System.out.println("Pick a manuscript to View");
 		int manuscriptPick = HelperGUI.getSelect(myConsole);
 		if(manuscriptPick == BACK){
 			System.out.println(HelperGUI.BACK);
+			back = true;
 		} else {
 			System.out.println(theManuscripts.get(manuscriptPick - OFFSET).toString());
 		}
+		return back;
 	}
 	
 	
@@ -197,7 +202,7 @@ public class ReviewerGUI {
 				quit = true;
 			} else {
 				
-				System.out.println("Are you sure you want this manuscript(1 for Yes, any integer for no)? \n" + listOfManu.get(selectedManuscript - OFFSET));
+				System.out.println("Are you sure you want to review this manuscript(1 for Yes, any integer for no)? \n" + listOfManu.get(selectedManuscript - OFFSET));
 				recheck = HelperGUI.getSelect(myConsole);
 			}
 		}while (recheck != SELECT_MANUSCRIPT && !quit);
@@ -205,6 +210,7 @@ public class ReviewerGUI {
 		while (select != IS_CORRECT && !quit) {
 			myConsole.nextLine();
 			System.out.println("Please enter the File Path for the Review (Type \"EXIT\" to Exit)");
+			System.out.println("Example: C:/ReveiwOfMagicOfSound.txt");
 			reviewURI = myConsole.nextLine();		
 			
 			if(reviewURI.equalsIgnoreCase("EXIT")){

@@ -140,21 +140,31 @@ public class ProgramChairGUI {
 	 * The method to display all manuscript.
 	 * @return Manuscript The manuscript.
 	 */
-	private Manuscript displayAllManuscript(){
+	private Manuscript displayAllManuscript(boolean accept){
 		
 		Manuscript toReturn = null;
-		System.out.println(myHelper);
-		
-		List<Manuscript> listOfManu = myRole.showAllManuscripts(myMasterList);
-		displayManuscriptWithStatus(listOfManu);
-		
-		
-		int select2 = HelperGUI.getSelect(myConsole);
-		if(select2 == BACK){
-			System.out.println(HelperGUI.BACK);
-		} else {
-			toReturn = listOfManu.get(select2 - OFFSET);
-		}
+		boolean back = false;
+		do{
+			System.out.println(myHelper);
+			
+			List<Manuscript> listOfManu = myRole.showAllManuscripts(myMasterList);
+			displayManuscriptWithStatus(listOfManu);
+			
+			if(accept){
+				System.out.println("Select a manuscript to accept or reject");
+			} else {
+				System.out.println("Select a manuscript to view in detail");
+			}
+			int select2 = HelperGUI.getSelect(myConsole);
+			if(select2 == BACK){
+				System.out.println(HelperGUI.BACK);
+				back = true;
+			} else {
+				toReturn = listOfManu.get(select2 - OFFSET);
+				System.out.println(toReturn.toString());
+				
+			}
+		}while(!back && !accept);
 		return toReturn;
 	}
 	
@@ -212,10 +222,8 @@ public class ProgramChairGUI {
 	 */
 	private void optionViewAListOfSubmittedManuscript(){
 		myHelper.setMyActivity("View a list of all submitted manuscripts");
-		Manuscript manu = displayAllManuscript();
-		if(manu != null){
-			System.out.println(manu.toString());
-		}
+		Manuscript manu = displayAllManuscript(false);
+		
 	}
 	
 	/**
@@ -223,7 +231,7 @@ public class ProgramChairGUI {
 	 */
 	private void optionAcceptOrRejectManuscript(){
 		myHelper.setMyActivity("\nMake acceptance decision");
-		Manuscript manu = displayAllManuscript();
+		Manuscript manu = displayAllManuscript(true);
 		
 		if(manu != null){
 			System.out.println("Accept (1) or Reject (2) or Back PC Menu (3)? :");
@@ -246,21 +254,25 @@ public class ProgramChairGUI {
 	private void optionShowPaperAssignToSPC(){
 		
 		myHelper.setMyActivity("See which papers are assigned to which Subprogram chairs");
-		System.out.println(myHelper);
+		//System.out.println(myHelper);
 		
-		System.out.println("\n---Pick a subprogram chair---");
+		//System.out.println("\n---Pick a subprogram chair---");
 		List<SubprogramChair> tempArr = myRole.getAllSubprogramChair(myListOfUser);
-		displayAllSubprogramChair(tempArr);
-		
-		int select2 = HelperGUI.getSelect(myConsole);
-		if(select2 == BACK){
-			System.out.println(HelperGUI.BACK);
-		} else {
-			System.out.println("You selected : " + tempArr.get(select2 - OFFSET).getMyUsername());
-			System.out.println("--Showing Related Manuscripts--");
-			List<Manuscript> tempList = myRole.showAllManuscriptAssignedToSpc(tempArr.get(select2 - OFFSET));
-			HelperGUI.displayManuscripts(tempList, false);
-		}
+		boolean back = false;
+		do{
+			System.out.println(myHelper);
+			displayAllSubprogramChair(tempArr);
+			int select2 = HelperGUI.getSelect(myConsole);
+			if(select2 == BACK){
+				System.out.println(HelperGUI.BACK);
+				back = true;
+			} else {
+				System.out.println("You selected : " + tempArr.get(select2 - OFFSET).getMyUsername());
+				System.out.println("--Showing Related Manuscripts--");
+				List<Manuscript> tempList = myRole.showAllManuscriptAssignedToSpc(tempArr.get(select2 - OFFSET));
+				HelperGUI.displayManuscripts(tempList, false);
+			}
+		} while(!back);
 	}
 	
 	/**

@@ -65,6 +65,13 @@ public class Review implements Serializable {
 	}
 	
 	/**
+	 * Setter for title.
+	 */
+	public void setManuscriptTitle(String theTitle){
+		myManuscriptTitle = theTitle;
+	}
+	
+	/**
 	 * Overrides the Object toString method to display all Review fields formatted as a 
 	 * String.
 	 */

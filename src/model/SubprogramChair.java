@@ -10,8 +10,8 @@ public class SubprogramChair extends Role implements Serializable {
 
 	/*Generated Serialization number.*/
 	private static final long serialVersionUID = -888370705327456440L;
-	/*A Value that represents the Maximum number of Manuscripts*/
-	private static final int MAX_AMOUNT_OF_MANUSCRIPTS = 4;
+	/**A Value that represents the Maximum number of Manuscripts*/
+	public static final int MAX_AMOUNT_OF_MANUSCRIPTS = 4;
 	/*A Value that represents the a Manuscript Not being found.*/
 	private static final int NOT_FOUND = -1;
 	/*A Value that represents the emptiness of the list of Manuscripts*/
