@@ -229,8 +229,15 @@ public class DataForConference {
 		sally.submitManuscript(manuscript5, myMasterList);
 		sally.submitManuscript(manuscript6, myMasterList);
 		
+		Manuscript manuscript7 = new Manuscript("Kim", theConference.getConferenceID(), "Increasing Image File Transfer", 
+				"C:/FileImageTransfer.txt");
+		myMasterList.add(manuscript7);
+		
+		Manuscript manuscript8 = new Manuscript("John", theConference.getConferenceID(), "Color Images vs Black & White", 
+				"C:/ColorvsBlack&White.txt");
+		
 		secondConferenceSubprogramChair(theConference, manuscript1, manuscript2, manuscript3, manuscript4, manuscript5, manuscript6);
-		secondConferenceReviewer(theConference, manuscript1, manuscript2, manuscript3, manuscript5, manuscript6);
+		secondConferenceReviewer(theConference, manuscript1, manuscript2, manuscript3, manuscript5, manuscript6, manuscript8);
 		
 	}
 	
@@ -255,7 +262,7 @@ public class DataForConference {
 	}
 	
 	private void secondConferenceReviewer(Conference theConference, Manuscript firstManu, Manuscript secondManu, 
-			Manuscript thirdManu, Manuscript fourthManu, Manuscript fifthManu){
+			Manuscript thirdManu, Manuscript fourthManu, Manuscript fifthManu, Manuscript johnManu){
 		User tom = myUsers.get("Tom");
 		tom.switchConference(theConference);
 		Reviewer rev = new Reviewer(tom.getName(), theConference);
@@ -269,6 +276,7 @@ public class DataForConference {
 		john.switchConference(theConference);
 		Reviewer rev2 = new Reviewer(john.getName(), theConference);
 		john.addRole(rev2);
+		john.submitManuscript(johnManu, myMasterList);
 		
 		String pattyName = "Patty";
 		User pat = myUsers.get(pattyName);
