@@ -68,6 +68,7 @@ public class SubprogramChair extends Role implements Serializable {
 	 * @throws IllegalArgumentException If the given Manuscript's Conference does not match with this 
 	 * Subprogram Chairs Conference, if the Manuscript has already been assigned to a Subprogram Chair,
 	 * if this instance of a Subprogram Chair already has been assigned the maximum number of Manuscripts,
+	 * if the Given Manuscript was authored by this instance of a Subprogram Chair,
 	 * or if the given Manuscript is null. 
 	 */
 	public void assignManuscripts(Manuscript theManuscript) throws IllegalArgumentException{
@@ -78,8 +79,12 @@ public class SubprogramChair extends Role implements Serializable {
 			int manuscriptFoundAt = (containsManuscriptAt(theManuscript));
 			if(manuscriptFoundAt == NOT_FOUND) {
 				if(theManuscript.getConference().equals(this.getConference().getConferenceID())) {
-					myAssignedManuscripts.add(theManuscript);
-					theManuscript.setAssignedASubprogramChair();
+					if(!theManuscript.getAuthor().equals(getMyUsername())) {
+						myAssignedManuscripts.add(theManuscript);
+						theManuscript.setAssignedASubprogramChair();
+					} else {
+						throw new IllegalArgumentException("The Manuscript being assigned to this SubprogramChair is Authored by this Subprogram Chair.");
+					}				
 				} else{
 					throw new IllegalArgumentException("The Manuscript being assigned to this SubprogramChair does not match its given conference.");
 				}					
