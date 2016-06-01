@@ -113,7 +113,7 @@ public class AuthorGUI {
 			myHelper.setMyActivity("Author Menu");
 			System.out.println(myHelper);
 			
-			System.out.println("\nWhat Do you want to do?");
+			System.out.println("\nWhat do you want to do?");
 			System.out.println("1. View my manuscipts");
 			System.out.println("2. Submit A Manuscript");
 			System.out.println("3. Unsubmit A Manuscript");
@@ -203,7 +203,7 @@ public class AuthorGUI {
 	 */
 	private void optionToSubmitAManuscript() {
 		
-		myHelper.setMyActivity("Submiting a Manuscript");
+		myHelper.setMyActivity("Submitting a Manuscript");
 		System.out.println(myHelper);
 		if(myIsAuthor){
 			List<Manuscript> listOfManuscript = myRole.showAllMyManuscripts();

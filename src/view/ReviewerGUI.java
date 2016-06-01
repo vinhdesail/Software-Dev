@@ -90,8 +90,8 @@ public class ReviewerGUI {
 			myHelper.setMyActivity("Reviewer Menu");
 			System.out.println(myHelper);
 			
-			System.out.println("\nWhat Do you want to do?");
-			System.out.println("1. View manuscripts I am Reviewing");
+			System.out.println("\nWhat do you want to do?");
+			System.out.println("1. View Manuscripts I am Reviewing");
 			System.out.println("2. Submit A Review");
 			System.out.println("0. Logout");
 			System.out.println("-1. Switch Role");
@@ -127,7 +127,7 @@ public class ReviewerGUI {
 	private void optionToViewManuscriptThatAreBeingReview(boolean theAskToView) {
 		
 		if(theAskToView)
-			myHelper.setMyActivity("View my List of Manuscript I been assigned");
+			myHelper.setMyActivity("View List of Manuscripts assigned to me");
 		System.out.println(myHelper);
 		
 		List<Manuscript> listOfManu = myRole.getMyManuscripts();
@@ -169,7 +169,7 @@ public class ReviewerGUI {
 	
 	private boolean selectManuscriptToView(List<Manuscript> theManuscripts){
 		boolean back = false;
-		System.out.println("Pick a manuscript to View");
+		System.out.println("Pick a Manuscript to View");
 		int manuscriptPick = HelperGUI.getSelect(myConsole);
 		if(manuscriptPick == BACK){
 			System.out.println(HelperGUI.BACK);
@@ -194,17 +194,17 @@ public class ReviewerGUI {
 		
 		List<Manuscript> listOfManu = myRole.getMyManuscripts();
 		do{
-			System.out.println("Pick a Manuscript to review");
+			System.out.println("Select a Manuscript to review");
 			optionToViewManuscriptThatAreBeingReview(false);
 		
-			System.out.println("Please Pick a Manuscript");
+			System.out.println("Please Select a Manuscript");
 			selectedManuscript = HelperGUI.getSelect(myConsole);
 			
 			if(selectedManuscript == BACK){
 				quit = true;
 			} else {
 				
-				System.out.println("Are you sure you want to review this manuscript(1 for Yes, any integer for no)? \n" + listOfManu.get(selectedManuscript - OFFSET));
+				System.out.println("Are you sure you want to review this manuscript (1 for Yes, any integer for no)? \n" + listOfManu.get(selectedManuscript - OFFSET));
 				recheck = HelperGUI.getSelect(myConsole);
 			}
 		}while (recheck != SELECT_MANUSCRIPT && !quit);
@@ -218,14 +218,14 @@ public class ReviewerGUI {
 			if(reviewURI.equalsIgnoreCase("EXIT")){
 				quit = true;
 			} else {
-				System.out.println("The Filed you entered is: " + reviewURI + "\nIs This correct? Press 1 for yes, or any integer to try again");
+				System.out.println("The file you entered is: " + reviewURI + "\nIs This correct? Press 1 for yes, or any integer to try again");
 				select = HelperGUI.getSelect(myConsole);	
 			}
 		}	
 		
 		if(!quit){
 			myRole.submitReview(listOfManu.get(selectedManuscript - OFFSET), reviewURI);
-			System.out.println("Success");
+			System.out.println("Success!");
 		}
 		
 	}

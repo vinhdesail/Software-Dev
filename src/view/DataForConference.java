@@ -50,7 +50,7 @@ public class DataForConference {
 	public void firstConference(){
 		//CONFERENCE AND PROGRAM CHAIRS
 		String firstConferenceProgramChairName = "Sally";
-		String firstConferenceName = "IEEE Conf. on Acoustics Speech";
+		String firstConferenceName = "IEEE Conf. on Acoustics and Speech";
 		Calendar dateConference = new GregorianCalendar(2016, 11, 2);
 		Calendar dateManuscript = new GregorianCalendar(2016, 7, 2);
 		Calendar dateReview = new GregorianCalendar(2016, 8, 2);
@@ -98,9 +98,9 @@ public class DataForConference {
 
 		User bobby = new User("Bobby");
 		bobby.switchConference(theConference);
-		Manuscript manuscript3 = new Manuscript("Bobby", theConference.getConferenceID(), "The magic of Sound Waves", 
+		Manuscript manuscript3 = new Manuscript("Bobby", theConference.getConferenceID(), "The Magic of Sound Waves", 
 				"C:/MagicSound.txt");
-		Manuscript manuscript4 = new Manuscript("Bobby", theConference.getConferenceID(), "Difference frequency of voices", 
+		Manuscript manuscript4 = new Manuscript("Bobby", theConference.getConferenceID(), "Different Frequencies of Voices", 
 				"C:/DifferenceFrequency.txt");
 		bobby.submitManuscript(manuscript3, myMasterList);
 		bobby.submitManuscript(manuscript4, myMasterList);
@@ -204,7 +204,7 @@ public class DataForConference {
 		bob.switchConference(theConference);
 		Manuscript manuscript1 = new Manuscript(bobName, theConference.getConferenceID(), "3D Imaging", 
 				"C:/3DImaging.txt");
-		Manuscript manuscript2 = new Manuscript(bobName, theConference.getConferenceID(), "3D processing", 
+		Manuscript manuscript2 = new Manuscript(bobName, theConference.getConferenceID(), "3D Processing", 
 				"C:/3DProcessing.txt");
 		bob.submitManuscript(manuscript1, myMasterList);
 		bob.submitManuscript(manuscript2, myMasterList);
@@ -212,9 +212,9 @@ public class DataForConference {
 		String bobbyName = "Bobby";
 		User bobby = myUsers.get(bobbyName);
 		bobby.switchConference(theConference);
-		Manuscript manuscript3 = new Manuscript(bobbyName, theConference.getConferenceID(), "The computer eye", 
+		Manuscript manuscript3 = new Manuscript(bobbyName, theConference.getConferenceID(), "The Computer Eye", 
 				"C:/ComputerEye.txt");
-		Manuscript manuscript4 = new Manuscript(bobbyName, theConference.getConferenceID(), "Increasing Image throughput", 
+		Manuscript manuscript4 = new Manuscript(bobbyName, theConference.getConferenceID(), "Increasing Image Throughput", 
 				"C:/ImageThroughput.txt");
 		bobby.submitManuscript(manuscript3, myMasterList);
 		bobby.submitManuscript(manuscript4, myMasterList);
