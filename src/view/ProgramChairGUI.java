@@ -113,12 +113,15 @@ public class ProgramChairGUI {
 					break;
 				case MAKE_A_ACCEPTANCE_DECISION:
 					optionAcceptOrRejectManuscript();
+					HelperGUI.stopForASecond(myConsole, true);
 					break;
 				case SEE_PAPERS_ASSIGNED_TO_SUBPROGRAM_CHAIR:
 					optionShowPaperAssignToSPC();
+					HelperGUI.stopForASecond(myConsole, true);
 					break;
 				case DESIGNATE_A_SUBPROGRAM_CHAIR_FOR_A_MANUSCRIPT:
 					optionToDesignateASPCForAManuscript();
+					HelperGUI.stopForASecond(myConsole, true);
 					break;
 				case LOGOUT:
 					System.out.println();
@@ -162,6 +165,7 @@ public class ProgramChairGUI {
 			} else {
 				toReturn = listOfManu.get(select2 - OFFSET);
 				System.out.println(toReturn.toString());
+				HelperGUI.stopForASecond(myConsole, true);
 				
 			}
 		}while(!back && !accept);
@@ -244,6 +248,7 @@ public class ProgramChairGUI {
 			} else if(select3 == REJECT){
 				myRole.rejectManuscript(manu);
 			}
+			System.out.println("Success");
 		}
 	}
 	
@@ -271,6 +276,7 @@ public class ProgramChairGUI {
 				System.out.println("--Showing Related Manuscripts--");
 				List<Manuscript> tempList = myRole.showAllManuscriptAssignedToSpc(tempArr.get(select2 - OFFSET));
 				HelperGUI.displayManuscripts(tempList, false);
+				HelperGUI.stopForASecond(myConsole, true);
 			}
 		} while(!back);
 	}
