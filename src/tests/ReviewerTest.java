@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -33,6 +34,7 @@ public class ReviewerTest {
 	private Calendar reviewDueDate = new GregorianCalendar(2016,9,19);
 	private Calendar recommendationDueDate = new GregorianCalendar(2016,10,1);
 	private Calendar decisionDueDate = new GregorianCalendar(2016,10,1);
+	
 	private Reviewer reviewerAssignedToManuscript;
 	private Reviewer reviewerNotAssignedToManuscript;
 	private Reviewer reviewerAssignedToSingleManuscript;
@@ -47,6 +49,8 @@ public class ReviewerTest {
 	private String review1FilePath = "File Path of Review where I loved it";
 	private String review2FilePath = "File Path of Review where I hated it";
 	
+	private Manuscript manuscriptThatIsAuthoredByAReviewer;
+	private Manuscript manuscriptThatIsNotAuthoredByAReviewer;
 	private Manuscript manuscriptStartingWithNoReviews;
 	private Manuscript otherManuscriptStartingWithNoReviews;
 	private Manuscript manuscriptStartingWithOtherReview;
@@ -76,7 +80,9 @@ public class ReviewerTest {
 									reviewDueDate, recommendationDueDate, decisionDueDate);
 		
 		manuscriptStartingWithNoReviews = new Manuscript(authorID, conferenceID, title, textURL);
-		otherManuscriptStartingWithNoReviews = new Manuscript(authorID, conferenceID, textURL, title);
+		manuscriptThatIsAuthoredByAReviewer = new Manuscript(reviewer1ID, conferenceID, title, textURL);
+		manuscriptThatIsNotAuthoredByAReviewer = new Manuscript("notAnReviewer", conferenceID, title, textURL);
+		otherManuscriptStartingWithNoReviews = new Manuscript(authorID, conferenceID, "DifferentTitle", textURL);
 		listWithSingleOtherReview = new ArrayList<Review>();
 		listWithSingleOtherReview.add(expectedReview2);
 		
@@ -396,6 +402,16 @@ public class ReviewerTest {
 			fail("Already assigned manuscript exception not thrown.");
 		} catch (IllegalArgumentException theException) {	}
 	}
+	
+	/* Unsuccessful: manuscript was authored by this reviewer -- Bus. Rule
+	 */
+	@Test
+	public void testAssignReviewAuthoredByReviewerException() {
+		try {
+			reviewerAssignedToManuscript.assignReview(manuscriptThatIsAuthoredByAReviewer);
+			fail("Already assigned manuscript exception not thrown.");
+		} catch (IllegalArgumentException theException) {	}
+	}
 	// partitions for getMyReviewedManuscripts():
 	
 	// no manuscripts assigned
@@ -425,7 +441,7 @@ public class ReviewerTest {
 	
 	// 4 assigned, 2 reviewed
 	@Test 
-	public void getMyReviewedManuscriptsTwoAssignedOneReviewed() {
+	public void testGetMyReviewedManuscriptsTwoAssignedOneReviewed() {
 		List<Manuscript> myReviewedManuscripts = 
 						reviewerAssignedToManuscript.getMyReviewedManuscripts();
 		assertEquals("getMyReviewedManuscripts size is not 2", 2, myReviewedManuscripts.size());
@@ -433,6 +449,33 @@ public class ReviewerTest {
 				myReviewedManuscripts.contains(manuscriptStartingWithMyReview));
 		assertTrue("Manuscript did not match one reviewed by me and 1 one other",
 				myReviewedManuscripts.contains(manuscriptStartingWithBothReviews));
+	}
+	// partitions for isManuscriptsAuthorTheSameAsMyUserName():
+	/*
+	 * Successful: manuscript was authored by this reviewer -- Bus. Rule
+	 */
+	@Test
+	public void testIsManuscriptsAuthorTheSameAsMyUserNameWhereTheGivenManuscriptIsAuthoredByTheReviewer(){
+		assertTrue(reviewerNotAssignedToManuscript.isManuscriptsAuthorTheSameAsMyUserName(manuscriptThatIsAuthoredByAReviewer));
+	}
+	/*
+	 * Successful: manuscript was not authored by this reviewer -- Bus. Rule
+	 */
+	@Test
+	public void testIsManuscriptsAuthorTheSameAsMyUserNameWhereTheGivenManuscriptIsNotAuthoredByTheReviewer(){
+		assertFalse(reviewerNotAssignedToManuscript.isManuscriptsAuthorTheSameAsMyUserName(manuscriptThatIsNotAuthoredByAReviewer));
+	}
+	/* Unsuccessful: manuscript is null this method throws an IllegalArgumentException
+	 */
+	@Test
+	public void testIsManuscriptsAuthorTheSameAsMyUserNameWhereTheGivenManuscriptIsNullException(){
+		try {
+			reviewerNotAssignedToManuscript.isManuscriptsAuthorTheSameAsMyUserName(null);
+			fail("Null manuscript did not throw exception in isManuscriptsAuthorTheSameAsMyUserName.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+		
 	}
 	
 	// partitions for getMyReview():
@@ -461,7 +504,7 @@ public class ReviewerTest {
 	@Test
 	public void getMyReviewForManuscriptNotAssignedException() {
 		try {
-			reviewerNotAssignedToManuscript.getMyReview(manuscriptStartingWithNoReviews);
+			reviewerAssignedToManuscript.getMyReview(otherManuscriptStartingWithNoReviews);
 			fail("Exception for not being assigned to Manuscript not thrown!");
 		} catch (IllegalArgumentException theException) {	}
 	}

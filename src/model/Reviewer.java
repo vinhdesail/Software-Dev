@@ -118,11 +118,11 @@ public class Reviewer extends Role implements Serializable {
 	/**
 	 * Assigns the given Manuscript to this Reviewer so that they will have the ability to 
 	 * access the Manuscript and submit a Review for it.
-	 * @param theManuscript
+	 * @param theManuscript The Given Manuscript to be assigned to this Reviewer
 	 * @throws IllegalArgumentException if this Reviewer already has the max allowed number of papers.
 	 */
-	public void assignReview(Manuscript theManuscript) {
-		if (theManuscript == null) {
+	public void assignReview(Manuscript theManuscript) throws IllegalArgumentException {
+		if (Objects.isNull(theManuscript)) {
 			throw new IllegalArgumentException("Manuscript cannot be null.");
 		} else if (myManuscripts.size() >= MAX_MANUSCRIPTS) {
 			throw new IllegalArgumentException("Can't assign more than " + MAX_MANUSCRIPTS + 
@@ -130,11 +130,23 @@ public class Reviewer extends Role implements Serializable {
 		} else if (myManuscripts.contains(theManuscript)) {
 			throw new IllegalArgumentException(getMyUsername() + " has already been assigned "
 					+ "to review manuscript: " + theManuscript.getTitle());
-		} else if(theManuscript.getAuthor().equals(getMyUsername())) {
+		} else if(isManuscriptsAuthorTheSameAsMyUserName(theManuscript)) {
 			throw new IllegalArgumentException("The Manuscript was Authored by this Reviewer.");
 		} else {
 			myManuscripts.add(theManuscript);
 		}	
+	}
+	/**
+	 * Verifies if this instance of a Reviewer is the Author of the given Manuscript
+	 * @param theManuscript The Given Manuscript to be assigned to this Reviewer
+	 * @return A boolean value that represents if the Given Manuscript is Authored by this Reviewer
+	 * @throws IllegalArgumentException If the Given Manuscript is null.
+	 */
+	public boolean isManuscriptsAuthorTheSameAsMyUserName(Manuscript theManuscript) throws IllegalArgumentException {
+		if (Objects.isNull(theManuscript)) {
+			throw new IllegalArgumentException("Manuscript cannot be null.");
+		}
+		return theManuscript.getAuthor().equals(getMyUsername());
 	}
 	
 	/**
@@ -162,8 +174,8 @@ public class Reviewer extends Role implements Serializable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Finds the number of Manuscripts that have been assigned to this reviewer and returns that value.
+	 * @return The Amount of Manuscripts that have been assigned to this Reviewer.
 	 */
 	public int getAssignmentSize() {
 		return myManuscripts.size();
