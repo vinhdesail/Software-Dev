@@ -7,6 +7,7 @@ package tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,8 +22,9 @@ import model.Manuscript;
 import model.Role;
 
 /**
+ * A Test Class for the Role Class.
  * @author Vinh Vien
- *
+ * @version 2016.5.31
  */
 public class RoleTest {
 	
@@ -73,7 +75,6 @@ public class RoleTest {
 		myMultiConferenceList.add(manu3);
 	}
 
-	// must test Construcotr for null parameters
 	@Test
 	public void testConstructor(){
 		assertEquals(myRole.getConference(), myConference);
@@ -81,12 +82,40 @@ public class RoleTest {
 		assertEquals(myRole.getRole(), myRoleName);
 	}
 	
+	@Test
+	public void testConstructorExceptionWhereConferenceIsNull(){
+		try {
+			Role nullValueRole = new Role("RoleName", "UserName", null);
+			fail("Exception Not Caught");
+		}catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testConstructorExceptionWhereRoleNameIsNull(){
+		try {
+			Role nullValueRole = new Role(null, "UserName", myConference);
+			fail("Exception Not Caught");
+		}catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testConstructorExceptionWhereUserNameIsNull(){
+		try {
+			Role nullValueRole = new Role("RoleName", null, myConference);
+			fail("Exception Not Caught");
+		}catch(IllegalArgumentException theError) {
+			
+		}
+	}
 	/**
 	 * Test of equals for the same true.
 	 */
 	@Test
 	public void testEqualsForSameRole(){
-		// test when valid
 		assertEquals(myRole, mySameRole);
 	}
 
@@ -123,8 +152,18 @@ public class RoleTest {
 		assertTrue(myRole.hashCode() == mySameRole.hashCode());
 	}
 	
-	// test getAllManuscriptsForThisConference for null master list - must throw exception
-	
+	/**
+	 * Test the method getAllManuscriptForThisConference for a null.
+	 */
+	@Test
+	public void testGetAllManuscriptsForThisConferenceExceptionWhereTheListOfManuscriptsIsNull(){
+		try {
+			assertEquals(null, myRole.getAllManuscriptsForThisConference(null));
+			fail("Exception Not Caught");
+		}catch(IllegalArgumentException theError) {
+			
+		}
+	}
 	/**
 	 * Test the method getAllManuscriptForThisConference for a empty list.
 	 */
