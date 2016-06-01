@@ -214,9 +214,15 @@ public class ProgramChairGUI {
 	private void displayAllSubprogramChair(List<SubprogramChair> theList){
 		StringBuilder toDisplay = new StringBuilder();
 		toDisplay.append("\nSelect a subprogram Chair\n");
-		for(int i = 0; i < theList.size(); i++){
-			toDisplay.append((i + OFFSET) + ". " + theList.get(i).getMyUsername());
-			toDisplay.append("\n");
+		String add = String.format(HelperGUI.FORMAT_TABLE, "Subprogram Chair Name", "# of Manuscript Assigned");
+		toDisplay.append("   ");
+		toDisplay.append(add);
+		toDisplay.append("\n");
+		for(int i = 0; i < theList.size(); i++){	
+				toDisplay.append((i + OFFSET) + ". ");
+				String toAdd = String.format(HelperGUI.FORMAT_TABLE, theList.get(i).getMyUsername(), theList.get(i).getNumberOfAssignedManuscripts());
+				toDisplay.append(toAdd);
+				toDisplay.append("\n");		
 		}
 		toDisplay.append("--end of subprogram Chair list--\n");
 		toDisplay.append("0. Back");
