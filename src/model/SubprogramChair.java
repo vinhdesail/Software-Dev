@@ -55,7 +55,13 @@ public class SubprogramChair extends Role implements Serializable {
 	public List<Manuscript> showAllAssignedManuscripts() {
 		return myAssignedManuscripts;
 	}	
-	
+	/**
+	 * A Method that returns the number of Manuscripts that this Subprogram Chair has been assigned.
+	 * @return The Number of Manuscripts that.
+	 */
+	public int getNumberOfAssignedManuscripts() {
+		return myAssignedManuscripts.size();
+	}
 	/**
 	 * A method that assigns this Subprogram Chair a given Manuscript.
 	 * @param theManuscripts The Manuscript being assigned to the Subprogram Chair.
