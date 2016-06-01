@@ -62,8 +62,8 @@ public class LogIn {
 	 */
 	public LogIn(){
 		
-		initializeFields();
-		//restorePreviousState();
+		//initializeFields();
+		restorePreviousState();
 		Scanner console = new Scanner(System.in);
 		System.out.println("Log-In");
 		

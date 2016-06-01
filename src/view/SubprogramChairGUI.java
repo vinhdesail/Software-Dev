@@ -81,8 +81,8 @@ public class SubprogramChairGUI {
 	private void printMainMenu() {
 		myHelper.setMyActivity("Subprogram Chair Menu");
 		System.out.println(myHelper);			
-		System.out.println("\nWhat Do you want to do?");
-		System.out.println("1. Assign A Reviewer A Manuscript");
+		System.out.println("\nWhat do you want to do?");
+		System.out.println("1. Assign a Reviewer to a Manuscript");
 		System.out.println("2. Submit a Recommendation");
 		System.out.println("0. Logout");		
 		System.out.println("-1. Switch to a Different Role");
@@ -126,7 +126,7 @@ public class SubprogramChairGUI {
 		boolean exit = false;
 		do{
 			int select = STARTING_POSISTION;
-			System.out.println("Please Select a Manuscript for your recommendation");			
+			System.out.println("Please select a manuscript for your recommendation");			
 			List<Manuscript> tempList = myRole.showAllAssignedManuscripts();
 			HelperGUI.displayManuscripts(tempList, true);
 			select = HelperGUI.getSelect(myConsole);
@@ -157,7 +157,7 @@ public class SubprogramChairGUI {
 	}
 	
 	private void optionAssignManuscriptToReviewerMenu() {
-		myHelper.setMyActivity("Please Select a Manuscript to be assigned");
+		myHelper.setMyActivity("Please select the manuscript to be assigned");
 		Reviewer tempReviewer = null;
 		Manuscript tempManu = null;
 		boolean exit = false;
@@ -207,7 +207,7 @@ public class SubprogramChairGUI {
 		Role reviewerThatHasBeenSelected;
 		int select = STARTING_POSISTION;
 		List<Role> listOfReviewers = myRole.getAllReviewer(myListOfUser);
-		System.out.println("Please Select a reviewer to be assigned");
+		System.out.println("Please select the reviewer who will be assigned the manuscript");
 		StringBuilder toPrint = new StringBuilder();
 		
 		String add = String.format(HelperGUI.FORMAT_TABLE, "Reviewer Name", "# of Manuscript Assigned");

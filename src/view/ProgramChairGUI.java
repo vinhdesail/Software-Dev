@@ -113,11 +113,11 @@ public class ProgramChairGUI {
 			myHelper.setMyActivity("Program Chair Menu");
 			System.out.println(myHelper);
 			
-			System.out.println("\nWhat Do you want to do?");
+			System.out.println("\nWhat do you want to do?");
 			System.out.println("1. View a list of all submitted manuscripts");
-			System.out.println("2. Make acceptance decision");
-			System.out.println("3. See which papers are assigned to which Subprogram chairs");
-			System.out.println("4. Designate a Subprogram Chair for a manuscript");
+			System.out.println("2. Make acceptance decision on a manuscript");
+			System.out.println("3. See which papers are assigned to which Subprogram Chairs");
+			System.out.println("4. Designate a Subprogram Chair for a Manuscript");
 			System.out.println("0. Logout of Program Chair");
 			System.out.println("-1. Switch to a Different Role");
 			System.out.println("-2. Submit Manuscript to Conference");
