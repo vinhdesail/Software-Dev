@@ -92,7 +92,7 @@ public class SubprogramChair extends Role implements Serializable {
 				throw new IllegalArgumentException("Manuscript has already been assigned.");
 			}			
 		} else {
-			throw new IllegalArgumentException("Four Manuscripts have already been assigned to this SPC.");				
+			throw new IllegalArgumentException("The Maximum Ammount of Manuscripts have already been assigned to this SPC.");				
 		}		
 	}
 	
