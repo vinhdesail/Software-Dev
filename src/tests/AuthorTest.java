@@ -86,6 +86,7 @@ public class AuthorTest {
 	}
 	
 	@Test
+
 	public void testAddManuscriptExceptionIfTheManuscriptHasAlreadyBeenSubmited() {	
 		try {
 			myAuthorThatHasSubmitedOneManuscript.addManuscript(myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript, myFirstManuscript);
@@ -93,6 +94,25 @@ public class AuthorTest {
 		} catch(IllegalArgumentException theError) {
 			
 		}
+	}
+	public void testDeleteManuscriptNullListException() {
+		try {
+			myAuthorThatHasSubmitedOneManuscript.deleteManuscript(null, mySecondManuscript);
+			fail("Null Manuscript in deleteManuscript did not throw exception");
+		} catch (IllegalArgumentException theException) {	}
+	}
+	
+	@Test
+	public void testDeleteManuscriptNullManuscriptException() {
+		try {
+			myAuthorThatHasSubmitedOneManuscript.deleteManuscript(myMasterManuscriptListForAllManuscripts, null);
+			fail("Null Manuscript in deleteManuscript did not throw exception");
+		} catch (IllegalArgumentException theException) {	}
+	}
+	
+	@Test
+	public void deleteManuscriptWhereAuthorHasNoManuscriptsTest() {
+		
 	}
 	
 	@Test

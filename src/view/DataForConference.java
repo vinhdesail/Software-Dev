@@ -23,26 +23,22 @@ import model.User;
  */
 public class DataForConference {
 	
-	/**
-	 * The Users.
-	 */
+	/* Map of all registered Users, key = username, value = User object*/
 	private final Map<String, User> myUsers;
 	
-	/**
-	 * The list of all manuscript.
-	 */
+	/* List of all Manuscripts submitted to any Conference. */
 	private final List<Manuscript> myMasterList;
 	
-	/**
-	 * The list of all conference.
-	 */
+	/* List of all Conferences.*/
 	private final List<Conference> myConferenceList;
 	
 	/**
-	 * Get file name to start serializing stuff.
-	 * @param theFileName
+	 * @param theUsers - Map of all 
+	 * @param theMasterList
+	 * @param theConferenceList
 	 */
-	public DataForConference(Map<String, User> theUsers, List<Manuscript> theMasterList, List<Conference> theConferenceList){
+	public DataForConference(Map<String, User> theUsers, List<Manuscript> theMasterList, 
+			List<Conference> theConferenceList) {
 		myUsers = theUsers;
 		myMasterList = theMasterList;
 		myConferenceList = theConferenceList;
