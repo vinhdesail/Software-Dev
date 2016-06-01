@@ -229,13 +229,20 @@ public class DataForConference {
 		sally.submitManuscript(manuscript5, myMasterList);
 		sally.submitManuscript(manuscript6, myMasterList);
 		
-		secondConferenceSubprogramChair(theConference, manuscript1, manuscript2, manuscript3, manuscript4, manuscript5, manuscript6);
-		secondConferenceReviewer(theConference, manuscript1, manuscript2, manuscript3, manuscript5, manuscript6);
+		Manuscript manuscript7 = new Manuscript("Kim", theConference.getConferenceID(), "Increasing Image File Transfer", 
+				"C:/FileImageTransfer.txt");
+		myMasterList.add(manuscript7);
+		
+		Manuscript johnManu = new Manuscript("John", theConference.getConferenceID(), "Color Images vs Black & White", 
+				"C:/ColorvsBlack&White.txt");
+		
+		secondConferenceSubprogramChair(theConference, manuscript1, manuscript2, manuscript3, manuscript4, manuscript5, manuscript6, johnManu);
+		secondConferenceReviewer(theConference, manuscript1, manuscript2, manuscript3, manuscript5, manuscript6, johnManu);
 		
 	}
 	
 	private void secondConferenceSubprogramChair(Conference theConference, Manuscript manuscript1, Manuscript manuscript2, 
-			Manuscript manuscript3, Manuscript manuscript4, Manuscript manuscript5, Manuscript manuscript6){
+			Manuscript manuscript3, Manuscript manuscript4, Manuscript manuscript5, Manuscript manuscript6, Manuscript johnManu){
 		String timName = "Tim";
 		User tim = myUsers.get(timName);
 		tim.switchConference(theConference);
@@ -250,12 +257,13 @@ public class DataForConference {
 		kim.switchConference(theConference);
 		SubprogramChair subP2 = new SubprogramChair(kim.getName(), theConference);
 		subP2.assignManuscripts(manuscript1);
+		subP2.assignManuscripts(johnManu);
 		kim.addRole(subP2);
 
 	}
 	
 	private void secondConferenceReviewer(Conference theConference, Manuscript firstManu, Manuscript secondManu, 
-			Manuscript thirdManu, Manuscript fourthManu, Manuscript fifthManu){
+			Manuscript thirdManu, Manuscript fourthManu, Manuscript fifthManu, Manuscript johnManu){
 		User tom = myUsers.get("Tom");
 		tom.switchConference(theConference);
 		Reviewer rev = new Reviewer(tom.getName(), theConference);
@@ -269,6 +277,7 @@ public class DataForConference {
 		john.switchConference(theConference);
 		Reviewer rev2 = new Reviewer(john.getName(), theConference);
 		john.addRole(rev2);
+		john.submitManuscript(johnManu, myMasterList);
 		
 		String pattyName = "Patty";
 		User pat = myUsers.get(pattyName);
