@@ -233,16 +233,16 @@ public class DataForConference {
 				"C:/FileImageTransfer.txt");
 		myMasterList.add(manuscript7);
 		
-		Manuscript manuscript8 = new Manuscript("John", theConference.getConferenceID(), "Color Images vs Black & White", 
+		Manuscript johnManu = new Manuscript("John", theConference.getConferenceID(), "Color Images vs Black & White", 
 				"C:/ColorvsBlack&White.txt");
 		
-		secondConferenceSubprogramChair(theConference, manuscript1, manuscript2, manuscript3, manuscript4, manuscript5, manuscript6);
-		secondConferenceReviewer(theConference, manuscript1, manuscript2, manuscript3, manuscript5, manuscript6, manuscript8);
+		secondConferenceSubprogramChair(theConference, manuscript1, manuscript2, manuscript3, manuscript4, manuscript5, manuscript6, johnManu);
+		secondConferenceReviewer(theConference, manuscript1, manuscript2, manuscript3, manuscript5, manuscript6, johnManu);
 		
 	}
 	
 	private void secondConferenceSubprogramChair(Conference theConference, Manuscript manuscript1, Manuscript manuscript2, 
-			Manuscript manuscript3, Manuscript manuscript4, Manuscript manuscript5, Manuscript manuscript6){
+			Manuscript manuscript3, Manuscript manuscript4, Manuscript manuscript5, Manuscript manuscript6, Manuscript johnManu){
 		String timName = "Tim";
 		User tim = myUsers.get(timName);
 		tim.switchConference(theConference);
@@ -257,6 +257,7 @@ public class DataForConference {
 		kim.switchConference(theConference);
 		SubprogramChair subP2 = new SubprogramChair(kim.getName(), theConference);
 		subP2.assignManuscripts(manuscript1);
+		subP2.assignManuscripts(johnManu);
 		kim.addRole(subP2);
 
 	}
