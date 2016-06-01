@@ -38,6 +38,7 @@ public class SubprogramChairTest {
     private Manuscript myFourthManuscript;
     private Manuscript myFifthManuscript;
     private Manuscript mySixthManuscript;
+    private Manuscript mySeventhManuscript;
     private Map<String, User> myUsers;
     private List<Role> myReviewers;
     private List<Role> myReviewersToBeComparedWithOtherReviewers;
@@ -57,7 +58,8 @@ public class SubprogramChairTest {
 		myThirdManuscript = new Manuscript("Bill Free", myConferenceToTestForAllSPC.getConferenceID(), "How Bankers have been misleading your time", "The Body");
 		myFourthManuscript = new Manuscript("Carl Sargan", myConferenceToTestForAllSPC.getConferenceID(), "Where your money goes when it is deposited", "The Body");
 		myFifthManuscript = new Manuscript("Paula Menroe", myConferenceToTestForAllSPC.getConferenceID(), "How much your money will be worth in twenty years", "The Body");
-		mySixthManuscript =  new Manuscript("Zach Fair", mySecondaryConferenceForADifferentManuscript.getConferenceID(), "The New Family of today", "The Body");	
+		mySixthManuscript =  new Manuscript("Jili", mySecondaryConferenceForADifferentManuscript.getConferenceID(), "The New Family of today", "The Body");	
+		mySeventhManuscript = new Manuscript("ImASPC", mySecondaryConferenceForADifferentManuscript.getConferenceID(), "The New Family of today", "The Body");	
 		mySubprogramChairThatContainsOneManuscript = new SubprogramChair("ImASPC",myConferenceToTestForAllSPC);
 		mySubprogramChairThatContainsOneManuscript.assignManuscripts(myFirstManuscript);
 		mySubprogramChairThatContainsOneManuscript.submitRecomendation(myFirstManuscript,"This Paper was alright. It seemed to lack substance.");	
@@ -148,7 +150,17 @@ public class SubprogramChairTest {
 			   
 		} 				
 	}
-
+	
+	@Test
+	public void assignManuscriptsExceptionWhenTryingToAddAManuscriptThatIsAuthoredByTheSubProgramChairTest() {	
+		try {
+			   mySubprogramChairThatContainsOneManuscript.assignManuscripts(mySeventhManuscript);
+			   fail("Exception wasn't caught");			   
+		} catch (IllegalArgumentException theException) {
+			   
+		} 				
+	}
+	
 	@Test
 	public void submitRecomendationTest() {	
 		assertEquals(mySubprogramChairThatContainsOneManuscript.getRecommendationText(myFirstManuscript),"This Paper was alright. It seemed to lack substance.");			
