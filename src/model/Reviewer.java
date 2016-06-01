@@ -58,10 +58,10 @@ public class Reviewer extends Role implements Serializable {
 		} else if (!myManuscripts.contains(theManuscript)) {
 			throw new IllegalArgumentException(this.getMyUsername() + " has not been assigned "
 					+ "to review the Manuscript: " + theManuscript.getTitle());
-		} else if (getMyReview(theManuscript) != null) {
+		} else if (Objects.nonNull(getMyReview(theManuscript))) {
 			throw new IllegalArgumentException(this.getMyUsername() + "has already submitted a review for the"
 					+ " Manuscript: " + theManuscript.getTitle());	
-		}
+		} 
 		Review review = new Review(this.getMyUsername(), theManuscript.getTitle(), theReviewURL);
 		theManuscript.addReview(review);
 	}
@@ -130,6 +130,8 @@ public class Reviewer extends Role implements Serializable {
 		} else if (myManuscripts.contains(theManuscript)) {
 			throw new IllegalArgumentException(getMyUsername() + " has already been assigned "
 					+ "to review manuscript: " + theManuscript.getTitle());
+		} else if(theManuscript.getAuthor().equals(getMyUsername())) {
+			throw new IllegalArgumentException("The Manuscript was Authored by this Reviewer.");
 		} else {
 			myManuscripts.add(theManuscript);
 		}	
