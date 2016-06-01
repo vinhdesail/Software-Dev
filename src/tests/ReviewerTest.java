@@ -20,7 +20,7 @@ import model.Review;
 import model.Reviewer;
 
 /**
- * 
+ * Tests the Reviewer Class (Model)
  * @author Edie Megan Campbell, Joshua Meigs
  * @version 2016.05.31
  */

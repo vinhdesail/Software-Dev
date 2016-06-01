@@ -15,9 +15,8 @@ public class Reviewer extends Role implements Serializable {
 	
 	/** The maximum number of Manuscripts a Reviewer can be assigned to Review. */
 	public static final int MAX_MANUSCRIPTS = 4;
-	/**/
+	/*A List that contains all of this Reviewers Assigned Manuscripts. */
 	private List<Manuscript> myManuscripts;
-	/**/
 	private static final long serialVersionUID = -3658253011793370271L;
 	
 	/**
@@ -75,16 +74,16 @@ public class Reviewer extends Role implements Serializable {
 	 * if this Reviewer has not yet submitted a review for this Manuscript to edit.
 	 */
 	public void editReview(Manuscript theManuscript, String theReviewFilePath) {
-		if (theManuscript == null) {
+		if (Objects.isNull(theManuscript)) {
 			throw new IllegalArgumentException("Manuscript cannot be null.");
-		} else if (theReviewFilePath == null) {
+		} else if (Objects.isNull(theReviewFilePath)) {
 			throw new IllegalArgumentException("Review file path cannot be null.");
 		} else if (!myManuscripts.contains(theManuscript)) {
 			throw new IllegalArgumentException(this.getMyUsername() + " has not been assigned "
 					+ "to review the Manuscript: " + theManuscript.getTitle());
 		}
 		Review myOldReview = getMyReview(theManuscript);
-		if (myOldReview == null) {
+		if (Objects.isNull(myOldReview)) {
 			throw new IllegalArgumentException(this.getMyUsername() + " has not yet submitted a review for the "
 								+ "Manuscript: " + theManuscript.getTitle());
 		}
@@ -108,7 +107,7 @@ public class Reviewer extends Role implements Serializable {
 	public List<Manuscript> getMyReviewedManuscripts(){
 		List<Manuscript> myReviewedManuscripts = new ArrayList<>();
 		for (Manuscript manu : myManuscripts) {
-			if (getMyReview(manu) != null) {
+			if (Objects.nonNull(getMyReview(manu))) {
 				myReviewedManuscripts.add(manu);
 			}
 		}
@@ -158,7 +157,7 @@ public class Reviewer extends Role implements Serializable {
 	 * or if theManuscript is null
 	 */
 	public Review getMyReview(Manuscript theManuscript) {
-		if (theManuscript == null) {
+		if (Objects.isNull(theManuscript)) {
 			throw new IllegalArgumentException("Manuscript cannot be null.");
 		} else if (!myManuscripts.contains(theManuscript)) {
 			throw new IllegalArgumentException(this.getMyUsername() + " has not been assigned "

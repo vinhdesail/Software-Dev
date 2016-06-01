@@ -18,9 +18,39 @@ import model.User;
 
 /**
  * @author Vinh Vien
- *
+ * @version 2016.5.2016
  */
 public class ProgramChairGUI {
+	
+	
+	/*A Value that represents the option within the Main Menu for Viewing all the given Conferences Submitted Manuscripts. */
+	private static final int VIEW_ALL_SUBMITTED_MANUSCRIPTS = 1;
+	/*A Value that represents the option within the Main Menu for making a acceptance decision with a given Manuscript. */
+	private static final int MAKE_A_ACCEPTANCE_DECISION = 2;
+	/*A Value that represents the option within the Main Menu for Viewing all the Manuscripts that have been assigned to a given Subprogram Chair. */
+	private static final int SEE_PAPERS_ASSIGNED_TO_SUBPROGRAM_CHAIR = 3;
+	/*A Value that represents the option within the Main Menu for designating a SubprogramChair to be assigned to a given Manuscript. */
+	private static final int DESIGNATE_A_SUBPROGRAM_CHAIR_FOR_A_MANUSCRIPT = 4;
+	/*A Value that represents the option within the Main Menu for Logging out of the current Conference. */
+	private static final int LOGOUT = 0;
+	/*A Value that represents the option within the Main Menu for selecting a different valid role for the given user. */
+	private static final int SWITCH_TO_A_DIFFERENT_ROLE = -1;
+	/*A Value that represents the option within the Main Menu for submitting a manuscript to this current conference. */
+	private static final int SUBMIT_A_MANUSCRIPT_TO_THIS_CONFERENCE = -2;
+	/*A Value that represents an Offset for various Checks */
+	private static final int OFFSET = 1;
+	/*A Value that represents the option for returning to the previous menu */
+	private static final int BACK = 0;
+	/*A Value that represents the Status of a paper that is approved.*/
+	private static final int APPROVED = 1;
+	/*A Value that represents the Status of a paper that is approved.*/
+	private static final int REJECTED = -1;	
+	/*A Value that represents the option accept the current Manuscript.*/
+	private static final int ACCEPT = 1;
+	/*A Value that represents the option accept the current Manuscript.*/
+	private static final int REJECT = 2;
+	/*A Value that represents the option return the previous menu.*/
+	private static final int BACK_TO_MAIN_MENU = 3;
 	
 	/** The main console */
 	private Scanner myConsole;
@@ -36,20 +66,6 @@ public class ProgramChairGUI {
 	
 	/** The Master List. */
 	private final List<Manuscript> myMasterList;
-	private static final int VIEW_ALL_SUBMITTED_MANUSCRIPTS = 1;
-	private static final int MAKE_A_ACCEPTANCE_DECISION = 2;
-	private static final int SEE_PAPERS_ASSIGNED_TO_SUBPROGRAM_CHAIR = 3;
-	private static final int DESIGNATE_A_SUBPROGRAM_CHAIR_FOR_A_MANUSCRIPT = 4;
-	private static final int LOGOUT = 0;
-	private static final int SWITCH_TO_A_DIFFERENT_ROLE = -1;
-	private static final int SUBMIT_A_MANUSCRIPT_TO_THIS_CONFERENCE = -2;
-	private static final int OFFSET = 1;
-	private static final int BACK = 0;
-	private static final int APPROVED = 1;
-	private static final int REJECTED = -1;
-	private static final int BACK_TO_MAIN_MENU = 3;
-	private static final int ACCEPT = 1;
-	private static final int REJECT = 2;
 	
 	/** The helper GUI */
 	private final HelperGUI myHelper;

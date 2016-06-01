@@ -1,6 +1,5 @@
 package view;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
@@ -18,25 +17,25 @@ import model.User;
  * 
  * @author Josh Meigs
  * @author Vinh Vien
- *
+ ** @version 2016.5.31
  */
 public class SubprogramChairGUI {
 
-	/* */
+	/*A Value that represents the option within the Main Menu for assigning a Reviewer a Manuscript. */
 	private static final int ASSIGN_MANUSCRIPT_TO_REVIEWER = 1;
-	/* */
+	/*A Value that represents the option within the Main Menu for Submiting a Recommendation for this current SubprogramChair. */
 	private static final int SUBMIT_A_RECOMMENDATION = 2;
-	/* */
+	/*A Value that represents the option within the Main Menu for Logging out of the current Conference. */
 	private static final int LOGOUT = 0;
-	/* */
+	/*A Value that represents the option within the Main Menu for selecting a different valid role for the given user. */
 	private static final int SWITCH_ROLES = -1;
-	/* */
+	/*A Value that represents the option for returning to the previous menu */
 	private static final int BACK = 0;
-	/* */
+	/*A Value that represents an Offset for various Checks */
 	private static final int OFFSET = 1;
-	/* */
+	/*A value that represents the starting posistion for multiple iterations.*/
 	private static final int STARTING_POSISTION = -1;
-	/* */
+	/*A Value that represents the option within the Main Menu for submitting a manuscript to this current conference. */
 	private static final int SUBMIT_MANUSCRIPT_FOR_THIS_CONFERENCE = -2;
 	/* The main console */
 	private Scanner myConsole;	

@@ -22,7 +22,11 @@ import model.Reviewer;
 import model.Role;
 import model.SubprogramChair;
 import model.User;
-
+/**
+ * Test Class for the Class SubprogramChair(Model)
+ * @author Joshua Meigs
+ * @version 2016.5.31
+ */
 public class SubprogramChairTest {
 
 	private SubprogramChair mySubprogramChairThatContainsOneManuscript;

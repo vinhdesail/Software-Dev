@@ -32,9 +32,9 @@ public class HelperGUI {
 	
 	/** Formatter Layout */
 	public static final String FORMAT_TABLE = "%-40s %-30s";
-	/**/
+	/*A Value that Represents the Option to go Back within a Menu*/
 	private static final int BACK_OPTION = 0;
-	/**/
+	/*A Value that represents a offset for incrementation.*/
 	private static final int OFFSET = 1;
 	
 	/* The Username. */

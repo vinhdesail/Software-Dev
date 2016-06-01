@@ -19,7 +19,11 @@ import model.Manuscript;
 import model.Review;
 import model.User;
 import view.AuthorGUI;
-
+/**
+ * A Class that tests the AuthorGui Class.
+ * @author Joshua Meigs
+ * @version 2016.5.31
+ */
 public class AuthorGUITest {
 
 	private AuthorGUI myAuthorGUIForTestingAssignment;

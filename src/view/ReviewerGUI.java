@@ -16,33 +16,34 @@ import model.User;
 /**
  * The gui helper for Reviewer.
  * @author Vinh Vien
- *
+ * @version 2016.5.31
  */
 public class ReviewerGUI {
 	
 	
+	/*A Value that represents the option within the Main Menu for Viewing all the assigned Manuscripts for this current Reviewer. */
+	private static final int VIEW_MY_ASSIGNED_MANUSCRIPT = 1;
+	/*A Value that represents the option within the Main Menu for Submiting a Review for this current Reviewer. */
+	private static final int SUBMIT_A_REVIEW = 2;
+	/*A Value that represents the option within the Main Menu for Logging out of the current Conference. */
+	private static final int LOGOUT = 0;
+	/*A Value that represents the option within the Main Menu for selecting a different valid role for the given user. */
+	private static final int SWITCH_ROLES = -1;
+	/*A Value that represents the option within the Main Menu for submitting a manuscript to this current conference. */
+	private static final int SUBMIT_MANUSCRIPT_TO_MY_CURRENT_CONFERENCE = -2;
+	/*A Value that represents an Offset for various Checks */
+	private static final int OFFSET = 1;
+	/*A Value that represents the option for returning to the previous menu */
+	private static final int BACK = 0;
+	/*A value that represents the starting posistion for multiple iterations.*/
+	private static final int START_POSISTION = -1;
+	/*A value that represents if the option for Selecting a Manuscript was made.*/
+	private static final int SELECT_MANUSCRIPT = 1;
+	/*A value that represents if the selection for a menu was a correct choice. */
+	private static final int IS_CORRECT = 1;
+	
 	/* The Master List. */
 	private final List<Manuscript> myMasterList;
-	/**/
-	private static final int VIEW_MY_ASSIGNED_MANUSCRIPT = 1;
-	/**/
-	private static final int SUBMIT_A_REVIEW = 2;
-	/**/
-	private static final int LOGOUT = 0;
-	/**/
-	private static final int SWITCH_ROLES = -1;
-	/**/
-	private static final int SUBMIT_MANUSCRIPT_TO_MY_CURRENT_CONFERENCE = -2;
-	/**/
-	private static final int OFFSET = 1;
-	/**/
-	private static final int BACK = 0;
-	/**/
-	private static final int START_POSISTION = -1;
-	/**/
-	private static final int SELECT_MANUSCRIPT = 1;
-	/**/
-	private static final int IS_CORRECT = 1;
 	
 	/* The main console */
 	private Scanner myConsole;

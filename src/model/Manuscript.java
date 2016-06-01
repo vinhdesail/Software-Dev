@@ -43,7 +43,7 @@ public class Manuscript implements Serializable {
 	
 	/* The file path that directs to the text file of this Manuscript. */
 	private String myFilePath;
-	
+	/* A value that is true if this given manuscript has been assigned to a SubprogramChair, false otherwise.*/
 	private boolean myHasBeenAssignedToASubprogramChair;
 	
 	/**
