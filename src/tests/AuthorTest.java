@@ -111,11 +111,6 @@ public class AuthorTest {
 	}
 	
 	@Test
-	public void deleteManuscriptWhereAuthorHasNoManuscriptsTest() {
-		
-	}
-	
-	@Test
 	public void testAddManuscriptExpectionWhereTheGivenListIsNull() {		
 		try {
 			myAuthorThatHasSubmitedOneManuscript.addManuscript(null, myFirstManuscript);
