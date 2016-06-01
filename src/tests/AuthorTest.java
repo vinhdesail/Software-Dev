@@ -131,11 +131,6 @@ public class AuthorTest {
 	}			
 	
 	@Test
-	public void testDeleteManuscript() {
-		assertEquals(myAuthorThatHasSubmitedAndDeletedOneManuscript.showAllMyManuscripts().size(), 0);
-	}
-	
-	@Test
 	public void testEditManuscriptToVerifyThatTheTextHasChanged() {
 		assertEquals(myAuthorThatHasSubmitedAndEditedOneManuscript.showAllMyManuscripts().get(0).getTitle(), "The New Title");
 	}
@@ -174,6 +169,31 @@ public class AuthorTest {
 	public void testEditManuscriptExceptionWhereTheGivenTitleIsNull() {
 		try {
 			myAuthorThatHasSubmitedOneManuscript.editManuscript(myMasterManuscriptListForAllManuscripts, mySecondManuscript, null);
+			fail("Exception not Caught.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testDeleteManuscript() {
+		assertEquals(myAuthorThatHasSubmitedAndDeletedOneManuscript.showAllMyManuscripts().size(), 0);
+	}
+	
+	@Test
+	public void testDeleteManuscriptExceptionWhereTheListThatIsPassedInIsNull() {
+		try {
+			myAuthorThatHasSubmitedOneManuscript.deleteManuscript(null, myFirstManuscript);
+			fail("Exception not Caught.");
+		} catch(IllegalArgumentException theError) {
+			
+		}
+	}
+	
+	@Test
+	public void testDeleteManuscriptExceptionWhereTheManuscriptThatIsPassedInIsNull() {
+		try {
+			myAuthorThatHasSubmitedOneManuscript.deleteManuscript(myManuscriptListForAnAuthorThatHasSubmittedTheFirstManuscript, null);
 			fail("Exception not Caught.");
 		} catch(IllegalArgumentException theError) {
 			
