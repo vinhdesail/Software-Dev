@@ -183,6 +183,7 @@ public class ProgramChairGUI {
 		String add = String.format(HelperGUI.FORMAT_TABLE, "Manuscript Name", "Status");
 		toDisplay.append("   ");
 		toDisplay.append(add);
+		toDisplay.append("Recommendation");
 		toDisplay.append('\n');
 		for(int i = 0; i < theListOfManu.size(); i++){
 			toDisplay.append((i + OFFSET) + ". ");
@@ -195,6 +196,9 @@ public class ProgramChairGUI {
 			} else {
 				toAppend = String.format(HelperGUI.FORMAT_TABLE, theListOfManu.get(i).getTitle(), "Neutral");
 				toDisplay.append(toAppend);
+			}
+			if(!Objects.isNull(theListOfManu.get(i).getRecommendation())){
+				toDisplay.append(theListOfManu.get(i).getRecommendation().getRecommmendationText());
 			}
 			toDisplay.append("\n");
 		}
