@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Reviewer class description.
@@ -50,9 +51,9 @@ public class Reviewer extends Role implements Serializable {
 	 * parameter is null.
 	 */
 	public void submitReview(Manuscript theManuscript, String theReviewURL) {
-		if (theManuscript == null) {
+		if (Objects.isNull(theManuscript)) {
 			throw new IllegalArgumentException("Manuscript cannot be null.");
-		} else if (theReviewURL == null) {
+		} else if (Objects.isNull(theReviewURL)) {
 			throw new IllegalArgumentException("Review file path cannot be null.");
 		} else if (!myManuscripts.contains(theManuscript)) {
 			throw new IllegalArgumentException(this.getMyUsername() + " has not been assigned "

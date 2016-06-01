@@ -308,7 +308,7 @@ public class ProgramChairGUI {
 			if(userSelectedManuscriptNumber == BACK){
 				System.out.println(HelperGUI.BACK);
 			} else {
-				System.out.println("You pick: " + myMasterList.get(userSelectedManuscriptNumber - 1).getTitle());
+				System.out.println("You pick: " + listManuscript.get(userSelectedManuscriptNumber - 1).getTitle());
 				
 				List<SubprogramChair> listOfSubprogramChair = myRole.getAllSubprogramChair(myListOfUser);
 				System.out.println("-Select a Subprogram to assign too-");
@@ -319,7 +319,7 @@ public class ProgramChairGUI {
 					back = true;
 				}
 				// LOGIC STATEMENT
-				assignManuscriptToSubprogramChair(userSelectedSubprogramChairNumber, listOfSubprogramChair, userSelectedManuscriptNumber);
+				assignManuscriptToSubprogramChair(userSelectedSubprogramChairNumber, listOfSubprogramChair, userSelectedManuscriptNumber, listManuscript);
 			}
 		} while(back);
 	}
@@ -327,12 +327,12 @@ public class ProgramChairGUI {
 	/**
 	 * The logic for assigning the manuscript for sub-program chair. Mostly use for testing.
 	 */
-	public void assignManuscriptToSubprogramChair(final int theSelectedNumber, List<SubprogramChair> theListOfSubProgramChair, int theManuscriptNumber){
+	public void assignManuscriptToSubprogramChair(final int theSelectedNumber, List<SubprogramChair> theListOfSubProgramChair, int theManuscriptNumber, List<Manuscript> theListOfManuscripts){
 		if(theSelectedNumber == 0){
 			System.out.println(HelperGUI.BACK);
 		} else {
 			try{
-				theListOfSubProgramChair.get(theSelectedNumber - OFFSET).assignManuscripts(myMasterList.get(theManuscriptNumber - OFFSET));
+				theListOfSubProgramChair.get(theSelectedNumber - OFFSET).assignManuscripts(theListOfManuscripts.get(theManuscriptNumber - OFFSET));
 				System.out.println("Success!");
 			} catch(IllegalArgumentException e){
 				System.out.println(e.getMessage());

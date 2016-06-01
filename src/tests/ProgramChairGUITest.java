@@ -169,7 +169,7 @@ public class ProgramChairGUITest {
 //		
 //		System.out.println(a);
 		
-		myGUI.assignManuscriptToSubprogramChair(2, myListOfSubprogramChair, 1);
+		myGUI.assignManuscriptToSubprogramChair(2, myListOfSubprogramChair, 1,myManuscriptList);
 		
 //		System.out.println(mySubprogramChairWithFirstPaper);
 //		List<Manuscript> b = mySubprogramChairWithFirstPaper.showAllAssignedManuscripts();
@@ -186,7 +186,7 @@ public class ProgramChairGUITest {
 	 */
 	@Test
 	public void testAssigningAManuscriptToSubprogramChairFail(){
-		myGUI.assignManuscriptToSubprogramChair(1, myListOfSubprogramChair, 1);
+		myGUI.assignManuscriptToSubprogramChair(1, myListOfSubprogramChair, 1,myManuscriptList);
 		assertFalse(mySubprogramChairWithFirstPaper.equals(mySubprogramChairWithOnePaper));
 	}
 
