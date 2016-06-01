@@ -14,16 +14,17 @@ import java.util.Objects;
  */
 public class Author extends Role implements Serializable {
 	
-	/*Generated serialization number. */
+	/* Generated serialization number. */
 	private static final long serialVersionUID = 8150606980901061867L;
-	/**/
+
 	private static final int STATUS_DECISION_HAS_NOT_BEEN_MADE = 0;
 
-	/*List to hold manuscripts. */
+	/* List to hold manuscripts submitted by this Author. */
 	private List<Manuscript> myManuscripts;
 
 	/**
-	 * Overloaded constructor to instantiate an author with author ID.
+	 * @param theAuthorID - the unique username of the User becomming an Author
+	 * @param theConference - the Conference for which this User will act as an Author
 	 */
 	public Author(final String theAuthorID, Conference theConference){
 		super("Author", theAuthorID, theConference);
@@ -31,8 +32,9 @@ public class Author extends Role implements Serializable {
 	}
 	
 	/**
-	 * Method that returns a list of manuscripts.
-	 * @return 
+	 * Getter method for the List of all Manuscripts submitted by this Author to this 
+	 * Conference.
+	 * @return List<Manuscript>
 	 */
 	public List<Manuscript> showAllMyManuscripts() {		
 		return myManuscripts;
@@ -51,10 +53,11 @@ public class Author extends Role implements Serializable {
 	}
 	
 	/**
-	 * Method to add a manuscript to the list.
-	 * @throws IllegalArgumentException If the Given Manuscript has already been submitted, if the Submission Deadline for submitting Manuscripts,
-	 * or if any of the parameters are null.
-	 * is over.
+	 * Adds theManuscript to my List of submitted Manuscripts and to the master List of all
+	 * submitted Manuscripts.
+	 * @throws IllegalArgumentException if the given Manuscript has already been submitted, if 
+	 * the Submission Deadline for submitting Manuscripts has passed, or if any of the parameters 
+	 * are null.
 	 */
 	public void addManuscript(final List<Manuscript> theManuscripts,
 									 final Manuscript theManuscript) throws IllegalArgumentException {		
@@ -74,12 +77,18 @@ public class Author extends Role implements Serializable {
 	}
 	
 	/**
-	 * Method to remove a manuscript from the list.
-	 * @throws IllegalArgumentException If the Given Manuscript is not within this Authors List of Submitted Manuscripts.
+	 * Method to remove a manuscript from the my List of submitted Manuscripts and from the
+	 * master List of Manuscripts.
+	 * @throws IllegalArgumentException if the given Manuscript is not within this Author's 
+	 * List of Submitted Manuscripts, or if any of the parameters are null
 	 */
 	public void deleteManuscript(final List<Manuscript> theManuscripts,
-			 							final Manuscript theManuscript) throws IllegalArgumentException {
-		if(!myManuscripts.contains(theManuscript)) {
+			 							final Manuscript theManuscript) {
+		if (Objects.isNull(theManuscripts)) {
+			throw new IllegalArgumentException("List of Manuscripts cannot be null.");
+		} else if (Objects.isNull(theManuscript)) {
+			throw new IllegalArgumentException("Manuscript cannot be null.");
+		} else if (!myManuscripts.contains(theManuscript)) {
 			throw new IllegalArgumentException("Manuscript is not within this Author.");
 		}
 		theManuscripts.remove(theManuscript);
@@ -87,7 +96,7 @@ public class Author extends Role implements Serializable {
 	}
 	
 	/**
-	 * Method to allow an author to resubmit an edited manuscript.
+	 * Method to allow an author to edit the title of a submitted manuscript.
 	 * @throws IllegalArgumentException if any of the parameters are null.
 	 */
 	public void editManuscript(final List<Manuscript> theManuscripts, final Manuscript oldManuscript,
@@ -103,7 +112,7 @@ public class Author extends Role implements Serializable {
 	}
 	
 	/**
-	 * Method that allows a user to see the reviews of manuscripts
+	 * Method that allows a user to see the reviews of all Manuscripts they have submitted
 	 * after the program chair has made a decision.
 	 */
 	public List<Review> getReviews() {
@@ -116,6 +125,9 @@ public class Author extends Role implements Serializable {
 		return returnReviews;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean equals(Object theObject){
 		if(!(theObject instanceof Author)) {
@@ -128,6 +140,14 @@ public class Author extends Role implements Serializable {
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		return getMyUsername().hashCode() + myManuscripts.hashCode();
 	}
 	
 	
