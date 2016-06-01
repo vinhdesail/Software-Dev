@@ -229,18 +229,21 @@ public class DataForConference {
 		sally.submitManuscript(manuscript5, myMasterList);
 		sally.submitManuscript(manuscript6, myMasterList);
 		
-		secondConferenceSubprogramChair(theConference, manuscript4, manuscript5, manuscript6);
-		secondConferenceReviewer(theConference, manuscript1, manuscript2, manuscript3);
+		secondConferenceSubprogramChair(theConference, manuscript4, manuscript5, manuscript6, manuscript1, manuscript2);
+		secondConferenceReviewer(theConference, manuscript1, manuscript2, manuscript3, manuscript5, manuscript6);
 		
 	}
 	
-	private void secondConferenceSubprogramChair(Conference theConference, Manuscript manuscript1, Manuscript manuscript2, Manuscript manuscript3){
+	private void secondConferenceSubprogramChair(Conference theConference, Manuscript manuscript1, Manuscript manuscript2, 
+			Manuscript manuscript3, Manuscript manuscript4, Manuscript manuscript5){
 		String timName = "Tim";
 		User tim = myUsers.get(timName);
 		tim.switchConference(theConference);
 		SubprogramChair subP = new SubprogramChair(timName, theConference);
 		subP.assignManuscripts(manuscript2);
 		subP.assignManuscripts(manuscript3);
+		subP.assignManuscripts(manuscript4);
+		subP.assignManuscripts(manuscript5);
 		tim.addRole(subP);
 		
 		User kim = myUsers.get("Kim");
@@ -251,11 +254,15 @@ public class DataForConference {
 
 	}
 	
-	private void secondConferenceReviewer(Conference theConference, Manuscript firstManu, Manuscript secondManu, Manuscript thirdManu){
+	private void secondConferenceReviewer(Conference theConference, Manuscript firstManu, Manuscript secondManu, 
+			Manuscript thirdManu, Manuscript fourthManu, Manuscript fifthManu){
 		User tom = myUsers.get("Tom");
 		tom.switchConference(theConference);
 		Reviewer rev = new Reviewer(tom.getName(), theConference);
 		rev.assignReview(secondManu);
+		rev.assignReview(thirdManu);
+		rev.assignReview(fourthManu);
+		rev.assignReview(fifthManu);
 		tom.addRole(rev);
 		
 		User john = myUsers.get("John");

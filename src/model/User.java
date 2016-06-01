@@ -127,15 +127,19 @@ public class User implements Serializable {
 		if (myRoles.isEmpty()) {
 			myCurrentRole = null;
 		} else {
+			boolean found = false;
 			for(Role role : myRoles){
 				if (role.getRole().equals("Author") && role.getConference().equals(myConference)){
 					myCurrentRole = role;
+					found = true;
 				}
 			}
 			// if Author was not found in myRoles and myCurrentRole is null, pick the first role
-			if(Objects.isNull(myCurrentRole)){
-				if(myRoles.get(FIRST_INDEX).getConference().equals(myConference)){
-					myCurrentRole = myRoles.get(FIRST_INDEX);
+			if(!found){
+				for(int i = 0; i < myRoles.size(); i++){
+					if(myRoles.get(i).getConference().equals(myConference)){
+						myCurrentRole = myRoles.get(i);
+					}
 				}
 			}
 			// if Author was not found in myRoles and myCurrentRole is non-null, it will stay as is
