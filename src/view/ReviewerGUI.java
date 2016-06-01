@@ -104,6 +104,7 @@ public class ReviewerGUI {
 				break;
 			case SUBMIT_A_REVIEW:
 				optionToSubmitAReview();
+				HelperGUI.stopForASecond(myConsole, true);
 				break;
 			case LOGOUT:
 				System.out.println();
@@ -175,6 +176,7 @@ public class ReviewerGUI {
 			back = true;
 		} else {
 			System.out.println(theManuscripts.get(manuscriptPick - OFFSET).toString());
+			HelperGUI.stopForASecond(myConsole, true);
 		}
 		return back;
 	}
@@ -223,6 +225,7 @@ public class ReviewerGUI {
 		
 		if(!quit){
 			myRole.submitReview(listOfManu.get(selectedManuscript - OFFSET), reviewURI);
+			System.out.println("Success");
 		}
 		
 	}

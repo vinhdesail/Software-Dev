@@ -99,9 +99,11 @@ public class SubprogramChairGUI {
 			switch (select){
 				case ASSIGN_MANUSCRIPT_TO_REVIEWER:
 					optionAssignManuscriptToReviewerMenu();
+					HelperGUI.stopForASecond(myConsole, true);
 					break;
 				case SUBMIT_A_RECOMMENDATION:
 					optionSubmitARecommendationMenu();
+					HelperGUI.stopForASecond(myConsole, false);
 					break;
 				case LOGOUT:
 					System.out.println();
@@ -138,7 +140,7 @@ public class SubprogramChairGUI {
 				myConsole.nextLine();
 				System.out.println("Enter a file path of your recomendation \n(or \"EXIT\" to quit or \"BACK\" to select a different manuscript) ");
 				System.out.println("Example: C:/RecommendationForMagicSounds.txt");
-				System.out.println("--: ");
+				System.out.print("--: ");
 				String recText = myConsole.nextLine();
 				if(recText.equalsIgnoreCase("EXIT")){
 					exit = true;
